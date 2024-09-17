@@ -7,7 +7,7 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 export default function Home() {
   return (
     <main className={`${montserrat.className}`}>
-      <h1 className="text-black">Hello!!</h1>
+      <h1 className="text-black">Hello from development!!</h1>
       
       
     </main>
