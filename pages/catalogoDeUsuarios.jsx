@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
+import { Link } from 'react-router-dom';
+
 
 export default function CatalogoDeUsuarios() {
   const [isOpen, setIsOpen] = useState(false)
@@ -9,7 +11,7 @@ export default function CatalogoDeUsuarios() {
   }
 
   return (
-    <main className='bg-lightblu'>
+    <main className='bg-lightblue'>
       <div className='relative'>
         <nav className='flex items-center justify-between p-4 bg-gray-100'>
           <div className='flex items-center space-x-4 w-full'>
@@ -62,10 +64,10 @@ export default function CatalogoDeUsuarios() {
                 <a href='#home'>Home</a>
               </li>
               <li className='p-4 border-b border-gray-200'>
-                <a href='#about'>About</a>
+                <Link to='/creacionDeUsarios'>Creación de Usuarios</Link>
               </li>
               <li className='p-4 border-b border-gray-200'>
-                <a href='#contact'>Contact</a>
+                <a href='#contact'>About</a>
               </li>
             </ul>
           </div>

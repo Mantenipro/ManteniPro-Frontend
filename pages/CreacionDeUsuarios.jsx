@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */  
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -96,6 +97,7 @@ export default function CreacionDeUsuarios() {
             <input
               type='text'
               id='nombre'
+              placeholder='Juanito Perez Gonzalez'
               {...register('nombre', { required: true })}
               className='mt-1 p-2 block w-full border border-gray-300 rounded'
             />
@@ -115,6 +117,7 @@ export default function CreacionDeUsuarios() {
             <input
               type='email'
               id='email'
+              placeholder='Correo@dominio.com'
               {...register('email', { required: true })}
               className='mt-1 p-2 block w-full border border-gray-300 rounded'
             />
@@ -134,6 +137,7 @@ export default function CreacionDeUsuarios() {
             <input
               type='password'
               id='password'
+              placeholder='********'
               {...register('password', { required: true })}
               className='mt-1 p-2 block w-full border border-gray-300 rounded'
             />
@@ -153,6 +157,7 @@ export default function CreacionDeUsuarios() {
             <input
               type='text'
               id='cargo'
+              placeholder='Ingeniero'
               {...register('cargo', { required: true })}
               className='mt-1 p-2 block w-full border border-gray-300 rounded'
             />
