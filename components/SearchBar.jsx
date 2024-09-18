@@ -11,19 +11,21 @@ const SearchBar = () => {
          style={{ background: 'linear-gradient(90deg, #21262D 12%, #414B66 88%)' }}> 
       <Image 
         src={searchIcon} 
-        alt="Search Icon" 
+        alt="Icono de búsqueda" 
         className="w-6 h-6 mr-2" 
       />
       <input 
         type="text" 
         placeholder="Buscar usuario" 
         className="w-full bg-transparent focus:outline-none text-white p-2"
+        aria-label="Buscar usuario"
       />
     </div>
   );
 };
 
 export default SearchBar;
+
 
 
 
