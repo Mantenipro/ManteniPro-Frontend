@@ -34,6 +34,22 @@ export default function CatalogoDeUsuarios() {
               placeholder='Buscar...'
               className='w-full p-2 border border-gray-300 rounded'
             />
+            <button className=' text-blue-500 hover:text-blue-700'>
+              <svg
+                className='w-6 h-6'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  d='M15 12H9m4 0V8m0 4v4m-4-4h4m0 0H9m4 0h4'
+                ></path>
+              </svg>
+            </button>
           </div>
         </nav>
         {isOpen && (
