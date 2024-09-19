@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchBar from '../components/SearchBar';
-import Sidebar from '../components/Sidebar';
+import TempSidebar from '../components/TempSidebar'; // Cambiado aquí
 import AddButton from '../components/AddButton';
 import SortTeams from '../components/SortTeams';
 import Title from '../components/Title';
@@ -40,15 +40,13 @@ const dummyMachines = [
 const Catalogo = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar />
+      <TempSidebar /> {/* Cambiado aquí */}
       <main className="flex-1 p-6">
-        
         <div className="flex justify-between items-center">
           <SearchBar />
           <AddButton />
         </div>
 
-       
         <div className="mt-4">
           <Title />
           <div className="mt-4 flex justify-between items-center">
@@ -56,7 +54,6 @@ const Catalogo = () => {
           </div>
         </div>
 
-        
         <div className="mt-6 space-y-4">
           {dummyMachines.map((machine, index) => (
             <MachineCard key={index} machine={machine} />
@@ -68,6 +65,7 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
 
 
 
