@@ -1,5 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Source_Sans_3 } from 'next/font/google';
+
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const FormEquipment = () => {
   const { register, handleSubmit } = useForm();
@@ -9,60 +12,70 @@ const FormEquipment = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-lg rounded-lg px-4 pt-4 max-w-md">
+    <form onSubmit={handleSubmit(onSubmit)} 
+      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-md`}>
+   
       <div className="space-y-4">
+        
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="nombreEquipo">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="nombreEquipo">
             Nombre del equipo
           </label>
-          <input {...register('nombreEquipo')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="nombreEquipo" type="text" />
+          <input {...register('nombreEquipo')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="nombreEquipo" type="text" />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="modelo">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="modelo">
             Modelo
           </label>
-          <input {...register('modelo')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="modelo" type="text" />
+          <input {...register('modelo')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="modelo" type="text" />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="numeroSerie">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="numeroSerie">
             Número de serie
           </label>
-          <input {...register('numeroSerie')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="numeroSerie" type="text" />
+          <input {...register('numeroSerie')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="numeroSerie" type="text" />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="fechaFabricacion">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="fechaFabricacion">
             Fecha de fabricación
           </label>
-          <input {...register('fechaFabricacion')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="fechaFabricacion" type="date" />
+          <input {...register('fechaFabricacion')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="fechaFabricacion" type="date" />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="marca">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="marca">
             Marca
           </label>
-          <input {...register('marca')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="marca" type="text" />
+          <input {...register('marca')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="marca" type="text" />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="ubicacion">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="ubicacion">
             Ubicación
           </label>
-          <input {...register('ubicacion')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="ubicacion" type="text" />
+          <input {...register('ubicacion')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="ubicacion" type="text" />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="tipoUnidad">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="tipoUnidad">
             Tipo de unidad
           </label>
-          <input {...register('tipoUnidad')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="tipoUnidad" type="text" />
+          <input {...register('tipoUnidad')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="tipoUnidad" type="text" />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="foto">
+            Agregar foto (opcional)
+          </label>
+          <input {...register('foto')} className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="foto" type="file" />
         </div>
       </div>
 
-      <div className="flex justify-center mt-6 pb-2">
-        <button type="submit" className="py-3 px-6 bg-gray-700 text-white font-bold rounded-lg shadow-md">
+      <div className="flex justify-center mt-6 pb-1">
+        <button type="submit" className="py-3 px-6 bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold rounded-lg shadow-md hover:from-[#1a1d24] hover:to-[#373f5a] focus:outline-none focus:ring-4 focus:ring-blue-300">
           Agregar
         </button>
       </div>
@@ -71,6 +84,7 @@ const FormEquipment = () => {
 };
 
 export default FormEquipment;
+
 
 
 
