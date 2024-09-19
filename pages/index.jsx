@@ -20,6 +20,11 @@ export default function Home() {
               <button>Catalogo de Usuarios</button>
             </Link>
           </li>
+          <li>
+            <Link href='/Login'>
+              <button>Login</button>
+            </Link>
+          </li>
         </ul>
       </nav>
     </main>
