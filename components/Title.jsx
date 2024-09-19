@@ -5,7 +5,7 @@ const montserrat = Montserrat({ subsets: ['latin'] });
 const Title = ({ children }) => {
   return (
     <h1 
-      className={`text-3xl font-bold text-left py-4 ${montserrat.className}`} 
+      className={`text-3xl font-bold text-left py-3 ${montserrat.className}`} 
       style={{ color: '#2E3A59' }}
     >
       {children}
