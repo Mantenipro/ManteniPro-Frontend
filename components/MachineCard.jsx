@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Source_Sans_3 } from 'next/font/google'; 
-
+import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const MachineCard = ({ machine }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
 
-  
-  
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
@@ -23,7 +19,7 @@ const MachineCard = ({ machine }) => {
     <div 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`flex items-center justify-between bg-white shadow-md p-4 md:p-4 rounded-lg mb-4 transition-all duration-300 
+      className={`flex items-center justify-between bg-[#FAFAFA] shadow-md p-4 md:p-4 rounded-lg mb-4 transition-all duration-300 
       ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66] text-white' : ''} ${sourceSans3.className} 
       ${isHovered ? 'shadow-lg' : ''}`} 
     >
@@ -60,14 +56,12 @@ const MachineCard = ({ machine }) => {
           </span>
         </div>
 
-       
         <div className="flex-col justify-center ml-4 hidden lg:flex">
           <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
             {machine.location}
           </span>
         </div>
 
-       
         <div className="hidden lg:flex justify-center items-center mr-6"> 
           <Image 
             src={machine.qr} 
@@ -103,6 +97,7 @@ const MachineCard = ({ machine }) => {
 };
 
 export default MachineCard;
+
 
 
 
