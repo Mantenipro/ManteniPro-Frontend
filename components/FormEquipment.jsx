@@ -13,7 +13,7 @@ const FormEquipment = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} 
-      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[34rem]`}>
+      className={`${sourceSans3.className} bg-none rounded-lg px-4 pt-4 max-w-[34rem]`}>
 
       <div className="space-y-4">
         
