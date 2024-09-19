@@ -17,7 +17,7 @@ const SortTeams = () => {
   };
 
   return (
-    <div className={`relative w-full flex justify-between items-center bg-gradient-to-r from-[#21262D] to-[#414B66] px-4 py-1 rounded-lg ${sourceSans3.className}`}>
+    <div className={`relative w-full max-w-xs md:max-w-sm flex justify-between items-center bg-gradient-to-r from-[#21262D] to-[#414B66] px-4 py-1 rounded-lg ${sourceSans3.className}`}>
       <span className="text-white">Ordenar por:</span>
       <button
         onClick={toggleDropdown}
@@ -35,7 +35,6 @@ const SortTeams = () => {
         </svg>
       </button>
 
-      
       {showDropdown && (
         <ul className="absolute right-0 top-10 bg-white text-black rounded-lg shadow-lg w-48">
           <li 
@@ -57,6 +56,7 @@ const SortTeams = () => {
 };
 
 export default SortTeams;
+
 
 
 
