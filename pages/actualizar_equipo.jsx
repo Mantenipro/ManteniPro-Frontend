@@ -6,7 +6,7 @@ import BurgerMenu from '../components/BurgerMenu';
 
 const ActualizarEquipo = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex relative">
+    <div className="min-h-screen bg-white flex relative">
       <TempSidebar />
 
       <main className="flex-1 p-6 flex flex-col">
@@ -26,3 +26,4 @@ const ActualizarEquipo = () => {
 };
 
 export default ActualizarEquipo;
+

@@ -40,7 +40,7 @@ const dummyMachines = [
 
 const Catalogo = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex relative">
+    <div className="min-h-screen bg-white flex relative">
       <TempSidebar />
       <main className="flex-1 p-6">
         
@@ -68,6 +68,7 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
 
 
 

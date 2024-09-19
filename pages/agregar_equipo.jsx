@@ -3,11 +3,10 @@ import TempSidebar from '../components/TempSidebar';
 import Title from '../components/Title';
 import FormEquipment from '../components/FormEquipment';
 import BurgerMenu from '../components/BurgerMenu';
-import QRCodeDisplay from '../components/QRCodeDisplay'; // Importa el nuevo componente
 
 const AgregarEquipos = () => {
   return (
-    <div className="min-h-screen bg-white flex relative">
+    <div className="min-h-screen flex relative">
       <TempSidebar />
       
       <main className="flex-1 p-6 flex flex-col relative">
@@ -17,16 +16,9 @@ const AgregarEquipos = () => {
           <Title className="text-2xl mt-4 lg:mt-0">Agregar equipo</Title>
         </div>
         
-        
         <div className="w-full flex flex-col lg:flex-row lg:space-x-6">
-        
           <div className="w-full lg:w-2/3 max-w-2xl">
             <FormEquipment />
-          </div>
-
-          
-          <div className="w-full lg:w-1/3 flex justify-center lg:justify-end mt-6 lg:mt-0">
-            <QRCodeDisplay />
           </div>
         </div>
 
@@ -36,6 +28,7 @@ const AgregarEquipos = () => {
 };
 
 export default AgregarEquipos;
+
 
 
 
