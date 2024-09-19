@@ -31,6 +31,34 @@ const FormEquipment = () => {
           </label>
           <input {...register('numeroSerie')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="numeroSerie" type="text" />
         </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="fechaFabricacion">
+            Fecha de fabricación
+          </label>
+          <input {...register('fechaFabricacion')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="fechaFabricacion" type="date" />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="marca">
+            Marca
+          </label>
+          <input {...register('marca')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="marca" type="text" />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="ubicacion">
+            Ubicación
+          </label>
+          <input {...register('ubicacion')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="ubicacion" type="text" />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="tipoUnidad">
+            Tipo de unidad
+          </label>
+          <input {...register('tipoUnidad')} className="border border-gray-300 rounded-lg w-full py-1 px-4" id="tipoUnidad" type="text" />
+        </div>
       </div>
 
       <div className="flex justify-center mt-6 pb-2">
@@ -43,6 +71,7 @@ const FormEquipment = () => {
 };
 
 export default FormEquipment;
+
 
 
 
