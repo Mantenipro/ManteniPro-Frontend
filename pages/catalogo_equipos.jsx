@@ -51,7 +51,7 @@ const Catalogo = () => {
         </div>
 
         <div className="mt-8 mb-4">
-          <Title className="text-2xl" />
+          <Title className="text-2xl">Catálogo de equipos</Title> 
           <div className="mt-4 flex justify-between items-center">
             <SortTeams />
           </div>
@@ -68,6 +68,7 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
 
 
 

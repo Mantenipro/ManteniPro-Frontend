@@ -27,7 +27,7 @@ const AddButton = () => {
         whiteSpace: 'nowrap' 
       }}
     >
-      {isMobile ? '+' : 'Crear equipo'}
+      {isMobile ? '+' : 'Crear nuevo'}
     </button>
   );
 };
