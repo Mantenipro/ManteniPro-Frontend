@@ -1,17 +1,28 @@
 import React from 'react';
-import { Source_Sans_3 } from 'next/font/google';
-
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const AddButton = () => {
   return (
-    <button className={`bg-gradient-to-r from-[#21262D] to-[#414B66] text-white px-4 py-2 rounded-lg hover:bg-opacity-80 transition-all ${sourceSans3.className}`}>
+    <button 
+      className="flex items-center justify-center w-auto p-2 text-white rounded-lg 
+                 bg-gradient-to-r from-[#21262D] to-[#414B66] 
+                 hover:from-[#1a1d22] hover:to-[#353c54] transition-colors duration-300"
+      style={{ 
+        background: 'linear-gradient(90deg, #21262D 12%, #414B66 88%)', 
+        whiteSpace: 'nowrap' 
+      }}
+    >
       Crear equipo
     </button>
   );
 };
 
 export default AddButton;
+
+
+
+
+
+
 
 
 
