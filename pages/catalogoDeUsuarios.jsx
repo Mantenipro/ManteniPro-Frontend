@@ -88,7 +88,7 @@ export default function CatalogoDeUsuarios() {
                 </svg>
               </button>
               <ul>
-                <li className='p-4 border-b border-gray-200'>
+                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
                   <a
                     className={`text-base ${montserrat.className} text-white`}
                     href='#home'
@@ -96,7 +96,7 @@ export default function CatalogoDeUsuarios() {
                     Home
                   </a>
                 </li>
-                <li className='p-4 border-b border-gray-200'>
+                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
                   <a
                     className={`text-base ${montserrat.className} text-white`}
                     href='#home'
@@ -104,7 +104,7 @@ export default function CatalogoDeUsuarios() {
                     About
                   </a>
                 </li>
-                <li className='p-4 border-b border-gray-200'>
+                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
                   <a
                     className={`text-base ${montserrat.className} text-white`}
                     href='#contact'
@@ -154,9 +154,7 @@ export default function CatalogoDeUsuarios() {
                 className='w-12 h-12 rounded-full'
               />
               <div className='ml-4'>
-                <div
-                  className={`text-lg font-medium ${montserrat.className}`}
-                >
+                <div className={`text-lg font-medium ${montserrat.className}`}>
                   Nombre del Usuario
                 </div>
                 <div

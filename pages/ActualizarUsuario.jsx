@@ -69,7 +69,7 @@ export default function CreacionDeUsuarios() {
             </div>
           </nav>
           {isOpen && (
-            <div className='absolute top-0 left-0 w-full bg-white shadow-md'>
+            <div className='absolute top-0 left-0 w-full bg-indigo-500 shadow-md'>
               <button
                 className='absolute top-2 right-2 p-2 focus:outline-none'
                 onClick={toggleMenu}
@@ -90,14 +90,29 @@ export default function CreacionDeUsuarios() {
                 </svg>
               </button>
               <ul>
-                <li className='p-4 border-b border-gray-200'>
-                  <a href='#home'>Home</a>
+                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                  <a
+                    className={`text-base ${montserrat.className} text-white`}
+                    href='#home'
+                  >
+                    Home
+                  </a>
                 </li>
-                <li className='p-4 border-b border-gray-200'>
-                  <a href='#about'>About</a>
+                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                  <a
+                    className={`text-base ${montserrat.className} text-white`}
+                    href='#home'
+                  >
+                    About
+                  </a>
                 </li>
-                <li className='p-4 border-b border-gray-200'>
-                  <a href='#contact'>Contact</a>
+                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                  <a
+                    className={`text-base ${montserrat.className} text-white`}
+                    href='#contact'
+                  >
+                    Contact
+                  </a>
                 </li>
               </ul>
             </div>
