@@ -13,8 +13,8 @@ const FormEquipment = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} 
-      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-md`}>
-   
+      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[34rem]`}>
+
       <div className="space-y-4">
         
         <div className="mb-4">
@@ -84,6 +84,7 @@ const FormEquipment = () => {
 };
 
 export default FormEquipment;
+
 
 
 
