@@ -3,6 +3,7 @@
 
 import { Montserrat } from 'next/font/google'
 import { useForm } from 'react-hook-form'
+import Link from 'next/link'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -25,7 +26,7 @@ export default function Login() {
         <img
           src='/logoManteniPro.png'
           alt='logo'
-          className='w-24 h-10 lg:w-52 lg:h-52 my-5'
+          className='w-24 h-10 lg:w-52 lg:h-52 xl:w-24 xl:h-10 2xl:w-45 2xl:h-20 my-5'
         />
       </div>
       <div className='absolute top-4 right-4'>
@@ -102,29 +103,27 @@ export default function Login() {
             type='submit'
             className={`bg-yellow-500 text-white p-2 rounded text-sm hover:bg-yellow-600 ${montserrat.className}`}
           >
-            Iniciar sesión
+            <Link href='/catalogoDeUsuarios'>Iniciar sesión</Link>
           </button>
         </form>
         <div>
           <div className={`text-sm mt-7 text-white ${montserrat.className}`}>
-            {' '}
-            Olvidaste tu contraseña?{' '}
+            Olvidaste tu contraseña?
             <a
               href='#'
               className={`text-sm text-yellow-400 hover:text-white ${montserrat.className}`}
             >
               Recuperar
-            </a>{' '}
+            </a>
           </div>
           <div className={`text-sm mt-7 text-white ${montserrat.className}`}>
-            {' '}
-            No tienes cuenta?{' '}
+            No tienes cuenta?
             <a
               href='#'
               className={`text-sm text-yellow-400 hover:text-white ${montserrat.className}`}
             >
               Registrate
-            </a>{' '}
+            </a>
           </div>
         </div>
       </main>
