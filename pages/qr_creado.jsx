@@ -1,7 +1,7 @@
 import React from 'react';
 import TempSidebar from '../components/TempSidebar';
 import BurgerMenu from '../components/BurgerMenu';
-import QRCodeDisplay from '../components/QRCodeDisplay'; // Importa el nuevo componente
+import QRCodeDisplay from '../components/QRCodeDisplay'; 
 
 const QRCreado = () => {
   return (
@@ -15,7 +15,7 @@ const QRCreado = () => {
         </div>
         
         <div className="w-full flex justify-center">
-          <div className="w-full max-w-sm"> {/* Limita el ancho del contenedor */}
+          <div className="w-full max-w-sm">
             <QRCodeDisplay />
           </div>
         </div>

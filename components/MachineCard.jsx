@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router'; // Importar useRouter
 import Image from 'next/image';
 import { Source_Sans_3 } from 'next/font/google';
 
@@ -6,6 +7,7 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const MachineCard = ({ machine }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter(); // Inicializar el router
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -15,13 +17,23 @@ const MachineCard = ({ machine }) => {
     setIsHovered(false);
   };
 
+  const handleCardClick = () => {
+    router.push('/detalle_equipo'); // Redirigir a la página de detalles
+  };
+
+  const handleEditClick = (e) => {
+    e.stopPropagation(); // Evitar que el evento afecte la card completa
+    router.push('/actualizar_equipo'); // Redirigir a la página de actualización
+  };
+
   return (
     <div 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick} // Evento de clic en la card
       className={`flex items-center justify-between bg-[#FAFAFA] shadow-md p-4 md:p-4 rounded-lg mb-4 transition-all duration-300 
       ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66] text-white' : ''} ${sourceSans3.className} 
-      ${isHovered ? 'shadow-lg' : ''}`} 
+      ${isHovered ? 'shadow-lg' : ''} cursor-pointer`} // Añadir cursor-pointer
     >
       {/* Imagen del equipo */}
       <div className="flex-shrink-0">
@@ -75,7 +87,10 @@ const MachineCard = ({ machine }) => {
 
       {/* Iconos de acción */}
       <div className="flex-shrink-0 flex space-x-4 ml-6 "> 
-        <button className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block">
+        <button 
+          onClick={handleEditClick} // Evento de clic en el ícono de edición
+          className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block"
+        >
           <Image src="/icon/edit-icon.png" alt="Edit" width={20} height={20} />
         </button>
         <button className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block">
@@ -85,7 +100,10 @@ const MachineCard = ({ machine }) => {
 
       {/* Iconos de acción responsivos para móvil */}
       <div className="flex-shrink-0 flex space-x-4 ml-6 sm:hidden"> 
-        <button className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white">
+        <button 
+          onClick={handleEditClick} // También aplicar el evento en móviles
+          className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white"
+        >
           <Image src="/icon/edit-icon.png" alt="Edit" width={16} height={16} />
         </button>
         <button className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white">
@@ -97,6 +115,8 @@ const MachineCard = ({ machine }) => {
 };
 
 export default MachineCard;
+
+
 
 
 
