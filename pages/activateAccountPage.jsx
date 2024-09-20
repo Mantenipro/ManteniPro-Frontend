@@ -7,16 +7,26 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const inputData = [
   {
-    icon: '/iconemail.svg',
-    placeholder: 'Correo electrónico'
+    placeholder: '0'
   },
   {
-    icon: '/iconpassword.svg',
-    placeholder: 'Contraseña'
-  }
+    placeholder: '0'
+  },
+  {
+    placeholder: '0'
+  },
+  {
+    placeholder: '0'
+  },
+  {
+    placeholder: '0'
+  },
+  {
+    placeholder: '0'
+  },
 ]
 
-export default function LoginPage() {
+export default function ActivateAccountPage() {
   return (
     <main className={`${montserrat.className}, flex flex-row min-h-dvh `}>
       <div className='bg-gradient-to-b from-[#21262D] to-[#31416d] w-full lg:w-[50%]'>
@@ -27,13 +37,16 @@ export default function LoginPage() {
         />
         <div className='lg:bg-[#ECECEC]   w-full lg:w-[50%] flex lg:hidden  justify-center'>
           <form className='flex justify-center md:w-[60%] flex-col w-[90%]' action=''>
-            <div className='flex flex-col items-center'>
+            <div className='flex flex-col items-center gap-4'>
               <h1 className='text-[24px] font-bold text-white'>
-                Ingresa a tu cuenta
+               Activa tu cuenta
               </h1>
+              <h3 className="text-white">Agrega los 6 digitos que se enviaron
+              a tu correo</h3>
             </div>
             <div className='flex flex-col w-full mt-8'>
-            <div className='flex flex-col gap-5'>
+
+            <div className='flex flex-row gap-5'>
                 {inputData.map((item, index) => (
                   <InputsLogin
                     key={index}
@@ -42,21 +55,16 @@ export default function LoginPage() {
                   />
                 ))}
               </div>
+              
               <div className="my-5">
                 <a href='#' className='text-[#EEE727]'>
-                  ¿Olvidaste tu contraseña?
+                  Volver a mandar
                 </a>
               </div>
               <button className='w-full h-10 bg-[#EEE727] text-[#030000] rounded-lg p- my-4'>
-                Iniciar sesión
+                Activar
               </button>
 
-              <div className='flex justify-between my-7'>
-                <p className='text-white'>¿No tienes cuenta? </p>
-                <Link href='createAcountPage' className='text-[#EEE727]'>
-                  Registrate
-                </Link>
-              </div>
             </div>
           </form>
         </div>
@@ -66,11 +74,11 @@ export default function LoginPage() {
         <form className='flex justify-center flex-col w-[60%]' action=''>
           <div className='flex flex-col items-center'>
             <h1 className='text-[24px] font-bold text-black'>
-              Ingresa a tu cuenta
+              Activa tu cuenta
             </h1>
           </div>
           <div className='flex flex-col w-full mt-8'>
-          <div className='flex flex-col gap-5'>
+          <div className='flex flex-row gap-5'>
                 {inputData.map((item, index) => (
                   <InputsLogin
                     key={index}
@@ -81,19 +89,14 @@ export default function LoginPage() {
               </div>
             <div className="my-5">
               <Link href='#' className='text-black'>
-                ¿Olvidaste tu contraseña?
+                Volver a mandar
               </Link>
             </div>
             <button className='w-full h-10 bg-[#EEE727] text-[#030000] rounded-lg p- my-4'>
-              Iniciar sesión
+              Activar
             </button>
 
-            <div className='flex gap-32 my-7'>
-              <p className='text-black'>¿No tienes cuenta? </p>
-              <Link href='createAcountPage' className='text-[#31416d]'>
-                Registrate
-              </Link>
-            </div>
+            
           </div>
         </form>
       </div>
