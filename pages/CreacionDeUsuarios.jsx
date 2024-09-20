@@ -126,22 +126,6 @@ export default function CreacionDeUsuarios() {
           >
             <div className='mb-4'>
               <label
-                htmlFor='Id'
-                className={`block text-sm font-medium text-gray-700 ${montserrat.className}`}
-              >
-                Id
-              </label>
-              <input
-                type='text'
-                id='id'
-                placeholder='6663cd141e150815e43d0a57'
-                {...register('id', { required: true })}
-                className={`mt-1 p-2 block w-full border border-gray-300 rounded ${montserrat.className}`}
-                readOnly
-              />
-            </div>
-            <div className='mb-4'>
-              <label
                 htmlFor='nombre'
                 className={`block text-sm font-medium text-gray-700 ${montserrat.className}`}
               >
@@ -262,7 +246,7 @@ export default function CreacionDeUsuarios() {
               <input
                 type='file'
                 id='foto'
-                {...register('foto', { required: true })}
+                {...register('foto', { required: false })}
                 className={`mt-1 p-2 text-xs block w-full border border-gray-300 rounded ${montserrat.className}`}
               />
             </div>
