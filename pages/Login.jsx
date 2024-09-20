@@ -7,126 +7,102 @@ import Link from 'next/link'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
-
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
-   const {
-     register,
-     handleSubmit,
-     formState: { errors }
-   } = useForm()
-
-   const onSubmit = (data) => {
-     console.log(data)
-   }
+  const onSubmit = (data) => {
+    console.log(data)
+  }
 
   return (
-    <div className='min-h-screen bg-gradient-to-r from-blue-950 to-blue-400 flex items-center justify-center'>
-      <div className='absolute top-4 left-4'>
-        <img
-          src='/logoManteniPro.png'
-          alt='logo'
-          className='w-24 h-10 lg:w-52 lg:h-52 xl:w-24 xl:h-10 2xl:w-45 2xl:h-20 my-5'
-        />
-      </div>
-      <div className='absolute top-4 right-4'>
-        <button
-          className={`text-2xl text-yellow-400 font-medium w-24 h-10 lg:w-52 lg:h-10 my-5 ${montserrat.className}`}
-        >
-          Login
-        </button>
-      </div>
-      <main className=' p-8 rounded w-full max-w-md'>
-        <h1
-          className={`text-2xl text-white font-medium mb-6 text-center ${montserrat.className} `}
-        >
-          Ingresa a tu cuenta
-        </h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='mb-4'>
-            <label
-              htmlFor='email'
-              className={`block text-sm font-normal text-white ${montserrat.className}`}
-            >
-              Ingresa tu correo electrónico
-            </label>
-            <div className='relative'>
-              <img
-                src='/Mail.svg'
-                className='absolute left-2 top-2.5 w-5 h-5 text-gray-400'
-              />
-              <input
-                type='email'
-                id='email'
-                className={`mt-1 p-2 pl-10 block w-full border border-gray-300 rounded ${montserrat.className}`}
-                placeholder='Correo@dominio.com'
-                {...register('email', {
-                  required: 'Este campo es obligatorio'
-                })}
-              />
-            </div>
-            {errors.email && (
-              <p className={`text-red-500 ${montserrat.className}`}>
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className='mb-6'>
-            <label
-              htmlFor='password'
-              className={`block text-sm font-normal text-white ${montserrat.className}`}
-            >
-              Ingresa tu contraseña
-            </label>
-            <div className='relative'>
-              <img
-                src='/Key.svg'
-                className='absolute left-2 top-2.5 w-5 h-5 text-gray-400'
-              />
-              <input
-                type='password'
-                id='password'
-                className={`mt-1 p-2 pl-10 block w-full border border-gray-300 rounded ${montserrat.className}`}
-                placeholder='Contraseña'
-                {...register('password', {
-                  required: 'Este campo es obligatorio'
-                })}
-              />
-            </div>
-            {errors.password && (
-              <p className={`text-red-500 ${montserrat.className}`}>
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-          <button
-            type='submit'
-            className={`bg-yellow-500 text-white p-2 rounded text-sm hover:bg-yellow-600 ${montserrat.className}`}
-          >
-            <Link href='/catalogoDeUsuarios'>Iniciar sesión</Link>
-          </button>
-        </form>
-        <div>
-          <div className={`text-sm mt-7 text-white ${montserrat.className}`}>
-            Olvidaste tu contraseña?
-            <a
-              href='#'
-              className={`text-sm text-yellow-400 hover:text-white ${montserrat.className}`}
-            >
-              Recuperar
-            </a>
-          </div>
-          <div className={`text-sm mt-7 text-white ${montserrat.className}`}>
-            No tienes cuenta?
-            <a
-              href='#'
-              className={`text-sm text-yellow-400 hover:text-white ${montserrat.className}`}
-            >
-              Registrate
-            </a>
-          </div>
+    <div className='min-h-screen flex flex-col lg:flex-row'>
+      <div className='lg:flex lg:bg-gradient-to-b from-[#21262D] to-[#31416d] w-full lg:w-1/2 flex-col'>
+        <div className='p-4'>
+          <img
+            src='/logoManteniPro.png'
+            alt='logo'
+            className='w-24 h-10 lg:w-36 lg:h-20'
+          />
         </div>
-      </main>
+      </div>
+      <div className='w-full lg:w-1/2 flex items-center justify-center'>
+        <main className='p-8 rounded w-full max-w-md'>
+          <h1
+            className={`text-2xl text-white font-medium mb-6 text-center ${montserrat.className}`}
+          >
+            Ingresa a tu cuenta
+          </h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className='flex flex-col items-center mb-5'>
+              <h1 className='text-[24px] font-bold text-black'>
+                Ingresa a tu cuenta
+              </h1>
+            </div>
+            <div className='mb-4'>
+              <div className='relative'>
+                <img
+                  src='/Mail.svg'
+                  className='absolute left-2 top-2.5 w-5 h-5 text-gray-400'
+                />
+                <input
+                  type='email'
+                  id='email'
+                  className={`mt-1 p-2 pl-10 block w-full border border-gray-300 rounded ${montserrat.className}`}
+                  placeholder='Correo@dominio.com'
+                  {...register('email', {
+                    required: 'Este campo es obligatorio'
+                  })}
+                />
+              </div>
+              {errors.email && (
+                <p className={`text-red-500 ${montserrat.className}`}>
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div className='mb-6'>
+              <div className='relative'>
+                <img
+                  src='/Key.svg'
+                  className='absolute left-2 top-2.5 w-5 h-5 text-gray-400'
+                />
+                <input
+                  type='password'
+                  id='password'
+                  className={`mt-1 p-2 pl-10 block w-full border border-gray-300 rounded ${montserrat.className}`}
+                  placeholder='Contraseña'
+                  {...register('password', {
+                    required: 'Este campo es obligatorio'
+                  })}
+                />
+              </div>
+              {errors.password && (
+                <p className={`text-red-500 ${montserrat.className}`}>
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+            <div className='my-5'>
+              <Link href='#' className='text-black'>
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+            <button className='w-full h-10 bg-[#EEE727] text-[#030000] rounded-lg p- my-4'>
+              Iniciar sesión
+            </button>
+            <div className='flex gap-32 my-7'>
+              <p className='text-black'>¿No tienes cuenta? </p>
+              <Link href='createAcountPage' className='text-[#31416d]'>
+                Registrate
+              </Link>
+            </div>
+          </form>
+        </main>
+      </div>
     </div>
   )
 }
