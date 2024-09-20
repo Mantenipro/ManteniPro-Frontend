@@ -30,7 +30,6 @@ export default function LefthDashboard() {
           <p className='font-medium'>Tickets</p>
         </div>
 
-        {/* Sección de Perfiles con submenú */}
         <div
           className='flex items-center justify-between mt-2 cursor-pointer p-2 w-full bg-[#2D2F39] hover:bg-[#2D2F39] rounded-md'
           onClick={toggleProfilesMenu}
@@ -40,7 +39,6 @@ export default function LefthDashboard() {
           <p>^</p>
         </div>
 
-        {/* Submenú dentro de Perfiles */}
         {showProfilesMenu && (
           <div className='ml-6 mt-2 flex flex-col'>
             <Link href='/tecnicos'>

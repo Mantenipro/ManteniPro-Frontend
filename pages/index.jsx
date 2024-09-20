@@ -14,18 +14,15 @@ export default function Home() {
 
   return (
     <main className={`${montserrat.className} h-dvh flex flex-row lg:flex-grow relative`}>
-      {/* Botón de menú hamburguesa (visible solo en mobile y tablet) */}
       <div className="lg:hidden absolute top-4 left-4 z-50">
         <button
           onClick={toggleMenu}
           className="text-white bg-[#31416d]  p-2 rounded-md focus:outline-none"
         >
-          {/* Icono de hamburguesa */}
           {isMenuOpen ? '✖' : '☰'}
         </button>
       </div>
 
-      {/* Menú lateral LefthDashboard */}
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -34,7 +31,6 @@ export default function Home() {
         <LefthDashboard />
       </div>
 
-      {/* Contenido principal */}
       <div className="lg:w-[80%] w-full p-4 lg:ml-0 mt-[15%] md:mt-[7%] ">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis laboriosam fuga perspiciatis dignissimos deleniti fugit repellat repellendus harum corporis illo est alias officia nobis, dicta ipsa cupiditate quos nulla temporibus?
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor obcaecati aliquam assumenda voluptatibus blanditiis quaerat deserunt vel nobis rem veritatis, fuga numquam cumque voluptates? Laudantium optio veritatis corrupti quo illum?
