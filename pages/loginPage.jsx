@@ -21,9 +21,9 @@ export default function LoginPage() {
     <main className={`${montserrat.className}, flex flex-row min-h-dvh `}>
       <div className='bg-gradient-to-b from-[#21262D] to-[#31416d] w-full lg:w-[50%]'>
         <img
-          src='/logoManteniPro.png'
+          src='/ManteniProLogoWhite.svg'
           alt='logo'
-          className='w-[90px] h-[40px] lg:w-[140px] lg:h-[70px] my-10 '
+          className='w-[200px] h-[140px] lg:w-[440px] lg:h-[150px] my-4 lg:my-[-20px] lg:ml-[-100px]'
         />
         <div className='lg:bg-[#ECECEC]   w-full lg:w-[50%] flex lg:hidden  justify-center'>
           <form className='flex justify-center md:w-[60%] flex-col w-[90%]' action=''>
