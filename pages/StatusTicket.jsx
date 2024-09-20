@@ -155,12 +155,12 @@ export default function StatusTicket() {
               />
               <div className='ml-4'>
                 <div className={`text-lg font-medium ${montserrat.className}`}>
-                  Nombre del Usuario
+                  Ticket ID
                 </div>
                 <div
                   className={`text-sm text-gray-700 ${montserrat.className}`}
                 >
-                  correo@ejemplo.com
+                  Status
                 </div>
               </div>
               <div className='ml-auto flex space-x-4 mt-4 sm:mt-0'>
