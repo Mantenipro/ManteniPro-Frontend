@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'; // Importar useRouter
+import { useRouter } from 'next/router'; 
 
 const AddButton = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const router = useRouter(); // Inicializar el router
+  const router = useRouter(); 
 
   useEffect(() => {
     const handleResize = () => {
@@ -17,12 +17,12 @@ const AddButton = () => {
   }, []);
 
   const handleButtonClick = () => {
-    router.push('/agregar_equipo'); // Redirigir a la página agregar_equipo
+    router.push('/agregar_equipo'); 
   };
 
   return (
     <button 
-      onClick={handleButtonClick} // Evento de clic para redirigir
+      onClick={handleButtonClick}
       className="flex items-center justify-center w-auto p-2 text-white rounded-lg 
                  bg-gradient-to-r from-[#21262D] to-[#414B66] 
                  hover:from-[#1a1d22] hover:to-[#353c54] transition-colors duration-300
