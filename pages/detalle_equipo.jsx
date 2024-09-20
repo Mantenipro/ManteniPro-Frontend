@@ -6,7 +6,7 @@ import QRCodeDisplay from '../components/QRCodeDisplay';
 
 const DetalleEquipo = () => {
   return (
-    <div className="min-h-screen bg-white flex relative">
+    <div className="min-h-screen bg-gray-100 flex relative">
       <TempSidebar />
 
       <main className="flex-1 p-6 flex flex-col lg:flex-row">
@@ -17,7 +17,7 @@ const DetalleEquipo = () => {
           <EquipmentDetails />
         </div>
 
-        <div className="flex-shrink-0 mt-8 max-w-96 lg:mt-0 lg:ml-8"> {/* Espaciado entre el formulario y el QR */}
+        <div className="flex-shrink-0  lg:mt-5 lg:ml-8 ">
           <QRCodeDisplay />
         </div>
       </main>
@@ -26,6 +26,7 @@ const DetalleEquipo = () => {
 };
 
 export default DetalleEquipo;
+
 
 
 

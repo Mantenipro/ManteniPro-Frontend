@@ -6,7 +6,7 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const QRCodeDisplay = () => {
   return (
-    <div className={`${sourceSans3.className} bg-white rounded-lg px-4 max-w-[34rem] flex flex-col justify-between min-h-[36rem] -mt-4 shadow-lg`}> {/* Aumentado min-h a 36rem */}
+    <div className={`${sourceSans3.className} bg-white rounded-lg px-6 py-4 max-w-[28rem] flex flex-col justify-between min-h-[32rem] shadow-lg`}>
       
       <div className="w-full mb-4">
         <Image
@@ -36,19 +36,19 @@ const QRCodeDisplay = () => {
           ¡Haz que tu cliente disfrute la comodidad de aplicar este QR en su equipo ahora mismo!
         </p>
       </div>
-      <div className="text-center mb-6">
-      <button className="bg-[#333333] text-white font-semibold inline-flex items-center justify-center rounded-md py-3 px-6 shadow-lg hover:shadow-xl transition-shadow whitespace-nowrap pb-5"> {/* Aumentado py a 3 para mayor altura */}
-        <span className="flex items-center"> {/* Añadido flex y items-center para centrar verticalmente */}
+
+      <div className="text-center">
+        <button className="bg-[#333333] text-white font-semibold inline-flex items-center justify-center rounded-md py-3 px-6 shadow-lg hover:shadow-xl transition-shadow">
           Imprimir
           <span className="ml-2 text-[#FDB623]">→</span>
-        </span>
-      </button>
+        </button>
       </div>
     </div>
   );
 };
 
 export default QRCodeDisplay;
+
 
 
 

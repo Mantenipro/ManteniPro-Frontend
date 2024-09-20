@@ -9,12 +9,12 @@ const EquipmentDetails = () => {
   const { register } = useForm();
 
   return (
-    <div className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[28rem]`} style={{ paddingBottom: '20px' }}>
+    <div className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[30rem] min-h-[35rem]`} style={{ paddingBottom: '20px' }}>
       {/* Imagen */}
       <Image
-        src="/airConditioning.jpg"  
+        src="/airConditioning.jpg"  // Ruta de la imagen
         alt="Air Conditioning"
-        width={200} 
+        width={200} // Ajusta el tamaño según sea necesario
         height={200}
         className="rounded-lg mx-auto mb-4"
       />
@@ -109,7 +109,6 @@ const EquipmentDetails = () => {
 };
 
 export default EquipmentDetails;
-
 
 
 
