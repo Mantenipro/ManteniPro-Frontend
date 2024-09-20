@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router'; // Importar useRouter
+import { useRouter } from 'next/router'; 
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const FormEquipment = ({ initialData }) => {
   const { register, handleSubmit, setValue } = useForm({
-    defaultValues: initialData || {}, // Cargar datos iniciales si existen
+    defaultValues: initialData || {}, 
   });
 
-  const router = useRouter(); // Inicializar useRouter
+  const router = useRouter(); 
 
   useEffect(() => {
     if (initialData) {
-      // Si hay datos iniciales, establecérselos al formulario
+      
       Object.keys(initialData).forEach((key) => {
         setValue(key, initialData[key]);
       });
@@ -22,20 +22,20 @@ const FormEquipment = ({ initialData }) => {
   }, [initialData, setValue]);
 
   const handleFormSubmit = (data) => {
-    // Aquí puedes manejar los datos como desees
-    console.log(data); // Imprimir datos en la consola
+   
+    console.log(data); 
 
-    // Redirigir según si hay datos iniciales
+   
     if (initialData) {
-      router.push('/qr_actualizado'); // Redirigir a qr_actualizado
+      router.push('/qr_actualizado'); 
     } else {
-      router.push('/qr_creado'); // Redirigir a qr_creado
+      router.push('/qr_creado'); 
     }
   };
 
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit)} // Usar handleFormSubmit
+      onSubmit={handleSubmit(handleFormSubmit)} 
       className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[34rem]`}
     >
       <div className="space-y-4">
