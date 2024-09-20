@@ -26,12 +26,12 @@ export default function Home() {
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#31416d] to-[#232c48] lg:w-[20%] w-[60%] h-full  fixed lg:static z-40`}
+        } lg:translate-x-0 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#31416d] to-[#232c48] md:w-[30%] lg:w-[15%] w-[50%] h-full  fixed lg:static z-40`}
       >
         <LefthDashboard />
       </div>
 
-      <div className="lg:w-[80%] w-full p-4 lg:ml-0 mt-[15%] md:mt-[7%] ">
+      <div className="lg:w-[85%] w-full p-4 lg:ml-0 mt-[15%] md:mt-[7%] ">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis laboriosam fuga perspiciatis dignissimos deleniti fugit repellat repellendus harum corporis illo est alias officia nobis, dicta ipsa cupiditate quos nulla temporibus?
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor obcaecati aliquam assumenda voluptatibus blanditiis quaerat deserunt vel nobis rem veritatis, fuga numquam cumque voluptates? Laudantium optio veritatis corrupti quo illum?
           Necessitatibus molestiae esse eveniet repellendus atque nobis, excepturi eaque unde rerum? Labore totam corporis sit quas facere quam saepe debitis omnis rem. Sint doloremque veniam maiores animi laboriosam nihil modi.
