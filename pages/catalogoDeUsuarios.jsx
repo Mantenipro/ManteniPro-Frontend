@@ -66,29 +66,69 @@ export default function CatalogoDeUsuarios() {
               </Link>
             </div>
           </nav>
-          {isOpen && (
-            <div className='absolute top-0 left-0 w-full bg-indigo-500 shadow-md'>
-              <button
-                className='absolute top-2 right-2 p-2 focus:outline-none'
-                onClick={toggleMenu}
-              >
-                <svg
-                  className='w-6 h-6'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                  xmlns='http://www.w3.org/2000/svg'
+          <div className='relative'>
+            <div className='flex items-center md:flex-row-reverse justify-between p-4 bg-indigo-500'>
+              <div className='flex items-center space-x-4 w-full'>
+                <button
+                  className='md:hidden p-2 focus:outline-none'
+                  onClick={toggleMenu}
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    d='M6 18L18 6M6 6l12 12'
-                  ></path>
-                </svg>
-              </button>
-              <ul>
-                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                  <svg
+                    className='w-6 h-6'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M4 6h16M4 12h16m-7 6h7'
+                    ></path>
+                  </svg>
+                </button>
+                <div className='flex items-center justify-between space-x-4 md:ml-auto md:space-x-6'>
+                  <div>
+                    <input
+                      type='text'
+                      placeholder='Buscar...'
+                      className='w-full p-2 border border-gray-300 rounded'
+                    />
+                  </div>
+                  <div>
+                    <Link href='/CreacionDeUsuarios'>
+                      <button
+                        title='Crear Usuario'
+                        className='hidden md:block md:bg-yellow-500 md:text-white md:p-2 md:rounded md:text-sm md:hover:bg-yellow-600 w-full md:w-auto md:px-4'
+                      >
+                        Crear Usuario
+                      </button>
+                      <button
+                        title='Crear Usuario'
+                        className='md:hidden p-2 focus:outline-none'
+                      >
+                        <svg
+                          className='w-6 h-6'
+                          fill='none'
+                          stroke='white'
+                          viewBox='0 0 24 24'
+                          xmlns='http://www.w3.org/2000/svg'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            strokeWidth='2'
+                            d='M15 12H9m4 0V8m0 4v4m-4-4h4m0 0H9m4 0h4'
+                          ></path>
+                        </svg>
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+              <ul className='hidden md:flex md:space-x-4 md:ml-4'>
+                <li className='p-4 hover:bg-blue-700'>
                   <a
                     className={`text-base ${montserrat.className} text-white`}
                     href='#home'
@@ -96,15 +136,15 @@ export default function CatalogoDeUsuarios() {
                     Home
                   </a>
                 </li>
-                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                <li className='p-4 hover:bg-blue-700'>
                   <a
                     className={`text-base ${montserrat.className} text-white`}
-                    href='#home'
+                    href='#about'
                   >
                     About
                   </a>
                 </li>
-                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                <li className='p-4 hover:bg-blue-700'>
                   <a
                     className={`text-base ${montserrat.className} text-white`}
                     href='#contact'
@@ -112,7 +152,7 @@ export default function CatalogoDeUsuarios() {
                     Contact
                   </a>
                 </li>
-                <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                <li className='p-4 hover:bg-blue-700'>
                   <Link
                     href='/Login'
                     className={`text-base ${montserrat.className} text-white`}
@@ -120,9 +160,82 @@ export default function CatalogoDeUsuarios() {
                     Logout
                   </Link>
                 </li>
+                <li className='p-4 hover:bg-blue-700'>
+                  <a
+                    className={`text-base ${montserrat.className} text-white`}
+                    href='#contact'
+                  >
+                    Contact
+                  </a>
+                </li>
+                <li className='p-4 hover:bg-blue-700'>
+                  <a
+                    className={`text-base ${montserrat.className} text-white`}
+                    href='#contact'
+                  >
+                    Contact
+                  </a>
+                </li>
               </ul>
             </div>
-          )}
+            {isOpen && (
+              <div className='absolute top-0 left-0 w-full bg-indigo-500 shadow-md md:hidden'>
+                <button
+                  className='absolute top-2 right-2 p-2 focus:outline-none'
+                  onClick={toggleMenu}
+                >
+                  <svg
+                    className='w-6 h-6'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M6 18L18 6M6 6l12 12'
+                    ></path>
+                  </svg>
+                </button>
+                <ul>
+                  <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                    <a
+                      className={`text-base ${montserrat.className} text-white`}
+                      href='#home'
+                    >
+                      Home
+                    </a>
+                  </li>
+                  <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                    <a
+                      className={`text-base ${montserrat.className} text-white`}
+                      href='#about'
+                    >
+                      About
+                    </a>
+                  </li>
+                  <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                    <a
+                      className={`text-base ${montserrat.className} text-white`}
+                      href='#contact'
+                    >
+                      Contact
+                    </a>
+                  </li>
+                  <li className='p-4 border-b border-gray-200 hover:bg-blue-700'>
+                    <Link
+                      href='/Login'
+                      className={`text-base ${montserrat.className} text-white`}
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
         <div>
           <div
