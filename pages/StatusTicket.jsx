@@ -1,9 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
 import Link from 'next/link'
 import { Montserrat } from 'next/font/google'
 const montserrat = Montserrat({ subsets: ['latin'] })
-
+/* eslint-disable @next/next/no-img-element */
 export default function StatusTicket() {
   const [isOpen, setIsOpen] = useState(false)
 
