@@ -3,7 +3,7 @@ import SearchBar from '../components/SearchBar';
 import TempSidebar from '../components/TempSidebar';
 import Title from '../components/Title';
 import BurgerMenu from '../components/BurgerMenu';
-import InfoPanel from '../components/InfoPanel';
+import InfoPanel from '../components/InfoPanel'; // Asegúrate de importar InfoPanel
 
 const TicketsDashboard = () => {
   return (
@@ -22,16 +22,16 @@ const TicketsDashboard = () => {
           <Title className="text-2xl">Tickets</Title> 
         </div>
 
-        {/* InfoPanel Section */}
+       
         <InfoPanel />
+
+       
       </main>
     </div>
   );
 };
 
 export default TicketsDashboard;
-
-
 
 
 
