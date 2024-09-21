@@ -19,11 +19,11 @@ export default function Login() {
   }
 
   return (
-    <div className='min-h-screen flex flex-col lg:flex-row'>
+    <div className={`min-h-screen flex flex-col lg:flex-row ${montserrat.className}`}>
       <div className='lg:flex lg:bg-gradient-to-b from-[#21262D] to-[#31416d] w-full lg:w-1/2 flex-col'>
         <div className='p-4'>
           <img
-            src='/logoManteniPro.png'
+            src='/Logo.png'
             alt='logo'
             className='w-24 h-10 lg:w-36 lg:h-20'
           />

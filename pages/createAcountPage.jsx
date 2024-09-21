@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import Link from 'next/link'
 import InputsLogin from '@/components/Inputs.login'
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+import { useForm } from 'react-hook-form'
 
 const inputData = [
   {
@@ -20,16 +22,33 @@ const inputData = [
 ]
 
 export default function LoginPage() {
+  // Paso 3: Inicializar useForm
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
+
+  // Paso 4: Función para manejar el envío del formulario
+  const onSubmit = (data) => {
+    console.log(data)
+  }
+
   return (
-    <main className={`${montserrat.className}, flex flex-row min-h-dvh`}>
-      <div className='bg-gradient-to-b from-[#21262D] to-[#31416d] w-full lg:w-[50%]'>
+    <main
+      className={`min-h-screen flex flex-col lg:flex-row ${montserrat.className}`}
+    >
+      <div className='bg-gradient-to-b from-[#21262D] to-[#31416d] lg:flex w-full lg:w-1/2 flex-col'>
         <img
-          src='/logoManteniPro.png'
+          src='/Logo.png'
           alt='logo'
-          className='w-[90px] h-[40px] lg:w-[140px] lg:h-[70px] my-10 '
+          className='w-44 h-25 lg:w-36 lg:h-20 my-5 ml-5'
         />
-        <div className='  w-full lg:w-[50%] flex lg:hidden  justify-center'>
-          <form className='flex justify-center md:w-[60%] flex-col w-[90%]' action=''>
+        <div className='  w-full lg:w-[50%] flex lg:hidden justify-center'>
+          <form
+            className='flex justify-center md:w-[60%] flex-col w-[90%]'
+            action=''
+          >
             <div className='flex flex-col mb-5'>
               <h1 className='text-[24px] font-bold text-white'>
                 Crea tu cuenta
