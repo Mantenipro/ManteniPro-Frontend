@@ -1,21 +1,23 @@
-// InfoPanel.js
 import React, { useState } from 'react';
-import AssignedToFilter from './AssignedToFilter'; // Importar el filtro de "Asignado a"
-import LocationFilter from './LocationFilter'; // Importar el nuevo filtro de localización con checkboxes
+import AssignedToFilter from './AssignedToFilter'; // Asegúrate de que la ruta sea correcta
+import LocationFilter from './LocationFilter'; // Si tienes este componente también
 
 const dateOptions = ['Recientes', 'Últimos'];
 const priorityOptions = ['Alta', 'Media', 'Baja'];
 
 const InfoPanel = () => {
-  const [assignedTo, setAssignedTo] = useState('');
+  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]); // Inicializa como array
   const [date, setDate] = useState('');
-  const [selectedLocations, setSelectedLocations] = useState([]); // Array para manejar múltiples localizaciones
+  const [location, setLocation] = useState('');
   const [priority, setPriority] = useState('');
 
   return (
     <div className="flex overflow-x-auto space-x-2 items-center text-white">
       {/* Filtro de Asignado a */}
-      <AssignedToFilter assignedTo={assignedTo} setAssignedTo={setAssignedTo} />
+      <AssignedToFilter 
+        selectedAssignedTo={selectedAssignedTo} 
+        setSelectedAssignedTo={setSelectedAssignedTo} 
+      />
 
       {/* Filtro de Fecha */}
       <div className="flex items-center bg-gradient-to-r from-[#21262D] to-[#414B66] p-1 rounded-md space-x-1">
@@ -34,8 +36,11 @@ const InfoPanel = () => {
         </select>
       </div>
 
-      {/* Filtro de Localización (con checkboxes) */}
-      <LocationFilter selectedLocations={selectedLocations} setSelectedLocations={setSelectedLocations} />
+      {/* Filtro de Localización */}
+      <LocationFilter 
+        selectedLocations={location} 
+        setSelectedLocations={setLocation} 
+      />
 
       {/* Filtro de Prioridad */}
       <div className="flex items-center bg-gradient-to-r from-[#21262D] to-[#414B66] p-1 rounded-md space-x-1">
@@ -58,6 +63,7 @@ const InfoPanel = () => {
 };
 
 export default InfoPanel;
+
 
 
 

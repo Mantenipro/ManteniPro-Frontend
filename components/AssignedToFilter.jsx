@@ -1,19 +1,18 @@
-// AssignedToFilter.js
 import React, { useState, useRef, useEffect } from 'react';
 
 const assignedToOptions = ['Alan Urban', 'Roberto Alvarez', 'Uriel Gonzalez'];
 
-const AssignedToFilter = ({ assignedTo, setAssignedTo }) => {
+const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [searchTerm, setSearchTerm] = useState('');
   const buttonRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const filteredOptions = assignedToOptions.filter((option) =>
     option.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Calcula la posición del botón para desplegar el menú debajo
   useEffect(() => {
     if (buttonRef.current && showDropdown) {
       const rect = buttonRef.current.getBoundingClientRect();
@@ -23,6 +22,32 @@ const AssignedToFilter = ({ assignedTo, setAssignedTo }) => {
       });
     }
   }, [showDropdown]);
+
+  // Cerrar el dropdown al hacer clic fuera o en otro botón
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleCheckboxChange = (option) => {
+    if (selectedAssignedTo.includes(option)) {
+      setSelectedAssignedTo(selectedAssignedTo.filter((person) => person !== option));
+    } else {
+      setSelectedAssignedTo([...selectedAssignedTo, option]);
+    }
+  };
 
   return (
     <div className="relative">
@@ -36,6 +61,7 @@ const AssignedToFilter = ({ assignedTo, setAssignedTo }) => {
       </button>
       {showDropdown && (
         <div
+          ref={dropdownRef}
           className="fixed bg-white text-black w-64 p-2 rounded-md shadow-md z-50"
           style={{
             top: `${dropdownPosition.top}px`,
@@ -53,15 +79,16 @@ const AssignedToFilter = ({ assignedTo, setAssignedTo }) => {
           />
           <ul className="mt-2 text-black">
             {filteredOptions.map((option, index) => (
-              <li
-                key={index}
-                onClick={() => {
-                  setAssignedTo(option);
-                  setShowDropdown(false);
-                }}
-                className="p-2 hover:bg-blue-100 cursor-pointer"
-              >
-                {option}
+              <li key={index} className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer">
+                <span className={selectedAssignedTo.includes(option) ? 'font-medium' : ''}>
+                  {option}
+                </span>
+                <input
+                  type="checkbox"
+                  checked={selectedAssignedTo.includes(option)}
+                  onChange={() => handleCheckboxChange(option)}
+                  className="ml-2"
+                />
               </li>
             ))}
           </ul>
@@ -72,3 +99,6 @@ const AssignedToFilter = ({ assignedTo, setAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
+
+

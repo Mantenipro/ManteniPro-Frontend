@@ -1,4 +1,3 @@
-// LocationFilter.js
 import React, { useState, useRef, useEffect } from 'react';
 
 const locationOptions = ['CDMX Álvaro Obregón', 'CDMX Azcapotzalco', 'CDMX Benito Juárez'];
@@ -8,6 +7,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [searchTerm, setSearchTerm] = useState('');
   const buttonRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const filteredOptions = locationOptions.filter((option) =>
     option.toLowerCase().includes(searchTerm.toLowerCase())
@@ -22,6 +22,23 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
       });
     }
   }, [showDropdown]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleCheckboxChange = (option) => {
     if (selectedLocations.includes(option)) {
@@ -43,6 +60,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
       </button>
       {showDropdown && (
         <div
+          ref={dropdownRef}
           className="fixed bg-white text-black w-64 p-2 rounded-md shadow-md z-50"
           style={{
             top: `${dropdownPosition.top}px`,
@@ -80,6 +98,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
 
 
 
