@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const locationOptions = ['CDMX Álvaro Obregón', 'CDMX Azcapotzalco', 'CDMX Benito Juárez'];
 
-const LocationFilter = ({ location, setLocation }) => {
+const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,6 +23,16 @@ const LocationFilter = ({ location, setLocation }) => {
       });
     }
   }, [showDropdown]);
+
+  const handleCheckboxChange = (option) => {
+    if (selectedLocations.includes(option)) {
+      // Si la opción ya está seleccionada, la removemos de la lista
+      setSelectedLocations(selectedLocations.filter((loc) => loc !== option));
+    } else {
+      // Si la opción no está seleccionada, la agregamos a la lista
+      setSelectedLocations([...selectedLocations, option]);
+    }
+  };
 
   return (
     <div className="relative">
@@ -53,15 +63,14 @@ const LocationFilter = ({ location, setLocation }) => {
           />
           <ul className="mt-2 text-black">
             {filteredOptions.map((option, index) => (
-              <li
-                key={index}
-                onClick={() => {
-                  setLocation(option);
-                  setShowDropdown(false);
-                }}
-                className="p-2 hover:bg-blue-100 cursor-pointer"
-              >
-                {option}
+              <li key={index} className="flex items-center p-2 hover:bg-blue-100 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={selectedLocations.includes(option)}
+                  onChange={() => handleCheckboxChange(option)}
+                  className="mr-2"
+                />
+                <span>{option}</span>
               </li>
             ))}
           </ul>
@@ -72,3 +81,4 @@ const LocationFilter = ({ location, setLocation }) => {
 };
 
 export default LocationFilter;
+

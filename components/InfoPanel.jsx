@@ -1,7 +1,7 @@
 // InfoPanel.js
 import React, { useState } from 'react';
 import AssignedToFilter from './AssignedToFilter'; // Importar el filtro de "Asignado a"
-import LocationFilter from './LocationFilter'; // Importar el nuevo filtro de localización
+import LocationFilter from './LocationFilter'; // Importar el nuevo filtro de localización con checkboxes
 
 const dateOptions = ['Recientes', 'Últimos'];
 const priorityOptions = ['Alta', 'Media', 'Baja'];
@@ -9,7 +9,7 @@ const priorityOptions = ['Alta', 'Media', 'Baja'];
 const InfoPanel = () => {
   const [assignedTo, setAssignedTo] = useState('');
   const [date, setDate] = useState('');
-  const [location, setLocation] = useState('');
+  const [selectedLocations, setSelectedLocations] = useState([]); // Array para manejar múltiples localizaciones
   const [priority, setPriority] = useState('');
 
   return (
@@ -34,8 +34,8 @@ const InfoPanel = () => {
         </select>
       </div>
 
-      {/* Filtro de Localización (reemplazado por el nuevo componente) */}
-      <LocationFilter location={location} setLocation={setLocation} />
+      {/* Filtro de Localización (con checkboxes) */}
+      <LocationFilter selectedLocations={selectedLocations} setSelectedLocations={setSelectedLocations} />
 
       {/* Filtro de Prioridad */}
       <div className="flex items-center bg-gradient-to-r from-[#21262D] to-[#414B66] p-1 rounded-md space-x-1">
@@ -58,6 +58,7 @@ const InfoPanel = () => {
 };
 
 export default InfoPanel;
+
 
 
 
