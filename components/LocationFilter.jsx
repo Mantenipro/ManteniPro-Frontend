@@ -13,7 +13,6 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
     option.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Calcula la posición del botón para desplegar el menú debajo
   useEffect(() => {
     if (buttonRef.current && showDropdown) {
       const rect = buttonRef.current.getBoundingClientRect();
@@ -26,10 +25,8 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 
   const handleCheckboxChange = (option) => {
     if (selectedLocations.includes(option)) {
-      // Si la opción ya está seleccionada, la removemos de la lista
       setSelectedLocations(selectedLocations.filter((loc) => loc !== option));
     } else {
-      // Si la opción no está seleccionada, la agregamos a la lista
       setSelectedLocations([...selectedLocations, option]);
     }
   };
@@ -63,14 +60,16 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
           />
           <ul className="mt-2 text-black">
             {filteredOptions.map((option, index) => (
-              <li key={index} className="flex items-center p-2 hover:bg-blue-100 cursor-pointer">
+              <li key={index} className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer">
+                <span className={selectedLocations.includes(option) ? 'font-medium' : ''}>
+                  {option}
+                </span>
                 <input
                   type="checkbox"
                   checked={selectedLocations.includes(option)}
                   onChange={() => handleCheckboxChange(option)}
-                  className="mr-2"
+                  className="ml-2"
                 />
-                <span>{option}</span>
               </li>
             ))}
           </ul>
@@ -81,4 +80,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
+
+
 
