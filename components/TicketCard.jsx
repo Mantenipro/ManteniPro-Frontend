@@ -2,13 +2,13 @@ import React from 'react';
 
 const TicketCard = ({ title, description, username, date, priority, ticketId }) => {
   const priorityClass = {
-    Low: 'text-red-500 bg-red-100',
-    Medium: 'text-yellow-500 bg-yellow-100',
-    High: 'text-green-500 bg-green-100',
-  }[priority] || 'text-gray-500 bg-gray-100';
+    Alta: 'text-red-500 bg-red-100',
+    Media: 'text-yellow-500 bg-yellow-100',
+    Baja: 'text-green-500 bg-green-100',
+  }[priority] || 'text-white bg-white';
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4 mb-4">
+    <div className="bg-white shadow-lg rounded-xl p-4 mb-4">
       <div className="flex justify-between items-start">
         <span className={`text-xs px-2 py-1 rounded-full ${priorityClass}`}>{priority}</span>
         <span className="text-xs text-gray-400">{date}</span>
