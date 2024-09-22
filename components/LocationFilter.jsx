@@ -13,7 +13,6 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  
   const filteredOptions = locationOptions.filter((option) =>
     normalizeString(option).includes(normalizeString(searchTerm))
   );
@@ -58,20 +57,18 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
       <button
         ref={buttonRef}
         onClick={() => setShowDropdown(!showDropdown)}
-        className="bg-transparent border-none p-1 text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
+        className="bg-transparent border-none p-1 text-sm md:text-base rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
-        <img src="/icon/location-icon.png" alt="Localización" className="h-4 w-4" />
+        <img src="/icon/location-icon.png" alt="Localización" className="h-4 w-4 md:h-5 md:w-5" />
         <span>Localización</span>
       </button>
       {showDropdown && (
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-64 p-2 rounded-md shadow-md z-50"
+          className="fixed bg-white text-black w-40 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-48 md:w-64 md:max-h-60" 
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
-            maxHeight: '50vh',
-            overflowY: 'auto',
           }}
         >
           <input
@@ -79,13 +76,13 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
             placeholder="Buscar"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-1 border border-gray-300 rounded-md text-black"
+            className="w-full p-1 border border-gray-300 rounded-md text-black text-xs md:text-sm" 
           />
-          <ul className="mt-2 text-black">
+          <ul className="mt-1 text-black">
             {filteredOptions.map((option, index) => (
               <li
                 key={index}
-                className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer"
+                className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm" 
                 onClick={() => handleCheckboxChange(option)}
               >
                 <span className={selectedLocations.includes(option) ? 'font-medium' : ''}>
@@ -95,7 +92,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
                   type="checkbox"
                   checked={selectedLocations.includes(option)}
                   readOnly
-                  className="ml-2"
+                  className="ml-1 h-3 w-3 md:h-4 md:w-4"
                 />
               </li>
             ))}
@@ -107,6 +104,9 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
+
+
 
 
 
