@@ -3,7 +3,9 @@ import SearchBar from '../components/SearchBar';
 import TempSidebar from '../components/TempSidebar';
 import Title from '../components/Title';
 import BurgerMenu from '../components/BurgerMenu';
-import InfoPanel from '../components/InfoPanel'; // Asegúrate de importar InfoPanel
+import InfoPanel from '../components/InfoPanel';
+import TicketsStatus from '../components/TicketsStatus'; 
+import TicketCard from '../components/TicketCard'; // Nuevo componente importado
 
 const TicketsDashboard = () => {
   return (
@@ -20,19 +22,22 @@ const TicketsDashboard = () => {
 
         <div className="mb-4">
           <Title className="text-2xl">Tickets</Title> 
-          
         </div>
 
-       
-        <InfoPanel />
+        <InfoPanel /> {/* InfoPanel arriba */}
+        <TicketsStatus /> {/* TicketsStatus debajo de InfoPanel */}
+        <TicketCard /> {/* TicketCard debajo de TicketsStatus */}
 
-       
       </main>
     </div>
   );
 };
 
 export default TicketsDashboard;
+
+
+
+
 
 
 

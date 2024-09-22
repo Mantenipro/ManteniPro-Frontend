@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const locationOptions = ['CDMX Álvaro Obregón', 'CDMX Azcapotzalco', 'CDMX Benito Juárez'];
+const locationOptions = ['CDMX, Álvaro Obregón', 'CDMX, Azcapotzalco', 'CDMX, Benito Juárez'];
 
 const normalizeString = (str) => {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();

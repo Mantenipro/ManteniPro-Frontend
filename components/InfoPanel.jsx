@@ -4,9 +4,6 @@ import LocationFilter from './LocationFilter'; // Asegúrate de que la ruta sea 
 import PriorityFilter from './PriorityFilter'; // Asegúrate de importar el nuevo componente
 import DateFilter from './DateFilter'; // Asegúrate de importar el nuevo componente
 
-const dateOptions = ['Recientes', 'Últimos'];
-const priorityOptions = ['Alta', 'Media', 'Baja'];
-
 const InfoPanel = () => {
   const [selectedAssignedTo, setSelectedAssignedTo] = useState([]);
   const [selectedPriorities, setSelectedPriorities] = useState([]);
@@ -43,6 +40,7 @@ const InfoPanel = () => {
 };
 
 export default InfoPanel;
+
 
 
 
