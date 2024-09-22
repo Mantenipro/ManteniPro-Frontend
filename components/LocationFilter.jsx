@@ -9,8 +9,9 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  
   const filteredOptions = locationOptions.filter((option) =>
-    option.toLowerCase().includes(searchTerm.toLowerCase())
+    option.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -98,6 +99,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
 
 
 

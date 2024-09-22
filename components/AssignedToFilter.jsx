@@ -10,7 +10,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
   const dropdownRef = useRef(null);
 
   const filteredOptions = assignedToOptions.filter((option) =>
-    option.toLowerCase().includes(searchTerm.toLowerCase())
+    option.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -23,7 +23,6 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
     }
   }, [showDropdown]);
 
-  // Cerrar el dropdown al hacer clic fuera o en otro botón
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -99,6 +98,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
 
 
 
