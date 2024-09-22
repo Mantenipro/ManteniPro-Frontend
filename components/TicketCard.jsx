@@ -30,7 +30,7 @@ const TicketCard = ({ title, description, username, date, priority, ticketId }) 
       {/* Título del ticket */}
       <h3 className={`text-lg font-semibold mb-2 ${isHovered ? 'text-white' : 'text-gray-900'}`}>{title}</h3>
       {/* Descripción del ticket */}
-      <p className={`text-sm mb-4 ${isHovered ? 'text-white' : 'text-gray-600'}`}>{description}</p>
+      <p className={`text-sm mb-4 ${isHovered ? 'text-gray-300' : 'text-gray-600'}`}>{description}</p>
       <div className="flex items-center justify-between">
         {/* Información del usuario asignado */}
         <div className="flex items-center">
@@ -39,10 +39,10 @@ const TicketCard = ({ title, description, username, date, priority, ticketId }) 
             alt={username}
             className="w-8 h-8 rounded-full mr-2"
           />
-          <span className={`text-sm ${isHovered ? 'text-white' : 'text-gray-700'}`}>{username}</span>
+          <span className={`text-sm ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}>{username}</span>
         </div>
         {/* ID del ticket */}
-        <span className={`text-sm ${isHovered ? 'text-white' : 'text-gray-500'}`}>{ticketId}</span>
+        <span className={`text-sm ${isHovered ? 'text-gray-300' : 'text-gray-500'}`}>{ticketId}</span>
       </div>
     </div>
   );
