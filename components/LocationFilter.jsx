@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const locationOptions = ['CDMX, Álvaro Obregón', 'CDMX, Azcapotzalco', 'CDMX, Benito Juárez'];
+const locationOptions = ['CDMX Álvaro Obregón', 'CDMX Azcapotzalco', 'CDMX Benito Juárez'];
 
 const normalizeString = (str) => {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -13,7 +13,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  // Filtra las opciones en función del término de búsqueda
+  
   const filteredOptions = locationOptions.filter((option) =>
     normalizeString(option).includes(normalizeString(searchTerm))
   );
@@ -83,14 +83,18 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
           />
           <ul className="mt-2 text-black">
             {filteredOptions.map((option, index) => (
-              <li key={index} className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer">
+              <li
+                key={index}
+                className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer"
+                onClick={() => handleCheckboxChange(option)}
+              >
                 <span className={selectedLocations.includes(option) ? 'font-medium' : ''}>
                   {option}
                 </span>
                 <input
                   type="checkbox"
                   checked={selectedLocations.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  readOnly
                   className="ml-2"
                 />
               </li>
@@ -103,6 +107,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
 
 
 

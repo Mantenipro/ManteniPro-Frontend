@@ -78,14 +78,18 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
           />
           <ul className="mt-2 text-black">
             {filteredOptions.map((option, index) => (
-              <li key={index} className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer">
+              <li
+                key={index}
+                className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer"
+                onClick={() => handleCheckboxChange(option)}
+              >
                 <span className={selectedAssignedTo.includes(option) ? 'font-medium' : ''}>
                   {option}
                 </span>
                 <input
                   type="checkbox"
                   checked={selectedAssignedTo.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  readOnly
                   className="ml-2"
                 />
               </li>
@@ -98,6 +102,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
 
 
 
