@@ -79,7 +79,7 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
     <div className="w-full h-1 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-[#21262D] to-[#414B66]"></div>
 
     {/* Contenedor scrollable para los tickets */}
-    <div className="w-full mt-4 group-hover:bg-opacity-100 h-[470px] md:h-[385px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+    <div className="w-full mt-4 group-hover:bg-opacity-100 h-[480px] md:h-[385px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
       {tickets.length === 0 ? (
         <p>No hay tickets para mostrar</p>
       ) : (
@@ -100,6 +100,32 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
 );
 
 export default TicketsStatus;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
 
 
 

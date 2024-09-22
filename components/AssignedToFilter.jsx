@@ -67,7 +67,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
         className="bg-transparent border-none p-1 text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img src="/icon/assignment-icon.png" alt="Asignado a" className="h-4 w-4" />
-        <span>Asignado a</span>
+        <span>Encargado</span>
       </button>
       {showDropdown && (
         <div
@@ -113,6 +113,16 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
+
+
+
+
+
+
+
+
+
 
 
 
