@@ -60,7 +60,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
         className="bg-transparent border-none p-1 text-sm md:text-base rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img src="/icon/location-icon.png" alt="Localización" className="h-4 w-4 md:h-5 md:w-5" />
-        <span>Localización</span>
+        <span>Ubicación</span>
       </button>
       {showDropdown && (
         <div

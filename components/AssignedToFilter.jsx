@@ -64,20 +64,18 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
         onClick={() => {
           setShowDropdown(!showDropdown);
         }}
-        className="bg-transparent border-none p-1 text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
+        className="bg-transparent border-none p-1 text-sm md:text-base rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
-        <img src="/icon/assignment-icon.png" alt="Asignado a" className="h-4 w-4" />
+        <img src="/icon/assignment-icon.png" alt="Asignado a" className="h-4 w-4 md:h-5 md:w-5" />
         <span>Encargado</span>
       </button>
       {showDropdown && (
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-64 p-2 rounded-md shadow-md z-50"
+          className="fixed bg-white text-black w-48 p-2 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-64 md:w-72 md:max-h-60"
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
-            maxHeight: '50vh',
-            overflowY: 'auto',
           }}
         >
           <input
@@ -85,13 +83,13 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
             placeholder="Buscar"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-1 border border-gray-300 rounded-md text-black"
+            className="w-full p-1 border border-gray-300 rounded-md text-xs md:text-sm"
           />
           <ul className="mt-2 text-black">
             {filteredOptions.map((option, index) => (
               <li
                 key={index}
-                className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer"
+                className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm"
                 onClick={() => handleNameClick(option)} 
               >
                 <span className={selectedAssignedTo.includes(option) ? 'font-medium' : ''}>
@@ -101,7 +99,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
                   type="checkbox"
                   checked={selectedAssignedTo.includes(option)}
                   onChange={() => handleCheckboxChange(option)}
-                  className="ml-2"
+                  className="ml-2 h-3 w-3 md:h-4 md:w-4"
                 />
               </li>
             ))}
@@ -113,6 +111,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
 
 
 
