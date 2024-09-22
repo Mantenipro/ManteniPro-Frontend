@@ -76,7 +76,7 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
                 onClick={() => handleCheckboxChange(value)}
               >
                 <span className={`w-3 h-3 rounded-full ${color} mr-2`} />
-                <span className={selectedPriorities.includes(value) ? 'font-medium' : ''}>
+                <span className={selectedPriorities.includes(value) ? 'font-medium'  : ''}>
                   {label}
                 </span>
                 <input
@@ -95,5 +95,7 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
 };
 
 export default PriorityFilter;
+
+
 
 
