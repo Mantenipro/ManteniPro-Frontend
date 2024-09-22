@@ -4,10 +4,25 @@ import TempSidebar from '../components/TempSidebar';
 import Title from '../components/Title';
 import BurgerMenu from '../components/BurgerMenu';
 import InfoPanel from '../components/InfoPanel';
-import TicketsStatus from '../components/TicketsStatus'; 
-import TicketCard from '../components/TicketCard'; // Nuevo componente importado
+import TicketsStatus from '../components/TicketsStatus';
 
 const TicketsDashboard = () => {
+  const ticketsPorHacer = [
+    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '13/05/24', priority: 'High', ticketId: '132314' },
+    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '13/05/24', priority: 'Low', ticketId: '132315' },
+    // Más tickets...
+  ];
+
+  const ticketsEnProceso = [
+    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '13/05/24', priority: 'Medium', ticketId: '132316' },
+    // Más tickets...
+  ];
+
+  const ticketsCompletados = [
+    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '13/05/24', priority: 'Low', ticketId: '132317' },
+    // Más tickets...
+  ];
+
   return (
     <div className="min-h-screen bg-white flex relative">
       <div className="relative">
@@ -24,9 +39,13 @@ const TicketsDashboard = () => {
           <Title className="text-2xl">Tickets</Title> 
         </div>
 
-        <InfoPanel /> {/* InfoPanel arriba */}
-        <TicketsStatus /> {/* TicketsStatus debajo de InfoPanel */}
-        <TicketCard /> {/* TicketCard debajo de TicketsStatus */}
+        <InfoPanel />
+        
+        <TicketsStatus 
+          ticketsPorHacer={ticketsPorHacer} 
+          ticketsEnProceso={ticketsEnProceso} 
+          ticketsCompletados={ticketsCompletados} 
+        />
 
       </main>
     </div>
@@ -34,10 +53,7 @@ const TicketsDashboard = () => {
 };
 
 export default TicketsDashboard;
-
-
-
-
+  
 
 
 
