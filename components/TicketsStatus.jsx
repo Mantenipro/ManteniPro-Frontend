@@ -58,7 +58,7 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
           onClick={handlePrevSection} 
           className="block md:hidden bg-gray-200 p-2 rounded-full"
         >
-          &#9664;
+          <img src="/icon/left-arrow-icon.png" alt="Left arrow" className="w-4 h-4" />
         </button>
       )}
       <div className="flex items-center">
@@ -71,7 +71,7 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
           onClick={handleNextSection} 
           className="block md:hidden bg-gray-200 p-2 rounded-full"
         >
-          &#9654;
+          <img src="/icon/right-arrow-icon.png" alt="Right arrow" className="w-4 h-4" />
         </button>
       )}
     </div>
@@ -99,6 +99,8 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
 );
 
 export default TicketsStatus;
+
+
 
 
 
