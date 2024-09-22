@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import AssignedToFilter from './AssignedToFilter'; // Asegúrate de que la ruta sea correcta
 import LocationFilter from './LocationFilter'; // Si tienes este componente también
+import DateFilter from './DateFilter'; // Importa el nuevo componente
 
-const dateOptions = ['Recientes', 'Últimos'];
 const priorityOptions = ['Alta', 'Media', 'Baja'];
 
 const InfoPanel = () => {
   const [selectedAssignedTo, setSelectedAssignedTo] = useState([]); // Inicializa como array
-  const [date, setDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(''); // Estado para la fecha seleccionada
   const [location, setLocation] = useState('');
   const [priority, setPriority] = useState('');
 
@@ -20,21 +20,10 @@ const InfoPanel = () => {
       />
 
       {/* Filtro de Fecha */}
-      <div className="flex items-center bg-gradient-to-r from-[#21262D] to-[#414B66] p-1 rounded-md space-x-1">
-        <img src="/icon/calendar-icon.png" alt="Fecha" className="h-4 w-4" />
-        <select
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="bg-transparent border-none p-1 text-sm rounded-md"
-        >
-          <option value="">Fecha</option>
-          {dateOptions.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
+      <DateFilter 
+        selectedDate={selectedDate} 
+        setSelectedDate={setSelectedDate} 
+      />
 
       {/* Filtro de Localización */}
       <LocationFilter 
@@ -63,6 +52,7 @@ const InfoPanel = () => {
 };
 
 export default InfoPanel;
+
 
 
 
