@@ -1,9 +1,9 @@
 // InfoPanel.js
 import React, { useState } from 'react';
-import AssignedToFilter from './AssignedToFilter'; // Importar el nuevo componente
+import AssignedToFilter from './AssignedToFilter'; // Importar el filtro de "Asignado a"
+import LocationFilter from './LocationFilter'; // Importar el nuevo filtro de localización
 
 const dateOptions = ['Recientes', 'Últimos'];
-const locationOptions = ['CDMX Álvaro Obregón', 'CDMX Azcapotzalco', 'CDMX Benito Juárez'];
 const priorityOptions = ['Alta', 'Media', 'Baja'];
 
 const InfoPanel = () => {
@@ -34,22 +34,8 @@ const InfoPanel = () => {
         </select>
       </div>
 
-      {/* Filtro de Localización */}
-      <div className="flex items-center bg-gradient-to-r from-[#21262D] to-[#414B66] p-1 rounded-md space-x-1">
-        <img src="/icon/location-icon.png" alt="Localización" className="h-4 w-4" />
-        <select
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="bg-transparent border-none p-1 text-sm rounded-md"
-        >
-          <option value="">Localización</option>
-          {locationOptions.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* Filtro de Localización (reemplazado por el nuevo componente) */}
+      <LocationFilter location={location} setLocation={setLocation} />
 
       {/* Filtro de Prioridad */}
       <div className="flex items-center bg-gradient-to-r from-[#21262D] to-[#414B66] p-1 rounded-md space-x-1">
@@ -72,6 +58,7 @@ const InfoPanel = () => {
 };
 
 export default InfoPanel;
+
 
 
 
