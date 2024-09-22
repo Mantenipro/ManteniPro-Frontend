@@ -20,6 +20,7 @@ const TicketsDashboard = () => {
 
         <div className="mb-4">
           <Title className="text-2xl">Tickets</Title> 
+          
         </div>
 
        
