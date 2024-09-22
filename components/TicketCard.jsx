@@ -13,42 +13,58 @@ const TicketCard = ({ title, description, username, date, priority, ticketId }) 
 
   return (
     <div
-      className={`rounded-xl p-4 mb-4 shadow-lg transition-all duration-200 ${
-        isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'
-      }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="flex justify-between items-start">
-       
-        <span className={`text-xs px-2 py-1 rounded-full ${priorityClass}`}>
-          {priority}
-        </span>
-        {/* Fecha del ticket */}
-        <span className={`text-xs ${isHovered ? 'text-white' : 'text-gray-400'}`}>{date}</span>
-      </div>
-      {/* Título del ticket */}
-      <h3 className={`text-lg font-semibold mb-2 ${isHovered ? 'text-white' : 'text-gray-900'}`}>{title}</h3>
-      {/* Descripción del ticket */}
-      <p className={`text-sm mb-4 ${isHovered ? 'text-gray-300' : 'text-gray-600'}`}>{description}</p>
-      <div className="flex items-center justify-between">
-        {/* Información del usuario asignado */}
-        <div className="flex items-center">
-          <img
-            src="/profile.jpg"
-            alt={username}
-            className="w-8 h-8 rounded-full mr-2"
-          />
-          <span className={`text-sm ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}>{username}</span>
-        </div>
-        {/* ID del ticket */}
-        <span className={`text-sm ${isHovered ? 'text-gray-300' : 'text-gray-500'}`}>{ticketId}</span>
-      </div>
+    className={`rounded-lg p-2 mb-2 shadow-md transition-all duration-200 ${
+      isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'
+    } 
+    md:rounded-xl md:p-3 md:mb-3 md:shadow-lg`} // Para desktop
+    onMouseEnter={() => setIsHovered(true)}
+    onMouseLeave={() => setIsHovered(false)}
+    style={{ maxWidth: '300px' }} // Ajusta el ancho máximo de la tarjeta en móvil y tablet
+  >
+    <div className="flex justify-between items-start">
+      <span className={`text-xs px-1 py-0.5 rounded-full ${priorityClass}`}>
+        {priority}
+      </span>
+      <span className={`text-xs ${isHovered ? 'text-white' : 'text-gray-400'}`}>
+        {date}
+      </span>
     </div>
+    <h3 className={`text-base font-semibold mb-1 ${isHovered ? 'text-white' : 'text-gray-900'}`}>
+      {title}
+    </h3>
+    <p className={`text-xs mb-2 ${isHovered ? 'text-gray-300' : 'text-gray-600'}`}>
+      {description}
+    </p>
+    <div className="flex items-center justify-between">
+      <div className="flex items-center">
+        <img
+          src="/profile.jpg"
+          alt={username}
+          className="w-6 h-6 rounded-full mr-1"
+        />
+        <span className={`text-xs ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}>
+          {username}
+        </span>
+      </div>
+      <span className={`text-xs ${isHovered ? 'text-gray-300' : 'text-gray-500'}`}>
+        {ticketId}
+      </span>
+    </div>
+  </div>
+  
+
   );
 };
 
 export default TicketCard;
+
+
+
+
+
+
+
+
 
 
 

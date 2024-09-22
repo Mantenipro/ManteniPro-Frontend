@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TicketCard from './TicketCard'; 
 
 const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados, selectedPriorities }) => {
-  const [currentSection, setCurrentSection] = useState(0); // 0: Por hacer, 1: En proceso, 2: Completados
+  const [currentSection, setCurrentSection] = useState(0); 
 
   const sections = [
     { title: 'Por hacer', tickets: ticketsPorHacer },
@@ -27,17 +27,17 @@ const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados, 
 
   return (
     <div className="bg-[#F5F5F5] p-4 rounded-lg">
-      {/* Grid de tres columnas para desktop, pero una sola para móvil */}
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {/* Renderizar la columna seleccionada en pantallas móviles, todas en desktop */}
+       
         <StatusColumn 
           title={sections[currentSection].title} 
           tickets={filterTicketsByPriority(sections[currentSection].tickets)} 
           handleNextSection={handleNextSection}
           handlePrevSection={handlePrevSection}
-          showNavigation={true} // Mostrar flechas en mobile/tablet
+          showNavigation={true} 
         />
-        {/* Si es desktop, mostrar todas las columnas */}
+       
         <div className="hidden md:block">
           <StatusColumn title="En proceso" tickets={filterTicketsByPriority(ticketsEnProceso)} />
         </div>
@@ -52,7 +52,7 @@ const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados, 
 const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, showNavigation }) => (
   <div className="flex flex-col items-center group">
     <div className="flex items-center justify-between w-full mb-4">
-      {/* Flecha izquierda */}
+     
       {showNavigation && (
         <button 
           onClick={handlePrevSection} 
@@ -65,7 +65,7 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
         <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#21262D] to-[#414B66] mr-2"></span>
         <h2 className="text-xl font-semibold">{title}</h2>
       </div>
-      {/* Flecha derecha */}
+     
       {showNavigation && (
         <button 
           onClick={handleNextSection} 
