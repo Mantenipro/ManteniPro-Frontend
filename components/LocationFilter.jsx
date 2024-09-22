@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const locationOptions = ['CDMX Álvaro Obregón', 'CDMX Azcapotzalco', 'CDMX Benito Juárez'];
+const locationOptions = ['CDMX, Álvaro Obregón', 'CDMX, Azcapotzalco', 'CDMX, Benito Juárez'];
+
+const normalizeString = (str) => {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+};
 
 const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -9,9 +13,9 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  
+  // Filtra las opciones en función del término de búsqueda
   const filteredOptions = locationOptions.filter((option) =>
-    option.toLowerCase().startsWith(searchTerm.toLowerCase())
+    normalizeString(option).includes(normalizeString(searchTerm))
   );
 
   useEffect(() => {
@@ -99,6 +103,8 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
+
 
 
 
