@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import AssignedToFilter from './AssignedToFilter'; // Asegúrate de que la ruta sea correcta
-import LocationFilter from './LocationFilter'; // Asegúrate de que la ruta sea correcta
-import PriorityFilter from './PriorityFilter'; // Asegúrate de importar el nuevo componente
-import DateFilter from './DateFilter'; // Asegúrate de importar el nuevo componente
+import AssignedToFilter from './AssignedToFilter'; 
+import LocationFilter from './LocationFilter'; 
+import PriorityFilter from './PriorityFilter'; 
+import DateFilter from './DateFilter'; 
 
 const InfoPanel = () => {
   const [selectedAssignedTo, setSelectedAssignedTo] = useState([]);

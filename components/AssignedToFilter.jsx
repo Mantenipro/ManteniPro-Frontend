@@ -28,8 +28,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
       }
     };
 
-    updateDropdownPosition(); // Llama a la función para establecer la posición inicial
-
+    updateDropdownPosition(); 
     const handleClickOutside = (event) => {
       if (
         dropdownRef.current &&
@@ -52,6 +51,10 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
     } else {
       setSelectedAssignedTo([...selectedAssignedTo, option]);
     }
+  };
+
+  const handleNameClick = (option) => {
+    handleCheckboxChange(option); 
   };
 
   return (
@@ -86,7 +89,11 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
           />
           <ul className="mt-2 text-black">
             {filteredOptions.map((option, index) => (
-              <li key={index} className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer">
+              <li
+                key={index}
+                className="flex justify-between items-center p-2 hover:bg-blue-100 cursor-pointer"
+                onClick={() => handleNameClick(option)} 
+              >
                 <span className={selectedAssignedTo.includes(option) ? 'font-medium' : ''}>
                   {option}
                 </span>
@@ -106,6 +113,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
 
 
 
