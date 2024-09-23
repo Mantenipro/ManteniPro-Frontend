@@ -32,7 +32,7 @@ export default function OrderClosed() {
               id=''
               className='w-full rounded border-2 border-slate-300 p-1 text-sm text-slate-800'
             ></textarea>
-            <div className='flex justify-between'>
+            <div className='flex justify-between items-center'>
               <SubtitleMobile children={'Inicio:'} />
               <input
                 type='date'

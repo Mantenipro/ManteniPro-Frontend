@@ -39,6 +39,14 @@ export default function HomeTecnico() {
       title: 'Aire Acondionado roto',
       status: 'Completada',
       date: '12/12/2020'
+    },
+    {
+      id: 5,
+      id_order: '12356156',
+      picture: 'https://picsum.photos/200',
+      title: 'Panel Acondionado roto',
+      status: 'Completada',
+      date: '12/12/2020'
     }
   ]
 
@@ -51,7 +59,7 @@ export default function HomeTecnico() {
   return (
     <div className='min-h-screen w-full bg-[#d8d5d5]'>
       <NavbarTecnicoMobile />
-      <section className='m-6 flex flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
+      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
         <HeaderTecnicoMobile />
 
         <SearchInputTecnico />
@@ -70,7 +78,7 @@ export default function HomeTecnico() {
           </div>
           {/* CARD TASK */}
 
-          <section className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex max-h-96 flex-col gap-3 overflow-y-auto p-4'>
+          <section className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex max-h-[55vh] flex-col gap-3 overflow-y-auto p-4'>
             {dummyFails.map((task, index) => (
               <div key={index} onClick={() => handleCardClick(task.id_order)}>
                 <TaskCard
