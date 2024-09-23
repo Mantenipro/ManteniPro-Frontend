@@ -36,12 +36,12 @@ export default function TaskDetail() {
   return (
     <div className='min-h-screen w-full bg-[#d8d5d5]'>
       <NavbarTecnicoMobile />
-      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
+      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:mx-12 md:p-8'>
         <HeaderTecnicoMobile />
-        <span className='m-auto mt-6 font-semibold text-slate-200'>
+        <span className='m-auto mt-6 font-semibold text-slate-200 md:mt-4 md:text-xl'>
           Detalle de Tarea
         </span>
-        <div className='scrollbar-thin scrollbar-thumb-rounded -mx-2 mt-4 flex flex-col gap-3 overflow-y-auto rounded-md bg-slate-200 p-1 py-3 text-slate-800'>
+        <div className='scrollbar-thin scrollbar-thumb-rounded -mx-2 mt-4 flex flex-col gap-3 overflow-y-auto rounded-md bg-slate-200 p-1 py-3 text-slate-800 md:mx-4'>
           {/* DATA MACHINE */}
           {detailTask.map((item) => {
             return (
@@ -60,18 +60,20 @@ export default function TaskDetail() {
           {/* DATA USER */}
           {detailTask.map((item) => {
             return (
-              <UserData
-                key={`useData-${item.id}`}
-                id={id}
-                time={item.time}
-                fecha={item.fecha}
-                user={item.user}
-                user_photo={item.user_photo}
-                email_user={item.email_user}
-                direccion={item.direccion}
-                compania={item.compania}
-                desc_falla={item.desc_falla}
-              />
+              <div className='md:hidden'>
+                <UserData
+                  key={`useData-${item.id}`}
+                  id={id}
+                  time={item.time}
+                  fecha={item.fecha}
+                  user={item.user}
+                  user_photo={item.user_photo}
+                  email_user={item.email_user}
+                  direccion={item.direccion}
+                  compania={item.compania}
+                  desc_falla={item.desc_falla}
+                />
+              </div>
             )
           })}
           {/* FOTTER ORDER DETAIL */}

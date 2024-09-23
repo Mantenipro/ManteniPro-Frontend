@@ -25,15 +25,15 @@ export default function TaskClose() {
   return (
     <div className='min-h-screen w-full bg-[#d8d5d5]'>
       <NavbarTecnicoMobile />
-      <section className='m-6 flex h-[75vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
+      <section className='m-6 flex h-[75vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:p-10 md:m-10'>
         <HeaderTecnicoMobile />
 
-        <div className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex flex-col gap-3 overflow-y-auto text-sm'>
+        <div className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex flex-col gap-3 overflow-y-auto text-sm md:text-lg'>
           {detailTask.map((item) => {
             return (
               <div
                 key={`orderDetail-${item.id}`}
-                className='mb-2 flex w-full flex-col gap-2 text-sm'
+                className='mb-2 flex w-full flex-col gap-2 text-sm md:text-lg'
               >
                 <span className='rounded bg-slate-300 px-2 font-semibold text-slate-700'>
                   {item.name_machine}
@@ -60,7 +60,7 @@ export default function TaskClose() {
           <span className='rounded bg-slate-300 p-2 text-slate-700'>...</span>
           <button
             onClick={() => handleCloseTask(id)}
-            className='m-auto mt-8 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold'
+            className='m-auto mt-8 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold md:text-xl md:p-4 md:px-5'
           >
             Enviar
           </button>

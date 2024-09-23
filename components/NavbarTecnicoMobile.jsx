@@ -11,7 +11,7 @@ export default function NavbarTecnicoMobile() {
         <ExitToApp className='size-5 text-slate-600' />
       </div>
       <div className='grid w-full bg-gradient-to-b from-[#31416d] to-[#232c48]'>
-        <span className='place-content-center p-1 text-center text-lg font-medium text-slate-300'>
+        <span className='place-content-center p-1 text-center text-lg font-medium text-slate-300 md:p-2 md:text-2xl'>
           Mantenipro
         </span>
       </div>

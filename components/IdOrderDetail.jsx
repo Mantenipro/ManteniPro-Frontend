@@ -12,10 +12,30 @@ export default function IdOrderDetail({
 }) {
   return (
     <section className='flex flex-col gap-3 p-1'>
-      <span className='font-semibold'>{tit_Order}</span>
-      <img src={foto} alt='task-photo' className='h-32 w-auto rounded-md' />
+      <span className='font-semibold md:text-xl md:font-bold'>{tit_Order}</span>
+      <img
+        src={foto}
+        alt='task-photo'
+        className='h-32 w-auto rounded-md md:hidden'
+      />
+      <hr className='' />
+      {/* USER DATA:MD */}
+      {/* <div className='md:hidden'>
+        <UserData
+          key={`useData-${item.id}`}
+          id={id}
+          time={item.time}
+          fecha={item.fecha}
+          user={item.user}
+          user_photo={item.user_photo}
+          email_user={item.email_user}
+          direccion={item.direccion}
+          compania={item.compania}
+          desc_falla={item.desc_falla}
+        />
+      </div> */}
       {/* DATA MACHINE */}
-      <div className='flex flex-col gap-4 rounded-lg bg-blue-950 p-2 text-[12px] text-slate-200'>
+      <div className='flex flex-col gap-4 rounded-lg bg-blue-950 p-2 text-[12px] text-slate-200 md:ml-auto md:w-[30dvh]'>
         <span className='m-auto text-xl font-bold text-yellow-300'>
           Datos del equipo
         </span>

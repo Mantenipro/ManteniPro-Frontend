@@ -12,14 +12,14 @@ export default function OrderClosed() {
   return (
     <div>
       <NavbarTecnicoMobile />
-      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
+      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:h-auto md:p-10'>
         <HeaderTecnicoMobile />
-        <span className='m-auto my-3 font-semibold text-slate-200'>
+        <span className='m-auto my-3 font-semibold text-slate-200 md:text-xl'>
           Orden Cerrada
         </span>
         {/* orden cerrada seccion */}
-        <div className='-mx-2 flex max-h-screen flex-col rounded bg-slate-100 p-3 text-center'>
-          <span className='mb-2 mr-auto font-semibold text-slate-800'>
+        <div className='-mx-2 flex max-h-screen flex-col rounded bg-slate-100 p-3 text-center md:mx-5 md:text-xl'>
+          <span className='mb-2 mr-auto font-semibold text-slate-800 md:hidden'>
             Reparar cable
           </span>
           <div className='flex w-full flex-col gap-2'>
@@ -29,7 +29,7 @@ export default function OrderClosed() {
               readOnly
               disabled
               value={id}
-              className='w-full rounded border-2 border-slate-300 p-1 text-sm text-slate-800'
+              className='w-full rounded border-2 border-slate-300 p-1 text-sm text-slate-800 md:text-lg'
             />
             <SubtitleMobile children={'Solucion del Ingeniero'} />
             <textarea
@@ -39,25 +39,25 @@ export default function OrderClosed() {
               id=''
               className='w-full rounded border-2 border-slate-300 p-1 text-sm text-slate-800'
             ></textarea>
-            <div className='flex items-center justify-between'>
+            <div className='flex w-auto items-center justify-between md:w-full md:flex-col'>
               <SubtitleMobile children={'Inicio:'} />
               <input
                 type='date'
                 disabled
                 name=''
                 id=''
-                className='ml-auto rounded-lg border-2 border-slate-300 p-1 text-sm text-slate-800'
+                className='ml-auto rounded-lg border-2 border-slate-300 p-1 text-sm text-slate-800 md:w-full md:text-lg'
               />
             </div>
-            <div className='flex items-center'>
+            <div className='flex items-center md:flex-col'>
               <SubtitleMobile children={'Termino:'} />
-              <div className='ml-auto flex'>
+              <div className='ml-auto flex w-auto md:w-full'>
                 <input
                   type='date'
                   disabled
                   name=''
                   id=''
-                  className='rounded-lg border-2 border-slate-300 p-1 text-sm text-slate-800'
+                  className='w-full rounded-lg border-2 border-slate-300 p-1 text-sm text-slate-800 md:text-lg'
                 />
               </div>
             </div>
@@ -73,7 +73,7 @@ export default function OrderClosed() {
           </div>
         </div>
         <Link href={`/ticket_resolved`}>
-          <button className='m-auto mt-8 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold'>
+          <button className='m-auto mt-8 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold md:w-full'>
             Competado
           </button>
         </Link>

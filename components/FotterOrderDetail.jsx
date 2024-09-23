@@ -12,8 +12,12 @@ export default function FotterOrderDetail() {
   return (
     <div>
       {/* COMMENTS */}
-      <div className='flex flex-col'>
+      <div className='flex flex-col md:flex-row'>
+        <span className='md:hidden'>Comentarios</span>
         <span>Comentarios</span>
+        <div>
+          
+        </div>
         <textarea
           name=''
           id=''
