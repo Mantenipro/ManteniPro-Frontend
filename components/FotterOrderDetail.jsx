@@ -1,6 +1,14 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 export default function FotterOrderDetail() {
+  const router = useRouter()
+  const { id } = router.query
+
+  const handleCloseTask = () => {
+    router.push(`/task_close/${id}`)
+  }
+
   return (
     <div>
       {/* COMMENTS */}
@@ -29,7 +37,11 @@ export default function FotterOrderDetail() {
         {/* <button className='m-4 mx-8 rounded bg-gradient-to-t from-blue-800 to-blue-950 p-3 text-slate-200 transition-colors duration-300 hover:from-yellow-600 hover:to-yellow-400 hover:text-slate-950'>
           CERRAR
         </button> */}
-        <button className='m-4 mx-8 rounded bg-gradient-to-t from-blue-800 to-blue-950 p-3 text-slate-200 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold'>
+
+        <button
+          onClick={handleCloseTask}
+          className='m-4 mx-8 rounded bg-gradient-to-t from-blue-800 to-blue-950 p-3 text-slate-200 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold'
+        >
           CERRAR
         </button>
       </div>
