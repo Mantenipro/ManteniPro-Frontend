@@ -4,6 +4,7 @@ const priorityOptions = [
   { label: 'Baja', value: 'Baja', color: 'bg-green-500' },
   { label: 'Media', value: 'Media', color: 'bg-yellow-500' },
   { label: 'Alta', value: 'Alta', color: 'bg-red-500' },
+  { label: 'Sin Prioridad', value: 'Sin Prioridad', color: 'bg-gray-500' },
 ];
 
 const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
@@ -15,7 +16,7 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
   const handleCheckboxChange = (option) => {
     if (selectedPriorities.includes(option)) {
       setSelectedPriorities(selectedPriorities.filter((priority) => priority !== option));
-    } else if (selectedPriorities.length < 2) {
+    } else {
       setSelectedPriorities([...selectedPriorities, option]);
     }
   };
@@ -60,7 +61,7 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
       {showDropdown && (
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-40 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-48 md:w-64 md:max-h-60"
+          className="fixed bg-white text-black w-32 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-40 md:w-48 md:max-h-60"
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
@@ -70,18 +71,20 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
             {priorityOptions.map(({ label, value, color }) => (
               <li
                 key={value}
-                className="flex items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm"
+                className="flex items-center justify-between p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm"
                 onClick={() => handleCheckboxChange(value)}
               >
-                <span className={`w-3 h-3 rounded-full ${color} mr-2 md:w-4 md:h-4`} />
-                <span className={selectedPriorities.includes(value) ? 'font-medium' : ''}>
-                  {label}
-                </span>
+                <div className="flex items-center">
+                  <span className={`w-3 h-3 rounded-full ${color} mr-2 md:w-4 md:h-4`} />
+                  <span className={selectedPriorities.includes(value) ? 'font-medium' : ''}>
+                    {label}
+                  </span>
+                </div>
                 <input
                   type="checkbox"
                   checked={selectedPriorities.includes(value)}
                   readOnly
-                  className="ml-2 h-3 w-3 md:h-4 md:w-4"
+                  className="h-3 w-3 md:h-4 md:w-4"
                 />
               </li>
             ))}
@@ -93,6 +96,8 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
 };
 
 export default PriorityFilter;
+
+
 
 
 
