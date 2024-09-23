@@ -73,7 +73,7 @@ export default function OrderClosed() {
           </div>
         </div>
         <Link href={`/ticket_resolved`}>
-          <button className='m-auto mt-8 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold md:w-full'>
+          <button className='mt-8 w-full rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold'>
             Competado
           </button>
         </Link>

@@ -12,24 +12,11 @@ export default function UserData({
   desc_falla
 }) {
   return (
-    <section>
+    <section className='md:text-[15px]'>
       {/* DATA USER */}
-      <div className='flex flex-col items-center justify-center'>
-        <span>ID Orden de Trabajo</span>
-        <span>#{id}</span>
-      </div>
-      <div className='mt-2 flex items-center justify-evenly'>
-        <div className='flex flex-col items-center justify-center'>
-          <span>Tiempo estimado</span>
-          <span>{time}</span>
-        </div>
-        <div className='flex flex-col items-center justify-center'>
-          <span>Fecha</span>
-          <span>{fecha}</span>
-        </div>
-      </div>
-      <hr className='my-2 mt-4 h-1 w-full bg-gray-300' />
-      <span>Reportado por:</span>
+
+      <hr className='my-2 mt-4 h-1 w-full bg-gray-300 md:hidden' />
+      <span className='font-medium'>Reportado por:</span>
       <div className='mt-3 flex items-center'>
         <img
           src={user_photo}
@@ -42,20 +29,16 @@ export default function UserData({
         </div>
       </div>
 
-      <div className='mt-5 flex items-center pl-1'>
+      <div className='mt-5 flex items-center pl-1 md:mt-1'>
         <span className='m-3'>Direccion:</span>
         <span>{direccion}</span>
       </div>
 
-      <div className='my-5 flex items-center'>
+      <div className='my-5 flex items-center md:mt-1'>
         <span className='m-3'>Compañia:</span>
         <span>{compania}</span>
       </div>
 
-      <div className='flex flex-col gap-2'>
-        <span className=''>Descripción</span>
-        <span className='rounded bg-slate-300 p-1 py-3'>{desc_falla}</span>
-      </div>
       {/* END DATA USER */}
     </section>
   )
