@@ -7,6 +7,11 @@ import SearchInputTecnico from '@/components/SearchInputTecnico'
 import LefthDashboard from '@/components/LefthDashboard'
 import TaskCard from '@/components/TaskCard'
 
+import { Montserrat, Source_Sans_3 } from 'next/font/google'
+
+const montserrat = Montserrat({ subsets: ['latin'] })
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+
 export default function HomeTecnico() {
   const dummyFails = [
     {
@@ -58,7 +63,9 @@ export default function HomeTecnico() {
   }
 
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white'>
+    <div
+      className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white ${montserrat.className} `}
+    >
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
         <LefthDashboard />
@@ -69,9 +76,9 @@ export default function HomeTecnico() {
 
         {/* TASKS SECTION */}
         <div className='flex flex-col'>
-          <span className='text-center font-semibold'>Tareas</span>
+          <span className='text-center font-semibold md:text-xl'>Tareas</span>
 
-          <div className='mt-1 flex justify-around text-center'>
+          <div className='mt-1 flex justify-around text-center md:text-xl'>
             <button className='w-full rounded-md p-2 transition duration-300 ease-in-out hover:bg-blue-950 focus:border-b-2 focus:border-b-blue-400 focus:bg-blue-950'>
               Completas
             </button>
@@ -83,7 +90,11 @@ export default function HomeTecnico() {
 
           <section className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex max-h-[55vh] flex-col gap-3 overflow-y-auto p-4 lg:min-h-[85vh] lg:max-w-[25dvh] lg:flex-1'>
             {dummyFails.map((task, index) => (
-              <div key={index} onClick={() => handleCardClick(task.id_order)}>
+              <div
+                key={index}
+                onClick={() => handleCardClick(task.id_order)}
+                className={`${sourceSans3.className}`}
+              >
                 <TaskCard
                   key={index}
                   picture={task.picture}

@@ -9,6 +9,10 @@ import EquipmentInfo from '@/components/EquipmentInfo'
 import OrderTimeline from '@/components/OrderTimeline'
 import LefthDashboard from '@/components/LefthDashboard'
 
+import { Montserrat, Source_Sans_3 } from 'next/font/google'
+
+const montserrat = Montserrat({ subsets: ['latin'] })
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 export default function TaskDetail() {
   const router = useRouter()
@@ -37,7 +41,7 @@ export default function TaskDetail() {
   ]
 
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5]  lg:flex lg:max-w-screen-lg lg:flex-row lg:bg-white'>
+    <div className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:max-w-screen-lg lg:flex-row lg:bg-white ${montserrat.className}`}>
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
         <LefthDashboard />
@@ -98,7 +102,7 @@ export default function TaskDetail() {
         </div>
 
         {/* ORDER DETAIL SECTION DESKTOP*/}
-        <div className='scrollbar-thin scrollbar-thumb-rounded -mx-2 mt-4 hidden flex-col gap-3 overflow-y-auto rounded-md bg-slate-200 p-1 py-3 pb-7 text-slate-800 md:mx-4 md:flex md:px-5 '>
+        <div className='scrollbar-thin scrollbar-thumb-rounded -mx-2 mt-4 hidden flex-col gap-3 overflow-y-auto rounded-md bg-slate-200 p-1 py-3 pb-7 text-slate-800 md:mx-4 md:flex md:px-5'>
           {/* ORDER TITLE */}
           {detailTask.map((item) => {
             return (
@@ -167,7 +171,7 @@ export default function TaskDetail() {
                   {item.desc_falla.length > 0 && (
                     <div className='flex h-full flex-col justify-between gap-2'>
                       <span className='font-medium'>Descripción</span>
-                      <span className='flex-1 rounded bg-slate-300 p-1 py-3'>
+                      <span className={`flex-1 rounded bg-slate-300 p-1 py-3 ${sourceSans3.className}`}>
                         {item.desc_falla}
                       </span>
                     </div>

@@ -3,7 +3,7 @@ import { Today } from '@mui/icons-material'
 
 export default function TaskCard({ picture, title, status, date, idOrder }) {
   return (
-    <div className='flex items-center rounded-xl border-2 bg-slate-100 p-2 text-sm text-slate-500 transition duration-300 ease-in-out hover:bg-transparent hover:text-white'>
+    <div className='flex items-center rounded-xl border-2 bg-slate-100 p-2 text-sm text-slate-500 transition duration-300 ease-in-out hover:bg-transparent hover:text-white md:text-xl'>
       <img
         src={picture}
         alt='task-photo'

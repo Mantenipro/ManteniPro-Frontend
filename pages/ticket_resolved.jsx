@@ -6,9 +6,16 @@ import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
 import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
 import LefthDashboard from '@/components/LefthDashboard'
 
+import { Montserrat, Source_Sans_3 } from 'next/font/google'
+
+const montserrat = Montserrat({ subsets: ['latin'] })
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+
 export default function TicketResolved() {
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white'>
+    <div
+      className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white ${montserrat.className}`}
+    >
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
         <LefthDashboard />

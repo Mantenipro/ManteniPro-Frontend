@@ -5,6 +5,11 @@ import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
 import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
 import LefthDashboard from '@/components/LefthDashboard'
 
+import { Montserrat, Source_Sans_3 } from 'next/font/google'
+
+const montserrat = Montserrat({ subsets: ['latin'] })
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+
 export default function TaskClose() {
   const router = useRouter()
   const { id } = router.query
@@ -24,7 +29,7 @@ export default function TaskClose() {
   ]
 
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white'>
+    <div className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white ${montserrat.className}`}>
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
         <LefthDashboard />
@@ -52,7 +57,7 @@ export default function TaskClose() {
             )
           })}
           <span>Solucion de la Incidencia</span>
-          <span className='rounded bg-slate-300 p-2 text-slate-700'>
+          <span className={`rounded bg-slate-300 p-2 text-slate-700 ${sourceSans3.className}`}>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero ab
             molestiae accusamus alias id esse eaque aliquid illum ducimus magnam
             quaerat eius dolores, unde obcaecati tempora, quis molestias fugiat

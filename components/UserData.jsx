@@ -12,7 +12,7 @@ export default function UserData({
   desc_falla
 }) {
   return (
-    <section className='md:text-[15px]'>
+    <section className='md:text-[15]'>
       {/* DATA USER */}
 
       <hr className='my-2 mt-4 h-1 w-full bg-gray-300 md:hidden' />
