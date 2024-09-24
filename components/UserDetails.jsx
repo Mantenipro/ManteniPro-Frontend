@@ -10,8 +10,7 @@ const UserDetails = () => {
 
   return (
     <div
-      className={`${sourceSans3.className} ml-4 bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[30rem] min-h-[35rem]`}
-      style={{ paddingBottom: '20px' }}
+      className={`${sourceSans3.className} ml-4 bg-white shadow-lg rounded-lg px-4 pt-4 w-full max-w-[40rem] min-h-[35rem] mx-auto`}
     >
       {/* Imagen */}
       <Image
@@ -28,7 +27,7 @@ const UserDetails = () => {
             className='block text-gray-700 text-sm font-semibold mb-[1px]'
             htmlFor='nombreEquipo'
           >
-            id
+            ID
           </label>
           <input
             {...register('id')}
@@ -73,7 +72,7 @@ const UserDetails = () => {
             className='block text-gray-700 text-sm font-semibold mb-[1px]'
             htmlFor='contraseña'
           >
-            contraseña
+            Contraseña
           </label>
           <input
             {...register('contraseña')}
@@ -83,19 +82,19 @@ const UserDetails = () => {
           />
         </div>
 
-        <div className='mb-4'>
+        <div className='mb-4 flex items-center'>
+          <input
+            {...register('verificado')}
+            className='form-checkbox h-5 w-5 text-blue-600'
+            id='verificado'
+            type='checkbox'
+          />
           <label
-            className='block text-gray-700 text-sm font-semibold mb-[1px]'
+            className='ml-2 text-gray-700 text-sm font-semibold'
             htmlFor='verificado'
           >
             Verificado
           </label>
-          <input
-            {...register('verificado')}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='verificado'
-            type='checkbox'
-          />
         </div>
       </div>
     </div>

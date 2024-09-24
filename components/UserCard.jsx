@@ -100,7 +100,7 @@ const UserCard = ({ user }) => {
           </div>
 
           {/* Correo electronico */}
-          <div className='hidden flex flex-col justify-center ml-4'>
+          <div className='hidden md:flex flex-col justify-center ml-4'>
             <span
               className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}
             >
