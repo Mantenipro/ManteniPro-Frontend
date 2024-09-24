@@ -23,7 +23,7 @@ const QRCreado = () => {
           </div>
         </div>
       </main>
-    </div> 
+    </div>
   )
 };
 

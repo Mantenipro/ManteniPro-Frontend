@@ -9,17 +9,17 @@ const EquipmentDetails = () => {
   const { register } = useForm();
 
   return (
-    <div className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[30rem] min-h-[35rem]`} style={{ paddingBottom: '20px' }}>
+    <div className={`${sourceSans3.className} ml-4 bg-white shadow-lg rounded-lg px-4 pt-4 max-w-[30rem] min-h-[35rem]`} style={{ paddingBottom: '20px' }}>
       {/* Imagen */}
       <Image
         src="/airConditioning.jpg"  
         alt="Air Conditioning"
         width={200} 
         height={200}
-        className="rounded-lg mx-auto mb-4"
+        className="rounded-lg mx-auto mb-2"
       />
 
-      <div className="space-y-6">
+      <div className="space-y-6 ml-2">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="nombreEquipo">
             Nombre del equipo
