@@ -1,15 +1,28 @@
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
-import Link from 'next/link'
-import Login from './Login'
+
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
-export default function Home() {
+const inputData = [
+  {
+    icon: '/iconemail.svg',
+    placeholder: 'Correo electrónico'
+  },
+  {
+    icon: '/iconpassword.svg',
+    placeholder: 'Contraseña'
+  }
+]
+
+export default function LoginPage() {
   return (
     <main className={`${montserrat.className}`}>
-      <Login />
+      <h1 className="text-black">Hello from development!!</h1>
+      
+      
     </main>
   )
 }
+
 
