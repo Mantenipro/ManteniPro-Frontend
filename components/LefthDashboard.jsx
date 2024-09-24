@@ -47,7 +47,9 @@ export default function LefthDashboard() {
         <div className='Seccion1'>
           <p className='font-bold'>MAIN</p>
           <div className='flex flex-col'>
-            <MenuItem icon='/tickets-dash.svg' title='Tickets' />
+            <Link href='/tickets_dasboard'>
+              <MenuItem icon='/tickets-dash.svg' title='Tickets' />
+            </Link>
             <MenuItem
               icon='/perfile-dash.svg'
               title='Perfiles'

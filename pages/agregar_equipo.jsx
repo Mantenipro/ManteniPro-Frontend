@@ -24,7 +24,7 @@ const toggleProfilesMenu = () => {
 }
 
   return (
-    <div className='min-h-screen flex'>
+    <div className={`min-h-screen flex ${montserrat.className}`}>
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'

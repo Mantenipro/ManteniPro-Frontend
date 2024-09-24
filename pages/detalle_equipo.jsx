@@ -24,7 +24,9 @@ const DetalleEquipo = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gray-100 flex relative'>
+    <div
+      className={`min-h-screen bg-gray-100 flex relative ${montserrat.className}`}
+    >
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -33,15 +35,22 @@ const DetalleEquipo = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 p-6 flex flex-col lg:flex-row'>
+      <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
         <div className='flex-1 flex flex-col'>
-          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4'>
-            <BurgerMenu className='text-sm' />
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between'>
+            <div className='lg:hidden top-4 left-4 z-50'>
+              <button
+                onClick={toggleMenu}
+                className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
+              >
+                {isMenuOpen ? '✖' : '☰'}
+              </button>
+            </div>
           </div>
           <EquipmentDetails />
         </div>
 
-        <div className='flex-shrink-0  lg:mt-5 lg:ml-8 '>
+        <div className='flex-shrink-0 lg:ml-8 '>
           <QRCodeDisplay />
         </div>
       </main>

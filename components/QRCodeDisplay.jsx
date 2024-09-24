@@ -6,7 +6,7 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const QRCodeDisplay = () => {
   return (
-    <div className={`${sourceSans3.className} bg-white rounded-lg px-6 py-4 max-w-[28rem] flex flex-col justify-between min-h-[32rem] shadow-lg`}>
+    <div className={`${sourceSans3.className} mr-4 bg-white rounded-lg px-6 py-4 max-w-[28rem] flex flex-col justify-between min-h-[32rem] shadow-lg`}>
       
       <div className="w-full mb-4">
         <Image

@@ -36,7 +36,7 @@ const FormEquipment = ({ initialData }) => {
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg lg:px-4 lg:pt-4 lg:pb-4 max-w-[34rem]`}
+      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg lg:px-4 lg:pb-4 max-w-[34rem]`}
     >
       <div className='space-y-4'>
         <div className='mb-4'>
@@ -160,7 +160,7 @@ const FormEquipment = ({ initialData }) => {
         </div>
       </div>
 
-      <div className='flex justify-center mt-6 pb-1 mb-5'>
+      <div className='flex justify-center lg:mt-2'>
         <button
           type='submit'
           className='py-3 px-6 bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold rounded-lg shadow-md hover:from-[#1a1d24] hover:to-[#373f5a] focus:outline-none focus:ring-4 focus:ring-blue-300'
