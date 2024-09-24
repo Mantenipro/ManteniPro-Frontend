@@ -21,12 +21,12 @@ const MachineCard = ({ machine }) => {
   };
 
   const handleCardClick = () => {
-    router.push('/detalle_equipo'); 
+    router.push('/infoEquipo'); 
   };
 
   const handleEditClick = (e) => {
     e.stopPropagation(); 
-    router.push('/actualizar_equipo'); 
+    router.push('/editarEquipo'); 
   };
 
   const handleDeleteClick = (e) => {
@@ -153,7 +153,7 @@ const MachineCard = ({ machine }) => {
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
             <h2 className="text-xl font-bold text-red-600 mb-4">¡Advertencia!</h2>
             <p className="text-gray-700 mb-4">¿Estás seguro de que deseas eliminar este equipo? Esta acción no se puede deshacer.</p>
-            <p className="text-gray-700 mb-4">Por favor, escribe <span className="font-bold">"DELETE"</span> para confirmar.</p>
+            <p className="text-gray-700 mb-4">Por favor, escribe <span className="font-bold">&quot;DELETE&quot;</span> para confirmar.</p>
 
             <input
               type="text"

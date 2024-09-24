@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import Link from 'next/link'
 import InputsLogin from '@/components/Inputs.login'

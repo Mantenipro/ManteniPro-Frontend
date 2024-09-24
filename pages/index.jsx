@@ -18,8 +18,6 @@ const inputData = [
 export default function LoginPage() {
   return (
     <main className={`${montserrat.className}`}>
-      <h1 className="text-black">Hello from development!!</h1>
-      
       
     </main>
   )

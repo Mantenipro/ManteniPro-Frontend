@@ -66,7 +66,7 @@ export default function LefthDashboard() {
                     <p className='text-sm'>Técnicos</p>
                   </div>
                 </Link>
-                <Link href='/usuarios'>
+                <Link href='/catalogoDeUsuariosv2'>
                   <div className='hover:bg-[#2D2F39] transition-all duration-300 ease-in-out rounded-md p-1'>
                     <p className='text-sm'>Usuarios</p>
                   </div>
