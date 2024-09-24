@@ -3,7 +3,7 @@ import { Person, Settings, ExitToApp, ArrowBack } from '@mui/icons-material'
 
 export default function NavbarTecnicoMobile() {
   return (
-    <header className='flex flex-col'>
+    <header className='flex flex-col lg:hidden'>
       <div className='flex items-center gap-5 p-2'>
         <ArrowBack className='mr-auto size-5 text-slate-600' />
         <Settings className='size-5 text-slate-600' />

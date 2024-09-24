@@ -7,6 +7,8 @@ import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
 import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
 import EquipmentInfo from '@/components/EquipmentInfo'
 import OrderTimeline from '@/components/OrderTimeline'
+import LefthDashboard from '@/components/LefthDashboard'
+
 
 export default function TaskDetail() {
   const router = useRouter()
@@ -35,8 +37,11 @@ export default function TaskDetail() {
   ]
 
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5]'>
+    <div className='min-h-screen w-full bg-[#d8d5d5]  lg:flex lg:max-w-screen-lg lg:flex-row lg:bg-white'>
       <NavbarTecnicoMobile />
+      <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
+        <LefthDashboard />
+      </div>
       <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:mx-12 md:p-8'>
         <HeaderTecnicoMobile />
         <span className='m-auto mt-6 font-semibold text-slate-200 md:mt-4 md:text-xl'>
@@ -92,8 +97,8 @@ export default function TaskDetail() {
           <ReviewOrderSection />
         </div>
 
-        {/* ORDER DETAIL SECTION TABLET/DESKTOP*/}
-        <div className='scrollbar-thin scrollbar-thumb-rounded -mx-2 mt-4 hidden flex-col gap-3 overflow-y-auto rounded-md bg-slate-200 p-1 py-3 pb-7 text-slate-800 md:mx-4 md:flex md:px-5'>
+        {/* ORDER DETAIL SECTION DESKTOP*/}
+        <div className='scrollbar-thin scrollbar-thumb-rounded -mx-2 mt-4 hidden flex-col gap-3 overflow-y-auto rounded-md bg-slate-200 p-1 py-3 pb-7 text-slate-800 md:mx-4 md:flex md:px-5 '>
           {/* ORDER TITLE */}
           {detailTask.map((item) => {
             return (

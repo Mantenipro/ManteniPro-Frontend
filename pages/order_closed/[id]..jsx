@@ -4,15 +4,19 @@ import Link from 'next/link'
 import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
 import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
 import SubtitleMobile from '@/components/SubtitleMobile'
+import LefthDashboard from '@/components/LefthDashboard'
 
 export default function OrderClosed() {
   const router = useRouter()
   const { id } = router.query
 
   return (
-    <div>
+    <div className='min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white'>
       <NavbarTecnicoMobile />
-      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:h-auto md:p-10'>
+      <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
+        <LefthDashboard />
+      </div>
+      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:h-auto md:p-10 '>
         <HeaderTecnicoMobile />
         <span className='m-auto my-3 font-semibold text-slate-200 md:text-xl'>
           Orden Cerrada

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 
 import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
 import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
+import LefthDashboard from '@/components/LefthDashboard'
 
 export default function TaskClose() {
   const router = useRouter()
@@ -23,12 +24,15 @@ export default function TaskClose() {
   ]
 
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5]'>
+    <div className='min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white'>
       <NavbarTecnicoMobile />
-      <section className='m-6 flex h-[75vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:p-10 md:m-10'>
+      <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
+        <LefthDashboard />
+      </div>
+      <section className='m-6 flex h-[75vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:p-10'>
         <HeaderTecnicoMobile />
 
-        <div className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex flex-col gap-3 overflow-y-auto text-sm md:text-lg'>
+        <div className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex flex-col gap-3 overflow-y-auto text-sm md:text-lg lg:h-full'>
           {detailTask.map((item) => {
             return (
               <div
@@ -60,7 +64,7 @@ export default function TaskClose() {
           <span className='rounded bg-slate-300 p-2 text-slate-700'>...</span>
           <button
             onClick={() => handleCloseTask(id)}
-            className='m-auto mt-8 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold md:text-xl md:p-4 md:px-5'
+            className='m-auto mt-8 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold md:p-4 md:px-5 md:text-xl'
           >
             Enviar
           </button>

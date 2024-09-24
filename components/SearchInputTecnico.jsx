@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function SearchInputTecnico() {
   return (
-    <div className='relative py-3'>
+    <div className='relative py-3 lg:hidden'>
       <label className='absolute left-4 top-1 rounded-md bg-[#2E3C65] px-1 text-[11px] text-yellow-300'>
         Search
       </label>

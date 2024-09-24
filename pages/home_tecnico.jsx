@@ -1,10 +1,11 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import NavbarTecnicoMobile from '../components/NavbarTecnicoMobile'
-import HeaderTecnicoMobile from '../components/HeaderTecnicoMobile'
-import SearchInputTecnico from '../components/SearchInputTecnico'
-import TaskCard from '../components/TaskCard'
+import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
+import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
+import SearchInputTecnico from '@/components/SearchInputTecnico'
+import LefthDashboard from '@/components/LefthDashboard'
+import TaskCard from '@/components/TaskCard'
 
 export default function HomeTecnico() {
   const dummyFails = [
@@ -57,11 +58,13 @@ export default function HomeTecnico() {
   }
 
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5]'>
+    <div className='min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white'>
       <NavbarTecnicoMobile />
-      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
+      <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
+        <LefthDashboard />
+      </div>
+      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 lg:h-full lg:max-w-sm'>
         <HeaderTecnicoMobile />
-
         <SearchInputTecnico />
 
         {/* TASKS SECTION */}
@@ -78,7 +81,7 @@ export default function HomeTecnico() {
           </div>
           {/* CARD TASK */}
 
-          <section className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex max-h-[55vh] flex-col gap-3 overflow-y-auto p-4'>
+          <section className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex max-h-[55vh] flex-col gap-3 overflow-y-auto p-4 lg:min-h-[85vh] lg:max-w-[25dvh] lg:flex-1'>
             {dummyFails.map((task, index) => (
               <div key={index} onClick={() => handleCardClick(task.id_order)}>
                 <TaskCard

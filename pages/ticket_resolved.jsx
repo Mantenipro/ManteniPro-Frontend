@@ -4,11 +4,15 @@ import { CheckCircle } from '@mui/icons-material'
 
 import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
 import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
+import LefthDashboard from '@/components/LefthDashboard'
 
 export default function TicketResolved() {
   return (
-    <div className='min-h-screen w-full bg-[#d8d5d5]'>
+    <div className='min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white'>
       <NavbarTecnicoMobile />
+      <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
+        <LefthDashboard />
+      </div>
       <section className='m-6 flex flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
         <HeaderTecnicoMobile />
 
