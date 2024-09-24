@@ -35,9 +35,9 @@ const DetalleEquipo = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
+      <main className='flex-1 flex flex-col lg:flex-row'>
         <div className='flex-1 flex flex-col'>
-          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between'>
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between ml-3 mt-2'>
             <div className='lg:hidden top-4 left-4 z-50'>
               <button
                 onClick={toggleMenu}

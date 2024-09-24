@@ -24,7 +24,9 @@ const toggleProfilesMenu = () => {
 }
 
   return (
-    <div className={`min-h-screen bg-white flex relative ${montserrat.className}`}>
+    <div
+      className={`min-h-screen bg-white flex relative ${montserrat.className}`}
+    >
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -34,7 +36,7 @@ const toggleProfilesMenu = () => {
       </div>
 
       <main className='flex-1 ml-5 flex flex-col'>
-        <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between'>
+        <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mt-2'>
           <div className='lg:hidden top-4 left-4 z-50'>
             <button
               onClick={toggleMenu}
