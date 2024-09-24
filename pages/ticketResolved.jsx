@@ -28,7 +28,7 @@ export default function TicketResolved() {
             Ticket Solucionado !
           </span>
           <CheckCircle className='mb-16 w-full text-7xl text-yellow-300 md:text-9xl' />
-          <Link href='/home_tecnico'>
+          <Link href='/homeTecnico'>
             <button className='hover:text-bold rounded border border-blue-700 bg-[#EEE727] px-3 font-semibold text-blue-950 hover:border-2 hover:border-slate-200 hover:bg-transparent hover:text-slate-200 md:rounded-xl md:p-4 md:text-3xl'>
               Ir al Inicio
             </button>

@@ -6,7 +6,7 @@ export default function ReviewOrderSection() {
   const { id } = router.query
 
   const handleCloseTask = () => {
-    router.push(`/task_close/${id}`)
+    router.push(`/taskClose/${id}`)
   }
 
   return (

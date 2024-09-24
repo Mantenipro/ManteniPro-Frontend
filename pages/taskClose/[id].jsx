@@ -15,7 +15,7 @@ export default function TaskClose() {
   const { id } = router.query
 
   const handleCloseTask = () => {
-    router.push(`/order_closed/${id}`)
+    router.push(`/orderClosed/${id}`)
   }
   const detailTask = [
     {

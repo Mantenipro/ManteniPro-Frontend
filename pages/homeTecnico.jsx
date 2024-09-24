@@ -59,7 +59,7 @@ export default function HomeTecnico() {
   const router = useRouter()
 
   const handleCardClick = (id) => {
-    router.push(`/task_detail/${id}`)
+    router.push(`/taskDetail/${id}`)
   }
 
   return (
