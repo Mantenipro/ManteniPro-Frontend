@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
-import TempSidebar from '../components/TempSidebar';
 import Title from '../components/Title';
-import BurgerMenu from '../components/BurgerMenu';
 import InfoPanel from '../components/InfoPanel';
 import TicketsStatus from '../components/TicketsStatus';
 import LefthDashboard from '@/components/LefthDashboard'

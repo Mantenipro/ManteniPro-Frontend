@@ -1,7 +1,6 @@
 import React from 'react';
 import Title from '../components/Title';
 import FormEquipment from '../components/FormEquipment';
-import BurgerMenu from '../components/BurgerMenu';
 import LefthDashboard from '@/components/LefthDashboard';
 import { useState } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
@@ -24,7 +23,9 @@ const toggleProfilesMenu = () => {
 }
 
   return (
-    <div className={`min-h-screen flex ${montserrat.className}`}>
+    <div
+      className={`min-h-screen bg-white flex relative ${montserrat.className}`}
+    >
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -33,23 +34,22 @@ const toggleProfilesMenu = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 ml-5 flex flex-col'>
-        <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mt-2'>
-          <div className='lg:hidden top-4 left-4 z-50'>
-            <button
-              onClick={toggleMenu}
-              className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
-            >
-              {isMenuOpen ? '✖' : '☰'}
-            </button>
+      <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
+        <div className='flex-1 flex flex-col'>
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mt-2'>
+            <div className='lg:hidden top-4 left-4 z-50'>
+              <button
+                onClick={toggleMenu}
+                className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
+              >
+                {isMenuOpen ? '✖' : '☰'}
+              </button>
+            </div>
           </div>
-          <Title className='text-2xl lg:mt-0'>Agregar equipo</Title>
-        </div>
-
-        <div className='w-full flex flex-col lg:flex-row lg:space-x-6'>
-          <div className='w-full lg:w-2/3 max-w-2xl'>
-            <FormEquipment />
-          </div>
+          <Title className='text-2xl lg:mt-0'>
+            Agregar equipo
+          </Title>
+          <FormEquipment />
         </div>
       </main>
     </div>

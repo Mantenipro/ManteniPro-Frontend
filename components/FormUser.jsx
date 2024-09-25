@@ -1,5 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { Source_Sans_3 } from 'next/font/google'
@@ -7,19 +6,28 @@ import { Source_Sans_3 } from 'next/font/google'
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const FormUser = ({ initialData }) => {
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, reset } = useForm({
     defaultValues: initialData || {}
   })
 
-  const router = useRouter()
+  const [buttonText, setButtonText] = useState('Crear')
 
+  // Para depuración: verifica si los datos iniciales están llegando correctamente
   useEffect(() => {
-    if (initialData) {
-      Object.keys(initialData).forEach((key) => {
-        setValue(key, initialData[key])
-      })
+    console.log('initialData recibido:', initialData) // Verificar los datos iniciales
+  }, [initialData])
+
+  // Actualiza los campos del formulario y el texto del botón
+  useEffect(() => {
+    if (initialData && Object.keys(initialData).length > 0) {
+      console.log("Datos cargados, cambiando a 'Actualizar'")
+      reset(initialData) // Utiliza reset para asegurarte de que el formulario se actualiza con los nuevos datos
+      setButtonText('Actualizar')
+    } else {
+      console.log("Sin datos, cambiando a 'Crear'")
+      setButtonText('Crear')
     }
-  }, [initialData, setValue])
+  }, [initialData, reset])
 
   const handleFormSubmit = (data) => {
     console.log(data)
@@ -197,7 +205,7 @@ const FormUser = ({ initialData }) => {
           type='submit'
           className='py-3 px-6 lg:py-1 lg:px-12 bg-gradient-to-r from-[#21262D] to-[#414B66] text-white text-lg font-bold rounded-lg shadow-md hover:from-[#1a1d24] hover:to-[#373f5a] focus:outline-none focus:ring-4 focus:ring-blue-300'
         >
-          {initialData ? 'Actualizar' : 'Crear'}
+          {initialData ? 'Actualizar' : 'Agregar'}
         </button>
       </div>
     </form>

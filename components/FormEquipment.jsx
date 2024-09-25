@@ -36,10 +36,9 @@ const FormEquipment = ({ initialData }) => {
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg lg:px-4 lg:pb-4 max-w-[34rem] mt-2`}
+      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 w-full max-w-[71rem] min-h-[38rem] flex flex-col`}
     >
-      <div className='overflow-y-auto max-h-[40rem]'>
-        <div className='space-y-4'>
+      <div className='space-y-4 flex-1'>
           <div className='mb-4'>
             <label
               className='block text-gray-700 text-sm font-semibold mb-[2px]'
@@ -159,7 +158,7 @@ const FormEquipment = ({ initialData }) => {
               type='file'
             />
           </div>
-        </div>
+       
 
         <div className='flex justify-center mt-4 lg:mt-2'>
           <button

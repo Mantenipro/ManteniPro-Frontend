@@ -26,9 +26,9 @@ const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados, 
   };
 
   return (
-    <div className="bg-[#F5F5F5] p-4 rounded-lg">
+    <div className="bg-[#F5F5F5] rounded-lg">
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-xs">
        
         <StatusColumn 
           title={sections[currentSection].title} 
