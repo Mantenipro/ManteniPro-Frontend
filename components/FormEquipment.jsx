@@ -27,9 +27,9 @@ const FormEquipment = ({ initialData }) => {
 
    
     if (initialData) {
-      router.push('/qr_actualizado'); 
+      router.push('/qrActualizado'); 
     } else {
-      router.push('/qr_creado'); 
+      router.push('/qrCreado'); 
     }
   };
 

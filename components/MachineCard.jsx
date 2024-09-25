@@ -21,12 +21,12 @@ const MachineCard = ({ machine }) => {
   };
 
   const handleCardClick = () => {
-    router.push('/detalle_equipo'); 
+    router.push('/infoEquipo'); 
   };
 
   const handleEditClick = (e) => {
     e.stopPropagation(); 
-    router.push('/actualizar_equipo'); 
+    router.push('/editarEquipo'); 
   };
 
   const handleDeleteClick = (e) => {
