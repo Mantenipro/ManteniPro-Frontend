@@ -1,6 +1,4 @@
 import React from 'react';
-import TempSidebar from '../components/TempSidebar';
-import BurgerMenu from '../components/BurgerMenu';
 import EquipmentDetails from '../components/EquipmentDetails';
 import QRCodeDisplay from '../components/QRCodeDisplay';
 import LefthDashboard from '@/components/LefthDashboard'

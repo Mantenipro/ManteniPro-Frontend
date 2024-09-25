@@ -32,8 +32,8 @@ const DetalleUsuario = () => {
       </div>
 
       <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
-        <div className='flex-1 flex flex-col items-center justify-center px-4'>
-          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between'>
+        <div className='flex-1 flex flex-col items-center justify-center'>
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between '>
             <div className='lg:hidden top-4 left-4 z-50'>
               <button
                 onClick={toggleMenu}

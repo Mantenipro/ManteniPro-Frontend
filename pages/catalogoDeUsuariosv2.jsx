@@ -17,7 +17,8 @@ const dummys = [
     email: 'ASDAS@JUHASDH.COM',
     contraseña: 'ASD5246ASD',
     cargo: 'Usuario',
-    foto: '/qr.jpg'
+    foto: '/qr.jpg',
+    verificado: 'verificado'
   },
   {
     name: 'HUIKJJASJDKKASDK',
@@ -38,8 +39,9 @@ const dummys = [
     email: 'ASDAS@JUHASDH.COM',
     contraseña: 'ASD5246ASD',
     cargo: 'Usuario',
-    foto: '/qr.jpg'
-  },
+    foto: '/qr.jpg',
+    verificado: 'verificado'
+  }
 ]
 
 const Catalogo = () => {

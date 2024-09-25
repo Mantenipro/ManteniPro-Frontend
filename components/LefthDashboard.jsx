@@ -82,7 +82,7 @@ export default function LefthDashboard() {
           <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
           <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           <MenuItem icon='/signuot-dash.svg' title='Sign Out'>
-            <Link href='/loginPage'>
+            <Link href='/inicioSesion'>
               <p className='font-medium text-sm'></p>
             </Link>
           </MenuItem>

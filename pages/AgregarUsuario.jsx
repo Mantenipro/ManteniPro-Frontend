@@ -21,7 +21,9 @@ const AgregarUsuario = () => {
   }
 
   return (
-    <div className={`min-h-screen flex ${montserrat.className}`}>
+    <div
+      className={`min-h-screen bg-white flex relative ${montserrat.className}`}
+    >
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -30,23 +32,22 @@ const AgregarUsuario = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 ml-5 flex flex-col'>
-        <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between'>
-          <div className='lg:hidden top-4 left-4 z-50'>
-            <button
-              onClick={toggleMenu}
-              className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
-            >
-              {isMenuOpen ? '✖' : '☰'}
-            </button>
+      <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
+        <div className='flex-1 flex flex-col'>
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between '>
+            <div className='lg:hidden top-4 left-4 z-50'>
+              <button
+                onClick={toggleMenu}
+                className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
+              >
+                {isMenuOpen ? '✖' : '☰'}
+              </button>
+            </div>
           </div>
-          <Title className='text-2xl lg:mt-0'>Agregar Usuario</Title>
-        </div>
-
-        <div className='w-full flex flex-col lg:flex-row lg:space-x-6'>
-          <div className='w-full lg:w-2/3 max-w-2xl'>
-            <FormUser />
-          </div>
+          <Title className='text-2xl mt-2 lg:mt-0'>
+            Crear Perfil
+          </Title>
+          <FormUser />
         </div>
       </main>
     </div>

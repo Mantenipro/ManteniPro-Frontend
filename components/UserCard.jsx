@@ -20,10 +20,6 @@ const UserCard = ({ user }) => {
     setIsHovered(false)
   }
 
-  const handleCardClick = () => {
-    router.push('/InfoUsuario')
-  }
-
   const handleEditClick = (e) => {
     e.stopPropagation()
     router.push('/EditarUsuario')
@@ -58,7 +54,6 @@ const UserCard = ({ user }) => {
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={handleCardClick}
         className={`flex items-center justify-between bg-[#FAFAFA] shadow-md p-4 md:p-4 rounded-lg mb-4 transition-all duration-300 
         ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66] text-white' : ''} ${sourceSans3.className} 
         ${isHovered ? 'shadow-lg' : ''} cursor-pointer`}
@@ -110,7 +105,7 @@ const UserCard = ({ user }) => {
 
           <div className='flex-col justify-center ml-2 hidden lg:flex'>
             <span
-              className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}
+              className={`transition-colors duration-300 px-2 py-1 rounded-lg ${user.verificado ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
             >
               {user.verificado ? 'Verificado' : 'No verificado'}
             </span>
