@@ -21,12 +21,12 @@ const MachineCard = ({ machine }) => {
   };
 
   const handleCardClick = () => {
-    router.push('/detalle_equipo'); 
+    router.push('/infoEquipo'); 
   };
 
   const handleEditClick = (e) => {
     e.stopPropagation(); 
-    router.push('/actualizar_equipo'); 
+    router.push('/editarEquipo'); 
   };
 
   const handleDeleteClick = (e) => {
@@ -84,14 +84,14 @@ const MachineCard = ({ machine }) => {
           </div>
 
           {/* Código del equipo */}
-          <div className="hidden md:flex flex-col justify-center ml-4">
+          <div className="flex flex-col justify-center ml-4">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}>
-              {machine.code}
+              {machine.owner}
             </span>
           </div>
-
+          
           {/* Fabricante */}
-          <div className="flex flex-col justify-center ml-4">
+          <div className="hidden md:flex flex-col justify-center ml-4">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
               {machine.manufacturer}
             </span>
@@ -106,7 +106,7 @@ const MachineCard = ({ machine }) => {
           <div className="hidden lg:flex justify-center items-center mr-6"> 
             <Image 
               src={machine.qr} 
-              alt="QR Code" 
+              alt="QR owner" 
               width={50} 
               height={50} 
               className="mr-4"

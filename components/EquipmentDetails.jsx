@@ -19,8 +19,8 @@ const EquipmentDetails = () => {
         className="rounded-lg mx-auto mb-2"
       />
 
-      <div className="space-y-6 ml-2">
-        <div className="mb-4">
+      <div className="space-y-3 ml-2">
+        <div className="mb-1">
           <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="nombreEquipo">
             Nombre del equipo
           </label>
@@ -32,7 +32,7 @@ const EquipmentDetails = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-1">
           <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="modelo">
             Modelo
           </label>
@@ -44,7 +44,7 @@ const EquipmentDetails = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-1">
           <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="numeroSerie">
             Número de serie
           </label>
@@ -56,9 +56,21 @@ const EquipmentDetails = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-1">
+          <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="numeroSerie">
+            Propietario
+          </label>
+          <input
+            {...register('numeroSerie')}
+            className="appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="numeroSerie"
+            type="text"
+          />
+        </div>
+
+        <div className="mb-1">
           <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="fechaFabricacion">
-            Fecha de fabricación
+            Ultima fecha de mantenimiento
           </label>
           <input
             {...register('fechaFabricacion')}
@@ -68,7 +80,7 @@ const EquipmentDetails = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-1">
           <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="marca">
             Marca
           </label>
@@ -80,7 +92,7 @@ const EquipmentDetails = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-1">
           <label className="block text-gray-700 text-sm font-semibold mb-[1px]" htmlFor="ubicacion">
             Ubicación
           </label>
@@ -92,7 +104,7 @@ const EquipmentDetails = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-1">
           <label className="block text-gray-700 text-sm font-semibold mb-[2px]" htmlFor="tipoUnidad">
             Tipo de unidad
           </label>

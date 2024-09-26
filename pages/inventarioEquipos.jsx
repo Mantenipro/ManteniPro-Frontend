@@ -16,28 +16,28 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 const dummyMachines = [
   {
     model: 'AC-100',
-    code: '1234AC5678XYZ',
+    owner: 'Hugo Lozano',
     manufacturer: 'FrioTech',
     location: 'Delegación Cuauhtémoc, Ciudad de México',
     qr: '/qr.jpg'
   },
   {
     model: 'AC-200',
-    code: '5678AC1234XYZ',
+    owner: 'Hugo Lozano',
     manufacturer: 'FrioTech',
     location: 'Delegación Benito Juárez, Ciudad de México',
     qr: '/qr.jpg'
   },
   {
     model: 'AC-200',
-    code: '5678AC1234XYZ',
+    owner: 'Hugo Lozano',
     manufacturer: 'FrioTech',
     location: 'Delegación Benito Juárez, Ciudad de México',
     qr: '/qr.jpg'
   },
   {
     model: 'AC-200',
-    code: '5678AC1234XYZ',
+    owner: 'Hugo Lozano',
     manufacturer: 'FrioTech',
     location: 'Delegación Benito Juárez, Ciudad de México',
     qr: '/qr.jpg'

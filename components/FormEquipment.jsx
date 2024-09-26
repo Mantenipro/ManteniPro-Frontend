@@ -27,9 +27,9 @@ const FormEquipment = ({ initialData }) => {
 
    
     if (initialData) {
-      router.push('/qr_actualizado'); 
+      router.push('/qrActualizado'); 
     } else {
-      router.push('/qr_creado'); 
+      router.push('/qrCreado'); 
     }
   };
 
@@ -87,9 +87,25 @@ const FormEquipment = ({ initialData }) => {
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-semibold mb-[2px]'
+            htmlFor='numeroSerie'
+          >
+            Propietario
+          </label>
+          <input
+            {...register('numeroSerie')}
+            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+            id='numeroSerie'
+            type='text'
+          />
+        </div>
+
+
+        <div className='mb-4'>
+          <label
+            className='block text-gray-700 text-sm font-semibold mb-[2px]'
             htmlFor='fechaFabricacion'
           >
-            Fecha de fabricación
+            Ultima fecha de mantenimiento
           </label>
           <input
             {...register('fechaFabricacion')}
