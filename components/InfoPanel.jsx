@@ -11,32 +11,32 @@ const InfoPanel = () => {
   const [location, setLocation] = useState('');
 
   return (
-    <div className="flex overflow-x-auto space-x-4 items-center text-white w-1/2">
+    <div className='flex overflow-x-auto space-x-2 items-center text-white text-xs'>
       {/* Filtro de Asignado a */}
-      <AssignedToFilter 
-        selectedAssignedTo={selectedAssignedTo} 
-        setSelectedAssignedTo={setSelectedAssignedTo} 
+      <AssignedToFilter
+        selectedAssignedTo={selectedAssignedTo}
+        setSelectedAssignedTo={setSelectedAssignedTo}
       />
 
       {/* Filtro de Fecha */}
-      <DateFilter 
-        selectedDate={selectedDate} 
-        setSelectedDate={setSelectedDate} 
+      <DateFilter
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
       />
 
       {/* Filtro de Localización */}
-      <LocationFilter 
-        selectedLocations={location} 
-        setSelectedLocations={setLocation} 
+      <LocationFilter
+        selectedLocations={location}
+        setSelectedLocations={setLocation}
       />
 
       {/* Filtro de Prioridad */}
-      <PriorityFilter 
-        selectedPriorities={selectedPriorities} 
-        setSelectedPriorities={setSelectedPriorities} 
+      <PriorityFilter
+        selectedPriorities={selectedPriorities}
+        setSelectedPriorities={setSelectedPriorities}
       />
     </div>
-  );
+  )
 };
 
 export default InfoPanel;

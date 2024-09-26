@@ -29,9 +29,12 @@ export default function LoginPage() {
           alt='logo'
           className='w-[200px] h-[140px] lg:w-[440px] lg:h-[150px] my-4 lg:my-[-20px] lg:ml-[-100px]'
         />
-        <div className='  w-full lg:w-[50%] flex lg:hidden  justify-center'>
-          <form className='flex justify-center md:w-[60%] flex-col w-[90%]' action=''>
-            <div className='flex flex-col mb-5'>
+        <div className='w-full lg:w-[50%] flex lg:hidden  justify-center'>
+          <form
+            className='flex justify-center md:w-[60%] flex-col w-[90%]'
+            action=''
+          >
+            <div className='flex flex-col'>
               <h1 className='text-[24px] font-bold text-white'>
                 Crea tu cuenta
               </h1>
@@ -62,7 +65,7 @@ export default function LoginPage() {
 
               <div className='flex justify-between my-7'>
                 <p className='text-white'>¿Ya tienes cuenta? </p>
-                <Link href='/loginPage' className='text-[#EEE727]'>
+                <Link href='/inicioSesion' className='text-[#EEE727]'>
                   Inicia sesión
                 </Link>
               </div>

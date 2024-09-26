@@ -17,7 +17,7 @@ const AddButton = () => {
   }, []);
 
   const handleButtonClick = () => {
-    router.push('/agregarEquipo'); 
+    router.push('/agregar_equipo'); 
   };
 
   return (

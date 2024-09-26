@@ -1,15 +1,13 @@
-import React from 'react';
-import EquipmentDetails from '../components/EquipmentDetails';
-import QRCodeDisplay from '../components/QRCodeDisplay';
+import React from 'react'
 import LefthDashboard from '@/components/LefthDashboard'
 import { useState } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import UserDetails from '@/components/UserDetails'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
-const DetalleEquipo = () => {
-
+const DetalleUsuario = () => {
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -33,9 +31,9 @@ const DetalleEquipo = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 flex flex-col lg:flex-row'>
-        <div className='flex-1 flex flex-col'>
-          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between ml-3 mt-2'>
+      <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
+        <div className='flex-1 flex flex-col items-center justify-center'>
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between '>
             <div className='lg:hidden top-4 left-4 z-50'>
               <button
                 onClick={toggleMenu}
@@ -45,20 +43,11 @@ const DetalleEquipo = () => {
               </button>
             </div>
           </div>
-          <EquipmentDetails />
-        </div>
-
-        <div className='flex-shrink-0 lg:ml-8 '>
-          <QRCodeDisplay />
+          <UserDetails />
         </div>
       </main>
     </div>
   )
-};
+}
 
-export default DetalleEquipo;
-
-
-
-
-
+export default DetalleUsuario

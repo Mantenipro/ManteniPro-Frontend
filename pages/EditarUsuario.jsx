@@ -1,6 +1,6 @@
-import React from 'react';
-import EquipmentDetails from '../components/EquipmentDetails';
-import QRCodeDisplay from '../components/QRCodeDisplay';
+import React from 'react'
+import Title from '../components/Title'
+import FormUser from '../components/FormUser'
 import LefthDashboard from '@/components/LefthDashboard'
 import { useState } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
@@ -8,8 +8,7 @@ import { Montserrat, Source_Sans_3 } from 'next/font/google'
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
-const DetalleEquipo = () => {
-
+const ActualizarUsuario = () => {
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -23,7 +22,7 @@ const DetalleEquipo = () => {
 
   return (
     <div
-      className={`min-h-screen bg-gray-100 flex relative ${montserrat.className}`}
+      className={`min-h-screen bg-white flex relative ${montserrat.className}`}
     >
       <div
         className={`${
@@ -33,9 +32,9 @@ const DetalleEquipo = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 flex flex-col lg:flex-row'>
+      <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
         <div className='flex-1 flex flex-col'>
-          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between ml-3 mt-2'>
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between '>
             <div className='lg:hidden top-4 left-4 z-50'>
               <button
                 onClick={toggleMenu}
@@ -45,20 +44,14 @@ const DetalleEquipo = () => {
               </button>
             </div>
           </div>
-          <EquipmentDetails />
-        </div>
-
-        <div className='flex-shrink-0 lg:ml-8 '>
-          <QRCodeDisplay />
+          <Title className='text-2xl mt-2 lg:mt-0'>
+            Actualizar Usuario
+          </Title>
+          <FormUser />
         </div>
       </main>
     </div>
   )
-};
+}
 
-export default DetalleEquipo;
-
-
-
-
-
+export default ActualizarUsuario
