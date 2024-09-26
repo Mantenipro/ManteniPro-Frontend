@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
 import TicketCard from './TicketCard'; 
+import { useRouter } from 'next/router'
 
 const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados, selectedPriorities }) => {
   const [currentSection, setCurrentSection] = useState(0); 
@@ -25,6 +26,12 @@ const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados, 
   const handlePrevSection = () => {
     setCurrentSection((prevSection) => (prevSection - 1 + sections.length) % sections.length);
   };
+
+  const router = useRouter()
+
+  const handleCardClick = (id) => {
+    router.push(`/taskDetail/${id}`)
+  }
 
   return (
     <div className="bg-[#F5F5F5] p-4 rounded-lg">

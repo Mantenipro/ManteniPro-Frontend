@@ -70,7 +70,7 @@ export default function HomeTecnico() {
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
         <LefthDashboard />
       </div>
-      <section className='m-6 flex h-[85%] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 lg:h-full lg:max-w-sm'>
+      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 lg:h-full lg:max-w-sm'>
         <HeaderTecnicoMobile />
         <SearchInputTecnico />
 
@@ -88,7 +88,7 @@ export default function HomeTecnico() {
           </div>
           {/* CARD TASK */}
 
-          <section className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex max-h-[55vh] flex-col gap-3 overflow-y-auto p-4 lg:min-h-[85vh] lg:max-w-[25dvh] lg:flex-1'>
+          <section className='w-full mt-4 group-hover:bg-opacity-100 h-[580px] md:h-[385px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100'>
             {dummyFails.map((task, index) => (
               <div
                 key={index}
