@@ -61,7 +61,7 @@ export default function LefthDashboard() {
             </MenuItem>
             {showProfilesMenu && (
               <div className='relative ml-6 mt-2 flex flex-col border-l-gray-200 border-l-2 pl-5'>
-                <Link href='/tecnicos'>
+                <Link href='/catalogoDeTecnicos'>
                   <div className='hover:bg-[#2D2F39] transition-all duration-300 ease-in-out rounded-md p-1'>
                     <p className='text-sm'>Técnicos</p>
                   </div>
