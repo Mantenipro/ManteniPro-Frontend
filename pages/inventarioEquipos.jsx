@@ -1,11 +1,9 @@
 import React from 'react';
 import SearchBar from '../components/SearchBar';
-import TempSidebar from '../components/TempSidebar';
 import AddButton from '../components/AddButton';
 import SortTeams from '../components/SortTeams';
 import Title from '../components/Title';
 import MachineCard from '../components/MachineCard';
-import BurgerMenu from '../components/BurgerMenu';
 import LefthDashboard from '@/components/LefthDashboard';
 import { useState } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
