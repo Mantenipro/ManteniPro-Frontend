@@ -37,17 +37,20 @@ export default function ActivateAccountPage() {
           className='w-[200px] h-[140px] lg:w-[440px] lg:h-[150px] my-4 lg:my-[-20px] lg:ml-[-100px]'
         />
         <div className='lg:bg-[#ECECEC]   w-full lg:w-[50%] flex lg:hidden  justify-center'>
-          <form className='flex justify-center md:w-[60%] flex-col w-[90%]' action=''>
+          <form
+            className='flex justify-center md:w-[60%] flex-col w-[90%]'
+            action=''
+          >
             <div className='flex flex-col items-center gap-4'>
               <h1 className='text-[24px] font-bold text-white'>
-               Activa tu cuenta
+                Activa tu cuenta
               </h1>
-              <h3 className="text-white">Agrega los 6 digitos que se enviaron
-              a tu correo</h3>
+              <h3 className='text-white'>
+                Agrega los 6 digitos que se enviaron a tu correo
+              </h3>
             </div>
             <div className='flex flex-col w-full mt-8'>
-
-            <div className='flex flex-row gap-5'>
+              <div className='flex flex-row gap-5'>
                 {inputData.map((item, index) => (
                   <InputsLogin
                     key={index}
@@ -56,8 +59,8 @@ export default function ActivateAccountPage() {
                   />
                 ))}
               </div>
-              
-              <div className="my-5">
+
+              <div className='my-5'>
                 <a href='#' className='text-[#EEE727]'>
                   Volver a mandar
                 </a>
@@ -65,7 +68,6 @@ export default function ActivateAccountPage() {
               <button className='w-full h-10 bg-[#EEE727] text-[#030000] rounded-lg p- my-4'>
                 Activar
               </button>
-
             </div>
           </form>
         </div>
@@ -79,16 +81,16 @@ export default function ActivateAccountPage() {
             </h1>
           </div>
           <div className='flex flex-col w-full mt-8'>
-          <div className='flex flex-row gap-5'>
-                {inputData.map((item, index) => (
-                  <InputsLogin
-                    key={index}
-                    icon={item.icon}
-                    placeholder={item.placeholder}
-                  />
-                ))}
-              </div>
-            <div className="my-5">
+            <div className='flex flex-row gap-5'>
+              {inputData.map((item, index) => (
+                <InputsLogin
+                  key={index}
+                  icon={item.icon}
+                  placeholder={item.placeholder}
+                />
+              ))}
+            </div>
+            <div className='my-5'>
               <Link href='#' className='text-black'>
                 Volver a mandar
               </Link>
@@ -96,8 +98,6 @@ export default function ActivateAccountPage() {
             <button className='w-full h-10 bg-[#EEE727] text-[#030000] rounded-lg p- my-4'>
               Activar
             </button>
-
-            
           </div>
         </form>
       </div>

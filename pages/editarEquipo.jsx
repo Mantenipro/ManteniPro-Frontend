@@ -35,20 +35,21 @@ const toggleProfilesMenu = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 ml-5 flex flex-col'>
-        <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mt-2'>
-          <div className='lg:hidden top-4 left-4 z-50'>
-            <button
-              onClick={toggleMenu}
-              className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
-            >
-              {isMenuOpen ? '✖' : '☰'}
-            </button>
+      <main className='flex-1 ml-3 flex flex-col lg:flex-row'>
+        <div className='flex-1 flex flex-col'>
+          <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mt-2'>
+            <div className='lg:hidden top-4 left-4 z-50'>
+              <button
+                onClick={toggleMenu}
+                className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
+              >
+                {isMenuOpen ? '✖' : '☰'}
+              </button>
+            </div>
           </div>
-          <Title className='text-2xl mt-4 lg:mt-0'>Actualizar equipo</Title>
-        </div>
-
-        <div className='w-full max-w-2xl'>
+          <Title className='text-2xl lg:mt-0'>
+            Actualizar equipo
+          </Title>
           <FormEquipment />
         </div>
       </main>

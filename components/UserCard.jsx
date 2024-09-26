@@ -61,7 +61,7 @@ const UserCard = ({ user }) => {
         {/* Imagen del Usuario */}
         <div className='flex-shrink-0'>
           <Image
-            src='/airConditioning.jpg'
+            src='/profile.jpg'
             alt={user.foto}
             width={isHovered ? 60 : 50}
             height={isHovered ? 60 : 50}
