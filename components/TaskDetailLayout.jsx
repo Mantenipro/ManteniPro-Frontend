@@ -1,4 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react'
+import EquipmentInfo from './EquipmentInfo'
+import OrderTimeline from './OrderTimeline'
+import UserData from './UserData'
+import ReviewOrderSection from './ReviewOrderSection'
 
 export default function TaskDetailLayout() {
   const detailTask = [

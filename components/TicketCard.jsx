@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
 
 const TicketCard = ({ title, description, username, date, priority, ticketId }) => {
