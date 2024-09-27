@@ -3,10 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
-import SearchBar from '@/components/SearchBar'
-import AddButton from '@/components/AddButton'
-import SortTeams from '@/components/SortTeams'
-import Title from '@/components/Title'
+import Link from 'next/link'
 
 
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -49,18 +46,23 @@ export default function StatusDetailLayout() {
         </div>
 
         <div>
-          <Title className='text-2xl'>Estado del Ticket</Title>
+          <h1
+            className={`mb:text-left mb-2 ml-3 text-center text-3xl font-bold ${montserrat.className}`}
+            style={{ color: '#2E3A59' }}
+          >
+            Estado del Ticket
+          </h1>
         </div>
 
         <div className='flex items-center justify-center'>
-          <div className='h-[550px] max-h-screen w-2/3 space-y-4 overflow-y-auto'>
+          <div className='max-h-screen space-y-4 overflow-y-auto md:h-[595px] md:w-2/3'>
             <div className='rounded border p-2 shadow-lg'>
-              <div className='flex flex-col justify-between rounded border-b p-2 md:flex-row'>
+              <div className='flex flex-col justify-between rounded border-b-2 p-2 md:flex-row'>
                 <div>
                   <h3 className='p-2 text-lg font-bold'>Reparar Cable</h3>
                 </div>
-                <div className='flex space-x-2'>
-                  <div className='flex cursor-pointer items-center rounded border bg-gray-100 p-2 hover:bg-gray-200'>
+                <div className='flex flex-wrap space-x-2'>
+                  <div className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'>
                     <img
                       src='/comment.svg'
                       alt='icon'
@@ -68,7 +70,7 @@ export default function StatusDetailLayout() {
                     />
                     Comentarios
                   </div>
-                  <div className='flex cursor-pointer items-center rounded border bg-gray-100 p-2 hover:bg-gray-200'>
+                  <div className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'>
                     <img
                       src='/Pencil.svg'
                       alt='icon'
@@ -76,11 +78,33 @@ export default function StatusDetailLayout() {
                     />
                     Editar
                   </div>
+                  <Link
+                    href='/AsignaciondeTicket'
+                    className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+                  >
+                    <img
+                      src='/Cargo.svg'
+                      alt='icon'
+                      className='mr-2 h-4 w-4 object-cover'
+                    />
+                    Asignar
+                  </Link>
+                  <Link
+                    href='/CierreTicket'
+                    className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+                  >
+                    <img
+                      src='/Close.svg'
+                      alt='icon'
+                      className='mr-2 h-4 w-4 object-cover'
+                    />
+                    Cerrar
+                  </Link>
                 </div>
               </div>
 
               <div className='mt-4 flex flex-col justify-around space-y-2 md:flex-row md:space-y-0'>
-                <div className='flex items-center rounded border-2 border-[#21262D] bg-white p-2 text-[#21262D]'>
+                <div className='flex items-center rounded border-2 border-[#21262D] p-2 text-[#21262D]'>
                   <img
                     src='candado.svg'
                     alt='icon'
@@ -96,7 +120,7 @@ export default function StatusDetailLayout() {
                   />
                   En Progreso
                 </div>
-                <div className='flex items-center rounded border bg-white p-2 text-[#21262D]'>
+                <div className='flex items-center rounded border-2 border-[#21262D] p-2 text-[#21262D]'>
                   <img
                     src='paloma.svg'
                     alt='icon'
@@ -121,7 +145,7 @@ export default function StatusDetailLayout() {
                 </div>
               </div>
 
-              <div className='flex flex-col justify-between border-t p-2 md:flex-row'>
+              <div className='flex flex-col justify-between border-t-2 p-2 md:flex-row'>
                 <div>
                   <div className='mb-2'>
                     <span className='font-semibold'>Reportado por:</span>
@@ -140,7 +164,7 @@ export default function StatusDetailLayout() {
                     </div>
                   </div>
                 </div>
-                <div className='mx-4 h-auto border-l'></div>
+                <div className='mx-4 h-auto border-l-2'></div>
                 <div>
                   <div className='mb-2 mt-2 flex flex-col p-2'>
                     <span className='font-semibold'>Direccion:</span>
@@ -164,12 +188,14 @@ export default function StatusDetailLayout() {
                 </div>
               </div>
               <div className='my-2 flex justify-center'>
-                {/* <img
-          src='/airConditioning.jpg'
-          alt='user-photo'
-          className='m-1 h-24 w-24 rounded-lg object-cover shadow-md'
-        /> */}
+                <img
+                  src='/airConditioning.jpg'
+                  alt='user-photo'
+                  className='m-1 h-24 w-24 rounded-lg object-cover shadow-md'
+                />
               </div>
+
+              <div className='mx-4 h-auto border-b-2'></div>
 
               <div className='mb-2 flex flex-col items-center rounded-lg bg-white p-2 shadow-md md:flex-row'>
                 <img
@@ -188,6 +214,9 @@ export default function StatusDetailLayout() {
                     Perferendis doloremque unde dignissimos odit quos libero
                     deleniti!
                   </div>
+                  <button className='px- mt-2 rounded bg-blue-500 py-2 text-white hover:bg-blue-700'>
+                    Agregar comentario
+                  </button>
                 </div>
               </div>
             </div>
