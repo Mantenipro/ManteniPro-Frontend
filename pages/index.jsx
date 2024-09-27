@@ -18,7 +18,7 @@ const inputData = [
 export default function LoginPage() {
   return (
     <main className={`${montserrat.className}`}>
-      
+      <inicioSesion/>
     </main>
   )
 }
