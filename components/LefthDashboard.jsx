@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
@@ -14,6 +15,14 @@ const MenuItem = ({ icon, title, onClick, children }) => (
 )
 
 export default function LefthDashboard() {
+   
+  const router = useRouter()
+
+  const handleSignOut = () => {
+    window.localStorage.removeItem('token')
+    router.push('/inicioSesion')
+  }
+
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -26,24 +35,24 @@ export default function LefthDashboard() {
   }
 
   return (
-    <main className='p-4 text-[#f2f6fc] h-screen'>
+    <main className='h-screen p-4 text-[#f2f6fc]'>
       <div className='flex flex-col items-center'>
-        <div className='flex w-[10rem] h-[5rem]'>
+        <div className='flex h-[5rem] w-[10rem]'>
           <img
-            className='w-full h-full'
+            className='h-full w-full'
             src='/ManteniProDashboardWhite.svg'
             alt='Logo'
           />
         </div>
 
-        <div className='my-1 shadow-sm flex flex-col items-center p-4 bg-gradient-to-b from-[#232c48] to-[#4361b2] rounded-[40px] w-[100px] h-[120px]'>
-          <img className='w-10 h-10' src='/userphoto.svg' alt='User' />
-          <p className='font-bold text-sm'>Name</p>
-          <p className='text-xs text-center'>Product Manager</p>
+        <div className='my-1 flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
+          <img className='h-10 w-10' src='/userphoto.svg' alt='User' />
+          <p className='text-sm font-bold'>Name</p>
+          <p className='text-center text-xs'>Product Manager</p>
         </div>
       </div>
 
-      <section className='flex flex-col justify-between 2xl:h-3/4 md:h-2/3 h-2/3 mt-6'>
+      <section className='mt-6 flex h-2/3 flex-col justify-between md:h-2/3 2xl:h-3/4'>
         <div className='Seccion1'>
           <p className='font-bold'>MAIN</p>
           <div className='flex flex-col'>
@@ -55,19 +64,19 @@ export default function LefthDashboard() {
               title='Perfiles'
               onClick={toggleProfilesMenu}
             >
-              <button className='font-medium text-sm ml-5'>
+              <button className='ml-5 text-sm font-medium'>
                 {isMenuOpen ? '˄' : '˅'}
               </button>
             </MenuItem>
             {showProfilesMenu && (
-              <div className='relative ml-6 mt-2 flex flex-col border-l-gray-200 border-l-2 pl-5'>
+              <div className='relative ml-6 mt-2 flex flex-col border-l-2 border-l-gray-200 pl-5'>
                 <Link href='/catalogoDeTecnicos'>
-                  <div className='hover:bg-[#2D2F39] transition-all duration-300 ease-in-out rounded-md p-1'>
+                  <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
                     <p className='text-sm'>Técnicos</p>
                   </div>
                 </Link>
                 <Link href='/catalogoDeUsuariosv2'>
-                  <div className='hover:bg-[#2D2F39] transition-all duration-300 ease-in-out rounded-md p-1'>
+                  <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
                     <p className='text-sm'>Usuarios</p>
                   </div>
                 </Link>
@@ -81,11 +90,11 @@ export default function LefthDashboard() {
         <div className='Seccion2'>
           <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
           <MenuItem icon='/person-filled-dash.svg' title='Profile' />
-          <MenuItem icon='/signuot-dash.svg' title='Sign Out'>
-            <Link href='/inicioSesion'>
-              <p className='font-medium text-sm'></p>
-            </Link>
-          </MenuItem>
+          <MenuItem
+            icon='/signuot-dash.svg'
+            title='Sign Out'
+            onClick={handleSignOut}
+          />
         </div>
       </section>
     </main>

@@ -1,26 +1,12 @@
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
+export default function Home() {
+  const router = useRouter()
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+  useEffect(() => {
+    router.push('/inicioSesion')
+  }, [router])
 
-const inputData = [
-  {
-    icon: '/iconemail.svg',
-    placeholder: 'Correo electrónico'
-  },
-  {
-    icon: '/iconpassword.svg',
-    placeholder: 'Contraseña'
-  }
-]
-
-export default function LoginPage() {
-  return (
-    <main className={`${montserrat.className}`}>
-      <inicioSesion/>
-    </main>
-  )
+  return null
 }
-
-
