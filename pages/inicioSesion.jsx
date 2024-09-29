@@ -118,7 +118,7 @@ const LoginForm = ({ textColor, bgColor }) => {
         </button>
         <div className='my-7 flex justify-between'>
           <p className={textColor}>¿No tienes cuenta?</p>
-          <Link href='/registroUsuario' className='text-[#31416d]'>
+          <Link href='/registroUsuario' className='text-white md:text-[#31416d]'>
             Registrate
           </Link>
         </div>

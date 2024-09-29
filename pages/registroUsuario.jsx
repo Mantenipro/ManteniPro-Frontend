@@ -5,13 +5,14 @@ import { toast, Toaster } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { registerForm } from './api/api'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const inputData = [
   { icon: '/iconemail.svg', placeholder: 'Correo electrónico', name: 'email' },
-  { icon: '/iconuser.svg', placeholder: 'Nombre completo', name: 'fullName' },
+  { icon: '/iconuser.svg', placeholder: 'Nombre completo', name: 'fullname' },
   { icon: '/iconorganization.svg', placeholder: 'Nombre de compañia', name: 'companyName' },
   { icon: '/iconlocation.svg', placeholder: 'ZIP code', name: 'zipCode' },
   { icon: '/iconpassword.svg', placeholder: 'Contraseña', name: 'password' },
@@ -26,19 +27,51 @@ const RegisterForm = ({ textColor, bgColor }) => {
     confirmPassword: false
   })
 
+  const [termsAccepted, setTermsAccepted] = useState(false)
+
   const {
     register,
     handleSubmit,
     setError,
+    watch,
     formState: { errors }
   } = useForm()
 
+  const password = watch('password')
+  const confirmPassword = watch('confirmPassword')
+
   const onSubmit = async (data) => {
+    if (!termsAccepted) {
+      toast.error('Debes aceptar los términos y condiciones para continuar', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          width: 'auto'
+        }
+      })
+      return
+    }
+
+
     // Aquí iría la lógica para registrar al usuario
+
     try {
-      // Simulación de registro exitoso
-      toast.success('Registro exitoso')
-      router.push('/inicioSesion')
+      const register = await registerForm(data.email, data.password, data.fullname, data.companyName, data.zipCode)
+
+      toast.success('Registro exitoso', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          width: 'auto'
+        }
+      })
+      setTimeout(() => {
+        router.push('/inicioSesion')
+      }, 2000) // Espera 2 segundos antes de redirigir
     } catch (error) {
       toast.error('Error al registrar')
       console.error('[Register error]', error)
@@ -93,14 +126,33 @@ const RegisterForm = ({ textColor, bgColor }) => {
               </div>
               {errors[item.name] && (
                 <span className='mt-1 text-red-500'>
-                  Este campo es requerido
+                  {errors[item.name].message || 'Este campo es requerido'}
                 </span>
               )}
+              {item.name === 'confirmPassword' &&
+                password !== confirmPassword && (
+                  <span className='mt-1 text-red-500'>
+                    Las contraseñas no coinciden
+                  </span>
+                )}
+              {item.name === 'confirmPassword' &&
+                password === confirmPassword &&
+                password && (
+                  <span className='mt-1 text-green-500'>
+                    Las contraseñas coinciden
+                  </span>
+                )}
             </div>
           ))}
         </div>
         <div className='my-5 flex gap-3'>
-          <input className='mb-6' type='checkbox' name='' id='' />
+          <input
+            className='mb-6'
+            type='checkbox'
+            name='terms'
+            id='terms'
+            onChange={(e) => setTermsAccepted(e.target.checked)}
+          />
           <p className={textColor}>
             By registering, you are agreeing with our
             <Link href=''>Terms of Use</Link> and{' '}
@@ -115,7 +167,7 @@ const RegisterForm = ({ textColor, bgColor }) => {
         </button>
         <div className='my-7 flex justify-between'>
           <p className={textColor}>¿Ya tienes cuenta?</p>
-          <Link href='/inicioSesion' className='text-[#030000]'>
+          <Link href='/inicioSesion' className='text-white md:text-[#030000]'>
             Inicia sesión
           </Link>
         </div>
