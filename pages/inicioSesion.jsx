@@ -41,8 +41,18 @@ const LoginForm = ({ textColor, bgColor }) => {
 
       if (token) {
         window.localStorage.setItem('token', token)
-        toast.success('Bienvenido')
-        router.push('/ticketsDashboard')
+        toast.success('Bienvenido', {
+          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+          style: {
+            fontSize: '20px',
+            padding: '20px',
+            maxWidth: '90vw', // Ajuste para pantallas pequeñas
+            width: 'auto'
+          }
+        })
+        setTimeout(() => {
+          router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
+        }, 2000)
       } else {
         toast.error('Usuario o contraseña incorrectos')
         setError('root.credentials', {
@@ -106,7 +116,7 @@ const LoginForm = ({ textColor, bgColor }) => {
           ))}
         </div>
         <div className='my-5'>
-          <Link href='#' className={textColor}>
+          <Link href='/recuperacionDePassword' className={textColor}>
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
@@ -118,7 +128,10 @@ const LoginForm = ({ textColor, bgColor }) => {
         </button>
         <div className='my-7 flex justify-between'>
           <p className={textColor}>¿No tienes cuenta?</p>
-          <Link href='/registroUsuario' className='text-white md:text-[#31416d]'>
+          <Link
+            href='/registroUsuario'
+            className='text-white md:text-[#31416d]'
+          >
             Registrate
           </Link>
         </div>

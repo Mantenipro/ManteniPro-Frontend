@@ -60,6 +60,8 @@ const RegisterForm = ({ textColor, bgColor }) => {
     try {
       const register = await registerForm(data.email, data.password, data.fullname, data.companyName, data.zipCode)
 
+      console.log(register)
+
       toast.success('Registro exitoso', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
         style: {
@@ -70,7 +72,7 @@ const RegisterForm = ({ textColor, bgColor }) => {
         }
       })
       setTimeout(() => {
-        router.push('/inicioSesion')
+        router.push('/activarCuenta')
       }, 2000) // Espera 2 segundos antes de redirigir
     } catch (error) {
       toast.error('Error al registrar')
