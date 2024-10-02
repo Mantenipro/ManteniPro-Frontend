@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect } from 'react';
 
 const dateOptions = ['Recientes', 'Últimos'];
@@ -6,6 +5,7 @@ const dateOptions = ['Recientes', 'Últimos'];
 const DateFilter = ({ selectedDate, setSelectedDate }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [positionCalculated, setPositionCalculated] = useState(false);
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -16,6 +16,10 @@ const DateFilter = ({ selectedDate, setSelectedDate }) => {
         top: rect.bottom + window.scrollY,
         left: rect.left + window.scrollX,
       });
+
+      setTimeout(() => {
+        setPositionCalculated(true);
+      }, 0);
     }
   }, [showDropdown]);
 
@@ -27,6 +31,7 @@ const DateFilter = ({ selectedDate, setSelectedDate }) => {
         !buttonRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
+        setPositionCalculated(false);
       }
     };
 
@@ -45,15 +50,15 @@ const DateFilter = ({ selectedDate, setSelectedDate }) => {
       <button
         ref={buttonRef}
         onClick={() => setShowDropdown(!showDropdown)}
-        className="bg-transparent border-none p-1 text-sm md:text-base rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
+        className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img src="/icon/calendar-icon.png" alt="Fecha" className="h-4 w-4 md:h-5 md:w-5" />
         <span>{selectedDate || 'Fecha'}</span>
       </button>
-      {showDropdown && (
+      {showDropdown && positionCalculated && (
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-40 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-48 md:w-64 md:max-h-60"
+          className="fixed bg-white text-black w-24 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-28 md:w-32 md:max-h-60"
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
@@ -85,6 +90,9 @@ const DateFilter = ({ selectedDate, setSelectedDate }) => {
 };
 
 export default DateFilter;
+
+
+
 
 
 

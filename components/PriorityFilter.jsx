@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect } from 'react';
 
 const priorityOptions = [
@@ -11,6 +10,7 @@ const priorityOptions = [
 const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [positionCalculated, setPositionCalculated] = useState(false);
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -29,6 +29,10 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
         top: rect.bottom + window.scrollY,
         left: rect.left + window.scrollX,
       });
+      
+      setTimeout(() => {
+        setPositionCalculated(true);
+      }, 0); 
     }
   }, [showDropdown]);
 
@@ -40,6 +44,7 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
         !buttonRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
+        setPositionCalculated(false); 
       }
     };
 
@@ -54,15 +59,15 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
       <button
         ref={buttonRef}
         onClick={() => setShowDropdown(!showDropdown)}
-        className="bg-transparent border-none p-1 text-sm md:text-base rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
+        className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img src="/icon/priority-icon.png" alt="Prioridad" className="h-4 w-4 md:h-5 md:w-5" />
         <span>Prioridad</span>
       </button>
-      {showDropdown && (
+      {showDropdown && positionCalculated && (
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-32 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-40 md:w-48 md:max-h-60"
+          className="fixed bg-white text-black w-24 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-32 md:w-40 md:max-h-60"
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
@@ -97,6 +102,9 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
 };
 
 export default PriorityFilter;
+
+
+
 
 
 

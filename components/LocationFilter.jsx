@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect } from 'react';
 
 const locationOptions = ['CDMX, Álvaro Obregón', 'CDMX, Azcapotzalco', 'CDMX, Benito Juárez'];
@@ -10,6 +9,7 @@ const normalizeString = (str) => {
 const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [positionCalculated, setPositionCalculated] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -25,6 +25,10 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
         top: rect.bottom + window.scrollY,
         left: rect.left + window.scrollX,
       });
+
+      setTimeout(() => {
+        setPositionCalculated(true);
+      }, 0); 
     }
   }, [showDropdown]);
 
@@ -36,6 +40,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
         !buttonRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
+        setPositionCalculated(false); 
       }
     };
 
@@ -58,15 +63,15 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
       <button
         ref={buttonRef}
         onClick={() => setShowDropdown(!showDropdown)}
-        className="bg-transparent border-none p-1 text-sm md:text-base rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
+        className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img src="/icon/location-icon.png" alt="Localización" className="h-4 w-4 md:h-5 md:w-5" />
         <span>Ubicación</span>
       </button>
-      {showDropdown && (
+      {showDropdown && positionCalculated && ( 
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-40 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-48 md:w-64 md:max-h-60" 
+          className="fixed bg-white text-black w-32 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-40 md:w-48 md:max-h-60"
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
@@ -77,13 +82,13 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
             placeholder="Buscar"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-1 border border-gray-300 rounded-md text-black text-xs md:text-sm" 
+            className="w-full p-1 border border-gray-300 rounded-md text-black text-xs md:text-sm"
           />
           <ul className="mt-1 text-black">
             {filteredOptions.map((option, index) => (
               <li
                 key={index}
-                className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm" 
+                className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm"
                 onClick={() => handleCheckboxChange(option)}
               >
                 <span className={selectedLocations.includes(option) ? 'font-medium' : ''}>
@@ -105,6 +110,9 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
+
+
 
 
 

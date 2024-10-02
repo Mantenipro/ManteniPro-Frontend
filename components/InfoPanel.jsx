@@ -11,7 +11,7 @@ const InfoPanel = () => {
   const [location, setLocation] = useState('');
 
   return (
-    <div className='flex overflow-x-auto space-x-2 items-center text-white text-xs'>
+    <div className='flex overflow-x-auto space-x-2 items-center text-white'>
       {/* Filtro de Asignado a */}
       <AssignedToFilter
         selectedAssignedTo={selectedAssignedTo}
