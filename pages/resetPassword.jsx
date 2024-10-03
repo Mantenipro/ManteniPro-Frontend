@@ -11,14 +11,18 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const ChangePasswordForm = ({ textColor, bgColor }) => {
   const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState({
+    newPassword: false,
+    confirmPassword: false
+  })
   const [token, setToken] = useState(null)
 
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useForm()
 
   // Esperar hasta que `router.query` esté disponible
@@ -56,7 +60,7 @@ const ChangePasswordForm = ({ textColor, bgColor }) => {
         })
         setTimeout(() => {
           router.push('/inicioSesion') // Redirige al resetPassword después de enviar el correo
-        }, 2000)
+        }, 3000)
       } else {
         toast.error('Error al cambiar la contraseña')
         setError('root.credentials', {
@@ -70,9 +74,11 @@ const ChangePasswordForm = ({ textColor, bgColor }) => {
     }
   }
 
-  function handleShowHidePassword() {
-    setShowPassword(!showPassword)
-    
+  const handleShowHidePassword = (field) => {
+    setShowPassword((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field]
+    }))
   }
 
   return (
@@ -91,16 +97,16 @@ const ChangePasswordForm = ({ textColor, bgColor }) => {
             <div className='relative flex items-center'>
               <img src='/iconpassword.svg' alt='' className='absolute left-3' />
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword.newPassword ? 'text' : 'password'}
                 placeholder='Nueva contraseña'
                 {...register('newPassword', { required: true })}
                 className='w-full p-2 pl-10 pr-20'
               />
               <span
                 className='absolute right-2 cursor-pointer text-sm text-black/50 hover:text-slate-800'
-                onClick={handleShowHidePassword}
+                onClick={() => handleShowHidePassword('newPassword')}
               >
-                {showPassword ? ' Ocultar' : 'Mostrar'}
+                {showPassword.newPassword ? ' Ocultar' : 'Mostrar'}
               </span>
             </div>
             {errors.newPassword && (
@@ -111,22 +117,34 @@ const ChangePasswordForm = ({ textColor, bgColor }) => {
             <div className='relative flex items-center'>
               <img src='/iconpassword.svg' alt='' className='absolute left-3' />
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword.confirmPassword ? 'text' : 'password'}
                 placeholder='Confirmar contraseña'
                 {...register('confirmPassword', { required: true })}
                 className='w-full p-2 pl-10 pr-20'
               />
               <span
                 className='absolute right-2 cursor-pointer text-sm text-black/50 hover:text-slate-800'
-                onClick={handleShowHidePassword}
+                onClick={() => handleShowHidePassword('confirmPassword')}
               >
-                {showPassword ? ' Ocultar' : 'Mostrar'}
+                {showPassword.confirmPassword ? ' Ocultar' : 'Mostrar'}
               </span>
             </div>
             {errors.confirmPassword && (
               <span className='mt-1 text-red-500'>
                 {errors.confirmPassword.message || 'Este campo es requerido'}
               </span>
+            )}
+            {watch('newPassword') !== watch('confirmPassword') ? (
+              <span className='mt-1 text-red-500'>
+                Las contraseñas no coinciden
+              </span>
+            ) : (
+              watch('newPassword') &&
+              watch('confirmPassword') && (
+                <span className='mt-1 text-green-500'>
+                  Las contraseñas coinciden
+                </span>
+              )
             )}
           </div>
         </div>

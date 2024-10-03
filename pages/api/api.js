@@ -47,6 +47,9 @@ export const registerForm = async (
 }
 
 export const activateAccount = async (data) => {
+
+  console.log(data)
+  
   try {
     const response = await fetch(`${API_URL}/activate`, {
       method: 'POST',

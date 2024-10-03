@@ -27,18 +27,18 @@ const PasswordRecoveryForm = ({ textColor, bgColor }) => {
 
       if (response.message) {
         // Mensaje de éxito
-        toast.success('Correo de recuperación enviado', {
+        toast.success('Correo de recuperación enviado, revisa tu correo electronico para ingresar al link y reestablecer tu contraseña', {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
           style: {
             fontSize: '20px',
             padding: '20px',
             maxWidth: '90vw', // Ajuste para pantallas pequeñas
             width: 'auto'
-          }
+          },
         })
         setTimeout(() => {
           router.push('/') // Redirige al resetPassword después de enviar el correo
-        }, 2000) // Espera 2 segundos antes de redirigir// Redirige al login después de enviar el correo
+        }, 4000) // Espera 2 segundos antes de redirigir// Redirige al login después de enviar el correo
       } else {
         // Si hay error en la respuesta
         toast.error('Error al enviar correo de recuperación')

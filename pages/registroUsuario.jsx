@@ -62,7 +62,7 @@ const RegisterForm = ({ textColor, bgColor }) => {
 
       console.log(register)
 
-      toast.success('Registro exitoso', {
+      toast.success('Registro exitoso, favor de revisar tu correo electronico para activar tu cuenta', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
         style: {
           fontSize: '20px',
@@ -72,10 +72,18 @@ const RegisterForm = ({ textColor, bgColor }) => {
         }
       })
       setTimeout(() => {
-        router.push('/activarCuenta')
-      }, 2000) // Espera 2 segundos antes de redirigir
+        router.push('/inicioSesion') // Redirige al login después de enviar el correo
+      }, 4000) // Espera 2 segundos antes de redirigir
     } catch (error) {
-      toast.error('Error al registrar')
+      toast.error('Error al registrar', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          width: 'auto'
+        }, duration: 5000
+      })
       console.error('[Register error]', error)
     }
   }
