@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect } from 'react';
 
 const assignedToOptions = ['Alan Urban', 'Roberto Alvarez', 'Uriel Gonzalez'];
@@ -10,6 +9,7 @@ const normalizeString = (str) => {
 const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [positionCalculated, setPositionCalculated] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -19,17 +19,20 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
   );
 
   useEffect(() => {
-    const updateDropdownPosition = () => {
-      if (buttonRef.current && showDropdown) {
-        const rect = buttonRef.current.getBoundingClientRect();
-        setDropdownPosition({
-          top: rect.bottom + window.scrollY,
-          left: rect.left + window.scrollX,
-        });
-      }
-    };
+    if (buttonRef.current && showDropdown) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
 
-    updateDropdownPosition(); 
+      setTimeout(() => {
+        setPositionCalculated(true);
+      }, 0); 
+    }
+  }, [showDropdown]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         dropdownRef.current &&
@@ -37,6 +40,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
         !buttonRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
+        setPositionCalculated(false); 
       }
     };
 
@@ -44,7 +48,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showDropdown]);
+  }, []);
 
   const handleCheckboxChange = (option) => {
     if (selectedAssignedTo.includes(option)) {
@@ -54,10 +58,6 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
     }
   };
 
-  const handleNameClick = (option) => {
-    handleCheckboxChange(option); 
-  };
-
   return (
     <div className="relative">
       <button
@@ -65,15 +65,15 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
         onClick={() => {
           setShowDropdown(!showDropdown);
         }}
-        className="bg-transparent border-none p-1 text-sm md:text-base rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
+        className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img src="/icon/assignment-icon.png" alt="Asignado a" className="h-4 w-4 md:h-5 md:w-5" />
         <span>Encargado</span>
       </button>
-      {showDropdown && (
+      {showDropdown && positionCalculated && ( 
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-48 p-2 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-64 md:w-72 md:max-h-60"
+          className="fixed bg-white text-black w-32 p-2 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-40 md:w-48 md:max-h-60"
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
@@ -91,7 +91,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
               <li
                 key={index}
                 className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm"
-                onClick={() => handleNameClick(option)} 
+                onClick={() => handleCheckboxChange(option)} 
               >
                 <span className={selectedAssignedTo.includes(option) ? 'font-medium' : ''}>
                   {option}
@@ -99,7 +99,7 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
                 <input
                   type="checkbox"
                   checked={selectedAssignedTo.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  readOnly
                   className="ml-2 h-3 w-3 md:h-4 md:w-4"
                 />
               </li>
@@ -112,6 +112,8 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
+
 
 
 
