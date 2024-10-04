@@ -26,23 +26,21 @@ const TicketsDashboard = () => {
   const ticketsPorHacer = [
     { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '13/05/24', priority: 'Sin prioridad', ticketId: '132314' },
     { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '14/05/24', priority: 'Sin prioridad', ticketId: '132315' },
-    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '15/05/24', priority: 'Sin prioridad', ticketId: '132316' },
-    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '15/05/24', priority: 'Sin prioridad', ticketId: '132316' },
+    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '15/05/24', priority: 'Sin prioridad', ticketId: '132316' }
   ];
-
+  
   const ticketsEnProceso = [
     { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '16/05/24', priority: 'Baja', ticketId: '132317' },
     { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '17/05/24', priority: 'Media', ticketId: '132318' },
-    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '18/05/24', priority: 'Alta', ticketId: '132319' },
-    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '18/05/24', priority: 'Alta', ticketId: '132319' },
+    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '18/05/24', priority: 'Alta', ticketId: '132319' }
   ];
-
+  
   const ticketsCompletados = [
     { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '19/05/24', priority: 'Baja', ticketId: '132320' },
     { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '20/05/24', priority: 'Media', ticketId: '132321' },
-    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '21/05/24', priority: 'Alta', ticketId: '132322' },
-    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '21/05/24', priority: 'Alta', ticketId: '132322' },
+    { title: 'Aire acondicionado no enfría adecuadamente.', description: 'La unidad hace ruidos extraños y el flujo de aire es débil.', username: 'Username', date: '21/05/24', priority: 'Alta', ticketId: '132322' }
   ];
+  
 
   return (
     <div
