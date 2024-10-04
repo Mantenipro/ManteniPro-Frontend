@@ -65,7 +65,11 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
         onClick={() => setShowDropdown(!showDropdown)}
         className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
-        <img src="/icon/location-icon.png" alt="Localización" className="h-4 w-4 md:h-5 md:w-5" />
+        <img
+          src="/icon/location-icon.png"
+          alt="Localización"
+          className="h-4 w-4 md:h-5 md:w-5 hidden md:block"
+        />
         <span>Ubicación</span>
       </button>
       {showDropdown && positionCalculated && ( 
@@ -110,6 +114,7 @@ const LocationFilter = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter;
+
 
 
 
