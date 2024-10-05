@@ -1,25 +1,25 @@
 import React from 'react';
 import EquipmentDetails from '../components/EquipmentDetails';
 import QRCodeDisplay from '../components/QRCodeDisplay';
-import LefthDashboard from '@/components/LefthDashboard'
-import { useState } from 'react'
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import LefthDashboard from '@/components/LefthDashboard';
+import { useState } from 'react';
+import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const DetalleEquipo = () => {
 
-  const [showProfilesMenu, setShowProfilesMenu] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showProfilesMenu, setShowProfilesMenu] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const toggleProfilesMenu = () => {
-    setShowProfilesMenu(!showProfilesMenu)
-  }
+    setShowProfilesMenu(!showProfilesMenu);
+  };
 
   return (
     <div
@@ -33,7 +33,7 @@ const DetalleEquipo = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 flex flex-col lg:flex-row'>
+      <main className='flex-1 flex flex-col lg:flex-row justify-center items-center'>
         <div className='flex-1 flex flex-col'>
           <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between ml-3 mt-2'>
             <div className='lg:hidden top-4 left-4 z-50'>
@@ -45,18 +45,21 @@ const DetalleEquipo = () => {
               </button>
             </div>
           </div>
-          <EquipmentDetails />
-        </div>
 
-        <div className='flex-shrink-0 lg:ml-8 '>
-          <QRCodeDisplay />
+          {/* Contenedor común para EquipmentDetails y QRCodeDisplay centrado */}
+          <div className='flex flex-col lg:flex-row items-center justify-center space-y-2 lg:space-y-0 lg:space-x-4'>
+            <EquipmentDetails />
+            <QRCodeDisplay />
+          </div>
         </div>
       </main>
     </div>
-  )
+  );
 };
 
 export default DetalleEquipo;
+
+
 
 
 
