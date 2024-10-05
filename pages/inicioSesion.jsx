@@ -54,7 +54,7 @@ const LoginForm = ({ textColor, bgColor }) => {
           router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
         }, 2000)
       } else {
-        toast.error('Usuario o contraseña incorrectos')
+        toast.error('Error al iniciar sesion')
         setError('root.credentials', {
           type: 'manual',
           message: 'Credenciales Invalidas'
@@ -63,7 +63,7 @@ const LoginForm = ({ textColor, bgColor }) => {
         // setError("username", {type: "manual", message: "Usuario invalido"}) en caso de que eñ backend indique que el error es de un input
       }
     } catch (error) {
-      toast.error('Error al iniciar sesion', {
+      toast.error('Usuario o contraseña incorrectos', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
         style: {
           fontSize: '20px',
