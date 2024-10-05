@@ -61,7 +61,11 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
         onClick={() => setShowDropdown(!showDropdown)}
         className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
-        <img src="/icon/priority-icon.png" alt="Prioridad" className="h-4 w-4 md:h-5 md:w-5" />
+        <img
+          src="/icon/priority-icon.png"
+          alt="Prioridad"
+          className="h-4 w-4 md:h-5 md:w-5 hidden md:block"
+        />
         <span>Prioridad</span>
       </button>
       {showDropdown && positionCalculated && (
@@ -102,6 +106,7 @@ const PriorityFilter = ({ selectedPriorities, setSelectedPriorities }) => {
 };
 
 export default PriorityFilter;
+
 
 
 

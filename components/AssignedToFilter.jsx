@@ -67,7 +67,11 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
         }}
         className="bg-transparent border-none p-1 text-xs sm:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
-        <img src="/icon/assignment-icon.png" alt="Asignado a" className="h-4 w-4 sm:h-5 sm:w-5" />
+        <img
+          src="/icon/assignment-icon.png"
+          alt="Asignado a"
+          className="h-4 w-4 sm:h-5 sm:w-5 hidden md:block"
+        />
         <span>Encargado</span>
       </button>
       {showDropdown && positionCalculated && ( 
@@ -112,6 +116,8 @@ const AssignedToFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 };
 
 export default AssignedToFilter;
+
+
 
 
 

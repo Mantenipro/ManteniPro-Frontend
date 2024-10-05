@@ -19,7 +19,7 @@ const EquipmentDetails = () => {
         alt='Air Conditioning'
         width={200}
         height={200}
-        className='rounded-lg mx-auto mb-2'
+        className='rounded-lg mx-auto mb-2 '
       />
       <div className='overflow-y-auto max-h-[25rem]'>
         <div className='space-y-6 ml-2'>
@@ -68,7 +68,7 @@ const EquipmentDetails = () => {
             />
           </div>
 
-          <div className='mb-4'>
+          <div className='mb-4 mr-52'>
             <label
               className='block text-gray-700 text-sm font-semibold mb-[1px]'
               htmlFor='fechaFabricacion'
@@ -113,7 +113,7 @@ const EquipmentDetails = () => {
             />
           </div>
 
-          <div className='mb-4'>
+          <div className='mb-4 '>
             <label
               className='block text-gray-700 text-sm font-semibold mb-[2px]'
               htmlFor='tipoUnidad'
