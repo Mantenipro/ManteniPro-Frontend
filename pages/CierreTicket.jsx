@@ -54,7 +54,7 @@ export default function CierreTicket() {
           </h1>
         </div>
 
-        <div className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[595px] md:w-2/3'>
+        <form className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[595px] md:w-2/3'>
           <div className='flex flex-col'>
             <label className='mb-2 font-bold text-gray-700' htmlFor='orderId'>
               Id de la Orden
@@ -123,7 +123,7 @@ export default function CierreTicket() {
               Cerrar Ticket
             </button>
           </div>
-        </div>
+        </form>
       </main>
     </div>
   )
