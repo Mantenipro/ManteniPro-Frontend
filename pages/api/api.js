@@ -130,3 +130,17 @@ export const resetPassword = async (data) => {
     throw error
   }
 }
+
+
+export const createPaymentIntent = async () => {
+  const response = await fetch(`${API_URL}/payments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ amount: 1000, currency: 'usd' }) // Example amount and currency
+  })
+
+  const data = await response.json()
+  setClientSecret(data.clientSecret)
+}
