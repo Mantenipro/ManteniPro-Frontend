@@ -54,7 +54,7 @@ const TicketsDashboard = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 p-6'>
+      <main className='flex-1 px-6 mt-2'>
         <div className='mb-6 flex items-center justify-between'>
           <div className='left-4 top-4 z-50 lg:hidden'>
             <button

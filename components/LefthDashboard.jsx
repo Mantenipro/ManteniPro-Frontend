@@ -88,7 +88,9 @@ export default function LefthDashboard() {
           </div>
         </div>
         <div className='Seccion2'>
-          <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
+          <Link href='/perfil'>
+            <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
+          </Link>
           <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           <MenuItem
             icon='/signuot-dash.svg'
