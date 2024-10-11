@@ -51,7 +51,7 @@ export default function GetInfoMachine() {
         height={200}
         className="rounded-lg mx-auto mb-2"
       />
-      <div className="overflow-y-auto max-h-[25rem]">
+      <form className="overflow-y-auto max-h-[25rem]">
         <div className="space-y-6 ml-2">
           {inputsInfoMachine.map((input, index) => (
             <div key={index}>
@@ -104,8 +104,12 @@ export default function GetInfoMachine() {
               Subir archivo
             </label>
           </div>
+          <button type='submit' 
+          className='bg-blue-500 text-white font-medium py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-600'>
+            Enviar
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
