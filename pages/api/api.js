@@ -47,9 +47,8 @@ export const registerForm = async (
 }
 
 export const activateAccount = async (data) => {
-
   console.log(data)
-  
+
   try {
     const response = await fetch(`${API_URL}/activate`, {
       method: 'POST',
@@ -131,16 +130,28 @@ export const resetPassword = async (data) => {
   }
 }
 
+export async function fetchProducts() {
+  try {
+    const response = await fetch(`${API_URL}/products`)
+    if (!response.ok) {
+      throw new Error('Error fetching products')
+    }
+    const products = await response.json()
+    console.log('Products:', products)
+    return products
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}
 
-export const createPaymentIntent = async () => {
+export const createCheckoutSession = async (priceId) => {
   const response = await fetch(`${API_URL}/payments`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ amount: 1000, currency: 'usd' }) // Example amount and currency
+    body: JSON.stringify({ priceId }),  // Enviamos el priceId al backend
   })
 
-  const data = await response.json()
-  setClientSecret(data.clientSecret)
+  return await response.json()
 }
