@@ -14,19 +14,11 @@ const UserProfile = () => {
   })
 
   const [editMode, setEditMode] = useState({
-    company: false,
-    email: false,
-    password: false,
-    subscription: false,
     phone: false,
     address: false
   })
 
   const [errors, setErrors] = useState({
-    company: '',
-    email: '',
-    password: '',
-    subscription: '',
     phone: '',
     address: ''
   })
@@ -35,14 +27,34 @@ const UserProfile = () => {
   const [apiError, setApiError] = useState(null) // Estado para manejar errores de la API
 
   // Función para obtener datos de la API
-  /* const fetchUserData = async () => {
+  const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/companies') // Reemplaza con tu endpoint
+      // Obtén el token JWT desde donde lo tengas almacenado
+      const token = localStorage.getItem('token') // Ejemplo usando localStorage
+
+      const response = await fetch('http://localhost:8000/companies', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      console.log(response)
       if (!response.ok) {
         throw new Error('Error al obtener los datos de la API') // Manejo de errores
       }
+
       const data = await response.json()
-      setUser(data) // Actualiza el estado con los datos obtenidos
+      // Mapea los datos del backend a los campos del estado user
+      setUser({
+        company: data.name,
+        email: data.email,
+        password: data.password,
+        subscription: data.isActive ? 'Active' : 'Inactive',
+        phone: data.phone_number,
+        address: data.address
+      })
       setLoading(false) // Desactiva el estado de carga
     } catch (error) {
       setApiError(error.message) // Muestra el mensaje de error
@@ -50,10 +62,42 @@ const UserProfile = () => {
     }
   }
 
+  // Función para actualizar datos en la API
+  const updateUserData = async (data) => {
+    try {
+      const token = localStorage.getItem('token') // Ejemplo usando localStorage
+
+      const response = await fetch('http://localhost:8000/companies', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          phone_number: data.phone,
+          address: data.address
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Error al actualizar los datos en la API') // Manejo de errores
+      }
+
+      const updatedData = await response.json()
+      setUser({
+        ...user,
+        phone: updatedData.phone_number,
+        address: updatedData.address
+      })
+    } catch (error) {
+      setApiError(error.message) // Muestra el mensaje de error
+    }
+  }
+
   // useEffect para llamar a la API al montar el componente
   useEffect(() => {
     fetchUserData()
-  }, []) */
+  }, [])
 
   const {
     register,
@@ -78,21 +122,6 @@ const UserProfile = () => {
   const validateField = (field, value) => {
     let error = ''
     switch (field) {
-      case 'company':
-        if (value.trim().length < 2) {
-          error = 'Company name must be at least 2 characters long'
-        }
-        break
-      case 'email':
-        if (!/^\S+@\S+\.\S+$/.test(value)) {
-          error = 'Invalid email address'
-        }
-        break
-      case 'password':
-        if (value.length < 8) {
-          error = 'Password must be at least 8 characters long'
-        }
-        break
       case 'phone':
         if (!/^\d{10}$/.test(value)) {
           error = 'Phone number must be 10 digits'
@@ -121,7 +150,7 @@ const UserProfile = () => {
     }
   }
 
-  const renderField = (field, label, type = 'text') => (
+  const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
       <label
         htmlFor={field}
@@ -134,23 +163,25 @@ const UserProfile = () => {
           type={type}
           id={field}
           name={field}
-          {...register(field, { required: true })}
+          {...(editable ? register(field, { required: true }) : {})}
           value={user[field]}
           onChange={(e) => handleChange(e, field)}
-          disabled={!editMode[field]}
+          disabled={!editable || !editMode[field]}
           className={`w-full border px-3 py-2 ${errors[field] ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 ${editMode[field] ? 'bg-white' : 'bg-gray-100'}`}
           aria-label={label}
         />
-        <button
-          type='button'
-          onClick={() =>
-            editMode[field] ? handleSave(field) : handleEdit(field)
-          }
-          className='absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500 transition duration-150 ease-in-out hover:text-blue-500 focus:outline-none'
-          aria-label={editMode[field] ? 'Save' : 'Edit'}
-        >
-          {editMode[field] ? <FaCheck /> : <FaEdit />}
-        </button>
+        {editable && (
+          <button
+            type='button'
+            onClick={() =>
+              editMode[field] ? handleSave(field) : handleEdit(field)
+            }
+            className='absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500 transition duration-150 ease-in-out hover:text-blue-500 focus:outline-none'
+            aria-label={editMode[field] ? 'Save' : 'Edit'}
+          >
+            {editMode[field] ? <FaCheck /> : <FaEdit />}
+          </button>
+        )}
       </div>
       {(errors[field] || formErrors[field]) && (
         <p className='mt-1 text-sm text-red-600' id={`${field}-error`}>
@@ -161,17 +192,17 @@ const UserProfile = () => {
   )
 
   // Mostrar un estado de carga o error si hay un problema al obtener los datos
-  /* if (loading) {
+  if (loading) {
     return <div>Cargando datos...</div>
   }
 
   if (apiError) {
     return <div>Error: {apiError}</div>
-  } */
+  }
 
   return (
     <div className='flex min-h-screen items-center justify-center bg-gray-100 p-4'>
-      <div className='animate-fadeIn scrollbar-hide h-[40rem] w-full max-w-2xl space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl'>
+      <div className='animate-fadeIn h-[40rem] w-full max-w-2xl space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
         {/* Encabezado con imagen */}
         <div className='text-center'>
           <div className='relative inline-block'>
@@ -219,16 +250,13 @@ const UserProfile = () => {
         </div>
 
         {/* Formulario */}
-        <form
-          onSubmit={handleSubmit((data) => console.log(data))}
-          className='space-y-6'
-        >
-          {renderField('company', 'Company Name')}
-          {renderField('email', 'Email', 'email')}
-          {renderField('password', 'Password', 'password')}
-          {renderField('subscription', 'Subscription')}
-          {renderField('phone', 'Phone', 'tel')}
-          {renderField('address', 'Address')}
+        <form onSubmit={handleSubmit(updateUserData)} className='space-y-6'>
+          {renderField('company', 'Company Name', 'text', false)}
+          {renderField('email', 'Email', 'email', false)}
+          {renderField('password', 'Password', 'password', false)}
+          {renderField('subscription', 'Subscription', 'text', false)}
+          {renderField('phone', 'Phone', 'tel', true)}
+          {renderField('address', 'Address', 'text', true)}
           <button
             type='submit'
             className='w-full rounded-md bg-blue-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600'
