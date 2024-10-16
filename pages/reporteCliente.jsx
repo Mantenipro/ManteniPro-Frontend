@@ -1,9 +1,9 @@
 // pages/reporteCliente.js
 
 import React, { useState } from 'react';
-import LefthDashboard from '../components/LefthDashboard'; // Ajusta la ruta según tu estructura de carpetas
-import GetInfoMachine from '../components/GetInfoMachine'; // Ajusta la ruta según tu estructura de carpetas
-import Title from '../components/Title'; // Asegúrate de tener este componente
+import LefthDashboard from '../components/LefthDashboard';
+import GetInfoMachine from '../components/GetInfoMachine'; 
+import Title from '../components/Title'; 
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
@@ -23,7 +23,7 @@ const ReporteCliente = () => {
 
   return (
     <div className={`relative flex min-h-screen bg-white ${montserrat.className}`}>
-      {/* Barra Lateral */}
+      
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -32,9 +32,8 @@ const ReporteCliente = () => {
         <LefthDashboard />
       </div>
 
-      {/* Contenido Principal */}
       <main className="flex-1 px-6 mt-2">
-        {/* Botón de Menú para Pantallas Pequeñas */}
+        
         <div className="mb-6 flex items-center justify-between">
           <div className="left-4 top-4 z-50 lg:hidden">
             <button
@@ -46,13 +45,13 @@ const ReporteCliente = () => {
           </div>
         </div>
 
-        {/* Título de la Página */}
+       
         <div className="mb-4">
           <Title className="text-2xl">Reporte de incidente</Title>
         </div>
 
-        {/* Componente GetInfoMachine */}
-        <div className="mb-4">
+        
+        <div className="">
           <GetInfoMachine />
         </div>
       </main>
