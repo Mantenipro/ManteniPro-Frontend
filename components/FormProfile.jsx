@@ -10,7 +10,10 @@ const UserProfile = () => {
     password: '',
     subscription: '',
     phone: '',
-    address: ''
+    address: '',
+    startDate: '',
+    endDate: '',
+    subscriptionId: '' // Agrega el ID de la suscripción
   })
 
   const [editMode, setEditMode] = useState({
@@ -40,20 +43,36 @@ const UserProfile = () => {
         }
       })
 
-      console.log(response)
       if (!response.ok) {
         throw new Error('Error al obtener los datos de la API') // Manejo de errores
       }
 
       const data = await response.json()
+
+      // Verificar si subscription_type no es null o undefined
+      const startDate = data.subscription_type
+        ? new Date(
+            data.subscription_type.currentPeriodStart
+          ).toLocaleDateString()
+        : 'Fecha no disponible'
+      const endDate = data.subscription_type
+        ? new Date(data.subscription_type.currentPeriodEnd).toLocaleDateString()
+        : 'Fecha no disponible'
+      const subscriptionId = data.subscription_type
+        ? data.subscription_type.stripeSubscriptionId
+        : 'ID no disponible'
+
       // Mapea los datos del backend a los campos del estado user
       setUser({
         company: data.name,
         email: data.email,
         password: data.password,
-        subscription: data.isActive ? 'Active' : 'Inactive',
+        subscription: data.isActive ? 'Activa' : 'Inactiva',
         phone: data.phone_number,
-        address: data.address
+        address: data.address,
+        startDate: startDate,
+        endDate: endDate,
+        subscriptionId: subscriptionId
       })
       setLoading(false) // Desactiva el estado de carga
     } catch (error) {
@@ -149,6 +168,83 @@ const UserProfile = () => {
       reader.readAsDataURL(file)
     }
   }
+
+  const handleCancelSubscription = async () => {
+  try {
+    const response = await fetch(
+      'http://localhost:8000/cancel-subscription',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ subscriptionId: user.subscriptionId })
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('Error al cancelar la suscripción')
+    }
+
+    const result = await response.json()
+    console.log('Suscripción cancelada:', result)
+
+    // Verificar si la suscripción se canceló correctamente
+    if (
+      result.message ===
+      'Subscription suspended and database updated successfully'
+    ) {
+      // Actualiza el estado de la suscripción del usuario
+      setUser({
+        ...user,
+        subscription: 'Cancelada, activa hasta ' + user.endDate // Actualiza el estado de la suscripción
+      })
+    } else {
+      console.error('Error al cancelar la suscripción:', result.error)
+    }
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}
+
+const handleReactivateSubscription = async () => {
+  try {
+    const response = await fetch(
+      'http://localhost:8000/reactivate-subscription',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ subscriptionId: user.subscriptionId })
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('Error al reactivar la suscripción')
+    }
+
+    const result = await response.json()
+    console.log('Suscripción reactivada:', result)
+
+    // Verificar si la suscripción se reactivó correctamente
+    if (
+      result.message ===
+      'Subscription reactivated and database updated successfully'
+    ) {
+      // Actualiza el estado de la suscripción del usuario
+      setUser({
+        ...user,
+        subscription: 'Activa' // Actualiza el estado de la suscripción
+      })
+    } else {
+      console.error('Error al reactivar la suscripción:', result.error)
+    }
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}
+
 
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
@@ -257,6 +353,8 @@ const UserProfile = () => {
           {renderField('subscription', 'Subscription', 'text', false)}
           {renderField('phone', 'Phone', 'tel', true)}
           {renderField('address', 'Address', 'text', true)}
+          {renderField('startDate', 'Start Date', 'text', false)}
+          {renderField('endDate', 'End Date', 'text', false)}
           <button
             type='submit'
             className='w-full rounded-md bg-blue-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600'
@@ -264,6 +362,18 @@ const UserProfile = () => {
             Save All Changes
           </button>
         </form>
+        <button
+          onClick={handleCancelSubscription}
+          className='mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-red-600'
+        >
+          Cancel Subscription
+        </button>
+        <button
+          onClick={handleReactivateSubscription}
+          className='mt-4 w-full rounded-md bg-green-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-green-600'
+        >
+          Reactivate Subscription
+        </button>
       </div>
     </div>
   )
