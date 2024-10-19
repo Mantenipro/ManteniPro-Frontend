@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TicketCard from './TicketCard';
 
 const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados }) => {
   const [currentSection, setCurrentSection] = useState(0);
-  const [containerHeight, setContainerHeight] = useState('400px'); // Tamaño por defecto para pantallas desktop
 
   const sections = [
     { title: 'Por hacer', tickets: ticketsPorHacer },
@@ -19,31 +18,6 @@ const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados }
     setCurrentSection((prevSection) => (prevSection - 1 + sections.length) % sections.length);
   };
 
-  // Función para ajustar la altura del contenedor
-  const updateContainerHeight = () => {
-    const width = window.innerWidth;
-
-    // Ajustamos el tamaño de acuerdo al ancho de la pantalla
-    if (width >= 640) {
-      setContainerHeight('400px'); // Tamaño constante para desktop
-    } else if (width < 640 && width >= 375) {
-      setContainerHeight('450px'); // Tamaño para dispositivos móviles medianos
-    } else {
-      setContainerHeight('500px'); // Tamaño para dispositivos móviles pequeños
-    }
-  };
-
-  // Efecto para ajustar la altura del contenedor al cargar y al redimensionar
-  useEffect(() => {
-    updateContainerHeight();
-    window.addEventListener('resize', updateContainerHeight);
-    
-    // Limpiar el evento al desmontar
-    return () => {
-      window.removeEventListener('resize', updateContainerHeight);
-    };
-  }, []);
-
   return (
     <div className="bg-[#F5F5F5] p-4 rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -53,21 +27,20 @@ const TicketsStatus = ({ ticketsPorHacer, ticketsEnProceso, ticketsCompletados }
           handleNextSection={handleNextSection}
           handlePrevSection={handlePrevSection}
           showNavigation={true} 
-          containerHeight={containerHeight} // Pasamos la altura del contenedor
         />
         
         <div className="hidden md:block">
-          <StatusColumn title="En proceso" tickets={ticketsEnProceso} containerHeight={containerHeight} />
+          <StatusColumn title="En proceso" tickets={ticketsEnProceso} />
         </div>
         <div className="hidden md:block">
-          <StatusColumn title="Completados" tickets={ticketsCompletados} containerHeight={containerHeight} />
+          <StatusColumn title="Completados" tickets={ticketsCompletados} />
         </div>
       </div>
     </div>
   );
 };
 
-const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, showNavigation, containerHeight }) => (
+const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, showNavigation }) => (
   <div className="flex flex-col items-center group">
     <div className="flex items-center justify-between w-full mb-4">
       {showNavigation && (
@@ -98,7 +71,7 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
     {/* Contenedor scrollable para los tickets */}
     <div 
       className={`w-full mt-4 group-hover:bg-opacity-100 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100`} 
-      style={{ height: containerHeight }} // Ajustamos la altura del contenedor aquí
+      style={{ height: '60vh' }} // Altura por defecto del 70% del viewport
     >
       <div className="flex flex-col items-center">
         {tickets.length === 0 ? (
@@ -118,10 +91,21 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
         )}
       </div>
     </div>
+
+    {/* Ajuste de altura para pantallas móviles */}
+    <style jsx>{`
+      @media (max-width: 640px) {
+        div[style] {
+          height: 65vh !important; /* Ajuste al 75% para pantallas móviles */
+        }
+      }
+    `}</style>
   </div>
 );
 
 export default TicketsStatus;
+
+
 
 
 
