@@ -2,6 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import { FaEdit, FaCheck } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
+import {
+  fetchUserData,
+  updateUserData,
+  cancelSubscription,
+  reactivateSubscription
+} from '../pages/api/api'
+
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -30,86 +37,33 @@ const UserProfile = () => {
   const [apiError, setApiError] = useState(null) // Estado para manejar errores de la API
 
   // Función para obtener datos de la API
-  const fetchUserData = async () => {
+  const loadUserData = async () => {
     try {
-      // Obtén el token JWT desde donde lo tengas almacenado
-      const token = localStorage.getItem('token') // Ejemplo usando localStorage
-
-      const response = await fetch('http://localhost:8000/companies', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      })
-
-      if (!response.ok) {
-        throw new Error('Error al obtener los datos de la API') // Manejo de errores
-      }
-
-      const data = await response.json()
-
-      // Verificar si subscription_type no es null o undefined
-      const startDate = data.subscription_type
-        ? new Date(
-            data.subscription_type.currentPeriodStart
-          ).toLocaleDateString()
-        : 'Fecha no disponible'
-      const endDate = data.subscription_type
-        ? new Date(data.subscription_type.currentPeriodEnd).toLocaleDateString()
-        : 'Fecha no disponible'
-      const subscriptionId = data.subscription_type
-        ? data.subscription_type.stripeSubscriptionId
-        : 'ID no disponible'
-
-      // Mapea los datos del backend a los campos del estado user
-      setUser({
-        company: data.name,
-        email: data.email,
-        password: data.password,
-        subscription: data.isActive ? 'Activa' : 'Inactiva',
-        phone: data.phone_number,
-        address: data.address,
-        startDate: startDate,
-        endDate: endDate,
-        subscriptionId: subscriptionId
-      })
-      setLoading(false) // Desactiva el estado de carga
+      const userData = await fetchUserData()
+      setUser(userData)
+      setLoading(false)
     } catch (error) {
-      setApiError(error.message) // Muestra el mensaje de error
-      setLoading(false) // Desactiva el estado de carga
+      setApiError(error.message)
+      setLoading(false)
     }
   }
 
+  // Llama a loadUserData en el lugar adecuado, por ejemplo, en un useEffect
+  useEffect(() => {
+    loadUserData()
+  }, [])
+
   // Función para actualizar datos en la API
-  const updateUserData = async (data) => {
+  const handleUpdateUserData = async (data) => {
     try {
-      const token = localStorage.getItem('token') // Ejemplo usando localStorage
-
-      const response = await fetch('http://localhost:8000/companies', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          phone_number: data.phone,
-          address: data.address
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error('Error al actualizar los datos en la API') // Manejo de errores
-      }
-
-      const updatedData = await response.json()
-      setUser({
-        ...user,
-        phone: updatedData.phone_number,
+      const updatedData = await updateUserData(data)
+      setUser((prevUser) => ({
+        ...prevUser,
+        phone: updatedData.phone,
         address: updatedData.address
-      })
+      }))
     } catch (error) {
-      setApiError(error.message) // Muestra el mensaje de error
+      setApiError(error.message)
     }
   }
 
@@ -170,72 +124,38 @@ const UserProfile = () => {
   }
 
   const handleCancelSubscription = async () => {
-  try {
-    const response = await fetch(
-      'http://localhost:8000/cancel-subscription',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ subscriptionId: user.subscriptionId })
+    try {
+      const result = await cancelSubscription(user.subscriptionId)
+      console.log('Suscripción cancelada:', result)
+
+      if (
+        result.message ===
+        'Subscription suspended and database updated successfully'
+      ) {
+        setUser({
+          ...user,
+          subscription: 'Cancelada, activa hasta ' + user.endDate
+        })
+      } else {
+        console.error('Error al cancelar la suscripción:', result.error)
       }
-    )
-
-    if (!response.ok) {
-      throw new Error('Error al cancelar la suscripción')
+    } catch (error) {
+      console.error('Error:', error)
     }
-
-    const result = await response.json()
-    console.log('Suscripción cancelada:', result)
-
-    // Verificar si la suscripción se canceló correctamente
-    if (
-      result.message ===
-      'Subscription suspended and database updated successfully'
-    ) {
-      // Actualiza el estado de la suscripción del usuario
-      setUser({
-        ...user,
-        subscription: 'Cancelada, activa hasta ' + user.endDate // Actualiza el estado de la suscripción
-      })
-    } else {
-      console.error('Error al cancelar la suscripción:', result.error)
-    }
-  } catch (error) {
-    console.error('Error:', error)
   }
-}
 
 const handleReactivateSubscription = async () => {
   try {
-    const response = await fetch(
-      'http://localhost:8000/reactivate-subscription',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ subscriptionId: user.subscriptionId })
-      }
-    )
-
-    if (!response.ok) {
-      throw new Error('Error al reactivar la suscripción')
-    }
-
-    const result = await response.json()
+    const result = await reactivateSubscription(user.subscriptionId)
     console.log('Suscripción reactivada:', result)
 
-    // Verificar si la suscripción se reactivó correctamente
     if (
       result.message ===
       'Subscription reactivated and database updated successfully'
     ) {
-      // Actualiza el estado de la suscripción del usuario
       setUser({
         ...user,
-        subscription: 'Activa' // Actualiza el estado de la suscripción
+        subscription: 'Activa'
       })
     } else {
       console.error('Error al reactivar la suscripción:', result.error)
@@ -244,7 +164,6 @@ const handleReactivateSubscription = async () => {
     console.error('Error:', error)
   }
 }
-
 
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
@@ -346,7 +265,10 @@ const handleReactivateSubscription = async () => {
         </div>
 
         {/* Formulario */}
-        <form onSubmit={handleSubmit(updateUserData)} className='space-y-6'>
+        <form
+          onSubmit={handleSubmit(handleUpdateUserData)}
+          className='space-y-6'
+        >
           {renderField('company', 'Company Name', 'text', false)}
           {renderField('email', 'Email', 'email', false)}
           {renderField('password', 'Password', 'password', false)}

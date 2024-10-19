@@ -6,11 +6,20 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
-    extend: {
+    extend: { 
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)'
-      }
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 20s linear infinite',
+      },
     }
   },
   plugins: [require('tailwind-scrollbar-hide')]

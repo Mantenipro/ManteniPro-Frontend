@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { fetchUserData } from '../pages/api/api'; // Asegúrate de que la ruta sea correcta
 
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
@@ -15,16 +16,33 @@ const MenuItem = ({ icon, title, onClick, children }) => (
 )
 
 export default function LefthDashboard() {
-   
+  const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
+  const [showProfilesMenu, setShowProfilesMenu] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()
 
+  useEffect(() => {
+    // Función para obtener el estado de la suscripción desde la API de perfil
+    const fetchSubscriptionStatus = async () => {
+      try {
+        const userData = await fetchUserData()
+        setIsSubscriptionActive(userData.subscription === 'Activa')
+      } catch (error) {
+        console.error('Error fetching subscription status:', error)
+      }
+    }
+
+    fetchSubscriptionStatus()
+  }, [])
+   
   const handleSignOut = () => {
     window.localStorage.removeItem('token')
     router.push('/inicioSesion')
   }
 
-  const [showProfilesMenu, setShowProfilesMenu] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const handleSubscriptionRedirect = () => {
+    router.push('/Suscription')
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -87,11 +105,14 @@ export default function LefthDashboard() {
             </Link>
           </div>
         </div>
+        {!isSubscriptionActive && (
+          <button onClick={handleSubscriptionRedirect}>Suscribirse</button>
+        )}
         <div className='Seccion2'>
+          <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
           <Link href='/perfil'>
-            <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
+            <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           </Link>
-          <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           <MenuItem
             icon='/signuot-dash.svg'
             title='Sign Out'

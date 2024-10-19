@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import Title from '../components/Title';
 import InfoPanel from '../components/InfoPanel';
 import TicketsStatus from '../components/TicketsStatus';
 import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { fetchUserData } from '../pages/api/api'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const TicketsDashboard = () => {
   const [selectedPriorities, setSelectedPriorities] = useState([]);
-
+  const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const fetchSubscriptionStatus = async () => {
+      try {
+        const userData = await fetchUserData()
+        setIsSubscriptionActive(userData.subscription === 'Activa')
+      } catch (error) {
+        console.error('Error fetching subscription status:', error)
+      }
+    }
+
+    fetchSubscriptionStatus()
+  }, [])
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -54,7 +68,7 @@ const TicketsDashboard = () => {
         <LefthDashboard />
       </div>
 
-      <main className='flex-1 px-6 mt-2'>
+      <main className='mt-2 flex-1 px-6'>
         <div className='mb-6 flex items-center justify-between'>
           <div className='left-4 top-4 z-50 lg:hidden'>
             <button
@@ -66,24 +80,30 @@ const TicketsDashboard = () => {
           </div>
           <SearchBar className='w-1/2 md:w-1/3' />
         </div>
-
-        <div className='mb-4'>
+        {!isSubscriptionActive && (
+          <div className='fixed right-1 top-2 h-[36px] w-full max-w-[20rem] overflow-hidden rounded bg-red-500 py-2 text-white md:max-w-[44rem]'>
+            <div className='animate-marquee whitespace-nowrap'>
+              Suscripción inactiva. Suscríbase para disfrutar de todas las
+              funcionalidades.
+            </div>
+          </div>
+        )}
+        <div className='mb-2'>
           <Title className='text-2xl'>Tickets</Title>
         </div>
-        <div className='mb-4'>
+        <div className='mb-2'>
           <InfoPanel
             selectedPriorities={selectedPriorities}
             setSelectedPriorities={setSelectedPriorities}
           />
         </div>
 
-            <TicketsStatus
-              ticketsPorHacer={ticketsPorHacer}
-              ticketsEnProceso={ticketsEnProceso}
-              ticketsCompletados={ticketsCompletados}
-              selectedPriorities={selectedPriorities}
-            />
-          
+        <TicketsStatus
+          ticketsPorHacer={ticketsPorHacer}
+          ticketsEnProceso={ticketsEnProceso}
+          ticketsCompletados={ticketsCompletados}
+          selectedPriorities={selectedPriorities}
+        />
       </main>
     </div>
   )
