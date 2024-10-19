@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
-import { Today } from '@mui/icons-material'
+import React from 'react';
+import { Today } from '@mui/icons-material';
 
-export default function TaskCard({ picture, title, status, date, idOrder }) {
+export default function TaskCard({ picture, title, status, date, idOrder, onClick }) {
   return (
-    <div className='flex items-center rounded-xl border-2 bg-slate-100 p-2 text-sm text-slate-500 transition duration-300 ease-in-out hover:bg-transparent hover:text-white md:text-xl'>
+    <div 
+      onClick={onClick} // Llama al manejador de clics cuando la tarjeta es clickeada
+      className='flex items-center rounded-xl border-2 bg-[#FAFAFA] p-2 text-sm transition duration-300 ease-in-out hover:bg-gradient-to-r hover:from-[#21262D] hover:to-[#414B66] hover:text-white md:text-xl cursor-pointer min-w-[500px]' // Añadido min-w
+    >
       <img
         src={picture}
         alt='task-photo'
@@ -17,9 +20,10 @@ export default function TaskCard({ picture, title, status, date, idOrder }) {
         </div>
         <div className='flex items-start gap-1'>
           <Today fontSize='small' className='' />
-          <p className=' '>{date}</p>
+          <p>{date}</p>
         </div>
       </div>
     </div>
-  )
+  );
 }
+
