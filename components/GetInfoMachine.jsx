@@ -37,6 +37,7 @@ const inputsInfoMachine = [
 ];
 
 export default function GetInfoMachine() {
+  const router = useRouter();
   const { register, handleSubmit, reset, setValue, formState: { isSubmitting } } = useForm();
   const [tipoEquipo, setTipoEquipo] = useState('');
   const [problemasComunes, setProblemasComunes] = useState([]);
@@ -135,6 +136,8 @@ export default function GetInfoMachine() {
         setTipoEquipo(''); 
         setProblemasComunes([]);
         setSelectedFile(null);
+
+        router.push('/gestionDeTickets');
       }
     } catch (error) {
       console.error('Error al enviar el reporte:', error);
@@ -160,7 +163,7 @@ export default function GetInfoMachine() {
     <>
       <Toaster />
       <form
-        className="bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[90%] md:max-w-[30rem] min-h-[40rem]"
+        className="bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[90%] md:max-w-[30rem] md:min-h-[40rem] "
         onSubmit={handleSubmit(onSubmit)}
         id="machineReportForm"
       >
@@ -265,6 +268,9 @@ export default function GetInfoMachine() {
               />
             </div>
           </div>
+        
+        
+        
         </div>
 
         <div className="flex justify-center mt-5 pb-6">

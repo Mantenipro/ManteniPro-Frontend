@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
@@ -12,22 +12,21 @@ const MenuItem = ({ icon, title, onClick, children }) => (
     <p className='font-medium text-sm ml-10'>{title}</p>
     {children}
   </div>
-)
+);
 
 export default function LefthCustomer() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSignOut = () => {
-    window.localStorage.removeItem('token')
-    router.push('/inicioSesion')
-  }
+    window.localStorage.removeItem('token');
+    router.push('/inicioSesion');
+  };
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <main className='h-screen p-4 text-[#f2f6fc]'>
@@ -60,10 +59,13 @@ export default function LefthCustomer() {
           </div>
         </div>
         <div className='Seccion2'>
-          <Link href='/perfil'>
+          {/* Se eliminó la opción de Settings */}
+          {/* <Link href='/perfil'>
             <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
+          </Link> */}
+          <Link href='/perfilCliente'>
+            <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           </Link>
-          <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           <MenuItem
             icon='/signuot-dash.svg'
             title='Sign Out'
@@ -72,5 +74,9 @@ export default function LefthCustomer() {
         </div>
       </section>
     </main>
-  )
+  );
 }
+
+
+
+

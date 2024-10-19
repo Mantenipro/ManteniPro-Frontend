@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import LefthCustomer from '@/components/LefthCustomer'; // LefthCustomer
 import Title from '@/components/Title'; // Title
-import InfoPanel from '@/components/InfoPanel'; // InfoPanel
+import InfoPanelCustomer from '@/components/InfoPanelCustomer'; // Importa el nuevo componente
 import TicketList from '@/components/TicketList'; // Import the TicketList component
 
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
@@ -70,7 +70,7 @@ const GestionDeTickets = () => {
 
         {/* Panel de información */}
         <div className="mt-4">
-          <InfoPanel />
+          <InfoPanelCustomer /> {/* Usar InfoPanelCustomer en lugar de InfoPanel */}
         </div>
 
         {/* Sección de tareas */}
@@ -86,6 +86,7 @@ const GestionDeTickets = () => {
 };
 
 export default GestionDeTickets;
+
 
 
 
