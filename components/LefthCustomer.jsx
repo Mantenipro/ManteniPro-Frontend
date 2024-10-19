@@ -53,16 +53,12 @@ export default function LefthCustomer() {
             <Link href='/gestionDeTickets'>
               <MenuItem icon='/tickets-dash.svg' title='Tickets' />
             </Link>
-            <Link href='/reporteCliente'>
+            <Link href='/equiposCliente'> {/* Cambié de '/reporteCliente' a '/equiposCliente' */}
               <MenuItem icon='/equipos-dash.svg' title='Reporte' />
             </Link>
           </div>
         </div>
         <div className='Seccion2'>
-          {/* Se eliminó la opción de Settings */}
-          {/* <Link href='/perfil'>
-            <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
-          </Link> */}
           <Link href='/perfilCliente'>
             <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           </Link>
@@ -76,6 +72,7 @@ export default function LefthCustomer() {
     </main>
   );
 }
+
 
 
 
