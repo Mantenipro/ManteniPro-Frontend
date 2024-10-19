@@ -21,7 +21,7 @@ const inputData = [
 
 const ActivateAccountForm = ({ textColor, bgColor }) => {
   const router = useRouter()
-  const [userId, setUserId] = useState(null)
+const [token, setToken] = useState(null)
   const inputRefs = useRef([])
 
   const {
@@ -34,9 +34,9 @@ const ActivateAccountForm = ({ textColor, bgColor }) => {
   } = useForm()
 
   useEffect(() => {
-    if (router.isReady) {
-      const { id } = router.query
-      setUserId(id)
+    if (router.isReady && router.query.token) {
+      const { token } = router.query
+      setToken(token) // En este caso setUserId debería ser setToken para mayor claridad
     }
   }, [router.isReady, router.query])
 
@@ -45,10 +45,15 @@ const ActivateAccountForm = ({ textColor, bgColor }) => {
   }
 
   const onSubmit = async (data) => {
+
+    if (!token) {
+      toast.error('No se ha encontrado el token.')
+      return
+    }
     const activationCode = concatDigits(data)
 
     try {
-      const activate = await activateAccount({ id: userId, activationCode })
+      const activate = await activateAccount({ token, activationCode })
 
       toast.success('Cuenta activada', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',

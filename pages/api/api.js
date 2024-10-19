@@ -12,6 +12,10 @@ export async function login(email, password) {
 
   const json = await response.json()
 
+  if (!response.ok) {
+    throw new Error(json.error || 'Error al iniciar sesión')
+  }
+
   return json.data.token
 }
 

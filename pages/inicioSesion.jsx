@@ -63,7 +63,7 @@ const LoginForm = ({ textColor, bgColor }) => {
         // setError("username", {type: "manual", message: "Usuario invalido"}) en caso de que eñ backend indique que el error es de un input
       }
     } catch (error) {
-      toast.error('Usuario o contraseña incorrectos', {
+      toast.error(error.message, {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
         style: {
           fontSize: '20px',
@@ -72,10 +72,13 @@ const LoginForm = ({ textColor, bgColor }) => {
           width: 'auto'
         }
       })
+      setError('root.credentials', {
+        type: 'manual',
+        message: error.message
+      })
       console.error('[Login error]', error)
     }
   }
-
     function handleShowHidePassword() {
       setShowPassword(!showPassword)
     }
@@ -136,7 +139,10 @@ const LoginForm = ({ textColor, bgColor }) => {
         </button>
         <div className='my-7 flex justify-between'>
           <p className={textColor}>¿No tienes cuenta?</p>
-          <Link href='/registroUsuario' className='text-white md:text-[#31416d]'>
+          <Link
+            href='/registroUsuario'
+            className={textColor}
+          >
             Registrate
           </Link>
         </div>
