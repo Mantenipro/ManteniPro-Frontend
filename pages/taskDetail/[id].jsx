@@ -1,22 +1,22 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import React from 'react';
+import { useRouter } from 'next/router';
 
-import UserData from '@/components/UserData'
-import ReviewOrderSection from '@/components/ReviewOrderSection'
-import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
-import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
-import EquipmentInfo from '@/components/EquipmentInfo'
-import OrderTimeline from '@/components/OrderTimeline'
-import LefthDashboard from '@/components/LefthDashboard'
+import UserData from '@/components/UserData';
+import ReviewOrderSection from '@/components/ReviewOrderSection';
+import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile';
+import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile';
+import EquipmentInfo from '@/components/EquipmentInfo';
+import OrderTimeline from '@/components/OrderTimeline';
+import LefthTechnician from '@/components/LefthTechnician'; // Importa el nuevo componente
 
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 export default function TaskDetail() {
-  const router = useRouter()
-  const { id } = router.query
+  const router = useRouter();
+  const { id } = router.query;
 
   const detailTask = [
     {
@@ -36,15 +36,15 @@ export default function TaskDetail() {
       direccion:
         'Av. de la República, 123 Jardines Abril Padrón 6079, San Luis Potosí-Soledad 84132',
       compania: 'Empresa de Servicios',
-      desc_falla: 'Cable roto, no se puede conectar'
-    }
-  ]
+      desc_falla: 'Cable roto, no se puede conectar',
+    },
+  ];
 
   return (
     <div className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:max-w-screen-lg lg:flex-row lg:bg-white ${montserrat.className}`}>
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
-        <LefthDashboard />
+        <LefthTechnician /> {/* Reemplaza LefthDashboard con LefthTechnician */}
       </div>
       <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:mx-12 md:p-8'>
         <HeaderTecnicoMobile />
@@ -67,7 +67,7 @@ export default function TaskDetail() {
                 ult_mnto={item.ult_mnto}
                 año={item.año}
               />
-            )
+            );
           })}
           {/* ORDER TIMELINE */}
           {detailTask.map((item) => {
@@ -78,7 +78,7 @@ export default function TaskDetail() {
                 time={item.time}
                 fecha={item.fecha}
               />
-            )
+            );
           })}
           {/* DATA USER */}
           {detailTask.map((item) => {
@@ -95,13 +95,13 @@ export default function TaskDetail() {
                 compania={item.compania}
                 desc_falla={item.desc_falla}
               />
-            )
+            );
           })}
           {/* FOTTER ORDER DETAIL */}
           <ReviewOrderSection />
         </div>
 
-        {/* ORDER DETAIL SECTION DESKTOP*/}
+        {/* ORDER DETAIL SECTION DESKTOP */}
         <div className='scrollbar-thin scrollbar-thumb-rounded -mx-2 mt-4 hidden flex-col gap-3 overflow-y-auto rounded-md bg-slate-200 p-1 py-3 pb-7 text-slate-800 md:mx-4 md:flex md:px-5'>
           {/* ORDER TITLE */}
           {detailTask.map((item) => {
@@ -113,7 +113,7 @@ export default function TaskDetail() {
                 {item.title_task}
                 <br />
               </span>
-            )
+            );
           })}
 
           {/* ORDER TIMELINE */}
@@ -125,7 +125,7 @@ export default function TaskDetail() {
                 time={item.time}
                 fecha={item.fecha}
               />
-            )
+            );
           })}
 
           <div className='flex flex-row-reverse gap-2'>
@@ -142,7 +142,7 @@ export default function TaskDetail() {
                   ult_mnto={item.ult_mnto}
                   año={item.año}
                 />
-              )
+              );
             })}
             {/* DATA USER */}
             {detailTask.map((item) => {
@@ -159,11 +159,11 @@ export default function TaskDetail() {
                   compania={item.compania}
                   desc_falla={item.desc_falla}
                 />
-              )
+              );
             })}
           </div>
 
-          {/* DESC ORDER h-[10vh]*/}
+          {/* DESC ORDER h-[10vh] */}
           <div className='mt-2 flex w-full items-stretch gap-2 text-lg'>
             {detailTask.map((item, index) => {
               return (
@@ -177,7 +177,7 @@ export default function TaskDetail() {
                     </div>
                   )}
                 </div>
-              )
+              );
             })}
             {/* IMGE ORDER */}
             {detailTask.map((item, index) => {
@@ -191,7 +191,7 @@ export default function TaskDetail() {
                     />
                   )}
                 </div>
-              )
+              );
             })}
           </div>
 
@@ -200,5 +200,6 @@ export default function TaskDetail() {
         </div>
       </section>
     </div>
-  )
+  );
 }
+

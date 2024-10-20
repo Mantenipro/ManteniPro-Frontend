@@ -1,25 +1,25 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
-import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
-import SubtitleMobile from '@/components/SubtitleMobile'
-import LefthDashboard from '@/components/LefthDashboard'
+import React from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile';
+import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile';
+import SubtitleMobile from '@/components/SubtitleMobile';
+import LefthTechnician from '@/components/LefthTechnician'; // Importa el nuevo componente
 
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 export default function OrderClosed() {
-  const router = useRouter()
-  const { id } = router.query
+  const router = useRouter();
+  const { id } = router.query;
 
   return (
     <div className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white ${montserrat.className}`}>
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
-        <LefthDashboard />
+        <LefthTechnician /> {/* Reemplaza LefthDashboard con LefthTechnician */}
       </div>
       <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:h-auto md:p-10 '>
         <HeaderTecnicoMobile />
@@ -88,5 +88,6 @@ export default function OrderClosed() {
         </Link>
       </section>
     </div>
-  )
+  );
 }
+
