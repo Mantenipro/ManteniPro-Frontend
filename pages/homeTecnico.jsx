@@ -88,13 +88,13 @@ export default function HomeTecnico() {
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
         <LefthTechnician />
       </div>
-      <section className='m-6 flex h-[80vh] md:m-10 md:h-[85vh] md:w-full max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:p-10 lg:h-full lg:max-w-none'
+      <section className='m-6 flex  md:m-10  md:w-full max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:p-10 lg:h-full lg:max-w-none'
       >
         <HeaderTecnicoMobile />
         <SearchInputTecnico />
 
         {/* TASKS SECTION */}
-        <div className='flex flex-col h-[65vh] md:h-[80vh]'>
+        <div className='flex flex-col h-[60vh] md:h-[75vh]'>
           <span className='text-center font-semibold md:text-xl'>Tareas</span>
 
           <div className='mt-1 flex justify-around text-center md:text-xl'>
