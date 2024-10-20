@@ -1,16 +1,16 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import React from 'react';
+import { useRouter } from 'next/router';
 
-import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
-import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
-import SearchInputTecnico from '@/components/SearchInputTecnico'
-import LefthDashboard from '@/components/LefthDashboard'
-import TaskCard from '@/components/TaskCard'
+import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile';
+import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile';
+import SearchInputTecnico from '@/components/SearchInputTecnico';
+import LefthTechnician from '@/components/LefthTechnician'; // Importa el nuevo componente
+import TaskCard from '@/components/TaskCard';
 
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 export default function HomeTecnico() {
   const dummyFails = [
@@ -20,7 +20,7 @@ export default function HomeTecnico() {
       picture: 'https://picsum.photos/200',
       title: 'Aire Acondicionado que no enfria adecuadamente',
       status: 'En proceso',
-      date: '12/04/2024'
+      date: '12/04/2024',
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ export default function HomeTecnico() {
       picture: 'https://picsum.photos/200',
       title: 'Panel Solar requiere mantenimiento',
       status: 'Completada',
-      date: '23/01/2020'
+      date: '23/01/2020',
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ export default function HomeTecnico() {
       picture: 'https://picsum.photos/200',
       title: 'Panel Solar se rompió',
       status: 'En proceso',
-      date: '12/06/2024'
+      date: '12/06/2024',
     },
     {
       id: 4,
@@ -44,7 +44,7 @@ export default function HomeTecnico() {
       picture: 'https://picsum.photos/200',
       title: 'Aire Acondionado roto',
       status: 'Completada',
-      date: '12/12/2020'
+      date: '12/12/2020',
     },
     {
       id: 5,
@@ -52,23 +52,23 @@ export default function HomeTecnico() {
       picture: 'https://picsum.photos/200',
       title: 'Panel Acondionado roto',
       status: 'Completada',
-      date: '12/12/2020'
-    }
-  ]
+      date: '12/12/2020',
+    },
+  ];
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleCardClick = (id) => {
-    router.push(`/taskDetail/${id}`)
-  }
+    router.push(`/taskDetail/${id}`);
+  };
 
   return (
     <div
-      className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white ${montserrat.className} `}
+      className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white ${montserrat.className}`}
     >
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
-        <LefthDashboard />
+        <LefthTechnician /> {/* Reemplaza LefthDashboard con LefthTechnician */}
       </div>
       <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 lg:h-full lg:max-w-sm'>
         <HeaderTecnicoMobile />
@@ -111,5 +111,6 @@ export default function HomeTecnico() {
         {/* END TASKS SECTION */}
       </section>
     </div>
-  )
+  );
 }
+
