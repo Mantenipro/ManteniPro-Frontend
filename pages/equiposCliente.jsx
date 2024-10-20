@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import Title from '../components/Title';
-// Cambiamos MachineCard por CustomersMachine
 import CustomersMachine from '../components/CustomersMachine';
 import LefthCustomer from '../components/LefthCustomer';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
@@ -37,23 +36,33 @@ const dummyMachines = [
     manufacturer: 'FrioTech',
     location: 'Delegación Benito Juárez, Ciudad de México',
     qr: '/qr.jpg'
-  }
+  },
+  {
+    model: 'AC-200',
+    owner: 'Hugo Lozano',
+    manufacturer: 'FrioTech',
+    location: 'Delegación Benito Juárez, Ciudad de México',
+    qr: '/qr.jpg'
+  },
+  {
+    model: 'AC-200',
+    owner: 'Hugo Lozano',
+    manufacturer: 'FrioTech',
+    location: 'Delegación Benito Juárez, Ciudad de México',
+    qr: '/qr.jpg'
+  },
+  // Agrega más máquinas aquí según sea necesario
 ];
 
 const EquiposCliente = () => {
-  const [showProfilesMenu, setShowProfilesMenu] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const toggleProfilesMenu = () => {
-    setShowProfilesMenu(!showProfilesMenu);
-  };
-
   return (
-    <div className={`${montserrat.className} h-dvh flex flex-row lg:flex-grow relative`}>
+    <div className={`${montserrat.className} flex flex-row lg:flex-grow relative h-screen`}>
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -77,9 +86,8 @@ const EquiposCliente = () => {
           <Title className='text-2xl'>Catálogo de equipos</Title>
         </div>
 
-        <div className='mt-8 space-y-6'>
+        <div className='flex flex-col mt-8 space-y-2 h-[70vh] md:h-[75vh] overflow-y-auto'>
           {dummyMachines.map((machine, index) => (
-            // Cambiamos MachineCard por CustomersMachine
             <CustomersMachine key={index} machine={machine} />
           ))}
         </div>
@@ -89,5 +97,11 @@ const EquiposCliente = () => {
 };
 
 export default EquiposCliente;
+
+
+
+
+
+
 
 

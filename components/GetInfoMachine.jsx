@@ -170,7 +170,7 @@ export default function GetInfoMachine() {
         
         <Image src="/airConditioning.jpg" alt="Air Conditioning" width={150} height={150} className="rounded-lg mx-auto mb-2" />
         
-        <div className="overflow-y-auto max-h-[25rem]">
+        <div className="flex flex-col overflow-y-auto h-[50vh] md:h-[55vh]">
          
           <div className="mb-4">
             <h2 className="text-lg font-semibold mb-2">Información del equipo</h2>
@@ -273,7 +273,7 @@ export default function GetInfoMachine() {
         
         </div>
 
-        <div className="flex justify-center mt-5 pb-6">
+        <div className="flex justify-center mt-5 pb-6 md:pb-10">
           <button
             type="submit"
             className={`text-white bg-[#4F70B5] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5`}
