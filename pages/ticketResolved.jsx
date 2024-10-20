@@ -23,7 +23,7 @@ export default function TicketResolved() {
       <section className='m-6 flex flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300'>
         <HeaderTecnicoMobile />
 
-        <div className='m-8 flex flex-col items-center justify-center text-center md:h-[65vh]'>
+        <div className='m-8 flex flex-col items-center justify-center text-center md:h-[65vh] ' >
           <span className='mb-2 font-semibold text-slate-300 md:mb-16 md:text-4xl'>
             Ticket Solucionado !
           </span>

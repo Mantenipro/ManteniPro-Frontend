@@ -21,7 +21,7 @@ export default function OrderClosed() {
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
         <LefthTechnician />
       </div>
-      <section className='m-6 flex h-[85vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:h-auto md:p-10 '>
+      <section className='m-6 flex h-[85vh] md:h-[85vh] md:w-full max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:p-10'>
         <HeaderTecnicoMobile />
         <span className='m-auto my-3 font-semibold text-slate-200 md:text-xl'>
           Orden Cerrada
@@ -29,7 +29,7 @@ export default function OrderClosed() {
         
         {/* Contenedor de información */}
         <div className='flex-grow overflow-y-auto'>
-          <div className='-mx-2 flex flex-col rounded bg-slate-100 p-3 text-center md:mx-5 md:text-xl '>
+          <div className='-mx-2 flex flex-col rounded bg-slate-100 p-3 text-center md:mx-5 md:text-xl'>
             <span className='mb-2 mr-auto font-semibold text-slate-800 md:hidden'>
               Reparar cable
             </span>
@@ -85,14 +85,18 @@ export default function OrderClosed() {
           </div>
         </div>
         
-        <Link href={`/ticketResolved`}>
-          <button className='mt-8 w-full rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold'>
-            Competado
-          </button>
-        </Link>
+        {/* Contenedor del botón centrado */}
+        <div className='flex justify-center mt-8'>
+          <Link href={`/ticketResolved`}>
+            <button className='flex items-center  justify-center w-full md:w-64 rounded-lg bg-yellow-300 p-1 px-4 text-lg font-semibold text-blue-950 transition-colors duration-300 hover:from-blue-950 hover:to-blue-600 hover:font-bold'>
+              Completo
+            </button>
+          </Link>
+        </div>
       </section>
     </div>
   );
 }
+
 
 

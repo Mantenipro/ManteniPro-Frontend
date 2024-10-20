@@ -2,11 +2,12 @@
 import React from 'react';
 import { Today } from '@mui/icons-material';
 
-export default function TaskCard({ picture, title, status, date, idOrder, onClick }) {
+export default function TaskCard({ picture, title, status, date, idOrder, onClick, className }) {
   return (
     <div 
       onClick={onClick} 
-      className='flex items-center rounded-xl border-2 bg-[#FAFAFA] p-2 text-sm transition duration-300 ease-in-out hover:bg-gradient-to-r hover:from-[#21262D] hover:to-[#414B66] hover:text-white md:text-xl cursor-pointer min-w-[500px]' // Añadido min-w
+      className={`flex items-center rounded-xl border-2 bg-[#FAFAFA] p-2 text-sm transition duration-300 ease-in-out hover:bg-gradient-to-r 
+       hover:from-[#21262D] hover:to-[#414B66] hover:text-white md:text-xl cursor-pointer ${className}`} // Se agregó className
     >
       <img
         src={picture}
@@ -19,11 +20,13 @@ export default function TaskCard({ picture, title, status, date, idOrder, onClic
           <p className='mt-1'>{idOrder}</p>
         </div>
         <div className='flex items-start gap-1'>
-          <Today fontSize='small' className='' />
+          <Today fontSize='small' />
           <p>{date}</p>
         </div>
       </div>
     </div>
   );
 }
+
+
 
