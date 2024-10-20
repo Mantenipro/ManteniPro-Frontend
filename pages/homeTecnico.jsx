@@ -75,7 +75,7 @@ export default function HomeTecnico() {
         <SearchInputTecnico />
 
         {/* TASKS SECTION */}
-        <div className='flex flex-col'>
+        <div className='flex flex-col h-[65vh] md:h-[80vh]'>
           <span className='text-center font-semibold md:text-xl'>Tareas</span>
 
           <div className='mt-1 flex justify-around text-center md:text-xl'>
