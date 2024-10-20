@@ -18,7 +18,7 @@ const CustomersMachine = ({ machine }) => {
   };
 
   const handleCardClick = () => {
-    router.push('/reporteCliente'); // Redirigir a la página 'reporteCliente'
+    router.push('/reporteCliente'); 
   };
 
   return (

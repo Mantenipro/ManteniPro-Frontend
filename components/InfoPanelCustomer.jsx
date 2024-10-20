@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import DateFilter from './DateFilter'; 
-import LocationFilter from './LocationFilter'; // Importa el filtro de localización
-
+import LocationFilter from './LocationFilter'; 
 const InfoPanelCustomer = () => {
   const [selectedDate, setSelectedDate] = useState('');
-  const [location, setLocation] = useState(''); // Estado para la localización
+  const [location, setLocation] = useState(''); 
 
   return (
     <div className='flex overflow-x-auto space-x-2 items-center text-white'>
-      {/* Filtro de Fecha */}
+     
       <DateFilter
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />
       
-      {/* Filtro de Localización */}
+    
       <LocationFilter
         selectedLocations={location}
         setSelectedLocations={setLocation}

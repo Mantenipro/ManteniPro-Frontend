@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
-import TaskCard from './TaskCard'; // Import the TaskCard component
-import TicketDetail from './TicketDetail'; // Import the TicketDetail component
-import TicketClosed from './TicketClosed'; // Import the TicketClosed component
+import TaskCard from './TaskCard'; 
+import TicketDetail from './TicketDetail'; 
+import TicketClosed from './TicketClosed'; 
 
 export default function TicketList({ tasksInProgress, tasksCompleted }) {
-  const [activeTab, setActiveTab] = useState('inProgress'); // State to toggle between the two sections
-  const [selectedTask, setSelectedTask] = useState(null); // State to hold the selected task
+  const [activeTab, setActiveTab] = useState('inProgress'); 
+  const [selectedTask, setSelectedTask] = useState(null); 
 
-  // Show tasks depending on active tab
+  
   const tasksToDisplay = activeTab === 'inProgress' ? tasksInProgress : tasksCompleted;
 
   const handleCardClick = (task) => {
-    setSelectedTask(task); // Set the selected task when a card is clicked
+    setSelectedTask(task); 
   };
 
-  // Handle changing the tab and resetting selectedTask
+  
   const handleTabChange = (tab) => {
-    setActiveTab(tab); // Change the active tab
-    setSelectedTask(null); // Reset the selected task when changing tabs
+    setActiveTab(tab); 
+    setSelectedTask(null); 
   };
 
-  // Handle going back to the task list
+  
   const handleBackClick = () => {
-    setSelectedTask(null); // Clear the selected task to go back to the list
+    setSelectedTask(null); 
   };
 
   return (
     <div className="flex w-full h-[75vh] md:h-[80vh] p-4 overflow-hidden bg-white rounded-xl shadow-lg">
-      {/* Task List Section */}
-      {!selectedTask && ( // Hide task list when a task is selected
+     
+      {!selectedTask && ( 
         <div className="flex flex-col w-full max-w-[400px] sm:max-w-[500px] flex-1">
           <div className="flex-1">
             {/* Tabs */}
@@ -49,13 +49,13 @@ export default function TicketList({ tasksInProgress, tasksCompleted }) {
                   Completadas
                 </button>
               </div>
-              {/* Línea separadora */}
+             
               <div className="border-b border-gray-300 my-2" />
             </div>
-
-            {/* Scrollable Task List */}
+ 
+           
             <div className="relative w-full h-[65vh] md:h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-              {/* Task cards list */}
+            
               <div className="flex flex-col space-y-5 mt-4">
                 {tasksToDisplay.map((task, index) => (
                   <TaskCard
@@ -64,7 +64,7 @@ export default function TicketList({ tasksInProgress, tasksCompleted }) {
                     title={task.title}
                     idOrder={task.idOrder}
                     date={task.date}
-                    onClick={() => handleCardClick(task)} // Add onClick handler to set the selected task
+                    onClick={() => handleCardClick(task)} 
                   />
                 ))}
               </div>
@@ -73,22 +73,22 @@ export default function TicketList({ tasksInProgress, tasksCompleted }) {
         </div>
       )}
 
-      {/* Ticket Detail Section */}
+     
       {selectedTask && (
         <div className="flex flex-col flex-1 max-w-full">
-          {/* Back Button */}
+        
           <button
-            onClick={handleBackClick} // Handle back button click
+            onClick={handleBackClick} 
             className="text-lg font-bold text-blue-500 mb-4 self-start"
           >
             &larr; Volver
           </button>
 
-          {/* Check if the selected task is from the "Completadas" tab */}
+          
           {activeTab === 'completed' ? (
-            <TicketClosed task={selectedTask} /> // Show TicketClosed for completed tasks
+            <TicketClosed task={selectedTask} /> 
           ) : (
-            <TicketDetail task={selectedTask} /> // Show TicketDetail for tasks in progress
+            <TicketDetail task={selectedTask} />
           )}
         </div>
       )}

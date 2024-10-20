@@ -18,10 +18,10 @@ function TicketCard({ title, description, username, date, priority, ticketId }) 
         className={`mb-1 rounded-lg p-2 shadow-md transition-all duration-200 
           ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'} 
           sm:max-w-[150px] sm:p-1 sm:text-xs
-          md:mb-3 md:rounded-xl md:p-3 md:shadow-lg`} // Ajustes para mobile y desktop
+          md:mb-3 md:rounded-xl md:p-3 md:shadow-lg`} 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{ maxWidth: '300px' }} // Ajusta el ancho máximo en general
+        style={{ maxWidth: '300px' }} 
       >
         <div className='flex items-start justify-between'>
           <span className={`rounded-full px-1 py-0.5 text-xs ${priorityClass}`}>

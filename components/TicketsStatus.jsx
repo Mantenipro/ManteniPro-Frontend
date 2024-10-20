@@ -68,10 +68,10 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
 
     <div className="w-full h-1 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-[#21262D] to-[#414B66]"></div>
 
-    {/* Contenedor scrollable para los tickets */}
+    
     <div 
       className={`w-full mt-4 group-hover:bg-opacity-100 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100`} 
-      style={{ height: '60vh' }} // Altura por defecto del 70% del viewport
+      style={{ height: '60vh' }} 
     >
       <div className="flex flex-col items-center">
         {tickets.length === 0 ? (
@@ -92,7 +92,7 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
       </div>
     </div>
 
-    {/* Ajuste de altura para pantallas móviles */}
+    
     <style jsx>{`
       @media (max-width: 640px) {
         div[style] {

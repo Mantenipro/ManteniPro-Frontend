@@ -36,7 +36,7 @@ export default function LefthTechnician() {
         <div className='my-1 flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
           <img className='h-10 w-10' src='/userphoto.svg' alt='User' />
           <p className='text-sm font-bold'>Name</p>
-          <p className='text-center text-xs'>Technician</p> {/* Cambiado a 'Technician' */}
+          <p className='text-center text-xs'>Technician</p> 
         </div>
       </div>
 
@@ -44,13 +44,13 @@ export default function LefthTechnician() {
         <div className='Seccion1'>
           <p className='font-bold'>MAIN</p>
           <div className='flex flex-col'>
-            <Link href='/homeTecnico'> {/* Redirigir a homeTecnico */}
+            <Link href='/homeTecnico'> 
               <MenuItem icon='/tickets-dash.svg' title='Tickets' />
             </Link>
           </div>
         </div>
         <div className='Seccion2'>
-          <Link href='/perfilTecnico'> {/* Cambiado a '/perfilTecnico' */}
+          <Link href='/perfilTecnico'> 
             <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           </Link>
           <MenuItem

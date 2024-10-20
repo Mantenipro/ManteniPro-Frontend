@@ -5,7 +5,7 @@ import { Today } from '@mui/icons-material';
 export default function TaskCard({ picture, title, status, date, idOrder, onClick }) {
   return (
     <div 
-      onClick={onClick} // Llama al manejador de clics cuando la tarjeta es clickeada
+      onClick={onClick} 
       className='flex items-center rounded-xl border-2 bg-[#FAFAFA] p-2 text-sm transition duration-300 ease-in-out hover:bg-gradient-to-r hover:from-[#21262D] hover:to-[#414B66] hover:text-white md:text-xl cursor-pointer min-w-[500px]' // Añadido min-w
     >
       <img

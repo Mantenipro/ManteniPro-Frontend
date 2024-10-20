@@ -53,7 +53,7 @@ export default function LefthCustomer() {
             <Link href='/gestionDeTickets'>
               <MenuItem icon='/tickets-dash.svg' title='Tickets' />
             </Link>
-            <Link href='/equiposCliente'> {/* Cambié de '/reporteCliente' a '/equiposCliente' */}
+            <Link href='/equiposCliente'>
               <MenuItem icon='/equipos-dash.svg' title='Reporte' />
             </Link>
           </div>

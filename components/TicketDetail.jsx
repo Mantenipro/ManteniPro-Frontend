@@ -4,7 +4,7 @@ export default function TicketDetail({ task }) {
   return (
     <div className={`relative flex h-[65vh] md:h-[80vh] flex-row lg:flex-grow`}>
       <div className='flex-1 p-6'>
-        {/* Título fuera del contenedor scrollable */}
+       
         <div className="mb-4 text-center">
           <h1 className="text-2xl font-bold" style={{ color: '#2E3A59' }}>Estatus de Ticket</h1>
         </div>
@@ -18,7 +18,7 @@ export default function TicketDetail({ task }) {
                 </div>
               </div>
 
-              {/* Estado del Ticket */}
+              
               <div className='mt-4 flex flex-col justify-around space-y-2 md:flex-row md:space-y-0'>
                 <div className='flex items-center rounded border-2 border-[#21262D] p-2 text-[#21262D]'>
                   <img src='candado.svg' alt='icon' className='mr-2 h-5 w-5 object-cover' />
