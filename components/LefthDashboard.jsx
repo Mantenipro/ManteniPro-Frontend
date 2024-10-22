@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { fetchUserData } from '../pages/api/api'; // Asegúrate de que la ruta sea correcta
+import { fetchUserData, fetchUserProfile } from '../pages/api/api' // Asegúrate de que la ruta sea correcta
 
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
@@ -19,6 +19,7 @@ export default function LefthDashboard() {
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [userProfile, setUserProfile] = useState({ name: '', role: '' })
   const router = useRouter()
 
   useEffect(() => {
@@ -32,7 +33,26 @@ export default function LefthDashboard() {
       }
     }
 
+    // Función para obtener el perfil del usuario
+    const fetchUserProfileData = async () => {
+      try {
+        const token = window.localStorage.getItem('token')
+        if (!token) {
+          throw new Error('No token found')
+        }
+
+        const profileData = await fetchUserProfile()
+        setUserProfile({
+          name: profileData.data.name,
+          role: profileData.data.role
+        })
+      } catch (error) {
+        console.error('Error fetching user profile:', error)
+      }
+    }
+
     fetchSubscriptionStatus()
+    fetchUserProfileData()
   }, [])
    
   const handleSignOut = () => {
@@ -65,8 +85,8 @@ export default function LefthDashboard() {
 
         <div className='my-1 flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
           <img className='h-10 w-10' src='/userphoto.svg' alt='User' />
-          <p className='text-sm font-bold'>Name</p>
-          <p className='text-center text-xs'>Product Manager</p>
+          <p className='text-xs font-bold'>{userProfile.name}</p>
+          <p className='text-center text-xs'>{userProfile.role}</p>
         </div>
       </div>
 

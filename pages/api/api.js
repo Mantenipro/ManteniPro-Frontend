@@ -272,15 +272,13 @@ export const cancelSubscription = async () => {
 
 export const reactivateSubscription = async (subscriptionId) => {
   try {
-    const response = await fetch(`${API_URL}/reactivate-subscription`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ subscriptionId })
-      }
-    )
+    const response = await fetch(`${API_URL}/reactivate-subscription`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ subscriptionId })
+    })
 
     if (!response.ok) {
       throw new Error('Error al reactivar la suscripción')
@@ -289,6 +287,33 @@ export const reactivateSubscription = async (subscriptionId) => {
     const result = await response.json()
     return result
   } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+export const fetchUserProfile = async () => {
+  try {
+    const token = localStorage.getItem('token')
+
+    const response = await fetch(`${API_URL}/users/profile`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      const errorMessage = `Error fetching profile data: ${response.status} - ${response.statusText}`
+      console.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    const data = await response.json()
+    console.log('Profile data:', data) // Para ver qué datos se están recibiendo
+    return data
+  } catch (error) {
+    console.error('Error fetching user profile:', error)
     throw new Error(error.message)
   }
 }
