@@ -6,17 +6,17 @@ import { fetchUserData, fetchUserProfile } from '../pages/api/api' // Asegúrate
 
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
-    className='flex items-center justify-start mt-2 cursor-pointer p-2 w-full hover:bg-[#2D2F39] transition-all duration-300 ease-in-out rounded-md'
+    className='mt-2 flex w-full cursor-pointer items-center justify-start rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'
     onClick={onClick}
   >
     <img src={icon} alt={title} />
-    <p className='font-medium text-sm ml-10'>{title}</p>
+    <p className='ml-10 text-sm font-medium'>{title}</p>
     {children}
   </div>
 )
 
 export default function LefthDashboard() {
-  const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
+  const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [userProfile, setUserProfile] = useState({ name: '', role: '' })
@@ -54,7 +54,7 @@ export default function LefthDashboard() {
     fetchSubscriptionStatus()
     fetchUserProfileData()
   }, [])
-   
+
   const handleSignOut = () => {
     window.localStorage.removeItem('token')
     router.push('/inicioSesion')
@@ -62,7 +62,7 @@ export default function LefthDashboard() {
 
   const handleSubscriptionRedirect = () => {
     router.push('/Suscription')
-  };
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -85,7 +85,7 @@ export default function LefthDashboard() {
 
         <div className='my-1 flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
           <img className='h-10 w-10' src='/userphoto.svg' alt='User' />
-          <p className='text-xs font-bold'>{userProfile.name}</p>
+          <p className='text-center text-xs font-bold'>{userProfile.name}</p>
           <p className='text-center text-xs'>{userProfile.role}</p>
         </div>
       </div>
@@ -94,40 +94,67 @@ export default function LefthDashboard() {
         <div className='Seccion1'>
           <p className='font-bold'>MAIN</p>
           <div className='flex flex-col'>
-            <Link href='/ticketsDashboard'>
-              <MenuItem icon='/tickets-dash.svg' title='Tickets' />
-            </Link>
-            <MenuItem
-              icon='/perfile-dash.svg'
-              title='Perfiles'
-              onClick={toggleProfilesMenu}
-            >
-              <button className='ml-5 text-sm font-medium'>
-                {isMenuOpen ? '˄' : '˅'}
-              </button>
-            </MenuItem>
-            {showProfilesMenu && (
-              <div className='relative ml-6 mt-2 flex flex-col border-l-2 border-l-gray-200 pl-5'>
-                <Link href='/catalogoDeTecnicos'>
-                  <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
-                    <p className='text-sm'>Técnicos</p>
-                  </div>
+            {userProfile.role === 'admin' && (
+              <>
+                <Link href='/ticketsDashboard'>
+                  <MenuItem icon='/tickets-dash.svg' title='Tickets' />
                 </Link>
-                <Link href='/catalogoDeUsuariosv2'>
-                  <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
-                    <p className='text-sm'>Usuarios</p>
+                <MenuItem
+                  icon='/perfile-dash.svg'
+                  title='Perfiles'
+                  onClick={toggleProfilesMenu} // Usar toggleProfilesMenu para controlar el menú desplegable
+                >
+                  <button className='ml-5 text-sm font-medium'>
+                    {showProfilesMenu ? '˄' : '˅'} {/* Actualiza según el estado */}
+                    {showProfilesMenu}
+                  </button>
+                </MenuItem>
+                {showProfilesMenu && (
+                  <div className='relative ml-6 mt-2 flex flex-col border-l-2 border-l-gray-200 pl-5'>
+                    <Link href='/catalogoDeTecnicos'>
+                      <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
+                        <p className='text-sm'>Técnicos</p>
+                      </div>
+                    </Link>
+                    <Link href='/catalogoDeUsuariosv2'>
+                      <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
+                        <p className='text-sm'>Usuarios</p>
+                      </div>
+                    </Link>
                   </div>
+                )}
+                <Link href='/inventarioEquipos'>
+                  <MenuItem icon='/equipos-dash.svg' title='Equipos' />
                 </Link>
-              </div>
+                {!isSubscriptionActive && (
+                  <button
+                    className='mt-4 rounded-md bg-red-500 p-2 text-white'
+                    onClick={handleSubscriptionRedirect}
+                  >
+                    Suscribirse
+                  </button>
+                )}
+              </>
             )}
-            <Link href='/inventarioEquipos'>
-              <MenuItem icon='/equipos-dash.svg' title='Equipos' />
-            </Link>
+            {userProfile.role === 'Technician' && (
+              <>
+                <Link href='/homeTecnico'>
+                  <MenuItem icon='/tickets-dash.svg' title='Tickets' />
+                </Link>
+              </>
+            )}
+            {userProfile.role === 'Customer' && (
+              <>
+                <Link href='/gestionDeTickets'>
+                  <MenuItem icon='/tickets-dash.svg' title='Tickets' />
+                </Link>
+                <Link href='/equiposCliente'>
+                  <MenuItem icon='/equipos-dash.svg' title='Reporte' />
+                </Link>
+              </>
+            )}
           </div>
         </div>
-        {!isSubscriptionActive && (
-          <button onClick={handleSubscriptionRedirect}>Suscribirse</button>
-        )}
         <div className='Seccion2'>
           <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
           <Link href='/perfil'>
