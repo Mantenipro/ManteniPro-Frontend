@@ -11,7 +11,7 @@ const UserDetails = () => {
 
   return (
     <div
-      className={`${sourceSans3.className} ml-4 bg-white shadow-lg rounded-lg px-4 pt-4 w-full max-w-[40rem] min-h-[35rem] mt-5`}
+      className={`${sourceSans3.className}  bg-white shadow-lg rounded-lg px-4 pt-4 w-full max-w-[40rem] min-h-[35rem] mt-5`}
     >
       <Image
         src='/profile.jpg'

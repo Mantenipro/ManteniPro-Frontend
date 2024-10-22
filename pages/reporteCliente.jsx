@@ -1,5 +1,3 @@
-// pages/reporteCliente.js
-
 import React, { useState } from 'react';
 import LefthCustomer from '../components/LefthCustomer'; // Cambiado a LefthCustomer
 import GetInfoMachine from '../components/GetInfoMachine'; 
@@ -28,7 +26,7 @@ const ReporteCliente = () => {
         <LefthCustomer />
       </div>
 
-      <main className="flex-1 px-6 mt-2">
+      <main className="flex-1 px-6 mt-2 ">
         
         <div className="mb-6 flex items-center justify-between">
           <div className="left-4 top-4 z-50 lg:hidden">
@@ -45,6 +43,7 @@ const ReporteCliente = () => {
           <Title className="text-2xl">Reporte de incidente</Title>
         </div>
 
+      
         <div className="">
           <GetInfoMachine />
         </div>
@@ -54,4 +53,6 @@ const ReporteCliente = () => {
 };
 
 export default ReporteCliente;
+
+
 

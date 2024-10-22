@@ -37,6 +37,7 @@ const inputsInfoMachine = [
 ];
 
 export default function GetInfoMachine() {
+  const router = useRouter();
   const { register, handleSubmit, reset, setValue, formState: { isSubmitting } } = useForm();
   const [tipoEquipo, setTipoEquipo] = useState('');
   const [problemasComunes, setProblemasComunes] = useState([]);
@@ -135,6 +136,8 @@ export default function GetInfoMachine() {
         setTipoEquipo(''); 
         setProblemasComunes([]);
         setSelectedFile(null);
+
+        router.push('/gestionDeTickets');
       }
     } catch (error) {
       console.error('Error al enviar el reporte:', error);
@@ -160,14 +163,14 @@ export default function GetInfoMachine() {
     <>
       <Toaster />
       <form
-        className="bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[90%] md:max-w-[30rem] min-h-[40rem]"
+        className="bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[90%] md:max-w-[30rem] md:min-h-[40rem] "
         onSubmit={handleSubmit(onSubmit)}
         id="machineReportForm"
       >
         
         <Image src="/airConditioning.jpg" alt="Air Conditioning" width={150} height={150} className="rounded-lg mx-auto mb-2" />
         
-        <div className="overflow-y-auto max-h-[25rem]">
+        <div className="flex flex-col overflow-y-auto h-[50vh] md:h-[55vh]">
          
           <div className="mb-4">
             <h2 className="text-lg font-semibold mb-2">Información del equipo</h2>
@@ -265,9 +268,12 @@ export default function GetInfoMachine() {
               />
             </div>
           </div>
+        
+        
+        
         </div>
 
-        <div className="flex justify-center mt-5 pb-6">
+        <div className="flex justify-center mt-5 pb-6 md:pb-10">
           <button
             type="submit"
             className={`text-white bg-[#4F70B5] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5`}

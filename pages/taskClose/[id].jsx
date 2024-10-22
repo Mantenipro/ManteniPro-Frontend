@@ -1,22 +1,23 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import React from 'react';
+import { useRouter } from 'next/router';
 
-import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile'
-import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile'
-import LefthDashboard from '@/components/LefthDashboard'
+import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile';
+import HeaderTecnicoMobile from '@/components/HeaderTecnicoMobile';
+import LefthTechnician from '@/components/LefthTechnician'; // Cambiado de LefthDashboard a LefthTechnician
 
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 export default function TaskClose() {
-  const router = useRouter()
-  const { id } = router.query
+  const router = useRouter();
+  const { id } = router.query;
 
   const handleCloseTask = () => {
-    router.push(`/orderClosed/${id}`)
-  }
+    router.push(`/orderClosed/${id}`);
+  };
+
   const detailTask = [
     {
       id: 1,
@@ -26,15 +27,15 @@ export default function TaskClose() {
       Solucion:
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, consequatur modi? Cum ex saepe totam, sit architecto quisquam voluptatibus maxime quis, consequatur fuga molestiae officiis dicta numquam repellendus libero magnam?'
     }
-  ]
+  ];
 
   return (
     <div className={`min-h-screen w-full bg-[#d8d5d5] lg:flex lg:flex-row lg:bg-white ${montserrat.className}`}>
       <NavbarTecnicoMobile />
       <div className='hidden lg:block lg:bg-gradient-to-b lg:from-[#31416d] lg:to-[#232c48]'>
-        <LefthDashboard />
+        <LefthTechnician /> {/* Cambiado a LefthTechnician */}
       </div>
-      <section className='m-6 flex h-[75vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:p-10'>
+      <section className='m-6 flex h-[80vh] max-h-screen flex-col rounded-md bg-gradient-to-b from-[#31416d] to-[#232c48] p-4 text-slate-300 md:m-10 md:p-10 md:h-[85vh]'>
         <HeaderTecnicoMobile />
 
         <div className='scrollbar-thin scrollbar-thumb-rounded mt-3 flex flex-col gap-3 overflow-y-auto text-sm md:text-lg lg:h-full'>
@@ -54,7 +55,7 @@ export default function TaskClose() {
                   {item.modelo}
                 </span>
               </div>
-            )
+            );
           })}
           <span>Solucion de la Incidencia</span>
           <span className={`rounded bg-slate-300 p-2 text-slate-700 ${sourceSans3.className}`}>
@@ -76,5 +77,6 @@ export default function TaskClose() {
         </div>
       </section>
     </div>
-  )
+  );
 }
+

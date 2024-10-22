@@ -4,6 +4,11 @@ export default function TicketDetail({ task }) {
   return (
     <div className={`relative flex h-[65vh] md:h-[80vh] flex-row lg:flex-grow`}>
       <div className='flex-1 p-6'>
+       
+        <div className="mb-4 text-center">
+          <h1 className="text-2xl font-bold" style={{ color: '#2E3A59' }}>Estatus de Ticket</h1>
+        </div>
+
         <div className='flex items-center justify-center'>
           <div className='max-h-screen space-y-4 overflow-y-auto md:h-[595px] md:w-2/3'>
             <div className='rounded border p-2 shadow-lg'>
@@ -13,7 +18,7 @@ export default function TicketDetail({ task }) {
                 </div>
               </div>
 
-              {/* Estado del Ticket */}
+              
               <div className='mt-4 flex flex-col justify-around space-y-2 md:flex-row md:space-y-0'>
                 <div className='flex items-center rounded border-2 border-[#21262D] p-2 text-[#21262D]'>
                   <img src='candado.svg' alt='icon' className='mr-2 h-5 w-5 object-cover' />
@@ -81,7 +86,7 @@ export default function TicketDetail({ task }) {
                 </div>
               </div>
 
-              <div className='my-10 flex justify-center '> {/* Agregado 'mb-4' para margen inferior */}
+              <div className='mt-5 mb-72 md:mt-5 md:mb-28 flex justify-center'>
                 <img src='/airConditioning.jpg' alt='user-photo' className='m-1 h-24 w-24 rounded-lg object-cover shadow-md' />
               </div>
 
@@ -93,5 +98,6 @@ export default function TicketDetail({ task }) {
     </div>
   );
 }
+
 
 
