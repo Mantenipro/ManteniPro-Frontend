@@ -10,7 +10,7 @@ import SearchBar from '../components/SearchBar'
 import Title from '../components/Title'
 import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
-import { fetchUserData } from '../pages/api/api'
+import { fetchUserData, fetchUserProfile } from '../pages/api/api'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -127,6 +127,7 @@ const TicketsDashboard = () => {
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false) // Controla la hidratación
+  const [userRole, setUserRole] = useState('') // Estado para el rol del usuario
   const tickets = useTickets() // Hook para gestionar tickets
 
   useEffect(() => {
@@ -139,6 +140,22 @@ const TicketsDashboard = () => {
       }
     }
 
+    // Función para obtener el perfil del usuario
+    const fetchUserProfileData = async () => {
+      try {
+        const token = window.localStorage.getItem('token')
+        if (!token) {
+          throw new Error('No token found')
+        }
+
+        const profileData = await fetchUserProfile()
+        setUserRole(profileData.data.role)
+      } catch (error) {
+        console.error('Error fetching user profile:', error)
+      }
+    }
+
+    fetchUserProfileData()
     fetchSubscriptionStatus()
   }, [])
 
@@ -155,17 +172,37 @@ const TicketsDashboard = () => {
     setShowProfilesMenu(!showProfilesMenu)
   }
 
+  // Filtrar tickets según el rol del usuario
+  const filteredTickets = useMemo(() => {
+    switch (userRole) {
+      case 'admin':
+        return tickets
+      case 'usuario':
+        return {
+          enProceso: tickets.enProceso,
+          completados: tickets.completados
+        }
+      case 'tecnico':
+        return {
+          porHacer: tickets.porHacer,
+          completados: tickets.completados
+        }
+      default:
+        return tickets
+    }
+  }, [tickets, userRole])
+
   // Memorizar el componente TicketsStatus para evitar renders innecesarios
   const MemoizedTicketsStatus = useMemo(
     () => (
       <TicketsStatus
-        ticketsPorHacer={tickets.porHacer}
-        ticketsEnProceso={tickets.enProceso}
-        ticketsCompletados={tickets.completados}
+        ticketsPorHacer={filteredTickets.porHacer || []}
+        ticketsEnProceso={filteredTickets.enProceso || []}
+        ticketsCompletados={filteredTickets.completados || []}
         selectedPriorities={selectedPriorities}
       />
     ),
-    [tickets, selectedPriorities]
+    [filteredTickets, selectedPriorities]
   )
 
   return (
@@ -196,7 +233,7 @@ const TicketsDashboard = () => {
           <SearchBar />
 
           <div className='flex flex-col md:mt-0 md:flex-row md:items-center'>
-            {!isSubscriptionActive && (
+            {userRole === 'admin' && !isSubscriptionActive && (
               <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-full max-w-[20rem] overflow-hidden rounded bg-red-500 py-2 text-center text-white md:relative md:w-auto md:max-w-none md:text-left lg:ml-4'>
                 <div className='animate-marquee whitespace-nowrap'>
                   Suscripción inactiva. Suscríbase para disfrutar de todas las

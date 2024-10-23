@@ -317,3 +317,32 @@ export const fetchUserProfile = async () => {
     throw new Error(error.message)
   }
 }
+
+export const sendUserData = async (data) => {
+  console.log('Datos enviados:', data)
+
+  // Eliminar el campo 'photo' de los datos
+  const { photo, ...dataWithoutPhoto } = data
+
+  try {
+    const token = localStorage.getItem('token') // Asumiendo que el token se guarda en localStorage
+
+    const response = await fetch('http://localhost:8000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` // Enviar el token en los headers
+      },
+      body: JSON.stringify(dataWithoutPhoto)
+    })
+
+    if (!response.ok) {
+      throw new Error('Error en la solicitud')
+    }
+
+    const result = await response.json()
+    console.log('Respuesta de la API:', result)
+  } catch (error) {
+    console.error('Error al enviar los datos:', error)
+  }
+}

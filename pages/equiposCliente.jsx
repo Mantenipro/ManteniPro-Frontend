@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import Title from '../components/Title';
 import CustomersMachine from '../components/CustomersMachine';
-import LefthCustomer from '../components/LefthCustomer';
+import LefthDashboard from '../components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
@@ -62,38 +62,41 @@ const EquiposCliente = () => {
   };
 
   return (
-    <div className={`${montserrat.className} flex flex-row lg:flex-grow relative h-screen`}>
+    <div
+      className={`${montserrat.className} relative flex h-screen flex-row lg:flex-grow`}
+    >
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#31416d] to-[#232c48] md:w-[30%] lg:w-[15%] w-[50%] h-full fixed lg:static z-40`}
+        } fixed z-40 h-full w-[50%] transform bg-gradient-to-b from-[#31416d] to-[#232c48] transition-transform duration-300 ease-in-out md:w-[30%] lg:static lg:w-[15%] lg:translate-x-0`}
       >
-        <LefthCustomer />
+        <LefthDashboard />
       </div>
       <main className='flex-1 p-6'>
         <div className='flex lg:items-center lg:justify-between'>
-          <div className='lg:hidden top-4 left-4 z-50'>
+          <div className='left-4 top-4 z-50 lg:hidden'>
             <button
               onClick={toggleMenu}
-              className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'>
+              className='rounded-md bg-[#21262D] p-2 text-white focus:outline-none'
+            >
               {isMenuOpen ? '✖' : '☰'}
             </button>
           </div>
-          <SearchBar className='w-1/2 md:w-1/3 ' />
+          <SearchBar className='w-1/2 md:w-1/3' />
         </div>
 
-        <div className='mt-8 mb-4'>
+        <div className='mb-4 mt-8'>
           <Title className='text-2xl'>Catálogo de equipos</Title>
         </div>
 
-        <div className='flex flex-col mt-8 space-y-2 h-[70vh] md:h-[75vh] overflow-y-auto'>
+        <div className='mt-8 flex h-[70vh] flex-col space-y-2 overflow-y-auto md:h-[75vh]'>
           {dummyMachines.map((machine, index) => (
             <CustomersMachine key={index} machine={machine} />
           ))}
         </div>
       </main>
     </div>
-  );
+  )
 };
 
 export default EquiposCliente;

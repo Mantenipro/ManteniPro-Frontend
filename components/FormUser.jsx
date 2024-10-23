@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { Source_Sans_3 } from 'next/font/google'
+import { sendUserData } from '../pages/api/api'
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
@@ -29,19 +31,19 @@ const FormUser = ({ initialData }) => {
     }
   }, [initialData, reset])
 
-  const handleFormSubmit = (data) => {
-    console.log(data)
+  const handleFormSubmit = async (data) => {
+    await sendUserData(data) // Usar la función importada
   }
-
+  
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-4 w-full max-w-[71rem] min-h-[38rem] flex flex-col`}
+      className={`${sourceSans3.className} flex min-h-[38rem] w-full max-w-[71rem] flex-col rounded-lg bg-white px-4 pt-4 shadow-lg`}
     >
-      <div className='space-y-4 flex-1'>
+      <div className='flex-1 space-y-4'>
         <div className='mb-4'>
           <label
-            className='block text-gray-700 text-sm font-semibold mb-[2px]'
+            className='mb-[2px] block text-sm font-semibold text-gray-700'
             htmlFor='Nombre completo'
           >
             Nombre Completo
@@ -51,11 +53,11 @@ const FormUser = ({ initialData }) => {
               <img
                 src='/iconuser.svg'
                 alt=''
-                className='absolute left-3 top-1/2 transform -translate-y-1/2'
+                className='absolute left-3 top-1/2 -translate-y-1/2 transform'
               />
               <input
                 {...register('name')}
-                className='appearance-none border border-gray-300 rounded-lg w-full py-1 pl-10 pr-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='w-full appearance-none rounded-lg border border-gray-300 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 id='name'
                 type='text'
                 placeholder='Juanito Perez Gonzalez'
@@ -65,7 +67,7 @@ const FormUser = ({ initialData }) => {
         </div>
         <div className='mb-4'>
           <label
-            className='block text-gray-700 text-sm font-semibold mb-[2px]'
+            className='mb-[2px] block text-sm font-semibold text-gray-700'
             htmlFor='Correo Electrónico'
           >
             Correo Electrónico
@@ -75,11 +77,11 @@ const FormUser = ({ initialData }) => {
               <img
                 src='/iconemail.svg'
                 alt=''
-                className='absolute left-3 top-1/2 transform -translate-y-1/2'
+                className='absolute left-3 top-1/2 -translate-y-1/2 transform'
               />
               <input
                 {...register('email')}
-                className='appearance-none border border-gray-300 rounded-lg w-full py-1 pl-10 pr-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='w-full appearance-none rounded-lg border border-gray-300 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 id='email'
                 type='email'
                 placeholder='nombre@dominio.com'
@@ -90,7 +92,7 @@ const FormUser = ({ initialData }) => {
 
         <div className='mb-4'>
           <label
-            className='block text-gray-700 text-sm font-semibold mb-[2px]'
+            className='mb-[2px] block text-sm font-semibold text-gray-700'
             htmlFor='Contraseña'
           >
             Contraseña
@@ -100,11 +102,11 @@ const FormUser = ({ initialData }) => {
               <img
                 src='/iconpassword.svg'
                 alt=''
-                className='absolute left-3 top-1/2 transform -translate-y-1/2'
+                className='absolute left-3 top-1/2 -translate-y-1/2 transform'
               />
               <input
-                {...register('contraseña')}
-                className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 pl-10 pr-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+                {...register('password')}
+                className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 id='contraseña'
                 type='password'
                 placeholder='********'
@@ -115,15 +117,15 @@ const FormUser = ({ initialData }) => {
 
         <div className='mb-4'>
           <label
-            className='block text-gray-700 text-sm font-semibold mb-[2px]'
+            className='mb-[2px] block text-sm font-semibold text-gray-700'
             htmlFor='Cargo'
           >
             Cargo
           </label>
           <div className='w-full lg:w-1/2'>
             <select
-              {...register('cargo')}
-              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs lg:text-sm'
+              {...register('type')}
+              className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 text-xs leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-sm'
               id='cargo'
             >
               <option value=''>Seleccione un tipo</option>
@@ -137,28 +139,28 @@ const FormUser = ({ initialData }) => {
 
         <div className='mb-4'>
           <label
-            className='block text-gray-700 text-sm font-semibold mb-[8px]'
+            className='mb-[8px] block text-sm font-semibold text-gray-700'
             htmlFor='permisos'
           >
             Permisos
           </label>
-          <div className='w-full lg:w-1/2 flex space-x-2'>
-            <div className='border border-gray-300 rounded-lg p-2 flex items-center'>
+          <div className='flex w-full space-x-2 lg:w-1/2'>
+            <div className='flex items-center rounded-lg border border-gray-300 p-2'>
               <input
-                {...register('permisos')}
-                className='appearance-none border border-gray-300 rounded-full h-4 w-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+                {...register('role')}
+                className='h-4 w-4 appearance-none rounded-full border border-gray-300 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 id='permiso-user'
                 type='radio'
-                value='user'
+                value='usuario'
               />
               <label htmlFor='permiso-user' className='ml-2 text-gray-700'>
                 User
               </label>
             </div>
-            <div className='border border-gray-300 rounded-lg p-2 flex items-center'>
+            <div className='flex items-center rounded-lg border border-gray-300 p-2'>
               <input
-                {...register('permisos')}
-                className='appearance-none border border-gray-300 rounded-full h-4 w-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+                {...register('role')}
+                className='h-4 w-4 appearance-none rounded-full border border-gray-300 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 id='permiso-admin'
                 type='radio'
                 value='admin'
@@ -167,10 +169,10 @@ const FormUser = ({ initialData }) => {
                 Admin
               </label>
             </div>
-            <div className='border border-gray-300 rounded-lg p-2 flex items-center'>
+            <div className='flex items-center rounded-lg border border-gray-300 p-2'>
               <input
-                {...register('permisos')}
-                className='appearance-none border border-gray-300 rounded-full h-4 w-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+                {...register('role')}
+                className='h-4 w-4 appearance-none rounded-full border border-gray-300 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 id='permiso-tecnico'
                 type='radio'
                 value='tecnico'
@@ -184,15 +186,15 @@ const FormUser = ({ initialData }) => {
 
         <div className='mb-4'>
           <label
-            className='block text-gray-700 text-sm font-semibold mb-[2px]'
+            className='mb-[2px] block text-sm font-semibold text-gray-700'
             htmlFor='foto'
           >
             Agregar foto (opcional)
           </label>
           <div className='w-full lg:w-1/2'>
             <input
-              {...register('foto')}
-              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              {...register('photo')}
+              className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='foto'
               type='file'
             />
@@ -200,10 +202,10 @@ const FormUser = ({ initialData }) => {
         </div>
       </div>
 
-      <div className='flex justify-end lg:mt-4 lg:mb-10 lg:mr-10 mb-14'>
+      <div className='mb-14 flex justify-end lg:mb-10 lg:mr-10 lg:mt-4'>
         <button
           type='submit'
-          className='py-3 px-6 lg:py-1 lg:px-12 bg-gradient-to-r from-[#21262D] to-[#414B66] text-white text-lg font-bold rounded-lg shadow-md hover:from-[#1a1d24] hover:to-[#373f5a] focus:outline-none focus:ring-4 focus:ring-blue-300'
+          className='rounded-lg bg-gradient-to-r from-[#21262D] to-[#414B66] px-6 py-3 text-lg font-bold text-white shadow-md hover:from-[#1a1d24] hover:to-[#373f5a] focus:outline-none focus:ring-4 focus:ring-blue-300 lg:px-12 lg:py-1'
         >
           {initialData ? 'Actualizar' : 'Agregar'}
         </button>

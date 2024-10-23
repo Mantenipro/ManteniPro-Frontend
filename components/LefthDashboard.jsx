@@ -136,14 +136,14 @@ export default function LefthDashboard() {
                 )}
               </>
             )}
-            {userProfile.role === 'Technician' && (
+            {userProfile.role === 'tecnico' && (
               <>
                 <Link href='/homeTecnico'>
                   <MenuItem icon='/tickets-dash.svg' title='Tickets' />
                 </Link>
               </>
             )}
-            {userProfile.role === 'Customer' && (
+            {userProfile.role === 'usuario' && (
               <>
                 <Link href='/gestionDeTickets'>
                   <MenuItem icon='/tickets-dash.svg' title='Tickets' />
