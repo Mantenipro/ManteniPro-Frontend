@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react'
 import { FaEdit, FaCheck } from 'react-icons/fa'
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form'
 import {
   fetchUserData,
@@ -43,11 +44,13 @@ const UserProfile = () => {
   const [apiError, setApiError] = useState(null) // Estado para manejar errores de la API
   const [userRole, setUserRole] = useState('') // Estado para el rol del usuario
 
+    const router = useRouter(); // Hook para redirección
+
   // Función para obtener datos de la API
   const loadUserData = async () => {
     try {
       const userData = await fetchUserData()
-          console.log("Datos de usuario cargados:", userData) // Verificar si los datos se cargan correctamente
+      console.log('Datos de usuario cargados:', userData) // Verificar si los datos se cargan correctamente
       setUser(userData)
       setLoading(false)
     } catch (error) {
@@ -154,10 +157,13 @@ const UserProfile = () => {
         result.message ===
         'Subscription suspended and database updated successfully'
       ) {
-        setUser({
-          ...user,
-          subscription: 'Cancelada, activa hasta ' + user.endDate
-        })
+        console.log('Actualizando estado del usuario...')
+
+        setUser((prevUser) => ({
+          ...prevUser,
+          subscription: `Cancelada, activa hasta ${prevUser.endDate}`
+        }))
+        router.push('/ticketsDashboard') // Redirigir después de cancelar
       } else {
         console.error('Error al cancelar la suscripción:', result.error)
       }
@@ -175,10 +181,11 @@ const UserProfile = () => {
         result.message ===
         'Subscription reactivated and database updated successfully'
       ) {
-        setUser({
-          ...user,
+        setUser((prevUser) => ({
+          ...prevUser,
           subscription: 'Activa'
-        })
+        }))
+        router.push('/ticketsDashboard') // Redirigir después de reactivar
       } else {
         console.error('Error al reactivar la suscripción:', result.error)
       }
@@ -186,7 +193,6 @@ const UserProfile = () => {
       console.error('Error:', error)
     }
   }
-
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
       <label

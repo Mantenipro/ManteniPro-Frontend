@@ -4,7 +4,6 @@ import React, {
   Suspense,
   lazy,
   useMemo,
-  startTransition
 } from 'react'
 import SearchBar from '../components/SearchBar'
 import Title from '../components/Title'
@@ -24,101 +23,110 @@ const useTickets = () => {
     enProceso: [],
     completados: []
   })
+  const [loadingTickets, setLoadingTickets] = useState(true)
 
   useEffect(() => {
-    // Se pueden cargar desde una API aquí, por ahora los simulamos.
-    setTickets({
-      porHacer: [
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '13/05/24',
-          priority: 'Sin prioridad',
-          ticketId: '132314'
-        },
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '14/05/24',
-          priority: 'Sin prioridad',
-          ticketId: '132315'
-        },
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '15/05/24',
-          priority: 'Sin prioridad',
-          ticketId: '132316'
-        }
-      ],
-      enProceso: [
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '16/05/24',
-          priority: 'Baja',
-          ticketId: '132317'
-        },
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '17/05/24',
-          priority: 'Media',
-          ticketId: '132318'
-        },
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '18/05/24',
-          priority: 'Alta',
-          ticketId: '132319'
-        }
-      ],
-      completados: [
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '19/05/24',
-          priority: 'Baja',
-          ticketId: '132320'
-        },
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '20/05/24',
-          priority: 'Media',
-          ticketId: '132321'
-        },
-        {
-          title: 'Aire acondicionado no enfría adecuadamente.',
-          description:
-            'La unidad hace ruidos extraños y el flujo de aire es débil.',
-          username: 'Username',
-          date: '21/05/24',
-          priority: 'Alta',
-          ticketId: '132322'
-        }
-      ]
-    })
+    // Simulamos la carga de los tickets
+    const loadTickets = () => {
+      setLoadingTickets(true)
+      setTimeout(() => {
+        setTickets({
+          porHacer: [
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '13/05/24',
+              priority: 'Sin prioridad',
+              ticketId: '132314'
+            },
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '14/05/24',
+              priority: 'Sin prioridad',
+              ticketId: '132315'
+            },
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '15/05/24',
+              priority: 'Sin prioridad',
+              ticketId: '132316'
+            }
+          ],
+          enProceso: [
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '16/05/24',
+              priority: 'Baja',
+              ticketId: '132317'
+            },
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '17/05/24',
+              priority: 'Media',
+              ticketId: '132318'
+            },
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '18/05/24',
+              priority: 'Alta',
+              ticketId: '132319'
+            }
+          ],
+          completados: [
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '19/05/24',
+              priority: 'Baja',
+              ticketId: '132320'
+            },
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '20/05/24',
+              priority: 'Media',
+              ticketId: '132321'
+            },
+            {
+              title: 'Aire acondicionado no enfría adecuadamente.',
+              description:
+                'La unidad hace ruidos extraños y el flujo de aire es débil.',
+              username: 'Username',
+              date: '21/05/24',
+              priority: 'Alta',
+              ticketId: '132322'
+            }
+          ]
+        })
+        setLoadingTickets(false)
+      }, 2000) // Simula 2 segundos de carga
+    }
+
+    loadTickets()
   }, [])
 
-  return tickets
+  return { tickets, loadingTickets }
 }
 
 const TicketsDashboard = () => {
@@ -126,9 +134,13 @@ const TicketsDashboard = () => {
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isHydrated, setIsHydrated] = useState(false) // Controla la hidratación
-  const [userRole, setUserRole] = useState('') // Estado para el rol del usuario
-  const tickets = useTickets() // Hook para gestionar tickets
+  const [isHydrated, setIsHydrated] = useState(false)
+  const [userRole, setUserRole] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [apiError, setApiError] = useState(null)
+
+  // Hook personalizado que gestiona los tickets
+  const { tickets, loadingTickets } = useTickets()
 
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
@@ -137,10 +149,12 @@ const TicketsDashboard = () => {
         setIsSubscriptionActive(userData.subscription === 'Activa')
       } catch (error) {
         console.error('Error fetching subscription status:', error)
+        setApiError(error.message)
+      } finally {
+        setLoading(false)
       }
     }
 
-    // Función para obtener el perfil del usuario
     const fetchUserProfileData = async () => {
       try {
         const token = window.localStorage.getItem('token')
@@ -152,6 +166,9 @@ const TicketsDashboard = () => {
         setUserRole(profileData.data.role)
       } catch (error) {
         console.error('Error fetching user profile:', error)
+        setApiError(error.message)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -159,7 +176,6 @@ const TicketsDashboard = () => {
     fetchSubscriptionStatus()
   }, [])
 
-  // Verificar si el componente está completamente montado
   useEffect(() => {
     setIsHydrated(true)
   }, [])
@@ -172,7 +188,6 @@ const TicketsDashboard = () => {
     setShowProfilesMenu(!showProfilesMenu)
   }
 
-  // Filtrar tickets según el rol del usuario
   const filteredTickets = useMemo(() => {
     switch (userRole) {
       case 'admin':
@@ -192,7 +207,6 @@ const TicketsDashboard = () => {
     }
   }, [tickets, userRole])
 
-  // Memorizar el componente TicketsStatus para evitar renders innecesarios
   const MemoizedTicketsStatus = useMemo(
     () => (
       <TicketsStatus
@@ -259,11 +273,17 @@ const TicketsDashboard = () => {
           ) : null}
         </div>
 
-        {isHydrated ? (
-          <Suspense fallback={<div>Cargando Tickets...</div>}>
-            {MemoizedTicketsStatus}
-          </Suspense>
-        ) : null}
+        <div className='mb-2'>
+          {loading || loadingTickets ? (
+            <div>Cargando Tickets...</div>
+          ) : apiError ? (
+            <div>Error: {apiError}</div>
+          ) : (
+            <Suspense fallback={<div>Cargando Tickets...</div>}>
+              {MemoizedTicketsStatus}
+            </Suspense>
+          )}
+        </div>
       </main>
     </div>
   )

@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000'
+const API_URL = 'https://mantenipro-api-1tyv.onrender.com'
 
 export async function login(email, password) {
   const response = await fetch(`${API_URL}/auth/login`, {
@@ -235,14 +235,14 @@ export const updateUserData = async (data) => {
   }
 }
 
-export const cancelSubscription = async () => {
+export const cancelSubscription = async (subscriptionId) => {
   try {
     const response = await fetch(`${API_URL}/cancel-subscription`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ subscriptionId: user.subscriptionId })
+      body: JSON.stringify({ subscriptionId })
     })
 
     if (!response.ok) {
@@ -250,23 +250,9 @@ export const cancelSubscription = async () => {
     }
 
     const result = await response.json()
-    console.log('Suscripción cancelada:', result)
-
-    // Verificar si la suscripción se canceló correctamente
-    if (
-      result.message ===
-      'Subscription suspended and database updated successfully'
-    ) {
-      // Actualiza el estado de la suscripción del usuario
-      setUser({
-        ...user,
-        subscription: 'Cancelada, activa hasta ' + user.endDate // Actualiza el estado de la suscripción
-      })
-    } else {
-      console.error('Error al cancelar la suscripción:', result.error)
-    }
+    return result
   } catch (error) {
-    console.error('Error:', error)
+    throw new Error(error.message)
   }
 }
 

@@ -35,10 +35,15 @@ const TicketsStatus = ({
           { title: 'En proceso', tickets: ticketsEnProceso },
           { title: 'Completados', tickets: ticketsCompletados }
         ]
-      : [
-          { title: 'En proceso', tickets: ticketsEnProceso },
-          { title: 'Completados', tickets: ticketsCompletados }
-        ]
+      : userRole === 'tecnico'
+        ? [
+            { title: 'Por hacer', tickets: ticketsPorHacer },
+            { title: 'Completados', tickets: ticketsCompletados }
+          ]
+        : [
+            { title: 'En proceso', tickets: ticketsEnProceso },
+            { title: 'Completados', tickets: ticketsCompletados }
+          ]
 
   const handleNextSection = () => {
     setCurrentSection((prevSection) => (prevSection + 1) % sections.length)
