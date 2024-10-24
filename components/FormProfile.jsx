@@ -6,9 +6,9 @@ import {
   fetchUserData,
   updateUserData,
   cancelSubscription,
-  reactivateSubscription
+  reactivateSubscription,
+  fetchUserProfile
 } from '../pages/api/api'
-
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -23,6 +23,12 @@ const UserProfile = () => {
     subscriptionId: '' // Agrega el ID de la suscripción
   })
 
+  const [userProfile, setUserProfile] = useState({
+    name: '',
+    email: '',
+    password: ''
+  })
+
   const [editMode, setEditMode] = useState({
     phone: false,
     address: false
@@ -35,11 +41,13 @@ const UserProfile = () => {
 
   const [loading, setLoading] = useState(true) // Estado para manejar la carga
   const [apiError, setApiError] = useState(null) // Estado para manejar errores de la API
+  const [userRole, setUserRole] = useState('') // Estado para el rol del usuario
 
   // Función para obtener datos de la API
   const loadUserData = async () => {
     try {
       const userData = await fetchUserData()
+          console.log("Datos de usuario cargados:", userData) // Verificar si los datos se cargan correctamente
       setUser(userData)
       setLoading(false)
     } catch (error) {
@@ -48,9 +56,28 @@ const UserProfile = () => {
     }
   }
 
-  // Llama a loadUserData en el lugar adecuado, por ejemplo, en un useEffect
+  // Función para obtener el perfil del usuario
+  const loadUserProfile = async () => {
+    try {
+      const profileData = await fetchUserProfile()
+      console.log('Perfil de usuario:', profileData)
+      setUserRole(profileData.data.role)
+      // Asignar el correo y contraseña al perfil del usuario autenticado
+      setUserProfile({
+        name: profileData.data.name,
+        email: profileData.data.email,
+        password: profileData.data.password,
+        company: profileData.data.company.name
+      })
+    } catch (error) {
+      setApiError(error.message)
+    }
+  }
+
+  // Llama a loadUserData y loadUserProfile en el lugar adecuado, por ejemplo, en un useEffect
   useEffect(() => {
     loadUserData()
+    loadUserProfile()
   }, [])
 
   // Función para actualizar datos en la API
@@ -66,11 +93,6 @@ const UserProfile = () => {
       setApiError(error.message)
     }
   }
-
-  // useEffect para llamar a la API al montar el componente
-  useEffect(() => {
-    fetchUserData()
-  }, [])
 
   const {
     register,
@@ -144,26 +166,26 @@ const UserProfile = () => {
     }
   }
 
-const handleReactivateSubscription = async () => {
-  try {
-    const result = await reactivateSubscription(user.subscriptionId)
-    console.log('Suscripción reactivada:', result)
+  const handleReactivateSubscription = async () => {
+    try {
+      const result = await reactivateSubscription(user.subscriptionId)
+      console.log('Suscripción reactivada:', result)
 
-    if (
-      result.message ===
-      'Subscription reactivated and database updated successfully'
-    ) {
-      setUser({
-        ...user,
-        subscription: 'Activa'
-      })
-    } else {
-      console.error('Error al reactivar la suscripción:', result.error)
+      if (
+        result.message ===
+        'Subscription reactivated and database updated successfully'
+      ) {
+        setUser({
+          ...user,
+          subscription: 'Activa'
+        })
+      } else {
+        console.error('Error al reactivar la suscripción:', result.error)
+      }
+    } catch (error) {
+      console.error('Error:', error)
     }
-  } catch (error) {
-    console.error('Error:', error)
   }
-}
 
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
@@ -178,9 +200,13 @@ const handleReactivateSubscription = async () => {
           type={type}
           id={field}
           name={field}
-          {...(editable ? register(field, { required: true }) : {})}
-          value={user[field]}
-          onChange={(e) => handleChange(e, field)}
+          {...register(field)} // Usamos register
+          defaultValue={
+            // Usamos defaultValue en lugar de value
+            userRole === 'admin'
+              ? (user[field] ?? '') // Si es admin, usa el estado "user"
+              : (userProfile[field] ?? '') // Si no, usa el estado "userProfile"
+          }
           disabled={!editable || !editMode[field]}
           className={`w-full border px-3 py-2 ${errors[field] ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 ${editMode[field] ? 'bg-white' : 'bg-gray-100'}`}
           aria-label={label}
@@ -270,13 +296,23 @@ const handleReactivateSubscription = async () => {
           className='space-y-6'
         >
           {renderField('company', 'Company Name', 'text', false)}
-          {renderField('email', 'Email', 'email', false)}
-          {renderField('password', 'Password', 'password', false)}
-          {renderField('subscription', 'Subscription', 'text', false)}
-          {renderField('phone', 'Phone', 'tel', true)}
-          {renderField('address', 'Address', 'text', true)}
-          {renderField('startDate', 'Start Date', 'text', false)}
-          {renderField('endDate', 'End Date', 'text', false)}
+          {userRole === 'admin' ? (
+            <>
+              {renderField('email', 'Email', 'email', false)}
+              {renderField('password', 'Password', 'password', false)}
+              {renderField('subscription', 'Subscription', 'text', false)}
+              {renderField('phone', 'Phone', 'tel', true)}
+              {renderField('address', 'Address', 'text', true)}
+              {renderField('startDate', 'Start Date', 'text', false)}
+              {renderField('endDate', 'End Date', 'text', false)}
+            </>
+          ) : (
+            <>
+              {renderField('name', 'Name', 'text', false)}
+              {renderField('email', 'Email', 'email', false)}
+              {renderField('password', 'Password', 'password', false)}
+            </>
+          )}
           <button
             type='submit'
             className='w-full rounded-md bg-blue-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600'
@@ -284,18 +320,22 @@ const handleReactivateSubscription = async () => {
             Save All Changes
           </button>
         </form>
-        <button
-          onClick={handleCancelSubscription}
-          className='mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-red-600'
-        >
-          Cancel Subscription
-        </button>
-        <button
-          onClick={handleReactivateSubscription}
-          className='mt-4 w-full rounded-md bg-green-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-green-600'
-        >
-          Reactivate Subscription
-        </button>
+        {userRole === 'admin' && (
+          <>
+            <button
+              onClick={handleCancelSubscription}
+              className='mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-red-600'
+            >
+              Cancel Subscription
+            </button>
+            <button
+              onClick={handleReactivateSubscription}
+              className='mt-4 w-full rounded-md bg-green-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-green-600'
+            >
+              Reactivate Subscription
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

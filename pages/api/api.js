@@ -310,7 +310,6 @@ export const fetchUserProfile = async () => {
     }
 
     const data = await response.json()
-    console.log('Profile data:', data) // Para ver qué datos se están recibiendo
     return data
   } catch (error) {
     console.error('Error fetching user profile:', error)
