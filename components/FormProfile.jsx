@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { FaEdit, FaCheck } from 'react-icons/fa'
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form'
@@ -44,7 +44,7 @@ const UserProfile = () => {
   const [apiError, setApiError] = useState(null) // Estado para manejar errores de la API
   const [userRole, setUserRole] = useState('') // Estado para el rol del usuario
 
-    const router = useRouter(); // Hook para redirección
+  const router = useRouter() // Hook para redirección
 
   // Función para obtener datos de la API
   const loadUserData = async () => {
@@ -152,25 +152,31 @@ const UserProfile = () => {
     try {
       const result = await cancelSubscription(user.subscriptionId)
       console.log('Suscripción cancelada:', result)
-
-      if (
-        result.message ===
-        'Subscription suspended and database updated successfully'
-      ) {
-        console.log('Actualizando estado del usuario...')
-
-        setUser((prevUser) => ({
-          ...prevUser,
-          subscription: `Cancelada, activa hasta ${prevUser.endDate}`
-        }))
-        router.push('/ticketsDashboard') // Redirigir después de cancelar
-      } else {
-        console.error('Error al cancelar la suscripción:', result.error)
-      }
+      setUser((prevUser) => ({
+        ...prevUser,
+        subscription: 'Inactiva'
+      }))
+      checkSubscriptionStatus()
+      router.push('/ticketsDashboard') // Llamar a la función para aplicar la lógica
     } catch (error) {
       console.error('Error:', error)
     }
   }
+
+  const checkSubscriptionStatus = useCallback(() => {
+    if (user.subscription === 'Inactiva') {
+      setUser((prevUser) => ({
+        ...prevUser,
+        startDate: '-',
+        subscription: `Cancelada, activa hasta ${prevUser.endDate}`
+      }))
+    }
+  }, [user.subscription]) // Las dependencias son los valores que utiliza internamente
+
+  // Llama a `checkSubscriptionStatus` dentro del useEffect
+  useEffect(() => {
+    checkSubscriptionStatus()
+  }, [checkSubscriptionStatus])
 
   const handleReactivateSubscription = async () => {
     try {
@@ -193,6 +199,7 @@ const UserProfile = () => {
       console.error('Error:', error)
     }
   }
+
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
       <label

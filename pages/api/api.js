@@ -188,6 +188,7 @@ export const fetchUserData = async () => {
     const subscriptionId = data.subscription_type
       ? data.subscription_type.stripeSubscriptionId
       : 'ID no disponible'
+    const cancelAtPeriodEnd = data.subscription_type.cancelAtPeriodEnd
 
     return {
       company: data.name,
@@ -198,7 +199,8 @@ export const fetchUserData = async () => {
       address: data.address,
       startDate: startDate,
       endDate: endDate,
-      subscriptionId: subscriptionId
+      subscriptionId: subscriptionId,
+      cancelAtPeriodEnd: cancelAtPeriodEnd
     }
   } catch (error) {
     throw new Error(error.message)
@@ -312,7 +314,7 @@ export const sendUserData = async (data) => {
   try {
     const token = localStorage.getItem('token') // Asumiendo que el token se guarda en localStorage
 
-    const response = await fetch('http://localhost:8000/users', {
+    const response = await fetch(`${API_URL}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

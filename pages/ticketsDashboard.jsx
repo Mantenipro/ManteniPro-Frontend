@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  Suspense,
-  lazy,
-  useMemo,
-} from 'react'
+import React, { useState, useEffect, Suspense, lazy, useMemo } from 'react'
 import SearchBar from '../components/SearchBar'
 import Title from '../components/Title'
 import LefthDashboard from '@/components/LefthDashboard'
@@ -132,28 +126,33 @@ const useTickets = () => {
 const TicketsDashboard = () => {
   const [selectedPriorities, setSelectedPriorities] = useState([])
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
+  const [isSubscriptionSuspended, setIsSubscriptionSuspended] = useState(false)
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false)
   const [userRole, setUserRole] = useState('')
   const [loading, setLoading] = useState(true)
   const [apiError, setApiError] = useState(null)
+  const [userDataDate, setUserDataDate] = useState({ endDate: ''})
 
   // Hook personalizado que gestiona los tickets
   const { tickets, loadingTickets } = useTickets()
 
   useEffect(() => {
-    const fetchSubscriptionStatus = async () => {
-      try {
-        const userData = await fetchUserData()
-        setIsSubscriptionActive(userData.subscription === 'Activa')
-      } catch (error) {
-        console.error('Error fetching subscription status:', error)
-        setApiError(error.message)
-      } finally {
-        setLoading(false)
-      }
-    }
+   const fetchSubscriptionStatus = async () => {
+     try {
+       const userData = await fetchUserData()
+       console.log('User Data:', userData) // Agrega este log
+       setIsSubscriptionActive(userData.subscription === 'Activa')
+       setIsSubscriptionSuspended(userData.cancelAtPeriodEnd)
+       setUserDataDate(userData.endDate)
+     } catch (error) {
+       console.error('Error fetching subscription status:', error)
+       setApiError(error.message)
+     } finally {
+       setLoading(false)
+     }
+   }
 
     const fetchUserProfileData = async () => {
       try {
@@ -247,11 +246,20 @@ const TicketsDashboard = () => {
           <SearchBar />
 
           <div className='flex flex-col md:mt-0 md:flex-row md:items-center'>
-            {userRole === 'admin' && !isSubscriptionActive && (
-              <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-full max-w-[20rem] overflow-hidden rounded bg-red-500 py-2 text-center text-white md:relative md:w-auto md:max-w-none md:text-left lg:ml-4'>
+            {userRole === 'admin' &&
+              !isSubscriptionActive &&
+              !isSubscriptionSuspended && (
+                <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-full max-w-[20rem] overflow-hidden rounded bg-red-500 py-2 text-center text-white md:relative md:w-auto md:max-w-none md:text-left lg:ml-4'>
+                  <div className='animate-marquee whitespace-nowrap'>
+                    Suscripción inactiva. Suscríbase para disfrutar de todas las
+                    funcionalidades.
+                  </div>
+                </div>
+              )}
+            {userRole === 'admin' && isSubscriptionSuspended && (
+              <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-full max-w-[20rem] overflow-hidden rounded bg-yellow-500 py-2 text-center text-white md:relative md:w-auto md:max-w-none md:text-left lg:ml-4'>
                 <div className='animate-marquee whitespace-nowrap'>
-                  Suscripción inactiva. Suscríbase para disfrutar de todas las
-                  funcionalidades.
+                  Suscripción suspendida. Se encuentra activa hasta {userDataDate}
                 </div>
               </div>
             )}
