@@ -286,6 +286,28 @@ console.log('Datos del usuario:', userData)
   }
 }
 
+export const deleteUser = async (userId) => {
+  try {
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`)
+    }
+
+    const result = await response.json()
+    console.log('Usuario eliminado:', result)
+    return { success: true, data: result }
+  } catch (error) {
+    console.error('Error al eliminar el usuario:', error)
+    return { success: false, error: error.message }
+  }
+}
+
 export const cancelSubscription = async (subscriptionId) => {
   try {
     const response = await fetch(`${API_URL}/cancel-subscription`, {

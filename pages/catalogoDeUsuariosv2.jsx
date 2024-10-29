@@ -60,6 +60,12 @@ const CatalogoDeUsuarios = () => {
     setSortCriteria(criteria)
   }
 
+  const handleUserDelete = (userId) => {
+    setUsuarios((prevUsuarios) =>
+      prevUsuarios.filter((user) => user._id !== userId)
+    )
+  }
+
   const sortedUsuarios = [...usuarios].sort((a, b) => {
     if (sortCriteria === 'A a la Z') {
       return a.name.localeCompare(b.name)
@@ -117,9 +123,15 @@ const CatalogoDeUsuarios = () => {
         </div>
 
         <div className='animate-fadeIn h-[30rem] w-full space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
-          {filteredUsuarios.map((user, index) => (
-            <UserCard key={index} user={user} />
-          ))}
+          {filteredUsuarios.length > 0 ? (
+            filteredUsuarios.map((user, index) => (
+              <UserCard key={index} user={user} onDelete={handleUserDelete} />
+            ))
+          ) : (
+            <div className='text-center text-2xl text-gray-500'>
+              No hay usuarios disponibles.
+            </div>
+          )}
         </div>
       </main>
     </div>
