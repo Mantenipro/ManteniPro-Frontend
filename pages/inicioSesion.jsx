@@ -41,6 +41,7 @@ const LoginForm = ({ textColor, bgColor }) => {
       const token = await login(data.email, data.password)
 
       if (token) {
+        localStorage.setItem('email', data.email);
         window.localStorage.setItem('token', token)
         toast.success('Bienvenido', {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas

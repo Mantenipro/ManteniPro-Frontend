@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
@@ -42,7 +41,6 @@ const MachineCard = ({ machine }) => {
 
   const handleDeleteConfirm = () => {
     if (isDeleteConfirmed) {
-      
       console.log('Equipo eliminado');
       setShowWarning(false);
     }
@@ -66,15 +64,13 @@ const MachineCard = ({ machine }) => {
       >
         {/* Imagen del equipo */}
         <div className="flex-shrink-0">
-          <Image 
-            src="/airConditioning.jpg" 
-            alt={machine.model} 
-            width={isHovered ? 60 : 50} 
-            height={isHovered ? 60 : 50}
-            className="object-cover rounded-full" 
+          <img 
+            src={machine.image} 
+            alt="Imagen del equipo" 
+            className="w-12 h-12 rounded-full object-cover bg-gray-300" 
           />
         </div>
-        
+
         {/* Información del equipo */}
         <div className="flex flex-grow justify-between ml-4">
           <div className="flex flex-col justify-center">
@@ -93,7 +89,7 @@ const MachineCard = ({ machine }) => {
           {/* Fabricante */}
           <div className="hidden md:flex flex-col justify-center ml-4">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
-              {machine.manufacturer}
+              {machine.brand}
             </span>
           </div>
 
@@ -104,45 +100,37 @@ const MachineCard = ({ machine }) => {
           </div>
 
           <div className="hidden lg:flex justify-center items-center mr-6"> 
-            <Image 
-              src={machine.qr} 
-              alt="QR owner" 
-              width={50} 
-              height={50} 
-              className="mr-4"
-            />
+            <div className="bg-gray-300 w-12 h-12 rounded-lg" />
           </div>
         </div>
 
-        
         <div className="flex-shrink-0 flex space-x-4 ml-6"> 
           <button 
             onClick={handleEditClick} 
             className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block"
           >
-            <Image src="/icon/edit-icon.png" alt="Edit" width={20} height={20} />
+            <img src="/icon/edit-icon.png" alt="Edit" width={20} height={20} />
           </button>
           <button 
             onClick={handleDeleteClick} 
             className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block"
           >
-            <Image src="/icon/delete-icon.png" alt="Delete" width={20} height={20} />
+            <img src="/icon/delete-icon.png" alt="Delete" width={20} height={20} />
           </button>
         </div>
 
-        
         <div className="flex-shrink-0 flex space-x-4 ml-6 sm:hidden"> 
           <button 
             onClick={handleEditClick} 
             className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white"
           >
-            <Image src="/icon/edit-icon.png" alt="Edit" width={16} height={16} />
+            <img src="/icon/edit-icon.png" alt="Edit" width={16} height={16} />
           </button>
           <button 
             onClick={handleDeleteClick} 
             className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white"
           >
-            <Image src="/icon/delete-icon.png" alt="Delete" width={16} height={16} />
+            <img src="/icon/delete-icon.png" alt="Delete" width={16} height={16} />
           </button>
         </div>
       </div>
@@ -187,6 +175,8 @@ const MachineCard = ({ machine }) => {
 };
 
 export default MachineCard;
+
+
 
 
 
