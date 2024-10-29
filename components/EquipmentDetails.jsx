@@ -58,12 +58,12 @@ const EquipmentDetails = () => {
               className='block text-gray-700 text-sm font-semibold mb-[1px]'
               htmlFor='numeroSerie'
             >
-              Número de serie
+              Propietario
             </label>
             <input
               {...register('numeroSerie')}
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-              id='numeroSerie'
+              id='Propietario'
               type='text'
             />
           </div>
