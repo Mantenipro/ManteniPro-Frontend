@@ -1,14 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import { Source_Sans_3 } from 'next/font/google'
-import { sendUserData } from '../pages/api/api'
+import { sendUserData, updateUserData } from '../pages/api/api'
+import { toast, Toaster } from 'sonner' // Importar toast de sonner
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const FormUser = ({ initialData }) => {
-  const { register, handleSubmit, setValue, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    setError,
+    watch,
+    formState: { errors }
+  } = useForm({
     defaultValues: initialData || {}
   })
 
@@ -31,15 +39,75 @@ const FormUser = ({ initialData }) => {
     }
   }, [initialData, reset])
 
-  const handleFormSubmit = async (data) => {
-    await sendUserData(data) // Usar la función importada
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    return passwordRegex.test(password)
   }
-  
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    if (name === 'password') {
+      if (!validatePassword(value)) {
+        setError('password', {
+          type: 'manual',
+          message:
+            'La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.'
+        })
+      } else {
+        setError('password', { type: 'manual', message: '' })
+      }
+    }
+
+    if (name === 'confirmPassword') {
+      if (value !== watch('password')) {
+        setError('confirmPassword', {
+          type: 'manual',
+          message: 'Las contraseñas no coinciden'
+        })
+      } else {
+        setError('confirmPassword', { type: 'manual', message: '' })
+      }
+    }
+  }
+
+  const handleFormSubmit = async (data) => {
+    try {
+      const response = initialData
+        ? await updateUserData(data)
+        : await sendUserData(data) // Usar la función importada
+      if (response && response.success) {
+        const role = data.role
+        const roleMessage = role === 'tecnico' ? 'Técnico' : 'Usuario'
+        toast.success(
+          `${roleMessage} ${initialData ? 'actualizado' : 'agregado'} exitosamente`,
+          {
+            position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+            style: {
+              fontSize: '20px',
+              padding: '20px',
+              maxWidth: '90vw', // Ajuste para pantallas pequeñas
+              width: 'auto'
+            }
+          }
+        ) // Mostrar mensaje de éxito
+        reset()
+      } else {
+        toast.error(
+          `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`
+        ) // Mostrar mensaje de error
+      }
+    } catch (error) {
+      toast.error(`Error al ${initialData ? 'actualizar' : 'agregar'} usuario`) // Mostrar mensaje de error en caso de excepción
+    }
+  }
+
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
       className={`${sourceSans3.className} flex min-h-[38rem] w-full max-w-[71rem] flex-col rounded-lg bg-white px-4 pt-4 shadow-lg`}
     >
+      <Toaster />
       <div className='flex-1 space-y-4'>
         <div className='mb-4'>
           <label
@@ -61,6 +129,7 @@ const FormUser = ({ initialData }) => {
                 id='name'
                 type='text'
                 placeholder='Juanito Perez Gonzalez'
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -85,6 +154,7 @@ const FormUser = ({ initialData }) => {
                 id='email'
                 type='email'
                 placeholder='nombre@dominio.com'
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -110,6 +180,7 @@ const FormUser = ({ initialData }) => {
                 id='contraseña'
                 type='password'
                 placeholder='********'
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -127,6 +198,7 @@ const FormUser = ({ initialData }) => {
               {...register('type')}
               className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 text-xs leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-sm'
               id='cargo'
+              onChange={handleInputChange}
             >
               <option value=''>Seleccione un tipo</option>
               <option value='IngMec'>Ingeniero Mecánico</option>
@@ -164,6 +236,7 @@ const FormUser = ({ initialData }) => {
                 id='permiso-admin'
                 type='radio'
                 value='admin'
+                disabled
               />
               <label htmlFor='permiso-admin' className='ml-2 text-gray-700'>
                 Admin
@@ -207,7 +280,7 @@ const FormUser = ({ initialData }) => {
           type='submit'
           className='rounded-lg bg-gradient-to-r from-[#21262D] to-[#414B66] px-6 py-3 text-lg font-bold text-white shadow-md hover:from-[#1a1d24] hover:to-[#373f5a] focus:outline-none focus:ring-4 focus:ring-blue-300 lg:px-12 lg:py-1'
         >
-          {initialData ? 'Actualizar' : 'Agregar'}
+          {buttonText}
         </button>
       </div>
     </form>

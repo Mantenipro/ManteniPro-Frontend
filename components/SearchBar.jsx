@@ -3,22 +3,27 @@ import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
-const SearchBar = () => {
-  return (
-   <div
-  className={`w-[18rem] h-[36px] flex items-center p-1 rounded-lg ${sourceSans3.className} ml-1 mr-1 lg:ml-0 md:ml-1 md:w-[29rem] md:h[36px]`} 
-  style={{ background: 'linear-gradient(90deg, #21262D 12%, #414B66 88%)' }}
->
-  <input
-    type="text"
-    placeholder="Buscar..."
-    className="w-full bg-transparent focus:outline-none text-white p-1 text-xs" // Se reduce el tamaño del texto
-    aria-label="Buscar equipo"
-  />
-</div>
+const SearchBar = ({ searchTerm, setSearchTerm }) => {
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value)
+  }
 
-  );
-};
+  return (
+    <div
+      className={`flex h-[36px] w-[16rem] items-center rounded-lg p-1 ${sourceSans3.className} md:h[36px] ml-1 mr-1 md:ml-1 md:w-[30rem] lg:ml-0`}
+      style={{ background: 'linear-gradient(90deg, #21262D 12%, #414B66 88%)' }}
+    >
+      <input
+        type='text'
+        placeholder='Buscar...'
+        value={searchTerm}
+        onChange={handleChange}
+        className='w-full bg-transparent p-1 text-xs text-white focus:outline-none' // Se reduce el tamaño del texto
+        aria-label='Buscar equipo'
+      />
+    </div>
+  )
+}
 
 export default SearchBar;
 

@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { Montserrat } from 'next/font/google'
 import { Toaster } from 'sonner'
-import ResetPasswordForm from '../components/ResetPasswordForm'
+import ActivateAccountForm from '../components/ActivateAccountForm'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
-export default function ChangePasswordPage() {
+export default function ActivateAccountPage() {
   return (
     <main className={`${montserrat.className} flex min-h-dvh flex-row`}>
       <Toaster />
@@ -16,11 +16,11 @@ export default function ChangePasswordPage() {
           className='my-4 h-[140px] w-[200px] lg:my-[-20px] lg:ml-[-100px] lg:h-[150px] lg:w-[440px]'
         />
         <div className='flex justify-center lg:hidden'>
-          <ResetPasswordForm textColor='text-white' bgColor='bg-[#21262D]' />
+          <ActivateAccountForm textColor='text-white' bgColor='bg-[#21262D]' />
         </div>
       </div>
       <div className='hidden w-full lg:flex lg:w-[50%] lg:justify-center lg:bg-[#ECECEC]'>
-        <ResetPasswordForm textColor='text-black' bgColor='bg-[#ECECEC]' />
+        <ActivateAccountForm textColor='text-black' bgColor='bg-[#ECECEC]' />
       </div>
     </main>
   )

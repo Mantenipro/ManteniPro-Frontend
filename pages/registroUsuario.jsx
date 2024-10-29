@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { registerForm } from './api/api'
+import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -22,12 +23,11 @@ const inputData = [
 const RegisterForm = ({ textColor, bgColor }) => {
   const router = useRouter()
 
-  const [showPassword, setShowPassword] = useState({
-    password: false,
-    confirmPassword: false
-  })
-
-  const [termsAccepted, setTermsAccepted] = useState(false)
+const [showPassword, setShowPassword] = useState({
+  password: false,
+  confirmPassword: false,
+})
+const [termsAccepted, setTermsAccepted] = useState(false)
 
   const {
     register,
@@ -53,10 +53,6 @@ const RegisterForm = ({ textColor, bgColor }) => {
       })
       return
     }
-
-
-    // Aquí iría la lógica para registrar al usuario
-
     try {
       const register = await registerForm(data.email, data.password, data.fullname, data.companyName, data.zipCode)
 
@@ -112,13 +108,11 @@ const RegisterForm = ({ textColor, bgColor }) => {
                 <img src={item.icon} alt='' className='absolute left-3' />
                 <input
                   type={
-                    (item.name === 'password' ||
-                      item.name === 'confirmPassword') &&
-                    showPassword[item.name]
-                      ? 'text'
-                      : item.name.includes('password')
-                        ? 'password'
-                        : 'text'
+                    item.name === 'password' || item.name === 'confirmPassword'
+                      ? showPassword[item.name]
+                        ? 'text'
+                        : 'password'
+                      : 'text'
                   }
                   placeholder={item.placeholder}
                   {...register(item.name, { required: true })}
@@ -126,12 +120,17 @@ const RegisterForm = ({ textColor, bgColor }) => {
                 />
                 {(item.name === 'password' ||
                   item.name === 'confirmPassword') && (
-                  <span
-                    className='absolute right-2 cursor-pointer text-sm text-black/50 hover:text-slate-800'
+                  <button
+                    type='button'
+                    className='absolute inset-y-0 right-0 flex items-center pr-3'
                     onClick={() => handleShowHidePassword(item.name)}
                   >
-                    {showPassword[item.name] ? ' Ocultar' : 'Mostrar'}
-                  </span>
+                    {showPassword[item.name] ? (
+                      <FaEye className='h-5 w-5 text-gray-400' />
+                    ) : (
+                      <FaEyeSlash className='h-5 w-5 text-gray-400' />
+                    )}
+                  </button>
                 )}
               </div>
               {errors[item.name] && (

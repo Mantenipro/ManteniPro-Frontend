@@ -73,6 +73,31 @@ export const activateAccount = async (data) => {
   }
 }
 
+export const activateAccountUser = async (data) => {
+  console.log(data)
+
+  try {
+    const response = await fetch(`${API_URL}/userActivate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(result.message || 'Error al activar la cuenta')
+    }
+
+    return result
+  } catch (error) {
+    console.error('Error al activar la cuenta:', error)
+    throw error
+  }
+}
+
 export const recoverPassword = async (email) => {
   try {
     const response = await fetch(`${API_URL}/requestPasswordReset`, {
@@ -188,7 +213,9 @@ export const fetchUserData = async () => {
     const subscriptionId = data.subscription_type
       ? data.subscription_type.stripeSubscriptionId
       : 'ID no disponible'
-    const cancelAtPeriodEnd = data.subscription_type.cancelAtPeriodEnd
+    const cancelAtPeriodEnd = data.subscription_type
+      ? data.subscription_type.cancelAtPeriodEnd
+      : false // Valor por defecto si es null o undefined
 
     return {
       company: data.name,
@@ -329,7 +356,55 @@ export const sendUserData = async (data) => {
 
     const result = await response.json()
     console.log('Respuesta de la API:', result)
+    return result // Retornar la respuesta de la API
   } catch (error) {
     console.error('Error al enviar los datos:', error)
+    return { success: false, error: error.message } // Retornar un objeto de error
+  }
+}
+
+export const fetchUsers = async () => {
+  try {
+    const token = localStorage.getItem('token') // Reemplaza con tu token real
+    const response = await fetch(`${API_URL}/users`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (data.success) {
+      setUsuarios(data.data.users)
+    } else {
+      console.error('Error al obtener usuarios:', data.error)
+    }
+  } catch (error) {
+    console.error('Error al hacer la solicitud:', error)
+  }
+}
+
+export const resendActivationCode = async (email) => {
+  try {
+    const response = await fetch(`${API_URL}/resend-activation-code`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email })
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(
+        result.message || 'Error al reenviar el código de activación'
+      )
+    }
+
+    return result
+  } catch (error) {
+    console.error('Error al reenviar el código de activación:', error)
+    throw error
   }
 }

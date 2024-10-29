@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from "react"
 import { login } from '../pages/api/api'
 import { useRouter } from 'next/router'
+import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -110,12 +111,17 @@ const LoginForm = ({ textColor, bgColor }) => {
                   className='w-full p-2 pl-10 pr-20'
                 />
                 {item.name === 'password' && (
-                  <span
-                    className='absolute right-2 cursor-pointer text-sm text-black/50 hover:text-slate-800'
-                    onClick={handleShowHidePassword}
-                  >
-                    {showPassword ? ' Ocultar' : 'Mostrar'}
-                  </span>
+                  <button
+                  type='button'
+                  className='absolute inset-y-0 right-0 flex items-center pr-3'
+                  onClick={() => handleShowHidePassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <FaEyeSlash className='h-5 w-5 text-gray-400' />
+                  ) : (
+                    <FaEye className='h-5 w-5 text-gray-400' />
+                  )}
+                </button>
                 )}
               </div>
               {errors[item.name] && (

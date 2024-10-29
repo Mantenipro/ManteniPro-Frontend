@@ -225,13 +225,13 @@ const TicketsDashboard = () => {
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed z-40 h-full w-[50%] transform bg-gradient-to-b from-[#31416d] to-[#232c48] transition-transform duration-300 ease-in-out md:w-[30%] lg:static lg:w-[15%] lg:translate-x-0`}
+        } fixed z-40 h-full w-[53%] transform bg-gradient-to-b from-[#31416d] to-[#232c48] transition-transform duration-300 ease-in-out sm:w-[30%] md:w-[25%] lg:static lg:w-[18%] lg:translate-x-0 xl:w-[15%] 2xl:w-[13%]`}
       >
         <LefthDashboard />
       </div>
 
-      <main className='mt-2 flex-1 px-6'>
-        <div className='mb-6 flex flex-wrap items-center justify-between'>
+      <main className='mt-1 flex-1 px-6'>
+        <div className='mb-4 flex flex-wrap items-center justify-between'>
           <div className='left-4 top-4 z-50 lg:hidden'>
             <button
               onClick={toggleMenu}
@@ -249,7 +249,7 @@ const TicketsDashboard = () => {
             {userRole === 'admin' &&
               !isSubscriptionActive &&
               !isSubscriptionSuspended && (
-                <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-full max-w-[20rem] overflow-hidden rounded bg-red-500 py-2 text-center text-white md:relative md:w-auto md:max-w-none md:text-left lg:ml-4'>
+                <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-auto rounded bg-red-500 py-2 text-center text-white'>
                   <div className='animate-marquee whitespace-nowrap'>
                     Suscripción inactiva. Suscríbase para disfrutar de todas las
                     funcionalidades.
@@ -257,16 +257,17 @@ const TicketsDashboard = () => {
                 </div>
               )}
             {userRole === 'admin' && isSubscriptionSuspended && (
-              <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-full max-w-[20rem] overflow-hidden rounded bg-yellow-500 py-2 text-center text-white md:relative md:w-auto md:max-w-none md:text-left lg:ml-4'>
+              <div className='fixed bottom-0 left-0 right-0 mx-auto h-[36px] w-auto rounded bg-yellow-500 py-2 text-center text-white'>
                 <div className='animate-marquee whitespace-nowrap'>
-                  Suscripción suspendida. Se encuentra activa hasta {userDataDate}
+                  Suscripción suspendida. Se encuentra activa hasta{' '}
+                  {userDataDate}
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        <div className='mb-2'>
+        <div className='mb-1'>
           <Title className='text-2xl'>Tickets</Title>
         </div>
 

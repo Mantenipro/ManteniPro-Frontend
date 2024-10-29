@@ -20,17 +20,20 @@ const UserCard = ({ user }) => {
     setIsHovered(false)
   }
 
-  const handleEditClick = (e) => {
-    e.stopPropagation()
-    router.push('/EditarUsuario')
-  }
+ const handleEditClick = (e) => {
+   e.stopPropagation()
+   router.push({
+     pathname: '/EditarUsuario',
+     query: { user: JSON.stringify(user) }
+   })
+ }
 
   const handleDeleteClick = (e) => {
     e.stopPropagation()
     setShowWarning(true)
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e) => {  
     const value = e.target.value
     setInputValue(value)
     setIsDeleteConfirmed(value === 'DELETE')
@@ -71,7 +74,7 @@ const UserCard = ({ user }) => {
 
         {/* Información del Usuario */}
         <div className='flex flex-grow justify-between ml-4'>
-          <div className='flex flex-col justify-center'>
+          <div className='flex flex-col justify-center flex-1'>
             <span
               className={`text-lg font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'} truncate sm:hidden`}
               style={{ maxWidth: '100px' }} // Ancho fijo para resoluciones bajas
@@ -86,16 +89,16 @@ const UserCard = ({ user }) => {
           </div>
 
           {/* Cargo del Usuario */}
-          <div className='hidden md:flex flex-col justify-center ml-4'>
+          <div className='hidden md:flex flex-col justify-center ml-4 flex-1'>
             <span
               className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}
             >
-              {user.cargo}
+              {user.role}
             </span>
           </div>
 
           {/* Correo electronico */}
-          <div className='hidden md:flex flex-col justify-center ml-4'>
+          <div className='hidden md:flex flex-col justify-center ml-4 flex-1'>
             <span
               className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}
             >
@@ -103,7 +106,7 @@ const UserCard = ({ user }) => {
             </span>
           </div>
 
-          <div className='flex-col justify-center ml-2 hidden lg:flex'>
+          <div className='hidden md:flex flex-col justify-center ml-2 '>
             <span
               className={`transition-colors duration-300 px-2 py-1 rounded-lg ${user.verificado ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
             >
