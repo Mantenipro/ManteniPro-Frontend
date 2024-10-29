@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { createEquipment } from '@/api/api';
@@ -9,13 +9,62 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 export default function FormEquipment() {
   const { handleSubmit, register, formState: { errors } } = useForm();
   const router = useRouter();
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  async function uploadImageToS3(file) {
+    if (!file) return null;
+
+    try {
+      const fileData = {
+        fileName: file.name,
+        fileType: file.type,
+      };
+
+      // Solicita una URL prefirmada desde tu API
+      const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(fileData),
+      });
+
+      const { url } = await presignedUrlResponse.json();
+
+      // Sube la imagen a S3 utilizando la URL prefirmada
+      await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': file.type,
+        },
+        body: file,
+      });
+
+      // Devuelve la URL de la imagen subida (sin los parámetros de consulta)
+      return url.split('?')[0];
+    } catch (error) {
+      console.error("Error uploading image to S3:", error);
+      return null;
+    }
+  }
 
   async function onSubmit(data) {
     const token = localStorage.getItem("token");
 
     if (token) {
       try {
-        // Llama a createEquipment con los datos ingresados en el formulario
+        let imageUrl = null;
+        
+        if (selectedFile) {
+          imageUrl = await uploadImageToS3(selectedFile);
+        }
+
+        // Llama a createEquipment con los datos del formulario y la URL de imagen
         await createEquipment(
           data.equipmentName,
           data.model,
@@ -25,10 +74,11 @@ export default function FormEquipment() {
           data.brand,
           data.location,
           data.unitType,
-          data.image || null, 
-          null, 
+          imageUrl,
+          null,
           token
         );
+
         router.push("/inventarioEquipos"); 
       } catch (error) {
         console.error("Error creating equipment:", error);
@@ -143,14 +193,14 @@ export default function FormEquipment() {
 
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='image'>
-            Agregar URL de foto (opcional)
+            Agregar foto (opcional)
           </label>
           <input
-            {...register('image')}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
             id='image'
-            type='text'
-            placeholder='Ingresa la URL de la imagen'
+            type='file'
+            accept='image/*'
+            onChange={handleFileChange}
+            className='w-full'
           />
         </div>
 
@@ -166,6 +216,7 @@ export default function FormEquipment() {
     </form>
   );
 }
+
 
 
 
