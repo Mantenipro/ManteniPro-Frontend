@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { createEquipment } from '@/api/api';
+import { createEquipment, getUsers } from '@/api/api';
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
@@ -18,34 +18,22 @@ export default function FormEquipment() {
 
   async function uploadImageToS3(file) {
     if (!file) return null;
-
     try {
       const fileData = {
         fileName: file.name,
         fileType: file.type,
       };
-
-      // Solicita una URL prefirmada desde tu API
       const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fileData),
       });
-
       const { url } = await presignedUrlResponse.json();
-
-      // Sube la imagen a S3 utilizando la URL prefirmada
       await fetch(url, {
         method: 'PUT',
-        headers: {
-          'Content-Type': file.type,
-        },
+        headers: { 'Content-Type': file.type },
         body: file,
       });
-
-      // Devuelve la URL de la imagen subida (sin los parámetros de consulta)
       return url.split('?')[0];
     } catch (error) {
       console.error("Error uploading image to S3:", error);
@@ -55,20 +43,28 @@ export default function FormEquipment() {
 
   async function onSubmit(data) {
     const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
 
-    if (token) {
+    if (token && email) {
       try {
+        const userList = await getUsers();
+        const user = userList.find((user) => user.email === email);
+        const userId = user ? user._id : null;
+
+        if (!userId) {
+          console.error("No se encontró un usuario con el email especificado.");
+          return;
+        }
+
         let imageUrl = null;
-        
         if (selectedFile) {
           imageUrl = await uploadImageToS3(selectedFile);
         }
 
-        // Llama a createEquipment con los datos del formulario y la URL de imagen
         await createEquipment(
           data.equipmentName,
           data.model,
-          null, 
+          userId, // Asigna el ID del usuario al campo "company"
           data.owner,
           data.manufactureDate,
           data.brand,
@@ -79,12 +75,12 @@ export default function FormEquipment() {
           token
         );
 
-        router.push("/inventarioEquipos"); 
+        router.push("/inventarioEquipos");
       } catch (error) {
         console.error("Error creating equipment:", error);
       }
     } else {
-      console.error("Token not found");
+      console.error("Token or email not found in local storage.");
     }
   }
 
@@ -216,6 +212,7 @@ export default function FormEquipment() {
     </form>
   );
 }
+
 
 
 
