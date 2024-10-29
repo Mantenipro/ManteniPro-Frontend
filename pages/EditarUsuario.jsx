@@ -5,6 +5,7 @@ import LefthDashboard from '@/components/LefthDashboard'
 import { useState, useEffect } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import { useRouter } from 'next/router'
+import { fetchUserById } from '../pages/api/api'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -16,11 +17,15 @@ const ActualizarUsuario = () => {
   const [initialData, setInitialData] = useState(null)
 
   useEffect(() => {
-    if (router.query.user) {
-      const user = JSON.parse(router.query.user)
-      setInitialData(user)
+    const fetchData = async () => {
+      if (router.query.id) {
+        const data = await fetchUserById(router.query.id)
+        setInitialData(data)
+      }
     }
-  }, [router.query.user])
+    fetchData()
+  }, [router.query.id])
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)

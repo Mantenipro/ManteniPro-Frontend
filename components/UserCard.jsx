@@ -20,13 +20,13 @@ const UserCard = ({ user }) => {
     setIsHovered(false)
   }
 
- const handleEditClick = (e) => {
-   e.stopPropagation()
-   router.push({
-     pathname: '/EditarUsuario',
-     query: { user: JSON.stringify(user) }
-   })
- }
+  const handleEditClick = (e) => {
+    e.stopPropagation()
+    router.push({
+      pathname: '/EditarUsuario',
+      query: { id: user._id }
+    })
+  }
 
   const handleDeleteClick = (e) => {
     e.stopPropagation()

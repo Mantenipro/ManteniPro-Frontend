@@ -264,6 +264,28 @@ export const updateUserData = async (data) => {
   }
 }
 
+export const updateUser = async (userId, userData) => {
+console.log('Datos del usuario:', userData)
+  try {
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'},
+      body: JSON.stringify(userData)
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`)
+    }
+
+    const updatedUser = await response.json()
+    console.log('Usuario actualizado:', updatedUser)
+    return { success: true, data: updatedUser }
+  } catch (error) {
+    console.error('Error al actualizar el usuario:', error)
+  }
+}
+
 export const cancelSubscription = async (subscriptionId) => {
   try {
     const response = await fetch(`${API_URL}/cancel-subscription`, {
@@ -406,5 +428,26 @@ export const resendActivationCode = async (email) => {
   } catch (error) {
     console.error('Error al reenviar el código de activación:', error)
     throw error
+  }
+}
+
+export const fetchUserById = async (userId) => {
+  try {
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return data
+    } else {
+      console.error('Error al obtener usuario:', data.message)
+      return null
+    }
+  } catch (error) {
+    console.error('Error al hacer la solicitud:', error)
+    return null
   }
 }

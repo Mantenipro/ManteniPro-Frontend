@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Source_Sans_3 } from 'next/font/google'
-import { sendUserData, updateUserData } from '../pages/api/api'
+import { sendUserData, updateUser } from '../pages/api/api'
 import { toast, Toaster } from 'sonner' // Importar toast de sonner
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -74,7 +74,7 @@ const FormUser = ({ initialData }) => {
   const handleFormSubmit = async (data) => {
     try {
       const response = initialData
-        ? await updateUserData(data)
+        ? await updateUser(initialData._id, data)
         : await sendUserData(data) // Usar la función importada
       if (response && response.success) {
         const role = data.role
