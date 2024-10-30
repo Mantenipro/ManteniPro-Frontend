@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from '../components/SearchBar';
+import SearchBar2 from '../components/SearchBar2';
 import AddButton from '../components/AddButton';
-import InfoPanel2 from '../components/InfoPanel2'; // Importamos el nuevo componente
+import InfoPanel2 from '../components/InfoPanel2'; // Asegúrate de que esto esté correcto
 import Title from '../components/Title';
 import MachineCard from '../components/MachineCard';
 import LefthDashboard from '@/components/LefthDashboard';
@@ -13,8 +13,12 @@ const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const Catalogo = () => {
-  const [machines, setMachines] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [machines, setMachines] = useState([]); // Equipos
+  const [users, setUsers] = useState([]); // Usuarios
+  const [owners, setOwners] = useState([]); // Propietarios
+  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]); // Cliente seleccionado
+  const [selectedLocations, setSelectedLocations] = useState([]); // Ubicación seleccionada
+  const [locations, setLocations] = useState([]); // Ubicaciones
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -28,32 +32,30 @@ const Catalogo = () => {
       try {
         const token = localStorage.getItem("token");
         const email = localStorage.getItem("email");
-        console.log("Token obtenido de localStorage:", token);
-        console.log("Email obtenido de localStorage:", email);
 
         if (token && email) {
           const userList = await getAllUsers(token);
-          console.log("Lista de usuarios obtenida:", userList);
           setUsers(userList);
 
           if (!Array.isArray(userList) || userList.length === 0) {
-            console.error("La lista de usuarios está vacía o no es un array.");
             return;
           }
 
           const user = userList.find(user => user.email === email);
           const userId = user ? user._id : null;
-          
-          console.log("ID de usuario extraído del email:", userId);
 
           if (userId) {
             const data = await getEquipmentByCompanyId(userId, token);
             setMachines(data);
-          } else {
-            console.error("No se pudo obtener el ID de usuario del email.");
+
+            // Extraer propietarios únicos de los equipos
+            const uniqueOwners = [...new Set(data.map(machine => machine.owner))];
+            setOwners(uniqueOwners);
+
+            // Extraer ubicaciones únicas de los equipos
+            const uniqueLocations = [...new Set(data.map(machine => machine.location))];
+            setLocations(uniqueLocations);
           }
-        } else {
-          console.error("Token o email no encontrados.");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -66,8 +68,15 @@ const Catalogo = () => {
   }, [router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
+
+  // Filtrar equipos basados en el cliente y la ubicación seleccionados
+  const filteredMachines = machines.filter(machine => {
+    const matchesOwner = selectedAssignedTo.length === 0 || selectedAssignedTo.includes(machine.owner);
+    const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(machine.location);
+    return matchesOwner && matchesLocation;
+  });
 
   return (
     <div className={`${montserrat.className} h-dvh flex flex-row lg:flex-grow relative`}>
@@ -87,21 +96,28 @@ const Catalogo = () => {
               {isMenuOpen ? '✖' : '☰'}
             </button>
           </div>
-          <SearchBar className='w-1/2 md:w-1/3 ' />
+          <SearchBar2 className='w-1/2 md:w-1/3 ' />
           <AddButton className='text-sm' />
         </div>
 
         <div className='mt-8 mb-4'>
-          <Title className='text-2xl ml-4'>Catálogo de equipos</Title> {/* Agregamos 'ml-4' para mover a la izquierda */}
-          <div className='mt-6 flex justify-between items-center'> {/* Aumentamos el margen superior a 6 */}
-            <InfoPanel2 /> {/* Reemplazamos SortTeams por InfoPanel2 */}
+          <Title className='text-2xl ml-4'>Catálogo de equipos</Title>
+          <div className='mt-6 flex justify-between items-center'>
+            <InfoPanel2
+              owners={owners} // Pasar la lista de propietarios aquí
+              selectedAssignedTo={selectedAssignedTo}
+              setSelectedAssignedTo={setSelectedAssignedTo}
+              selectedLocations={selectedLocations}
+              setSelectedLocations={setSelectedLocations}
+              locations={locations} // Pasar las ubicaciones al InfoPanel2
+            />
           </div>
         </div>
 
         {/* Contenedor de 50vh con scroll para las tarjetas */}
         <div className='h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
-          {machines.length > 0 ? (
-            machines.map((machine, index) => (
+          {filteredMachines.length > 0 ? (
+            filteredMachines.map((machine, index) => (
               <MachineCard key={index} machine={machine} />
             ))
           ) : (
@@ -114,6 +130,8 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
+
 
 
 

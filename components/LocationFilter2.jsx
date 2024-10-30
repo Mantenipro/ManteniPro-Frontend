@@ -1,12 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const locationOptions = ['CDMX, Álvaro Obregón', 'CDMX, Azcapotzalco', 'CDMX, Benito Juárez'];
-
-const normalizeString = (str) => {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-};
-
-const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
+const LocationFilter2 = ({ selectedLocations, setSelectedLocations, locations }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [positionCalculated, setPositionCalculated] = useState(false);
@@ -14,8 +8,9 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  const filteredOptions = locationOptions.filter((option) =>
-    normalizeString(option).includes(normalizeString(searchTerm))
+  // Filtra la lista de ubicaciones basada en el término de búsqueda
+  const filteredOptions = locations.filter((location) =>
+    location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -28,7 +23,7 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
 
       setTimeout(() => {
         setPositionCalculated(true);
-      }, 0); 
+      }, 0);
     }
   }, [showDropdown]);
 
@@ -40,7 +35,7 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
         !buttonRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
-        setPositionCalculated(false); 
+        setPositionCalculated(false);
       }
     };
 
@@ -50,11 +45,11 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
     };
   }, []);
 
-  const handleCheckboxChange = (option) => {
-    if (selectedLocations.includes(option)) {
-      setSelectedLocations(selectedLocations.filter((loc) => loc !== option));
+  const handleCheckboxChange = (location) => {
+    if (selectedLocations.includes(location)) {
+      setSelectedLocations(selectedLocations.filter((loc) => loc !== location));
     } else {
-      setSelectedLocations([...selectedLocations, option]);
+      setSelectedLocations([...selectedLocations, location]);
     }
   };
 
@@ -72,10 +67,10 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
         />
         <span>Ubicación</span>
       </button>
-      {showDropdown && positionCalculated && ( 
+      {showDropdown && positionCalculated && (
         <div
           ref={dropdownRef}
-          className="fixed bg-white text-black w-32 p-1 rounded-md shadow-md z-50 max-h-40 overflow-y-auto sm:w-40 md:w-48 md:max-h-60"
+          className="fixed bg-white text-black w-32 sm:w-40 md:w-48 p-2 rounded-md shadow-md z-50 max-h-40 overflow-y-auto"
           style={{
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
@@ -86,23 +81,23 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
             placeholder="Buscar"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-1 border border-gray-300 rounded-md text-black text-xs md:text-sm"
+            className="w-full p-1 border border-gray-300 rounded-md text-xs sm:text-sm"
           />
-          <ul className="mt-1 text-black">
-            {filteredOptions.map((option, index) => (
+          <ul className="mt-2 text-black">
+            {filteredOptions.map((location, index) => (
               <li
                 key={index}
-                className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm"
-                onClick={() => handleCheckboxChange(option)}
+                className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs sm:text-sm"
+                onClick={() => handleCheckboxChange(location)}
               >
-                <span className={selectedLocations.includes(option) ? 'font-medium' : ''}>
-                  {option}
+                <span className={selectedLocations.includes(location) ? 'font-medium' : ''}>
+                  {location}
                 </span>
                 <input
                   type="checkbox"
-                  checked={selectedLocations.includes(option)}
+                  checked={selectedLocations.includes(location)}
                   readOnly
-                  className="ml-1 h-3 w-3 md:h-4 md:w-4"
+                  className="ml-2 h-3 w-3 sm:h-4 sm:w-4"
                 />
               </li>
             ))}
@@ -114,3 +109,5 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations }) => {
 };
 
 export default LocationFilter2;
+
+

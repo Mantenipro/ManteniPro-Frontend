@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import CustomerFilter from './CustomerFilter'; 
 import LocationFilter2 from './LocationFilter2'; 
 import DateFilter2 from './DateFilter2'; 
-import { fetchUserProfile } from '../pages/api/api'
+import { fetchUserProfile } from '../pages/api/api';
 
-const InfoPanel2 = () => {
-  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]);
+const InfoPanel2 = ({ owners, selectedAssignedTo, setSelectedAssignedTo, selectedLocations, setSelectedLocations, locations }) => {
   const [selectedDate, setSelectedDate] = useState('');
-  const [location, setLocation] = useState('');
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
@@ -34,6 +32,7 @@ const InfoPanel2 = () => {
         <CustomerFilter
           selectedAssignedTo={selectedAssignedTo}
           setSelectedAssignedTo={setSelectedAssignedTo}
+          owners={owners} 
         />
       )}
 
@@ -45,11 +44,16 @@ const InfoPanel2 = () => {
 
       {/* Filtro de Localización */}
       <LocationFilter2
-        selectedLocations={location}
-        setSelectedLocations={setLocation}
+        selectedLocations={selectedLocations}
+        setSelectedLocations={setSelectedLocations}
+        locations={locations} // Asegúrate de pasar las ubicaciones
       />
     </div>
   );
 };
 
 export default InfoPanel2;
+
+
+
+

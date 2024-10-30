@@ -1,12 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const assignedToOptions = ['Alan Urban', 'Roberto Alvarez', 'Uriel Gonzalez'];
-
-const normalizeString = (str) => {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-};
-
-const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
+const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo, owners }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [positionCalculated, setPositionCalculated] = useState(false);
@@ -14,8 +8,9 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  const filteredOptions = assignedToOptions.filter((option) =>
-    normalizeString(option).includes(normalizeString(searchTerm))
+  // Filtra la lista de propietarios basada en el término de búsqueda
+  const filteredOptions = owners.filter((owner) =>
+    owner.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -28,7 +23,7 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
 
       setTimeout(() => {
         setPositionCalculated(true);
-      }, 0); 
+      }, 0);
     }
   }, [showDropdown]);
 
@@ -40,7 +35,7 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
         !buttonRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
-        setPositionCalculated(false); 
+        setPositionCalculated(false);
       }
     };
 
@@ -50,11 +45,11 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
     };
   }, []);
 
-  const handleCheckboxChange = (option) => {
-    if (selectedAssignedTo.includes(option)) {
-      setSelectedAssignedTo(selectedAssignedTo.filter((person) => person !== option));
+  const handleCheckboxChange = (owner) => {
+    if (selectedAssignedTo.includes(owner)) {
+      setSelectedAssignedTo(selectedAssignedTo.filter((person) => person !== owner));
     } else {
-      setSelectedAssignedTo([...selectedAssignedTo, option]);
+      setSelectedAssignedTo([...selectedAssignedTo, owner]);
     }
   };
 
@@ -74,7 +69,7 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
         />
         <span>Cliente</span>
       </button>
-      {showDropdown && positionCalculated && ( 
+      {showDropdown && positionCalculated && (
         <div
           ref={dropdownRef}
           className="fixed bg-white text-black w-32 sm:w-40 md:w-48 p-2 rounded-md shadow-md z-50 max-h-40 overflow-y-auto"
@@ -91,18 +86,18 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo }) => {
             className="w-full p-1 border border-gray-300 rounded-md text-xs sm:text-sm"
           />
           <ul className="mt-2 text-black">
-            {filteredOptions.map((option, index) => (
+            {filteredOptions.map((owner, index) => (
               <li
                 key={index}
                 className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs sm:text-sm"
-                onClick={() => handleCheckboxChange(option)} 
+                onClick={() => handleCheckboxChange(owner)} // Cambiado a owner
               >
-                <span className={selectedAssignedTo.includes(option) ? 'font-medium' : ''}>
-                  {option}
+                <span className={selectedAssignedTo.includes(owner) ? 'font-medium' : ''}>
+                  {owner}
                 </span>
                 <input
                   type="checkbox"
-                  checked={selectedAssignedTo.includes(option)}
+                  checked={selectedAssignedTo.includes(owner)}
                   readOnly
                   className="ml-2 h-3 w-3 sm:h-4 sm:w-4"
                 />
