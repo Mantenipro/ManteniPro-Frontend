@@ -64,7 +64,7 @@ export default function FormEquipment() {
         await createEquipment(
           data.equipmentName,
           data.model,
-          userId, // Asigna el ID del usuario al campo "company"
+          userId, 
           data.owner,
           data.manufactureDate,
           data.brand,

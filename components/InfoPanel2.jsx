@@ -4,7 +4,15 @@ import LocationFilter2 from './LocationFilter2';
 import DateFilter2 from './DateFilter2'; 
 import { fetchUserProfile } from '../pages/api/api';
 
-const InfoPanel2 = ({ owners, selectedAssignedTo, setSelectedAssignedTo, selectedLocations, setSelectedLocations, locations }) => {
+const InfoPanel2 = ({
+  owners,
+  selectedAssignedTo,
+  setSelectedAssignedTo,
+  selectedLocations,
+  setSelectedLocations,
+  locations,
+  setMachines // Asegúrate de que setMachines se pase aquí
+}) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [userRole, setUserRole] = useState('');
 
@@ -35,24 +43,26 @@ const InfoPanel2 = ({ owners, selectedAssignedTo, setSelectedAssignedTo, selecte
           owners={owners} 
         />
       )}
-
-      {/* Filtro de Fecha */}
       <DateFilter2
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        setMachines={setMachines} // Asegúrate de pasar setMachines a DateFilter2
       />
-
-      {/* Filtro de Localización */}
       <LocationFilter2
         selectedLocations={selectedLocations}
         setSelectedLocations={setSelectedLocations}
-        locations={locations} // Asegúrate de pasar las ubicaciones
+        locations={locations}
       />
     </div>
   );
 };
 
 export default InfoPanel2;
+
+
+
+
+
 
 
 

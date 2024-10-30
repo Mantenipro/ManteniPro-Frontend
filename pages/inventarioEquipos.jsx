@@ -13,15 +13,16 @@ const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const Catalogo = () => {
-  const [machines, setMachines] = useState([]); // Equipos
-  const [users, setUsers] = useState([]); // Usuarios
-  const [owners, setOwners] = useState([]); // Propietarios
-  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]); // Cliente seleccionado
-  const [selectedLocations, setSelectedLocations] = useState([]); // Ubicación seleccionada
-  const [locations, setLocations] = useState([]); // Ubicaciones
+  const [machines, setMachines] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [owners, setOwners] = useState([]);
+  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]);
+  const [selectedLocations, setSelectedLocations] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -49,11 +50,9 @@ const Catalogo = () => {
             const data = await getEquipmentByCompanyId(userId, token);
             setMachines(data);
 
-            // Extraer propietarios únicos de los equipos
             const uniqueOwners = [...new Set(data.map(machine => machine.owner))];
             setOwners(uniqueOwners);
 
-            // Extraer ubicaciones únicas de los equipos
             const uniqueLocations = [...new Set(data.map(machine => machine.location))];
             setLocations(uniqueLocations);
           }
@@ -68,15 +67,27 @@ const Catalogo = () => {
     fetchUsersAndMachines();
   }, [router]);
 
+  
+  useEffect(() => {
+    setMachines(prevMachines => {
+      const sortedMachines = [...prevMachines];
+      sortedMachines.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return selectedDate === 'Recientes' ? dateB - dateA : dateA - dateB;
+      });
+      return sortedMachines;
+    });
+  }, [selectedDate]);
+
   if (loading) {
     return <div>Cargando...</div>;
   }
 
-  // Filtrar equipos basados en el cliente, la ubicación seleccionados y el término de búsqueda
   const filteredMachines = machines.filter(machine => {
     const matchesOwner = selectedAssignedTo.length === 0 || selectedAssignedTo.includes(machine.owner);
     const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(machine.location);
-    const matchesSearchTerm = machine.model.toLowerCase().startsWith(searchTerm.toLowerCase()); // Filtrar por modelo
+    const matchesSearchTerm = machine.model.toLowerCase().startsWith(searchTerm.toLowerCase());
 
     return matchesOwner && matchesLocation && matchesSearchTerm;
   });
@@ -99,7 +110,7 @@ const Catalogo = () => {
               {isMenuOpen ? '✖' : '☰'}
             </button>
           </div>
-          <SearchBar2 className='w-1/2 md:w-1/3 ' searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> {/* Pasa el searchTerm */}
+          <SearchBar2 className='w-1/2 md:w-1/3' searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           <AddButton className='text-sm' />
         </div>
 
@@ -107,17 +118,19 @@ const Catalogo = () => {
           <Title className='text-2xl ml-4'>Catálogo de equipos</Title>
           <div className='mt-6 flex justify-between items-center'>
             <InfoPanel2
-              owners={owners} // Pasar la lista de propietarios aquí
+              owners={owners}
               selectedAssignedTo={selectedAssignedTo}
               setSelectedAssignedTo={setSelectedAssignedTo}
               selectedLocations={selectedLocations}
               setSelectedLocations={setSelectedLocations}
-              locations={locations} // Pasar las ubicaciones al InfoPanel2
+              locations={locations}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              setMachines={setMachines} 
             />
           </div>
         </div>
 
-        {/* Contenedor de 50vh con scroll para las tarjetas */}
         <div className='h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
           {filteredMachines.length > 0 ? (
             filteredMachines.map((machine, index) => (
@@ -133,6 +146,73 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

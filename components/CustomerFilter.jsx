@@ -8,7 +8,7 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo, owners }) =
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  // Filtra la lista de propietarios basada en el término de búsqueda
+
   const filteredOptions = owners.filter((owner) =>
     owner.toLowerCase().includes(searchTerm.toLowerCase())
   );
