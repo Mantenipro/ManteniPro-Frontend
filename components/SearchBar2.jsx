@@ -5,7 +5,7 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const SearchBar2 = ({ searchTerm, setSearchTerm }) => {
   const handleChange = (event) => {
-    setSearchTerm(event.target.value)
+    setSearchTerm(event.target.value);
   }
 
   return (
@@ -15,14 +15,15 @@ const SearchBar2 = ({ searchTerm, setSearchTerm }) => {
     >
       <input
         type='text'
-        placeholder='Buscar...'
+        placeholder='Buscar por modelo...'
         value={searchTerm}
         onChange={handleChange}
-        className='w-full bg-transparent p-1 text-xs text-white focus:outline-none' // Se reduce el tamaño del texto
+        className='w-full bg-transparent p-1 text-xs text-white focus:outline-none'
         aria-label='Buscar equipo'
       />
     </div>
-  )
+  );
 }
 
 export default SearchBar2;
+

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar2 from '../components/SearchBar2';
 import AddButton from '../components/AddButton';
-import InfoPanel2 from '../components/InfoPanel2'; // Asegúrate de que esto esté correcto
+import InfoPanel2 from '../components/InfoPanel2';
 import Title from '../components/Title';
 import MachineCard from '../components/MachineCard';
 import LefthDashboard from '@/components/LefthDashboard';
@@ -21,6 +21,7 @@ const Catalogo = () => {
   const [locations, setLocations] = useState([]); // Ubicaciones
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -71,11 +72,13 @@ const Catalogo = () => {
     return <div>Cargando...</div>;
   }
 
-  // Filtrar equipos basados en el cliente y la ubicación seleccionados
+  // Filtrar equipos basados en el cliente, la ubicación seleccionados y el término de búsqueda
   const filteredMachines = machines.filter(machine => {
     const matchesOwner = selectedAssignedTo.length === 0 || selectedAssignedTo.includes(machine.owner);
     const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(machine.location);
-    return matchesOwner && matchesLocation;
+    const matchesSearchTerm = machine.model.toLowerCase().startsWith(searchTerm.toLowerCase()); // Filtrar por modelo
+
+    return matchesOwner && matchesLocation && matchesSearchTerm;
   });
 
   return (
@@ -96,7 +99,7 @@ const Catalogo = () => {
               {isMenuOpen ? '✖' : '☰'}
             </button>
           </div>
-          <SearchBar2 className='w-1/2 md:w-1/3 ' />
+          <SearchBar2 className='w-1/2 md:w-1/3 ' searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> {/* Pasa el searchTerm */}
           <AddButton className='text-sm' />
         </div>
 
@@ -130,6 +133,7 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
 
 
 
