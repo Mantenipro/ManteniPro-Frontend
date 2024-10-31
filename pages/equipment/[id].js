@@ -4,7 +4,7 @@ import EquipmentDetails from '@/components/EquipmentDetails';
 import QRCodeDisplay from '@/components/QRCodeDisplay';
 import LefthDashboard from '@/components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
-import { getEquipmentById } from '@/api/api'; // Asegúrate de importar correctamente la función
+import { getEquipmentById } from '@/api/api';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
@@ -21,7 +21,7 @@ const DetalleEquipo = () => {
       try {
         const token = localStorage.getItem("token");
         if (id && token) {
-          const data = await getEquipmentById(id, token); // Pasar el token desde localStorage
+          const data = await getEquipmentById(id, token); 
           setEquipment(data);
         }
       } catch (error) {

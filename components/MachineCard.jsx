@@ -62,6 +62,8 @@ const MachineCard = ({ machine }) => {
           />
         </div>
 
+        
+
         {/* Información del equipo */}
         <div className="flex flex-grow justify-between ml-4">
           <div className="flex flex-col justify-center">
@@ -91,8 +93,8 @@ const MachineCard = ({ machine }) => {
           </div>
 
           <div className="hidden lg:flex justify-center items-center mr-6">
-            <div className="bg-gray-300 w-12 h-12 rounded-lg" />
-          </div>
+  <img src={machine.qr} alt="Código QR" className="w-12 h-12 rounded-lg" />
+</div>
         </div>
 
         <div className="flex-shrink-0 flex space-x-4 ml-6">

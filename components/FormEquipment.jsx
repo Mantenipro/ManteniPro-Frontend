@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import QRCode from 'qrcode'; // Asegúrate de instalar qrcode con `npm install qrcode`
 import { createEquipment, getUsers } from '@/api/api';
 import { Source_Sans_3 } from 'next/font/google';
 
@@ -10,6 +11,7 @@ export default function FormEquipment() {
   const { handleSubmit, register, formState: { errors } } = useForm();
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
+  const [qrCodeUrl, setQrCodeUrl] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -41,22 +43,71 @@ export default function FormEquipment() {
     }
   }
 
+  async function uploadQRCodeToS3(qrCodeData) {
+    try {
+      const qrCodeBlob = await (await fetch(qrCodeData)).blob();
+      const qrCodeFile = new File([qrCodeBlob], 'qrcode.png', { type: 'image/png' });
+      
+      const fileData = {
+        fileName: qrCodeFile.name,
+        fileType: qrCodeFile.type,
+      };
+
+      const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fileData),
+      });
+      const { url } = await presignedUrlResponse.json();
+      await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': qrCodeFile.type },
+        body: qrCodeFile,
+      });
+      return url.split('?')[0];
+    } catch (error) {
+      console.error("Error uploading QR code to S3:", error);
+      return null;
+    }
+  }
+
+  async function generateQRCode(equipmentName) {
+    try {
+      const url = await QRCode.toDataURL(equipmentName);
+      setQrCodeUrl(url);
+      return url;
+    } catch (error) {
+      console.error("Error generating QR code:", error);
+      return null;
+    }
+  }
+
   async function onSubmit(data) {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
+
     if (token && email) {
       try {
         const userList = await getUsers();
         const user = userList.find((user) => user.email === email);
         const userId = user ? user._id : null;
+
         if (!userId) {
           console.error("No se encontró un usuario con el email especificado.");
           return;
         }
+
         let imageUrl = null;
         if (selectedFile) {
           imageUrl = await uploadImageToS3(selectedFile);
         }
+
+        const qrCodeDataUrl = await generateQRCode(data.equipmentName);
+        let qrCodeUrl = null;
+        if (qrCodeDataUrl) {
+          qrCodeUrl = await uploadQRCodeToS3(qrCodeDataUrl);
+        }
+
         await createEquipment(
           data.equipmentName,
           data.model,
@@ -67,9 +118,10 @@ export default function FormEquipment() {
           data.location,
           data.unitType,
           imageUrl,
-          null,
+          qrCodeUrl,
           token
         );
+
         router.push("/inventarioEquipos");
       } catch (error) {
         console.error("Error creating equipment:", error);
@@ -183,29 +235,29 @@ export default function FormEquipment() {
         </div>
 
         <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='image'>
-            Agregar foto (opcional)
+          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='file'>
+            Cargar imagen
           </label>
           <input
+            id='file'
             type='file'
-            id='image'
             onChange={handleFileChange}
-            className='block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer focus:outline-none'
+            accept='image/*'
+            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
-
-        <div className='flex justify-center lg:mt-4 lg:mb-10 mb-14 mt-32'>
-          <button
-            type='submit'
-            className='py-2 px-4 bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold rounded-lg shadow-md hover:from-[#1a1d24] hover:to-[#373f5a] focus:outline-none focus:ring-4 focus:ring-blue-300'
-          >
-            Agregar
-          </button>
-        </div>
       </div>
+
+      <button
+        type='submit'
+        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg'
+      >
+        Crear Equipo
+      </button>
     </form>
   );
 }
+
 
 
 
