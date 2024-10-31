@@ -1,163 +1,121 @@
-import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { useForm } from 'react-hook-form'
-import { Source_Sans_3 } from 'next/font/google'
-import { fetchEquimentById } from '../pages/api/api'
+import React from 'react';
+import Image from 'next/image';
+import { useForm } from 'react-hook-form';
+import { Source_Sans_3 } from 'next/font/google';
 
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
-const EquipmentDetails = ({ initialData }) => {
-  const { register, handleSubmit, setValue } = useForm()
-  const [formData, setFormData] = useState(initialData)
-
-  useEffect(() => {
-    console.log('initialData recibido:', initialData) // Verificar los datos iniciales
-    if (initialData) {
-      Object.keys(initialData).forEach((key) => {
-        setValue(key, initialData[key])
-      })
-    }
-  }, [initialData, setValue])
-
-  const onSubmit = async (data) => {
-    try {
-      await fetchEquimentById(initialData._id, data)
-      console.log('Datos actualizados:', data)
-    } catch (error) {
-      console.error('Error actualizando los datos:', error)
-    }
-  }
+const EquipmentDetails = ({ equipment }) => {
+  const { register } = useForm();
 
   return (
     <div
-      className={`${sourceSans3.className} mx-3 mt-4 min-h-[40rem] max-w-[30rem] rounded-lg bg-white px-3 pt-5 shadow-lg lg:ml-4 lg:mt-5`}
+      className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] min-h-[40rem]`}
     >
       {/* Imagen */}
       <Image
-        src='/airConditioning.jpg'
-        alt='Air Conditioning'
+        src={equipment.image || '/airConditioning.jpg'}
+        alt={equipment.equipmentName || 'Air Conditioning'}
         width={200}
         height={200}
-        className='mx-auto mb-2 rounded-lg'
+        className='rounded-lg mx-auto mb-2'
       />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='max-h-[25rem] overflow-y-auto'>
-          <div className='ml-2 space-y-6'>
-            <div className='mb-4'>
-              <label
-                className='mb-[1px] block text-sm font-semibold text-gray-700'
-                htmlFor='nombreEquipo'
-              >
-                Nombre del equipo
-              </label>
-              <input
-                {...register('equipmentName', { required: true })}
-                className='w-full appearance-none rounded-lg border border-gray-300 px-2 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                id='equipmentName'
-                type='text'
-                placeholder='Nombre del equipo'
-              />
-            </div>
+      <div className='overflow-y-auto max-h-[25rem]'>
+        <div className='space-y-6 ml-2'>
+          <div className='mb-4'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='nombreEquipo'>
+              Nombre del equipo
+            </label>
+            <input
+              {...register('nombreEquipo')}
+              defaultValue={equipment.equipmentName}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='nombreEquipo'
+              type='text'
+            />
+          </div>
 
-            <div className='mb-4'>
-              <label
-                className='mb-[1px] block text-sm font-semibold text-gray-700'
-                htmlFor='modelo'
-              >
-                Modelo
-              </label>
-              <input
-                {...register('model', { required: true })}
-                className='w-full appearance-none rounded-lg border border-gray-300 px-2 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                id='model'
-                type='text'
-                placeholder='Modelo del equipo'
-              />
-            </div>
+          <div className='mb-4'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='modelo'>
+              Modelo
+            </label>
+            <input
+              {...register('modelo')}
+              defaultValue={equipment.model}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='modelo'
+              type='text'
+            />
+          </div>
 
-            <div className='mb-4'>
-              <label
-                className='mb-[1px] block text-sm font-semibold text-gray-700'
-                htmlFor='numeroSerie'
-              >
-                Propietario
-              </label>
-              <input
-                {...register('owner', { required: true })}
-                className='w-full appearance-none rounded-lg border border-gray-300 px-2 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                id='owner'
-                type='text'
-                placeholder='Propietario del equipo'
-              />
-            </div>
+          <div className='mb-4'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='propietario'>
+              Propietario
+            </label>
+            <input
+              {...register('propietario')}
+              defaultValue={equipment.owner}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='propietario'
+              type='text'
+            />
+          </div>
 
-            <div className='mb-4 mr-52'>
-              <label
-                className='mb-[1px] block text-sm font-semibold text-gray-700'
-                htmlFor='fechaFabricacion'
-              >
-                Fecha de fabricación
-              </label>
-              <input
-                {...register('manufactureDate', { required: true })}
-                className='w-full appearance-none rounded-lg border border-gray-300 px-2 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                id='manufactureDate'
-                type='date'
-              />
-            </div>
+          <div className='mb-4 mr-52'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='fechaFabricacion'>
+              Fecha de fabricación
+            </label>
+            <input
+              {...register('fechaFabricacion')}
+              defaultValue={equipment.manufactureDate?.slice(0, 10)}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='fechaFabricacion'
+              type='date'
+            />
+          </div>
 
-            <div className='mb-4'>
-              <label
-                className='mb-[1px] block text-sm font-semibold text-gray-700'
-                htmlFor='marca'
-              >
-                Marca
-              </label>
-              <input
-                {...register('brand', { required: true })}
-                className='w-full appearance-none rounded-lg border border-gray-300 px-2 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                id='brand'
-                type='text'
-                placeholder='Marca del equipo'
-              />
-            </div>
+          <div className='mb-4'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='marca'>
+              Marca
+            </label>
+            <input
+              {...register('marca')}
+              defaultValue={equipment.brand}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='marca'
+              type='text'
+            />
+          </div>
 
-            <div className='mb-4'>
-              <label
-                className='mb-[1px] block text-sm font-semibold text-gray-700'
-                htmlFor='ubicacion'
-              >
-                Ubicación
-              </label>
-              <input
-                {...register('location', { required: true })}
-                className='w-full appearance-none rounded-lg border border-gray-300 px-2 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                id='location'
-                type='text'
-                placeholder='Ubicación del equipo'
-              />
-            </div>
+          <div className='mb-4'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='ubicacion'>
+              Ubicación
+            </label>
+            <input
+              {...register('ubicacion')}
+              defaultValue={equipment.location}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='ubicacion'
+              type='text'
+            />
+          </div>
 
-            <div className='mb-4'>
-              <label
-                className='mb-[2px] block text-sm font-semibold text-gray-700'
-                htmlFor='tipoUnidad'
-              >
-                Tipo de unidad
-              </label>
-              <input
-                {...register('unitType', { required: true })}
-                className='w-full appearance-none rounded-lg border border-gray-300 px-2 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                id='unitType'
-                type='text'
-                placeholder='Tipo de unidad'
-              />
-            </div>
+          <div className='mb-4'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='tipoUnidad'>
+              Tipo de unidad
+            </label>
+            <input
+              {...register('tipoUnidad')}
+              defaultValue={equipment.unitType}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='tipoUnidad'
+              type='text'
+            />
           </div>
         </div>
-      </form>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default EquipmentDetails
+export default EquipmentDetails;

@@ -13,39 +13,59 @@ export async function createReport(data) {
 }
 
 // Función para crear un equipo
-export async function createEquipment(data) {
+export async function createEquipment(
+  equipmentName,
+  model,
+  company,
+  owner,
+  manufactureDate,
+  brand,
+  location,
+  unitType,
+  image,
+  qr,
+  token
+) {
   try {
-    const token = localStorage.getItem('token') // Asumiendo que el token se guarda en localStorage
-
     const res = await fetch(`${API_URL}/equipment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        Authorization: token,
       },
-      body: JSON.stringify(data)
-    })
+      body: JSON.stringify({
+        equipmentName,
+        model,
+        company,
+        owner,
+        manufactureDate,
+        brand,
+        location,
+        unitType,
+        image,
+        qr,
+      }),
+    });
 
     if (!res.ok) {
-      throw new Error(`Error: ${res.status} ${res.statusText}`)
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
     }
 
-    const result = await res.json()
-    console.log('Respuesta de la API:', result)
-    return result
+    const json = await res.json();
+    return json.data; 
   } catch (error) {
     console.error("Error creating equipment:", error);
     throw error; 
   }
 }
 
-/* // Función para obtener todos los usuarios
+// Función para obtener todos los usuarios
 export async function getAllUsers(token) {
   try {
     const res = await fetch(`${API_URL}/users/all`, {
       method: 'GET',
       headers: {
-        Authorization: token, // Asumiendo que se requiere un token para la autenticación
+        Authorization: token,
       },
     });
 
@@ -54,7 +74,7 @@ export async function getAllUsers(token) {
     }
 
     const json = await res.json();
-    return json.data.users; // Accede a los usuarios en la respuesta
+    return json.data.users;
   } catch (error) {
     console.error("Error fetching all users:", error);
     throw error;
@@ -73,12 +93,12 @@ export async function getUsers() {
     }
 
     const json = await res.json();
-    return json.data; // Cambiado de json.data.posts a json.data
+    return json.data;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
   }
-} */
+}
 
 export async function getEquipmentByCompanyId(companyId, token) {
   try {
@@ -101,48 +121,67 @@ export async function getEquipmentByCompanyId(companyId, token) {
   }
 }
 
-export async function updateEquipment(equipmentId, data) {
+// Obtener equipo por ID de usuario
+export async function getUserEquipmentById(equipmentId, token) {
   try {
     const res = await fetch(`${API_URL}/equipment/${equipmentId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+      method: 'GET',
+      headers: { Authorization: token, 'Content-Type': 'application/json' },
     });
 
     if (!res.ok) {
       throw new Error(`Error: ${res.status} ${res.statusText}`);
     }
 
-    const result = await res.json();
-    console.log('Respuesta de la API:', result);
-    return {succcess: true , data: result};
+    const json = await res.json();
+    return json;
   } catch (error) {
-    console.error("Error updating equipment:", error);
+    console.error("Error fetching user equipment by ID:", error);
     throw error;
   }
 }
 
-export async function deleteEquipment(equipmentId) {
+// Función para obtener todos los equipos
+export async function getAllEquipments(token) {
   try {
-    const res = await fetch(`${API_URL}/equipment/${equipmentId}`, {
-      method: 'DELETE',
+    const res = await fetch(`${API_URL}/equipment`, {
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!res.ok) {
       throw new Error(`Error: ${res.status} ${res.statusText}`);
     }
 
-    const result = await res.json();
-    console.log('Respuesta de la API:', result);
-    return {success: true, data: result};
+    const json = await res.json();
+    return json.data;
   } catch (error) {
-    console.error("Error deleting equipment:", error);
+    console.error("Error fetching all equipments:", error);
     throw error;
   }
 }
 
+export async function getEquipmentById(equipmentId, token) {
+  try {
+    const res = await fetch(`${API_URL}/equipment/${equipmentId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
+    }
+
+    const json = await res.json();
+    return json.data; // Devuelve solo los datos específicos del equipo
+  } catch (error) {
+    console.error("Error fetching equipment by ID:", error);
+    throw error;
+  }
+}

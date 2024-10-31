@@ -1,144 +1,140 @@
-import React, { useState, useEffect } from 'react'
-import SearchBar from '../components/SearchBar'
-import AddButton from '../components/AddButton'
-import SortTeams from '../components/SortTeams'
-import Title from '../components/Title'
-import MachineCard from '../components/MachineCard'
-import LefthDashboard from '@/components/LefthDashboard'
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
-import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react';
+import SearchBar2 from '../components/SearchBar2';
+import AddButton from '../components/AddButton';
+import InfoPanel2 from '../components/InfoPanel2';
+import Title from '../components/Title';
+import MachineCard from '../components/MachineCard';
+import LefthDashboard from '@/components/LefthDashboard';
+import { Montserrat, Source_Sans_3 } from 'next/font/google';
+import { getEquipmentByCompanyId, getAllUsers } from '@/api/api';
+import { useRouter } from 'next/router';
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
-const CatalogoDeEquipos = () => {
-  const [machines, setMachines] = useState([])
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [sortCriteria, setSortCriteria] = useState('')
-  const router = useRouter()
+const Catalogo = () => {
+  const [machines, setMachines] = useState([]); // Equipos
+  const [users, setUsers] = useState([]); // Usuarios
+  const [owners, setOwners] = useState([]); // Propietarios
+  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]); // Cliente seleccionado
+  const [selectedLocations, setSelectedLocations] = useState([]); // Ubicación seleccionada
+  const [locations, setLocations] = useState([]); // Ubicaciones
+  const [selectedDate, setSelectedDate] = useState(''); // Fecha seleccionada
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+  const router = useRouter();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   useEffect(() => {
     const fetchUsersAndMachines = async () => {
       try {
-        const token = localStorage.getItem('token')
-        const response = await fetch('http://localhost:8000/equipment', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
+        const token = localStorage.getItem("token");
+        const email = localStorage.getItem("email");
+
+        if (token && email) {
+          const userList = await getAllUsers(token);
+          setUsers(userList);
+
+          if (!Array.isArray(userList) || userList.length === 0) {
+            return;
           }
-        })
-        const data = await response.json()
-        console.log('Respuesta de la API:', data)
-        if (data.success) {
-          setMachines(data.data)
-          console.log('Equipos:', data.data)
-        } else {
-          console.error('Error al obtener equipos:', data.error)
+
+          const user = userList.find(user => user.email === email);
+          const userId = user ? user._id : null;
+
+          if (userId) {
+            const data = await getEquipmentByCompanyId(userId, token);
+            setMachines(data);
+
+            // Extraer propietarios únicos de los equipos
+            const uniqueOwners = [...new Set(data.map(machine => machine.owner))];
+            setOwners(uniqueOwners);
+
+            // Extraer ubicaciones únicas de los equipos
+            const uniqueLocations = [...new Set(data.map(machine => machine.location))];
+            setLocations(uniqueLocations);
+          }
         }
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error("Error fetching data:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchUsersAndMachines()
-  }, [router])
+    fetchUsersAndMachines();
+  }, [router]);
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Cargando...</div>;
   }
 
-  const handleSortChange = (criteria) => {
-    setSortCriteria(criteria)
-  }
+  // Filtrar equipos basados en el cliente, la ubicación seleccionados y el término de búsqueda
+  const filteredMachines = machines.filter(machine => {
+    const matchesOwner = selectedAssignedTo.length === 0 || selectedAssignedTo.includes(machine.owner);
+    const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(machine.location);
+    const matchesDate = selectedDate ? machine.date === selectedDate : true; // Filtrar por fecha si está seleccionada
+    const matchesSearchTerm = machine.model.toLowerCase().startsWith(searchTerm.toLowerCase()); // Filtrar por modelo
 
-  const handleMachineDelete = (machineId) => {
-    setMachines((prevMachines) =>
-      prevMachines.filter((machine) => machine._id !== machineId)
-    )
-  }
-  const sortedMachines = [...machines].sort((a, b) => {
-    if (sortCriteria === 'A a la Z') {
-      return a.location.localeCompare(b.location)
-    } else if (sortCriteria === 'Z a la A') {
-      return b.location.localeCompare(a.location)
-    } else if (sortCriteria === 'Antiguo a reciente') {
-      return new Date(a.createdAt) - new Date(b.createdAt)
-    } else if (sortCriteria === 'Reciente a antiguo') {
-      return new Date(b.createdAt) - new Date(a.createdAt)
-    }
-    return 0
-  })
-
-  const filteredMachines = sortedMachines.filter((machine) =>
-    machine.location.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+    return matchesOwner && matchesLocation && matchesDate && matchesSearchTerm;
+  });
 
   return (
-    <div
-      className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}
-    >
+    <div className={`${montserrat.className} h-dvh flex flex-row lg:flex-grow relative`}>
       <div
         className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed z-40 h-full w-[50%] transform bg-gradient-to-b from-[#31416d] to-[#232c48] transition-transform duration-300 ease-in-out md:w-[30%] lg:static lg:w-[15%] lg:translate-x-0`}
+        } lg:translate-x-0 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#31416d] to-[#232c48] md:w-[30%] lg:w-[15%] w-[50%] h-full fixed lg:static z-40`}
       >
         <LefthDashboard />
       </div>
-      <main className='flex-1 p-4'>
+      <main className='flex-1 p-6'>
         <div className='flex lg:items-center lg:justify-between'>
-          <div className='left-4 top-4 z-50 lg:hidden'>
+          <div className='lg:hidden top-4 left-4 z-50'>
             <button
               onClick={toggleMenu}
-              className='rounded-md bg-[#21262D] p-2 text-white focus:outline-none'
-            >
+              className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'>
               {isMenuOpen ? '✖' : '☰'}
             </button>
           </div>
-          <SearchBar
-            className='w-1/2 md:w-1/3'
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-          />
+          <SearchBar2 className='w-1/2 md:w-1/3 ' searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           <AddButton className='text-sm' />
         </div>
 
-        <div className='mb-4 mt-4'>
-          <Title className='text-2xl'>Catálogo de equipos</Title>
-          <div className='mt-4 flex items-center justify-between'>
-            <SortTeams
-              sortCriteria={sortCriteria}
-              setSortCriteria={handleSortChange}
+        <div className='mt-8 mb-4'>
+          <Title className='text-2xl ml-4'>Catálogo de equipos</Title>
+          <div className='mt-6 flex justify-between items-center'>
+            <InfoPanel2
+              owners={owners} // Pasar la lista de propietarios aquí
+              selectedAssignedTo={selectedAssignedTo}
+              setSelectedAssignedTo={setSelectedAssignedTo}
+              selectedLocations={selectedLocations}
+              setSelectedLocations={setSelectedLocations}
+              locations={locations} // Pasar las ubicaciones al InfoPanel2
+              selectedDate={selectedDate} // Pasar la fecha seleccionada
+              setSelectedDate={setSelectedDate} // Pasar el setSelectedDate
             />
           </div>
         </div>
 
-        <div className='animate-fadeIn h-[30rem] w-full space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
+        {/* Contenedor de 50vh con scroll para las tarjetas */}
+        <div className='h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
           {filteredMachines.length > 0 ? (
             filteredMachines.map((machine, index) => (
-              <MachineCard
-                key={index}
-                machine={machine}
-                onDelete={handleMachineDelete}
-              />
+              <MachineCard key={index} machine={machine} />
             ))
           ) : (
-            <div className='text-center text-2xl text-gray-500'>
-              No hay equipos disponibles.
-            </div>
+            <div>No hay equipos disponibles.</div>
           )}
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default CatalogoDeEquipos
+export default Catalogo;
+
