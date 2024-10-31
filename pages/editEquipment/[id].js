@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import EquipmentDetails from '@/components/EquipmentDetails';
-import QRCodeDisplay from '@/components/QRCodeDisplay';
+import EquipmentDetails2 from '@/components/EquipmentDetails2';
 import LefthDashboard from '@/components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getEquipmentById } from '@/api/api';
@@ -61,8 +60,8 @@ const DetalleEquipo = () => {
           </div>
 
           <div className='flex flex-col lg:flex-row items-center justify-center space-y-2 lg:space-y-0 lg:space-x-4'>
-            <EquipmentDetails equipment={equipment} />
-            <QRCodeDisplay qrCode={equipment.qr} />
+            <EquipmentDetails2 equipment={equipment} />
+            {/* QRCodeDisplay component removed */}
           </div>
         </div>
       </main>

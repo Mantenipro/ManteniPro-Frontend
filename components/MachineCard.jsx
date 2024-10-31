@@ -16,7 +16,7 @@ const MachineCard = ({ machine }) => {
   const handleCardClick = () => router.push(`/equipment/${machine._id}`);
   const handleEditClick = (e) => {
     e.stopPropagation();
-    router.push(`/editarEquipo/${machine.id}`);
+    router.push(`/editEquipment/${machine._id}`);
   };
 
   const handleDeleteClick = (e) => {

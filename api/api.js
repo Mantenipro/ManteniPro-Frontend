@@ -185,3 +185,27 @@ export async function getEquipmentById(equipmentId, token) {
     throw error;
   }
 }
+
+// Función para editar un equipo
+export async function editEquipment(equipmentId, updatedData, token) {
+  try {
+    const res = await fetch(`${API_URL}/equipment/${equipmentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
+    }
+
+    const json = await res.json();
+    return json.data; // Devuelve solo los datos del equipo actualizado
+  } catch (error) {
+    console.error("Error editing equipment:", error);
+    throw error;
+  }
+}
