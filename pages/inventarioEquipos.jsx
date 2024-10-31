@@ -1,85 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import SearchBar2 from '../components/SearchBar2';
-import AddButton from '../components/AddButton';
+import React, { useState, useEffect } from 'react'
+import SearchBar from '../components/SearchBar'
+import AddButton from '../components/AddButton'
 import SortTeams from '../components/SortTeams'
-import Title from '../components/Title';
-import MachineCard from '../components/MachineCard';
-import LefthDashboard from '@/components/LefthDashboard';
-import { Montserrat, Source_Sans_3 } from 'next/font/google';
-import { useRouter } from 'next/router';
+import Title from '../components/Title'
+import MachineCard from '../components/MachineCard'
+import LefthDashboard from '@/components/LefthDashboard'
+import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { useRouter } from 'next/router'
 
-const montserrat = Montserrat({ subsets: ['latin'] });
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
+const montserrat = Montserrat({ subsets: ['latin'] })
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const CatalogoDeEquipos = () => {
-  const [machines, setMachines] = useState([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [machines, setMachines] = useState([])
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortCriteria, setSortCriteria] = useState('')
-  const router = useRouter();
+  const router = useRouter()
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+    setIsMenuOpen(!isMenuOpen)
+  }
 
   useEffect(() => {
     const fetchUsersAndMachines = async () => {
       try {
-       const token = localStorage.getItem('token');
-       const response = await fetch('http://localhost:8000/equipment',
-        {
+        const token = localStorage.getItem('token')
+        const response = await fetch('http://localhost:8000/equipment', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
-       }
-      )
-      const data = await response.json()
-      console.log('Respuesta de la API:', data)
-      if (data.success) {
-        setMachines(data.data)
-        console.log('Equipos:', data.data)
-      } else {
-        console.error('Error al obtener equipos:', data.error)
-      }
+        })
+        const data = await response.json()
+        console.log('Respuesta de la API:', data)
+        if (data.success) {
+          setMachines(data.data)
+          console.log('Equipos:', data.data)
+        } else {
+          console.error('Error al obtener equipos:', data.error)
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchUsersAndMachines();
-  }, [router]);
-
-  
-  useEffect(() => {
-    setMachines(prevMachines => {
-      const sortedMachines = [...prevMachines];
-      sortedMachines.sort((a, b) => {
-        const dateA = new Date(a.createdAt);
-        const dateB = new Date(b.createdAt);
-        return selectedDate === 'Recientes' ? dateB - dateA : dateA - dateB;
-      });
-      return sortedMachines;
-    });
-  }, [selectedDate]);
+    fetchUsersAndMachines()
+  }, [router])
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
-   const handleSortChange = (criteria) => {
-     setSortCriteria(criteria)
-   }
+  const handleSortChange = (criteria) => {
+    setSortCriteria(criteria)
+  }
 
-   const handleMachineDelete = (machineId) => {
-     setMachines((prevMachines) =>
-       prevMachines.filter((machine) => machine._id !== machineId)
-     )
-   }
+  const handleMachineDelete = (machineId) => {
+    setMachines((prevMachines) =>
+      prevMachines.filter((machine) => machine._id !== machineId)
+    )
+  }
   const sortedMachines = [...machines].sort((a, b) => {
     if (sortCriteria === 'A a la Z') {
       return a.location.localeCompare(b.location)
@@ -96,7 +81,7 @@ const CatalogoDeEquipos = () => {
   const filteredMachines = sortedMachines.filter((machine) =>
     machine.location.toLowerCase().includes(searchTerm.toLowerCase())
   )
-  
+
   return (
     <div
       className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}
@@ -154,36 +139,6 @@ const CatalogoDeEquipos = () => {
       </main>
     </div>
   )
-};
+}
 
 export default CatalogoDeEquipos
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
