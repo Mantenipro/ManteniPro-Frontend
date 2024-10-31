@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from '../components/SearchBar';
+import SearchBar2 from '../components/SearchBar2';
 import AddButton from '../components/AddButton';
 import SortTeams from '../components/SortTeams'
 import Title from '../components/Title';
@@ -53,6 +53,19 @@ const CatalogoDeEquipos = () => {
 
     fetchUsersAndMachines();
   }, [router]);
+
+  
+  useEffect(() => {
+    setMachines(prevMachines => {
+      const sortedMachines = [...prevMachines];
+      sortedMachines.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return selectedDate === 'Recientes' ? dateB - dateA : dateA - dateB;
+      });
+      return sortedMachines;
+    });
+  }, [selectedDate]);
 
   if (loading) {
     return <div>Loading...</div>;

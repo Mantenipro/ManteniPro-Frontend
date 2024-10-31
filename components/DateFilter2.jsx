@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const dateOptions = ['Recientes', 'Últimos'];
 
-const DateFilter2 = ({ selectedDate, setSelectedDate }) => {
+const DateFilter2 = ({ selectedDate, setSelectedDate, setMachines }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [positionCalculated, setPositionCalculated] = useState(false);
@@ -42,7 +42,19 @@ const DateFilter2 = ({ selectedDate, setSelectedDate }) => {
   }, []);
 
   const handleCheckboxChange = (option) => {
-    setSelectedDate(option === selectedDate ? '' : option);
+    const newSelectedDate = option === selectedDate ? '' : option;
+    setSelectedDate(newSelectedDate);
+
+    // Aquí puedes gestionar el estado de machines basado en la nueva selección
+    setMachines(prevMachines => {
+      const sortedMachines = [...prevMachines];
+      sortedMachines.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return newSelectedDate === 'Recientes' ? dateB - dateA : dateA - dateB;
+      });
+      return sortedMachines;
+    });
   };
 
   return (
@@ -94,3 +106,5 @@ const DateFilter2 = ({ selectedDate, setSelectedDate }) => {
 };
 
 export default DateFilter2;
+
+

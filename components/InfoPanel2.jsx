@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import CustomerFilter from './CustomerFilter'; 
 import LocationFilter2 from './LocationFilter2'; 
 import DateFilter2 from './DateFilter2'; 
-import { fetchUserProfile } from '../pages/api/api'
+import { fetchUserProfile } from '../pages/api/api';
 
-const InfoPanel2 = () => {
-  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]);
+const InfoPanel2 = ({
+  owners,
+  selectedAssignedTo,
+  setSelectedAssignedTo,
+  selectedLocations,
+  setSelectedLocations,
+  locations,
+  setMachines // Asegúrate de que setMachines se pase aquí
+}) => {
   const [selectedDate, setSelectedDate] = useState('');
-  const [location, setLocation] = useState('');
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
@@ -34,22 +40,30 @@ const InfoPanel2 = () => {
         <CustomerFilter
           selectedAssignedTo={selectedAssignedTo}
           setSelectedAssignedTo={setSelectedAssignedTo}
+          owners={owners} 
         />
       )}
-
-      {/* Filtro de Fecha */}
       <DateFilter2
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        setMachines={setMachines} // Asegúrate de pasar setMachines a DateFilter2
       />
-
-      {/* Filtro de Localización */}
       <LocationFilter2
-        selectedLocations={location}
-        setSelectedLocations={setLocation}
+        selectedLocations={selectedLocations}
+        setSelectedLocations={setSelectedLocations}
+        locations={locations}
       />
     </div>
   );
 };
 
 export default InfoPanel2;
+
+
+
+
+
+
+
+
+
