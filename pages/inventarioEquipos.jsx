@@ -117,6 +117,7 @@ const Catalogo = () => {
               locations={locations} // Pasar las ubicaciones al InfoPanel2
               selectedDate={selectedDate} // Pasar la fecha seleccionada
               setSelectedDate={setSelectedDate} // Pasar el setSelectedDate
+              setMachines={setMachines} // Pasar setMachines a InfoPanel2
             />
           </div>
         </div>
@@ -137,4 +138,5 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
 

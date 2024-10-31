@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import QRCode from 'qrcode'; // Asegúrate de instalar qrcode con `npm install qrcode`
@@ -17,6 +17,10 @@ export default function FormEquipment() {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
+
+  function generateUniqueNumber() {
+    return Math.floor(Math.random() * 20000) + 1; // Genera un número entre 1 y 20000
+  }
 
   async function uploadImageToS3(file) {
     if (!file) return null;
@@ -46,8 +50,9 @@ export default function FormEquipment() {
   async function uploadQRCodeToS3(qrCodeData) {
     try {
       const qrCodeBlob = await (await fetch(qrCodeData)).blob();
-      const qrCodeFile = new File([qrCodeBlob], 'qrcode.png', { type: 'image/png' });
-      
+      const uniqueNumber = generateUniqueNumber(); // Genera un número único
+      const qrCodeFile = new File([qrCodeBlob], `qrcode_${uniqueNumber}.png`, { type: 'image/png' }); // Asigna un nombre único
+
       const fileData = {
         fileName: qrCodeFile.name,
         fileType: qrCodeFile.type,
@@ -71,11 +76,12 @@ export default function FormEquipment() {
     }
   }
 
-  async function generateQRCode(equipmentName) {
+  async function generateQRCode() {
+    const url = 'http://localhost:3000/inventarioEquipos'; // URL que quieres codificar en el QR
     try {
-      const url = await QRCode.toDataURL(equipmentName);
-      setQrCodeUrl(url);
-      return url;
+      const qrCodeDataUrl = await QRCode.toDataURL(url);
+      setQrCodeUrl(qrCodeDataUrl);
+      return qrCodeDataUrl;
     } catch (error) {
       console.error("Error generating QR code:", error);
       return null;
@@ -102,7 +108,8 @@ export default function FormEquipment() {
           imageUrl = await uploadImageToS3(selectedFile);
         }
 
-        const qrCodeDataUrl = await generateQRCode(data.equipmentName);
+        // Llamar a la función para generar el código QR
+        const qrCodeDataUrl = await generateQRCode();
         let qrCodeUrl = null;
         if (qrCodeDataUrl) {
           qrCodeUrl = await uploadQRCodeToS3(qrCodeDataUrl);
@@ -257,6 +264,8 @@ export default function FormEquipment() {
     </form>
   );
 }
+
+
 
 
 
