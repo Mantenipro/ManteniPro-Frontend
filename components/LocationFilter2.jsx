@@ -8,7 +8,7 @@ const LocationFilter2 = ({ selectedLocations, setSelectedLocations, locations })
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  // Filtra la lista de ubicaciones basada en el término de búsqueda
+  
   const filteredOptions = locations.filter((location) =>
     location.toLowerCase().includes(searchTerm.toLowerCase())
   );

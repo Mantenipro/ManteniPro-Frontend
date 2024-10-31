@@ -50,11 +50,11 @@ const Catalogo = () => {
             const data = await getEquipmentByCompanyId(userId, token);
             setMachines(data);
 
-            // Extraer propietarios únicos de los equipos
+           
             const uniqueOwners = [...new Set(data.map(machine => machine.owner))];
             setOwners(uniqueOwners);
 
-            // Extraer ubicaciones únicas de los equipos
+           
             const uniqueLocations = [...new Set(data.map(machine => machine.location))];
             setLocations(uniqueLocations);
           }
@@ -73,12 +73,12 @@ const Catalogo = () => {
     return <div>Cargando...</div>;
   }
 
-  // Filtrar equipos basados en el cliente, la ubicación seleccionados y el término de búsqueda
+  
   const filteredMachines = machines.filter(machine => {
     const matchesOwner = selectedAssignedTo.length === 0 || selectedAssignedTo.includes(machine.owner);
     const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(machine.location);
-    const matchesDate = selectedDate ? machine.date === selectedDate : true; // Filtrar por fecha si está seleccionada
-    const matchesSearchTerm = machine.model.toLowerCase().startsWith(searchTerm.toLowerCase()); // Filtrar por modelo
+    const matchesDate = selectedDate ? machine.date === selectedDate : true; 
+    const matchesSearchTerm = machine.model.toLowerCase().startsWith(searchTerm.toLowerCase());
 
     return matchesOwner && matchesLocation && matchesDate && matchesSearchTerm;
   });
@@ -109,20 +109,20 @@ const Catalogo = () => {
           <Title className='text-2xl ml-4'>Catálogo de equipos</Title>
           <div className='mt-6 flex justify-between items-center'>
             <InfoPanel2
-              owners={owners} // Pasar la lista de propietarios aquí
+              owners={owners} 
               selectedAssignedTo={selectedAssignedTo}
               setSelectedAssignedTo={setSelectedAssignedTo}
               selectedLocations={selectedLocations}
               setSelectedLocations={setSelectedLocations}
-              locations={locations} // Pasar las ubicaciones al InfoPanel2
-              selectedDate={selectedDate} // Pasar la fecha seleccionada
-              setSelectedDate={setSelectedDate} // Pasar el setSelectedDate
-              setMachines={setMachines} // Pasar setMachines a InfoPanel2
+              locations={locations} 
+              selectedDate={selectedDate} 
+              setSelectedDate={setSelectedDate} 
+              setMachines={setMachines}
             />
           </div>
         </div>
 
-        {/* Contenedor de 50vh con scroll para las tarjetas */}
+       
         <div className='h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
           {filteredMachines.length > 0 ? (
             filteredMachines.map((machine, index) => (

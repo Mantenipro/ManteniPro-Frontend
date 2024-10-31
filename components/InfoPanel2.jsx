@@ -11,7 +11,7 @@ const InfoPanel2 = ({
   selectedLocations,
   setSelectedLocations,
   locations,
-  setMachines // Asegúrate de que setMachines se pase aquí
+  setMachines 
 }) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [userRole, setUserRole] = useState('');
@@ -46,7 +46,7 @@ const InfoPanel2 = ({
       <DateFilter2
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
-        setMachines={setMachines} // Asegúrate de pasar setMachines a DateFilter2
+        setMachines={setMachines} 
       />
       <LocationFilter2
         selectedLocations={selectedLocations}

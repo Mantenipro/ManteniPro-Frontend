@@ -16,6 +16,7 @@
     "@stripe/react-stripe-js": "^2.8.1",
     "@stripe/stripe-js": "^4.8.0",
     "clsx": "^2.1.1",
+    "file-saver": "^2.0.5",
     "next": "^14.2.11",
     "qrcode": "^1.5.4",
     "qrcode.react": "^4.1.0",
