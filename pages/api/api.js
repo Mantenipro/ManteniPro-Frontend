@@ -473,3 +473,27 @@ export const fetchUserById = async (userId) => {
     return null
   }
 }
+
+export const fetchEquimentById = async (equipmentId) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8000/equipment/${equipmentId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    const data = await response.json()
+    if (response.ok) {
+      return data
+    } else {
+      console.error('Error al obtener equipo:', data.message)
+      return null
+    }
+  } catch (error) {
+    console.error('Error al hacer la solicitud:', error)
+    return null
+  }
+}

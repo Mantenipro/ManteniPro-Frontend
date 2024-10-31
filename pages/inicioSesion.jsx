@@ -113,16 +113,16 @@ const LoginForm = ({ textColor, bgColor }) => {
                 />
                 {item.name === 'password' && (
                   <button
-                  type='button'
-                  className='absolute inset-y-0 right-0 flex items-center pr-3'
-                  onClick={() => handleShowHidePassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <FaEyeSlash className='h-5 w-5 text-gray-400' />
-                  ) : (
-                    <FaEye className='h-5 w-5 text-gray-400' />
-                  )}
-                </button>
+                    type='button'
+                    className='absolute inset-y-0 right-0 flex items-center pr-3'
+                    onClick={() => handleShowHidePassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <FaEye className='h-5 w-5 text-gray-400' />
+                    ) : (
+                      <FaEyeSlash className='h-5 w-5 text-gray-400' />
+                    )}
+                  </button>
                 )}
               </div>
               {errors[item.name] && (
@@ -146,10 +146,7 @@ const LoginForm = ({ textColor, bgColor }) => {
         </button>
         <div className='my-7 flex justify-between'>
           <p className={textColor}>¿No tienes cuenta?</p>
-          <Link
-            href='/registroUsuario'
-            className={textColor}
-          >
+          <Link href='/registroUsuario' className={textColor}>
             Registrate
           </Link>
         </div>

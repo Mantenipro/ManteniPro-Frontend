@@ -7,6 +7,7 @@ import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import AddUser from '@/components/AddUser'
 
+
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
@@ -40,6 +41,7 @@ const CatalogoDeUsuarios = () => {
           }
         )
         const data = await response.json()
+        console.log('Respuesta de la API:', data)
         if (data.success) {
           // Filtrar usuarios por rol
           const usuariosFiltrados = data.data.users.filter(

@@ -39,39 +39,8 @@ const FormUser = ({ initialData }) => {
     }
   }, [initialData, reset])
 
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    return passwordRegex.test(password)
-  }
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    if (name === 'password') {
-      if (!validatePassword(value)) {
-        setError('password', {
-          type: 'manual',
-          message:
-            'La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.'
-        })
-      } else {
-        setError('password', { type: 'manual', message: '' })
-      }
-    }
-
-    if (name === 'confirmPassword') {
-      if (value !== watch('password')) {
-        setError('confirmPassword', {
-          type: 'manual',
-          message: 'Las contraseñas no coinciden'
-        })
-      } else {
-        setError('confirmPassword', { type: 'manual', message: '' })
-      }
-    }
-  }
-
   const handleFormSubmit = async (data) => {
+    console.log('Datos enviados:', data) // Verificar los datos enviados
     try {
       const response = initialData
         ? await updateUser(initialData._id, data)
@@ -129,7 +98,6 @@ const FormUser = ({ initialData }) => {
                 id='name'
                 type='text'
                 placeholder='Juanito Perez Gonzalez'
-                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -154,7 +122,6 @@ const FormUser = ({ initialData }) => {
                 id='email'
                 type='email'
                 placeholder='nombre@dominio.com'
-                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -180,7 +147,6 @@ const FormUser = ({ initialData }) => {
                 id='contraseña'
                 type='password'
                 placeholder='********'
-                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -198,7 +164,6 @@ const FormUser = ({ initialData }) => {
               {...register('type')}
               className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 text-xs leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-sm'
               id='cargo'
-              onChange={handleInputChange}
             >
               <option value=''>Seleccione un tipo</option>
               <option value='IngMec'>Ingeniero Mecánico</option>

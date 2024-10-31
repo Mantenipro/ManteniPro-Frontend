@@ -125,7 +125,7 @@ const UserCard = ({ user, onDelete }) => {
               {user.email}
             </span>
           </div>
-
+          
           {/* Estado de la cuenta */}
           <div className='ml-2 hidden flex-col justify-center md:flex'>
             <span
@@ -200,7 +200,7 @@ const UserCard = ({ user, onDelete }) => {
             </p>
             <p className='mb-4 text-gray-700'>
               Por favor, escribe{' '}
-              <span className='font-bold'>&apos;DELETE&apos;</span> para
+              <span className='font-bold'>&quot;DELETE&quot;</span> para
               confirmar.
             </p>
 
