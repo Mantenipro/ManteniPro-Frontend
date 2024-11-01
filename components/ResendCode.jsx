@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ImSpinner8 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { FiCheckCircle } from 'react-icons/fi'
@@ -10,8 +10,8 @@ const ResendActivationCode = ({ textColor, bgColor }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [countdown, setCountdown] = useState(5)
   const router = useRouter()
-
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -46,9 +46,19 @@ const ResendActivationCode = ({ textColor, bgColor }) => {
       // Simular llamada a API
       const response = await resendActivationCode(email)
       console.log(response)
-      if(response.success) {
-          setIsSuccess(true)
-          setEmail('')
+      if (response.success) {
+        setIsSuccess(true)
+        setEmail('')
+        // Iniciar el contador de 5 segundos
+        const interval = setInterval(() => {
+          setCountdown((prevCountdown) => {
+            if (prevCountdown === 1) {
+              clearInterval(interval)
+              window.close() // Cerrar la ventana después de 5 segundos
+            }
+            return prevCountdown - 1
+          })
+        }, 1000)
       } else {
         setError(
           response.message || 'Ocurrió un error. Por favor intente nuevamente.'
@@ -78,12 +88,15 @@ const ResendActivationCode = ({ textColor, bgColor }) => {
             <p className={`text-lg ${textColor}`}>
               ¡El código de activación ha sido enviado exitosamente!
             </p>
+            <p className={`text-lg ${textColor}`}>
+              La ventana se cerrará automáticamente en {countdown} segundos.
+            </p>
             <button
-              onClick={() => setIsSuccess(false)}
+              onClick={() => window.close()} // Cerrar la ventana manualmente
               className='mt-6 rounded-lg bg-[#EEE727] px-6 py-2 text-black transition-all duration-300 hover:bg-[#FFEE00]'
-              aria-label='Enviar otro código'
+              aria-label='Cerrar ventana'
             >
-              Enviar Otro Código
+              Cerrar Ventana
             </button>
             <button
               onClick={() => router.push('/inicioSesion')} // Redirigir a la página de inicio de sesión
