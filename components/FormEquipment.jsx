@@ -188,7 +188,7 @@ export default function FormEquipment() {
 
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='manufactureDate'>
-            Fecha de fabricación
+          Ultima actualización
           </label>
           <input
             {...register('manufactureDate', { required: true })}

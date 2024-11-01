@@ -148,7 +148,7 @@ const EquipmentDetails2 = ({ equipment }) => {
           {/* Fecha de fabricación */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='fechaFabricacion'>
-              Fecha de fabricación
+              Ultima actualización
             </label>
             <input
               {...register('fechaFabricacion')}

@@ -63,7 +63,7 @@ const EquipmentDetails = ({ equipment }) => {
 
           <div className='mb-4 mr-52'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='fechaFabricacion'>
-              Fecha de fabricación
+            Ultima actualización
             </label>
             <input
               {...register('fechaFabricacion')}
