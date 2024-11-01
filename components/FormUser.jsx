@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Source_Sans_3 } from 'next/font/google'
 import { sendUserData, updateUser } from '../pages/api/api'
 import { toast, Toaster } from 'sonner' // Importar toast de sonner
+import { useRouter } from 'next/router'
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
@@ -21,6 +22,7 @@ const FormUser = ({ initialData }) => {
   })
 
   const [buttonText, setButtonText] = useState('Crear')
+  const router = useRouter()
 
   // Para depuración: verifica si los datos iniciales están llegando correctamente
   useEffect(() => {
@@ -61,6 +63,15 @@ const FormUser = ({ initialData }) => {
           }
         ) // Mostrar mensaje de éxito
         reset()
+        if(role === 'tecnico') {
+          setTimeout(() => {
+            router.push('/catalogoDeTecnicos') // Redirige al resetPassword después de enviar el correo
+          }, 2000)
+        } else {
+          setTimeout(() => {
+            router.push('/catalogoDeUsuariosv2') // Redirige al resetPassword después de enviar el correo
+          }, 2000)
+        }
       } else {
         toast.error(
           `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`
