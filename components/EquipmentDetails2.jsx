@@ -3,22 +3,54 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { Source_Sans_3 } from 'next/font/google';
 import { useRouter } from 'next/router'; 
-import { editEquipment } from '../api/api'; 
+import { editEquipment } from '../api/api';
+import imageCompression from 'browser-image-compression'; // Importa la biblioteca de compresión de imágenes
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const EquipmentDetails2 = ({ equipment }) => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(null);
+  const [imagePreview, setImagePreview] = useState(equipment.image || '/airConditioning.jpg'); // Estado para la imagen seleccionada
+  const [compressedImage, setCompressedImage] = useState(null); // Estado para la imagen comprimida
   const router = useRouter(); 
 
+  // Función para manejar el cambio de imagen y comprimirla
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        // Configuración para la compresión de imagen
+        const options = {
+          maxSizeMB: 0.2, // Tamaño máximo de la imagen en MB
+          maxWidthOrHeight: 500, // Tamaño máximo en px
+          useWebWorker: true,
+        };
+
+        // Comprimir imagen
+        const compressedFile = await imageCompression(file, options);
+        const reader = new FileReader();
+        
+        reader.onloadend = () => {
+          setImagePreview(reader.result); // Actualizar la vista previa de la imagen
+          setCompressedImage(compressedFile); // Almacenar la imagen comprimida para enviar
+        };
+        reader.readAsDataURL(compressedFile); // Leer la imagen comprimida
+      } catch (err) {
+        console.error("Error al comprimir la imagen:", err);
+        setError("Hubo un problema al procesar la imagen.");
+      }
+    }
+  };
+
+  // Función para manejar el envío del formulario
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
 
     if (token && email) {
       try {
-        
+        // Crear los datos actualizados con la imagen comprimida
         const updatedData = {
           equipmentName: data.nombreEquipo,
           model: data.modelo,
@@ -27,13 +59,11 @@ const EquipmentDetails2 = ({ equipment }) => {
           brand: data.marca,
           location: data.ubicacion,
           unitType: data.tipoUnidad,
-          
+          image: compressedImage ? await imageCompression.getDataUrlFromFile(compressedImage) : imagePreview, // Usar la imagen comprimida si está disponible
         };
 
         await editEquipment(equipment._id, updatedData, token);
         console.log("Equipo actualizado exitosamente.");
-        
-        
         router.push('/inventarioEquipos');
       } catch (error) {
         console.error("Error al actualizar el equipo:", error);
@@ -47,17 +77,34 @@ const EquipmentDetails2 = ({ equipment }) => {
 
   return (
     <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] min-h-[40rem]`}>
-      {/* Imagen */}
-      <Image
-        src={equipment.image || '/airConditioning.jpg'}
-        alt={equipment.equipmentName || 'Air Conditioning'}
-        width={200}
-        height={200}
-        className='rounded-lg mx-auto mb-2'
-      />
+      {/* Imagen con opción de cargar nueva */}
+      <div className="relative w-52 h-52 mx-auto mb-2">
+        <Image
+          src={imagePreview}
+          alt={equipment.equipmentName || 'Air Conditioning'}
+          width={200}
+          height={200}
+          className='object-cover w-full h-full rounded-lg' // Asegurar que la imagen mantenga su tamaño en el componente
+        />
+       <label className="absolute bottom-2 right-2 bg-gradient-to-r from-[#21262D] to-[#414B66] p-2 rounded-full cursor-pointer hover:from-[#1a1d22] hover:to-[#353c54] transition-colors duration-300"
+       >
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          <Image src="/icon/camera-icon.png" alt="Camera icon" width={20} height={20} />
+        </label>
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)} className='overflow-y-auto max-h-[25rem]'>
         <div className='space-y-6 ml-2'>
+          {/* Nombre del equipo */}
           <div className='mb-4'>
+          <label className='block text-white text-sm font-semibold mb-[1px] md:pr-96 pr-80' htmlFor='nombreEquipo'>
+              .
+            </label>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='nombreEquipo'>
               Nombre del equipo
             </label>
@@ -70,6 +117,7 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
+          {/* Modelo */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='modelo'>
               Modelo
@@ -83,6 +131,7 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
+          {/* Propietario */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='propietario'>
               Propietario
@@ -96,7 +145,8 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
-          <div className='mb-4 mr-52'>
+          {/* Fecha de fabricación */}
+          <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='fechaFabricacion'>
               Fecha de fabricación
             </label>
@@ -109,6 +159,7 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
+          {/* Marca */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='marca'>
               Marca
@@ -122,6 +173,7 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
+          {/* Ubicación */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='ubicacion'>
               Ubicación
@@ -135,6 +187,7 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
+          {/* Tipo de unidad */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='tipoUnidad'>
               Tipo de unidad
@@ -149,10 +202,12 @@ const EquipmentDetails2 = ({ equipment }) => {
           </div>
 
           {/* Botón de actualización */}
-          <div className='mb-4'>
+          <div className='mb-4 pb-5 flex justify-center'>
             <button
               type='submit'
-              className='w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className="flex items-center justify-center p-2 text-white rounded-lg 
+              bg-gradient-to-r from-[#21262D] to-[#414B66] 
+              hover:from-[#1a1d22] w-36"
             >
               Actualizar
             </button>

@@ -255,12 +255,14 @@ export default function FormEquipment() {
         </div>
       </div>
 
-      <button
-        type='submit'
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg'
-      >
-        Crear Equipo
-      </button>
+      <div className="flex justify-center">
+  <button
+    type='submit'
+    className='bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold py-2 px-4 rounded-lg mt-7 mb-5 w-36'
+  >
+    Crear Equipo
+  </button>
+</div>
     </form>
   );
 }
