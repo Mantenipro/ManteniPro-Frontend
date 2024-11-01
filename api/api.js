@@ -209,3 +209,26 @@ export async function editEquipment(equipmentId, updatedData, token) {
     throw error;
   }
 }
+
+// Función para eliminar un equipo por ID
+export async function deleteEquipment(equipmentId, token) {
+  try {
+    const res = await fetch(`${API_URL}/equipment/${equipmentId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
+    }
+
+    const json = await res.json();
+    return json.message; // Opcionalmente, puedes retornar el mensaje de éxito de la respuesta
+  } catch (error) {
+    console.error("Error deleting equipment:", error);
+    throw error;
+  }
+}

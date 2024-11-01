@@ -29,6 +29,7 @@ const Catalogo = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Función para obtener los equipos y usuarios
   useEffect(() => {
     const fetchUsersAndMachines = async () => {
       try {
@@ -50,11 +51,9 @@ const Catalogo = () => {
             const data = await getEquipmentByCompanyId(userId, token);
             setMachines(data);
 
-           
             const uniqueOwners = [...new Set(data.map(machine => machine.owner))];
             setOwners(uniqueOwners);
 
-           
             const uniqueLocations = [...new Set(data.map(machine => machine.location))];
             setLocations(uniqueLocations);
           }
@@ -73,7 +72,12 @@ const Catalogo = () => {
     return <div>Cargando...</div>;
   }
 
-  
+  // Función para manejar la eliminación de un equipo
+  const handleDelete = (deletedId) => {
+    setMachines((prevMachines) => prevMachines.filter((machine) => machine._id !== deletedId));
+  };
+
+  // Filtrado de máquinas
   const filteredMachines = machines.filter(machine => {
     const matchesOwner = selectedAssignedTo.length === 0 || selectedAssignedTo.includes(machine.owner);
     const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(machine.location);
@@ -122,11 +126,10 @@ const Catalogo = () => {
           </div>
         </div>
 
-       
         <div className='h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
           {filteredMachines.length > 0 ? (
             filteredMachines.map((machine, index) => (
-              <MachineCard key={index} machine={machine} />
+              <MachineCard key={index} machine={machine} onDelete={handleDelete} />
             ))
           ) : (
             <div>No hay equipos disponibles.</div>
@@ -138,5 +141,6 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
 
 

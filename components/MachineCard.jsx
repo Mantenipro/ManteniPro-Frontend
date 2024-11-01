@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { deleteEquipment } from '@/api/api'; // Importa la función para eliminar equipo desde tu API
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
-const MachineCard = ({ machine }) => {
+const MachineCard = ({ machine, onDelete }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -14,6 +15,7 @@ const MachineCard = ({ machine }) => {
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
   const handleCardClick = () => router.push(`/equipment/${machine._id}`);
+  
   const handleEditClick = (e) => {
     e.stopPropagation();
     router.push(`/editEquipment/${machine._id}`);
@@ -30,10 +32,17 @@ const MachineCard = ({ machine }) => {
     setIsDeleteConfirmed(value === 'DELETE');
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (isDeleteConfirmed) {
-      console.log('Equipo eliminado');
-      setShowWarning(false);
+      try {
+        const token = localStorage.getItem('token'); // Obtén el token de autenticación
+        await deleteEquipment(machine._id, token); // Llamada a la API para eliminar el equipo
+        console.log('Equipo eliminado');
+        onDelete(machine._id); // Llama a la función onDelete para actualizar la lista en el componente principal
+        setShowWarning(false);
+      } catch (error) {
+        console.error("Error eliminando el equipo:", error);
+      }
     }
   };
 
@@ -62,8 +71,6 @@ const MachineCard = ({ machine }) => {
           />
         </div>
 
-        
-
         {/* Información del equipo */}
         <div className="flex flex-grow justify-between ml-4">
           <div className="flex flex-col justify-center">
@@ -72,31 +79,34 @@ const MachineCard = ({ machine }) => {
             </span>
           </div>
 
-          {/* Código del equipo */}
+          {/* Propietario del equipo */}
           <div className="flex flex-col justify-center ml-4">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}>
               {machine.owner}
             </span>
           </div>
 
-          {/* Fabricante */}
+          {/* Marca */}
           <div className="hidden md:flex flex-col justify-center ml-4">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
               {machine.brand}
             </span>
           </div>
 
+          {/* Ubicación */}
           <div className="flex-col justify-center ml-4 hidden lg:flex">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
               {machine.location}
             </span>
           </div>
 
+          {/* Código QR */}
           <div className="hidden lg:flex justify-center items-center mr-6">
-  <img src={machine.qr} alt="Código QR" className="w-12 h-12 rounded-lg" />
-</div>
+            <img src={machine.qr} alt="Código QR" className="w-12 h-12 rounded-lg" />
+          </div>
         </div>
 
+        {/* Botones de edición y eliminación */}
         <div className="flex-shrink-0 flex space-x-4 ml-6">
           <button
             onClick={handleEditClick}
@@ -112,6 +122,7 @@ const MachineCard = ({ machine }) => {
           </button>
         </div>
 
+        {/* Botones en tamaño reducido para pantallas pequeñas */}
         <div className="flex-shrink-0 flex space-x-4 ml-6 sm:hidden">
           <button
             onClick={handleEditClick}
@@ -135,7 +146,7 @@ const MachineCard = ({ machine }) => {
             <h2 className="text-xl font-bold text-red-600 mb-4">¡Advertencia!</h2>
             <p className="text-gray-700 mb-4">¿Estás seguro de que deseas eliminar este equipo? Esta acción no se puede deshacer.</p>
             <p className="text-gray-700 mb-4">
-              Por favor, escribe <span className="font-bold">&quot;DELETE&quot;</span> para confirmar.
+              Por favor, escribe <span className="font-bold">"DELETE"</span> para confirmar.
             </p>
 
             <input
@@ -170,6 +181,7 @@ const MachineCard = ({ machine }) => {
 };
 
 export default MachineCard;
+
 
 
 
