@@ -16,6 +16,7 @@ const DetalleEquipo = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  
   useEffect(() => {
     const fetchEquipment = async () => {
       try {

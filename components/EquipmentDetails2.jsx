@@ -1,41 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { Source_Sans_3 } from 'next/font/google';
 import { useRouter } from 'next/router'; 
-import { editEquipment } from '../api/api';
-import imageCompression from 'browser-image-compression'; // Importa la biblioteca de compresión de imágenes
+import { editEquipment, getAllUsers } from '../api/api';
+import imageCompression from 'browser-image-compression';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
-const EquipmentDetails2 = ({ equipment }) => {
-  const { register, handleSubmit } = useForm();
+export default function EquipmentDetails2({ equipment }) {
+  const { register, handleSubmit, setValue } = useForm();
   const [error, setError] = useState(null);
-  const [imagePreview, setImagePreview] = useState(equipment.image || '/airConditioning.jpg'); // Estado para la imagen seleccionada
-  const [compressedImage, setCompressedImage] = useState(null); // Estado para la imagen comprimida
-  const router = useRouter(); 
+  const [imagePreview, setImagePreview] = useState(equipment.image || '/airConditioning.jpg');
+  const [compressedImage, setCompressedImage] = useState(null);
+  const [userList, setUserList] = useState([]);
+  const router = useRouter();
 
-  // Función para manejar el cambio de imagen y comprimirla
+  async function fetchUsers() {
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
+  
+    if (token && email) {
+      try {
+        const users = await getAllUsers(token);
+  
+        const currentUser = users.find(user => user.email === email);
+        const company = currentUser ? currentUser.company : null;
+  
+        if (company) {
+          const filteredUsers = users.filter(
+            user => user.company === company && user.role === "usuario"
+          );
+          setUserList(filteredUsers);
+        } else {
+          console.error("No se encontró la compañía del usuario.");
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+  }
+  
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const handleUserSelect = (event) => {
+    setValue('owner', event.target.value);
+  };
+
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       try {
-        // Configuración para la compresión de imagen
         const options = {
-          maxSizeMB: 0.2, // Tamaño máximo de la imagen en MB
-          maxWidthOrHeight: 500, // Tamaño máximo en px
+          maxSizeMB: 0.2,
+          maxWidthOrHeight: 500,
           useWebWorker: true,
         };
 
-        // Comprimir imagen
         const compressedFile = await imageCompression(file, options);
         const reader = new FileReader();
         
         reader.onloadend = () => {
-          setImagePreview(reader.result); // Actualizar la vista previa de la imagen
-          setCompressedImage(compressedFile); // Almacenar la imagen comprimida para enviar
+          setImagePreview(reader.result);
+          setCompressedImage(compressedFile);
         };
-        reader.readAsDataURL(compressedFile); // Leer la imagen comprimida
+        reader.readAsDataURL(compressedFile);
       } catch (err) {
         console.error("Error al comprimir la imagen:", err);
         setError("Hubo un problema al procesar la imagen.");
@@ -43,23 +74,21 @@ const EquipmentDetails2 = ({ equipment }) => {
     }
   };
 
-  // Función para manejar el envío del formulario
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
 
     if (token && email) {
       try {
-        // Crear los datos actualizados con la imagen comprimida
         const updatedData = {
           equipmentName: data.nombreEquipo,
           model: data.modelo,
-          owner: data.propietario,
+          owner: data.owner,
           manufactureDate: data.fechaFabricacion,
           brand: data.marca,
           location: data.ubicacion,
           unitType: data.tipoUnidad,
-          image: compressedImage ? await imageCompression.getDataUrlFromFile(compressedImage) : imagePreview, // Usar la imagen comprimida si está disponible
+          image: compressedImage ? await imageCompression.getDataUrlFromFile(compressedImage) : imagePreview,
         };
 
         await editEquipment(equipment._id, updatedData, token);
@@ -77,17 +106,15 @@ const EquipmentDetails2 = ({ equipment }) => {
 
   return (
     <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] min-h-[40rem]`}>
-      {/* Imagen con opción de cargar nueva */}
       <div className="relative w-52 h-52 mx-auto mb-2">
         <Image
           src={imagePreview}
           alt={equipment.equipmentName || 'Air Conditioning'}
           width={200}
           height={200}
-          className='object-cover w-full h-full rounded-lg' // Asegurar que la imagen mantenga su tamaño en el componente
+          className='object-cover w-full h-full rounded-lg'
         />
-       <label className="absolute bottom-2 right-2 bg-gradient-to-r from-[#21262D] to-[#414B66] p-2 rounded-full cursor-pointer hover:from-[#1a1d22] hover:to-[#353c54] transition-colors duration-300"
-       >
+        <label className="absolute bottom-2 right-2 bg-gradient-to-r from-[#21262D] to-[#414B66] p-2 rounded-full cursor-pointer hover:from-[#1a1d22] hover:to-[#353c54] transition-colors duration-300">
           <input
             type="file"
             accept="image/*"
@@ -100,7 +127,6 @@ const EquipmentDetails2 = ({ equipment }) => {
 
       <form onSubmit={handleSubmit(onSubmit)} className='overflow-y-auto max-h-[25rem]'>
         <div className='space-y-6 ml-2'>
-          {/* Nombre del equipo */}
           <div className='mb-4'>
           <label className='block text-white text-sm font-semibold mb-[1px] md:pr-96 pr-80' htmlFor='nombreEquipo'>
               .
@@ -117,7 +143,6 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
-          {/* Modelo */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='modelo'>
               Modelo
@@ -131,24 +156,28 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
-          {/* Propietario */}
-          <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='propietario'>
+          <div className='mb-4 relative'>
+            <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='owner'>
               Propietario
             </label>
-            <input
-              {...register('propietario')}
-              defaultValue={equipment.owner}
-              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-              id='propietario'
-              type='text'
-            />
+            <select
+              {...register('owner', { required: true })}
+              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              id='owner'
+              onChange={handleUserSelect}
+            >
+              <option value="">Seleccione un propietario</option>
+              {userList.map((user) => (
+                <option key={user._id} value={user._id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Fecha de fabricación */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='fechaFabricacion'>
-              Ultima actualización
+            Última fecha de mantenimiento
             </label>
             <input
               {...register('fechaFabricacion')}
@@ -159,7 +188,6 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
-          {/* Marca */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='marca'>
               Marca
@@ -173,7 +201,6 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
-          {/* Ubicación */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='ubicacion'>
               Ubicación
@@ -187,7 +214,6 @@ const EquipmentDetails2 = ({ equipment }) => {
             />
           </div>
 
-          {/* Tipo de unidad */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='tipoUnidad'>
               Tipo de unidad
@@ -200,28 +226,34 @@ const EquipmentDetails2 = ({ equipment }) => {
               type='text'
             />
           </div>
+          <div className="mb-4 pb-5 flex justify-between">
+  <button
+    type="button"
+    onClick={() => window.location.href = '/inventarioEquipos'}
+    className="flex items-center justify-center p-2 text-white rounded-lg 
+    bg-gradient-to-r from-[#FF5757] to-[#FF8888] 
+    w-36"
+  >
+    Cancelar
+  </button>
 
-          {/* Botón de actualización */}
-          <div className='mb-4 pb-5 '>
-            <button
-              type='submit'
-              className="flex items-center justify-center p-2 text-white rounded-lg 
-              bg-gradient-to-r from-[#21262D] to-[#414B66] 
-              w-36 "
-            >
-              Actualizar
-            </button>
-          </div>
+  <button
+    type="submit"
+    className="flex items-center justify-center p-2 text-white rounded-lg 
+    bg-gradient-to-r from-[#21262D] to-[#414B66] 
+    w-36"
+  >
+    Actualizar
+  </button>
+</div>
 
-          {/* Mostrar error si existe */}
           {error && <p className='text-red-500'>{error}</p>}
         </div>
       </form>
     </div>
   );
-};
+}
 
-export default EquipmentDetails2;
 
 
 
