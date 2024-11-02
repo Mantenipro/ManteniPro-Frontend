@@ -29,6 +29,7 @@ const EquipmentDetails = ({ equipment }) => {
             <input
               {...register('nombreEquipo')}
               defaultValue={equipment.equipmentName}
+              readOnly
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='nombreEquipo'
               type='text'
@@ -42,6 +43,7 @@ const EquipmentDetails = ({ equipment }) => {
             <input
               {...register('modelo')}
               defaultValue={equipment.model}
+              readOnly
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='modelo'
               type='text'
@@ -55,6 +57,7 @@ const EquipmentDetails = ({ equipment }) => {
             <input
               {...register('propietario')}
               defaultValue={equipment.owner}
+              readOnly
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='propietario'
               type='text'
@@ -63,11 +66,12 @@ const EquipmentDetails = ({ equipment }) => {
 
           <div className='mb-4 mr-52'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='fechaFabricacion'>
-            Ultima actualización
+              Última actualización
             </label>
             <input
               {...register('fechaFabricacion')}
               defaultValue={equipment.manufactureDate?.slice(0, 10)}
+              readOnly
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='fechaFabricacion'
               type='date'
@@ -81,6 +85,7 @@ const EquipmentDetails = ({ equipment }) => {
             <input
               {...register('marca')}
               defaultValue={equipment.brand}
+              readOnly
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='marca'
               type='text'
@@ -94,6 +99,7 @@ const EquipmentDetails = ({ equipment }) => {
             <input
               {...register('ubicacion')}
               defaultValue={equipment.location}
+              readOnly
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='ubicacion'
               type='text'
@@ -107,6 +113,7 @@ const EquipmentDetails = ({ equipment }) => {
             <input
               {...register('tipoUnidad')}
               defaultValue={equipment.unitType}
+              readOnly
               className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='tipoUnidad'
               type='text'
