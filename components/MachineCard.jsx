@@ -1,21 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { deleteEquipment } from '@/api/api'; // Importa la función para eliminar equipo desde tu API
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
+// Función para truncar texto
+const truncateText = (text, maxLength) => {
+  if (!text) return '';
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+};
+
 const MachineCard = ({ machine, onDelete }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+
+  // Detectar si está en una pantalla móvil (menos de 768px)
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize(); // Ejecutar una vez cuando el componente se monta
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
   const handleCardClick = () => router.push(`/equipment/${machine._id}`);
-  
+
   const handleEditClick = (e) => {
     e.stopPropagation();
     router.push(`/editEquipment/${machine._id}`);
@@ -72,31 +87,29 @@ const MachineCard = ({ machine, onDelete }) => {
         </div>
 
         {/* Información del equipo */}
-        <div className="flex flex-grow justify-between ml-4">
-          <div className="flex flex-col justify-center">
-            <span className={`text-lg font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'}`}>
-              {machine.model}
+        <div className="flex flex-grow justify-between ml-4 space-x-6">
+          <div className="flex flex-col items-start md:w-24 w-[5vh]">
+            <span className={`md:text-lg text-xs font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'}`}>
+              {truncateText(machine.model, isMobile ? 10 : 10)}
             </span>
           </div>
 
-          {/* Propietario del equipo */}
-          <div className="flex flex-col justify-center ml-4">
+          <div className="flex flex-col items-start md:w-24 w-[4vh] md:text-lg text-xs">
+            {/* Aquí aplicamos el truncamiento condicional */}
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}>
-              {machine.owner}
+              {truncateText(machine.owner, isMobile ? 20 : 15)}
             </span>
           </div>
 
-          {/* Marca */}
-          <div className="hidden md:flex flex-col justify-center ml-4">
+          <div className="hidden md:flex flex-col items-start w-24">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
-              {machine.brand}
+              {truncateText(machine.brand, 10)}
             </span>
           </div>
 
-          {/* Ubicación */}
-          <div className="flex-col justify-center ml-4 hidden lg:flex">
+          <div className=" flex-col items-start w-15 hidden lg:flex">
             <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
-              {machine.location}
+              {truncateText(machine.location, 20)}
             </span>
           </div>
 
@@ -181,6 +194,8 @@ const MachineCard = ({ machine, onDelete }) => {
 };
 
 export default MachineCard;
+
+
 
 
 
