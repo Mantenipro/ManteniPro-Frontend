@@ -77,7 +77,7 @@ const CatalogoDeUsuarios = () => {
       return new Date(a.createdAt) - new Date(b.createdAt)
     } else if (sortCriteria === 'Reciente a antiguo') {
       return new Date(b.createdAt) - new Date(a.createdAt)
-    }
+    } 
     return 0
   })
 

@@ -221,7 +221,7 @@ export const fetchUserData = async () => {
       company: data.name,
       email: data.email,
       password: data.password,
-      subscription: data.isActive ? 'Activa' : 'Inactiva',
+      subscription: data.isActive,
       phone: data.phone_number,
       address: data.address,
       startDate: startDate,
@@ -323,6 +323,7 @@ export const cancelSubscription = async (subscriptionId) => {
     }
 
     const result = await response.json()
+    console.log('Respuesta de la API:', result)
     return result
   } catch (error) {
     throw new Error(error.message)
@@ -344,6 +345,7 @@ export const reactivateSubscription = async (subscriptionId) => {
     }
 
     const result = await response.json()
+    console.log('Respuesta de la API:', result)
     return result
   } catch (error) {
     throw new Error(error.message)

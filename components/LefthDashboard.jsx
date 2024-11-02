@@ -27,7 +27,7 @@ export default function LefthDashboard() {
     const fetchSubscriptionStatus = async () => {
       try {
         const userData = await fetchUserData()
-        setIsSubscriptionActive(userData.subscription === 'Activa')
+        setIsSubscriptionActive(userData.subscription === true)
       } catch (error) {
         console.error('Error fetching subscription status:', error)
       }

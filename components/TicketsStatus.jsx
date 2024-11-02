@@ -57,7 +57,9 @@ const TicketsStatus = ({
 
   return (
     <div className='rounded-lg bg-[#F5F5F5] p-4'>
-      <div className='mb-6 grid grid-cols-1 gap-4 md:grid-cols-3'>
+      <div
+        className={`mb-6 grid grid-cols-1 gap-4 ${userRole === 'admin' ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}
+      >
         <StatusColumn
           title={sections[currentSection].title}
           tickets={sections[currentSection].tickets}

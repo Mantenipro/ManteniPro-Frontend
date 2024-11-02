@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useCallback } from 'react'
+import { Toaster, toast } from 'sonner'
 import { FaEdit, FaCheck } from 'react-icons/fa'
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form'
@@ -16,7 +17,7 @@ const UserProfile = () => {
     company: '',
     email: '',
     password: '',
-    subscription: '',
+    subscription: false,
     phone: '',
     address: '',
     startDate: '',
@@ -43,6 +44,7 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true) // Estado para manejar la carga
   const [apiError, setApiError] = useState(null) // Estado para manejar errores de la API
   const [userRole, setUserRole] = useState('') // Estado para el rol del usuario
+  const [isLoading, setIsLoading] = useState(false) // Estado para el indicador de carga
 
   const router = useRouter() // Hook para redirección
 
@@ -92,7 +94,20 @@ const UserProfile = () => {
         phone: updatedData.phone,
         address: updatedData.address
       }))
+      toast.success('Datos del usuario actualizados correctamente', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          width: 'auto'
+        }
+      })
+      setTimeout(() => {
+        router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
+      }, 2000)
     } catch (error) {
+      toast.error('Error al actualizar los datos del usuario')
       setApiError(error.message)
     }
   }
@@ -149,36 +164,39 @@ const UserProfile = () => {
   }
 
   const handleCancelSubscription = async () => {
+    setIsLoading(true)
     try {
       const result = await cancelSubscription(user.subscriptionId)
       console.log('Suscripción cancelada:', result)
-      setUser((prevUser) => ({
+     /*  setUser((prevUser) => ({
         ...prevUser,
-        subscription: 'Inactiva'
-      }))
-      checkSubscriptionStatus()
-      router.push('/ticketsDashboard') // Llamar a la función para aplicar la lógica
+        subscription: false,
+        cancelAtPeriodEnd: true,
+        startDate: "-"
+      })) */
+      await loadUserData()
+      toast.success('Suscripción cancelada con éxito.', {
+          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+          style: {
+            fontSize: '20px',
+            padding: '20px',
+            maxWidth: '90vw', // Ajuste para pantallas pequeñas
+            width: 'auto'
+          }
+        })
+        setTimeout(() => {
+          router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
+        }, 2000)
     } catch (error) {
       console.error('Error:', error)
+      toast.error('Error al cancelar la suscripción.') // Notificación de error
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  const checkSubscriptionStatus = useCallback(() => {
-    if (user.subscription === 'Inactiva') {
-      setUser((prevUser) => ({
-        ...prevUser,
-        startDate: '-',
-        subscription: `Cancelada, activa hasta ${prevUser.endDate}`
-      }))
-    }
-  }, [user.subscription]) // Las dependencias son los valores que utiliza internamente
-
-  // Llama a `checkSubscriptionStatus` dentro del useEffect
-  useEffect(() => {
-    checkSubscriptionStatus()
-  }, [checkSubscriptionStatus])
-
   const handleReactivateSubscription = async () => {
+    setIsLoading(true)
     try {
       const result = await reactivateSubscription(user.subscriptionId)
       console.log('Suscripción reactivada:', result)
@@ -187,16 +205,34 @@ const UserProfile = () => {
         result.message ===
         'Subscription reactivated and database updated successfully'
       ) {
-        setUser((prevUser) => ({
+       /*  setUser((prevUser) => ({
           ...prevUser,
-          subscription: 'Activa'
-        }))
-        router.push('/ticketsDashboard') // Redirigir después de reactivar
+          subscription: true,
+          cancelAtPeriodEnd: false,
+          startDate: startDate
+        })) */
+        await loadUserData()
+        toast.success('Suscripción reactivada con éxito.', {
+          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+          style: {
+            fontSize: '20px',
+            padding: '20px',
+            maxWidth: '90vw', // Ajuste para pantallas pequeñas
+            width: 'auto'
+          }
+        })
+        setTimeout(() => {
+          router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
+        }, 2000)
       } else {
         console.error('Error al reactivar la suscripción:', result.error)
+        toast.error('Error al reactivar la suscripción.') // Notificación de error
       }
     } catch (error) {
       console.error('Error:', error)
+      toast.error('Error al reactivar la suscripción.') // Notificación de error
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -215,10 +251,13 @@ const UserProfile = () => {
           name={field}
           {...register(field)} // Usamos register
           defaultValue={
-            // Usamos defaultValue en lugar de value
-            userRole === 'admin'
-              ? (user[field] ?? '') // Si es admin, usa el estado "user"
-              : (userProfile[field] ?? '') // Si no, usa el estado "userProfile"
+            field === 'subscription'
+              ? user.subscription
+                ? `Activa`
+                : `Cancelada, activa hasta ${user.endDate}`
+              : userRole === 'admin'
+                ? (user[field] ?? '')
+                : (userProfile[field] ?? '')
           }
           disabled={!editable || !editMode[field]}
           className={`w-full border px-3 py-2 ${errors[field] ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 ${editMode[field] ? 'bg-white' : 'bg-gray-100'}`}
@@ -256,6 +295,7 @@ const UserProfile = () => {
 
   return (
     <div className='flex min-h-screen items-center justify-center bg-gray-100 p-4'>
+      <Toaster />
       <div className='animate-fadeIn h-[40rem] w-full max-w-2xl space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
         {/* Encabezado con imagen */}
         <div className='text-center'>
@@ -333,19 +373,20 @@ const UserProfile = () => {
             Save All Changes
           </button>
         </form>
+        {isLoading && <div className='mb-4 text-blue-500'>Procesando...</div>}
         {userRole === 'admin' && (
           <>
             <button
               onClick={handleCancelSubscription}
               className='mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-red-600'
             >
-              Cancel Subscription
+              Cancelar Suscripción
             </button>
             <button
               onClick={handleReactivateSubscription}
               className='mt-4 w-full rounded-md bg-green-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-green-600'
             >
-              Reactivate Subscription
+              Reactivar Suscripción
             </button>
           </>
         )}
