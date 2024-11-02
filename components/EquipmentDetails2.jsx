@@ -148,7 +148,7 @@ const EquipmentDetails2 = ({ equipment }) => {
           {/* Fecha de fabricación */}
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='fechaFabricacion'>
-              Fecha de fabricación
+              Ultima actualización
             </label>
             <input
               {...register('fechaFabricacion')}
@@ -202,12 +202,12 @@ const EquipmentDetails2 = ({ equipment }) => {
           </div>
 
           {/* Botón de actualización */}
-          <div className='mb-4 pb-5 flex justify-center'>
+          <div className='mb-4 pb-5 '>
             <button
               type='submit'
               className="flex items-center justify-center p-2 text-white rounded-lg 
               bg-gradient-to-r from-[#21262D] to-[#414B66] 
-              hover:from-[#1a1d22] w-36"
+              w-36 "
             >
               Actualizar
             </button>
