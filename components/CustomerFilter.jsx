@@ -8,9 +8,9 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo, owners }) =
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
-
+  // Filtrar opciones por nombre en el buscador
   const filteredOptions = owners.filter((owner) =>
-    owner.toLowerCase().includes(searchTerm.toLowerCase())
+    owner.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -45,11 +45,12 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo, owners }) =
     };
   }, []);
 
-  const handleCheckboxChange = (owner) => {
-    if (selectedAssignedTo.includes(owner)) {
-      setSelectedAssignedTo(selectedAssignedTo.filter((person) => person !== owner));
+  // Manejar la selección por ID
+  const handleCheckboxChange = (ownerId) => {
+    if (selectedAssignedTo.includes(ownerId)) {
+      setSelectedAssignedTo(selectedAssignedTo.filter((id) => id !== ownerId));
     } else {
-      setSelectedAssignedTo([...selectedAssignedTo, owner]);
+      setSelectedAssignedTo([...selectedAssignedTo, ownerId]);
     }
   };
 
@@ -57,9 +58,7 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo, owners }) =
     <div className="relative">
       <button
         ref={buttonRef}
-        onClick={() => {
-          setShowDropdown(!showDropdown);
-        }}
+        onClick={() => setShowDropdown(!showDropdown)}
         className="bg-transparent border-none p-1 text-xs sm:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img
@@ -88,16 +87,16 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo, owners }) =
           <ul className="mt-2 text-black">
             {filteredOptions.map((owner, index) => (
               <li
-                key={index}
+                key={owner._id}
                 className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs sm:text-sm"
-                onClick={() => handleCheckboxChange(owner)} // Cambiado a owner
+                onClick={() => handleCheckboxChange(owner._id)} // Seleccionar por ID
               >
-                <span className={selectedAssignedTo.includes(owner) ? 'font-medium' : ''}>
-                  {owner}
+                <span className={selectedAssignedTo.includes(owner._id) ? 'font-medium' : ''}>
+                  {owner.name} {/* Mostrar el nombre en la lista */}
                 </span>
                 <input
                   type="checkbox"
-                  checked={selectedAssignedTo.includes(owner)}
+                  checked={selectedAssignedTo.includes(owner._id)} // Comprobar selección por ID
                   readOnly
                   className="ml-2 h-3 w-3 sm:h-4 sm:w-4"
                 />
@@ -111,3 +110,4 @@ const CustomerFilter = ({ selectedAssignedTo, setSelectedAssignedTo, owners }) =
 };
 
 export default CustomerFilter;
+

@@ -11,9 +11,9 @@ const InfoPanel2 = ({
   selectedLocations,
   setSelectedLocations,
   locations,
-  setMachines 
+  setMachines,
+  setSelectedDate,  // Asegúrate de que esta prop sea recibida para actualizar el filtro de fecha
 }) => {
-  const [selectedDate, setSelectedDate] = useState('');
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
@@ -43,11 +43,7 @@ const InfoPanel2 = ({
           owners={owners} 
         />
       )}
-      <DateFilter2
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        setMachines={setMachines} 
-      />
+      <DateFilter2 setMachines={setMachines} setSelectedDate={setSelectedDate} /> {/* Aquí añadimos setSelectedDate */}
       <LocationFilter2
         selectedLocations={selectedLocations}
         setSelectedLocations={setSelectedLocations}
@@ -58,6 +54,21 @@ const InfoPanel2 = ({
 };
 
 export default InfoPanel2;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
