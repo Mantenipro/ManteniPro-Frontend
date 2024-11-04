@@ -68,90 +68,88 @@ const MachineCard = ({ machine, onDelete }) => {
 
   return (
     <div>
-      {/* Tarjeta de la máquina */}
-      <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleCardClick}
-        className={`flex items-center justify-between bg-[#FAFAFA] shadow-md p-4 md:p-4 rounded-lg mb-4 transition-all duration-300 
-        ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66] text-white' : ''} ${sourceSans3.className} 
-        ${isHovered ? 'shadow-lg' : ''} cursor-pointer`}
-      >
-        {/* Imagen del equipo */}
-        <div className="flex-shrink-0">
-          <img
-            src={machine.image}
-            alt="Imagen del equipo"
-            className="w-12 h-12 rounded-full object-cover bg-gray-300"
-          />
-        </div>
+  {/* Tarjeta de la máquina */}
+  <div
+    onMouseEnter={handleMouseEnter}
+    onMouseLeave={handleMouseLeave}
+    onClick={handleCardClick}
+    className={`flex items-center justify-between bg-[#FAFAFA] shadow-md p-4 md:p-4 rounded-lg mb-4 transition-all duration-300 
+      ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66] text-white' : ''} ${sourceSans3.className} 
+      ${isHovered ? 'shadow-lg' : ''} cursor-pointer`}
+  >
+    {/* Imagen del equipo */}
+    <div className="flex-shrink-0">
+      <img
+        src={machine.image}
+        alt="Imagen del equipo"
+        className="w-12 h-12 rounded-full object-cover bg-gray-300"
+      />
+    </div>
 
-        {/* Información del equipo */}
-        <div className="flex flex-grow justify-between ml-4 space-x-6">
-          <div className="flex flex-col items-start md:w-24 w-[5vh]">
-            <span className={`md:text-lg text-xs font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'}`}>
-              {truncateText(machine.model, isMobile ? 10 : 10)}
-            </span>
-          </div>
-
-          <div className="flex flex-col items-start md:w-24 w-[4vh] md:text-lg text-xs">
-            {/* Aquí aplicamos el truncamiento condicional */}
-            <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}>
-              {truncateText(machine.owner, isMobile ? 20 : 15)}
-            </span>
-          </div>
-
-          <div className="hidden md:flex flex-col items-start w-24">
-            <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
-              {truncateText(machine.brand, 10)}
-            </span>
-          </div>
-
-          <div className=" flex-col items-start w-15 hidden lg:flex">
-            <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
-              {truncateText(machine.location, 20)}
-            </span>
-          </div>
-
-          {/* Código QR */}
-          <div className="hidden lg:flex justify-center items-center mr-6">
-            <img src={machine.qr} alt="Código QR" className="w-12 h-12 rounded-lg" />
-          </div>
-        </div>
-
-        {/* Botones de edición y eliminación */}
-        <div className="flex-shrink-0 flex space-x-4 ml-6">
-          <button
-            onClick={handleEditClick}
-            className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block"
-          >
-            <img src="/icon/edit-icon.png" alt="Edit" width={20} height={20} />
-          </button>
-          <button
-            onClick={handleDeleteClick}
-            className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block"
-          >
-            <img src="/icon/delete-icon.png" alt="Delete" width={20} height={20} />
-          </button>
-        </div>
-
-        {/* Botones en tamaño reducido para pantallas pequeñas */}
-        <div className="flex-shrink-0 flex space-x-4 ml-6 sm:hidden">
-          <button
-            onClick={handleEditClick}
-            className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white"
-          >
-            <img src="/icon/edit-icon.png" alt="Edit" width={16} height={16} />
-          </button>
-          <button
-            onClick={handleDeleteClick}
-            className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white"
-          >
-            <img src="/icon/delete-icon.png" alt="Delete" width={16} height={16} />
-          </button>
-        </div>
+    {/* Información del equipo */}
+    <div className="flex flex-grow justify-between ml-4 space-x-6">
+      <div className="flex flex-col items-start md:w-24 w-[5vh]">
+        <span className={`md:text-lg text-xs font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'}`}>
+          {truncateText(machine.model, isMobile ? 10 : 10)}
+        </span>
       </div>
 
+      <div className="flex flex-col items-start md:w-24 w-[4vh]">
+        <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}>
+          {truncateText(machine.owner, isMobile ? 20 : 15)}
+        </span>
+      </div>
+
+      <div className="hidden md:flex flex-col items-start md:w-24">
+        <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
+          {truncateText(machine.brand, 10)}
+        </span>
+      </div>
+
+      <div className="hidden lg:flex flex-col items-start md:w-24">
+        <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
+          {truncateText(machine.location, 20)}
+        </span>
+      </div>
+
+      {/* Código QR */}
+      <div className="hidden lg:flex justify-center items-center mr-6">
+        <img src={machine.qr} alt="Código QR" className="w-12 h-12 rounded-lg" />
+      </div>
+    </div>
+
+    {/* Botones de edición y eliminación */}
+    <div className="flex-shrink-0 flex space-x-4 ml-6">
+      <button
+        onClick={handleEditClick}
+        className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block"
+      >
+        <img src="/icon/edit-icon.png" alt="Edit" width={20} height={20} />
+      </button>
+      <button
+        onClick={handleDeleteClick}
+        className="bg-gray-200 p-2 rounded-lg transition-all duration-300 hover:bg-white hidden sm:block"
+      >
+        <img src="/icon/delete-icon.png" alt="Delete" width={20} height={20} />
+      </button>
+    </div>
+
+    {/* Botones en tamaño reducido para pantallas pequeñas */}
+    <div className="flex-shrink-0 flex space-x-4 ml-6 sm:hidden">
+      <button
+        onClick={handleEditClick}
+        className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white"
+      >
+        <img src="/icon/edit-icon.png" alt="Edit" width={16} height={16} />
+      </button>
+      <button
+        onClick={handleDeleteClick}
+        className="bg-gray-200 p-1 rounded-lg transition-all duration-300 hover:bg-white"
+      >
+        <img src="/icon/delete-icon.png" alt="Delete" width={16} height={16} />
+      </button>
+    </div>
+  </div>
       {/* Modal de advertencia */}
       {showWarning && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
