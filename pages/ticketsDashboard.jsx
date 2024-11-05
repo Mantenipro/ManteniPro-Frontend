@@ -19,6 +19,7 @@
     })
     const [loadingTickets, setLoadingTickets] = useState(true)
 
+    
     useEffect(() => {
       // Simulamos la carga de los tickets
       const loadTickets = () => {

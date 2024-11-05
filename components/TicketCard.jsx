@@ -57,6 +57,7 @@ function TicketCard({ title, description, username, date, priority, ticketId }) 
   )
 }
 
+
 export default TicketCard;
 
 

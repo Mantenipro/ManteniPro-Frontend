@@ -232,3 +232,73 @@ export async function deleteEquipment(equipmentId, token) {
     throw error;
   }
 }
+
+export async function getEquipmentByOwner(ownerId, token) {
+  try {
+    const res = await fetch(`${API_URL}/equipment/owner/${ownerId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Añadiendo el token a los encabezados
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
+    }
+
+    const json = await res.json();
+    return json.data; // Devuelve solo los datos de los equipos
+  } catch (error) {
+    console.error("Error fetching equipment by owner:", error);
+    throw error;
+  }
+}
+
+
+export async function getReportsByUser(userId) {
+  try {
+    const res = await fetch(`${API_URL}/report/user/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
+    }
+
+    const json = await res.json();
+    return json.data;
+  } catch (error) {
+    console.error("Error fetching reports by user:", error);
+    throw error;
+  }
+}
+
+
+export async function deleteReport(reportId) {
+  try {
+    const token = localStorage.getItem("token"); // Obtén el token aquí
+    const res = await fetch(`${API_URL}/report/${reportId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Asegúrate de que el token esté presente
+      },
+    });
+
+    if (!res.ok) {
+      const errorResponse = await res.json(); // Captura la respuesta de error
+      throw new Error(`Error ${res.status}: ${errorResponse.message || res.statusText}`);
+    }
+
+    const json = await res.json();
+    return json.message; // Mensaje de éxito
+  } catch (error) {
+    console.error("Error deleting report:", error);
+    throw error; // Lanza el error para que pueda ser capturado en el componente
+  }
+}
+

@@ -146,6 +146,7 @@ const StatusColumn = ({
       </div>
     </div>
 
+
     <style jsx>{`
       @media (max-width: 640px) {
         div[style] {
