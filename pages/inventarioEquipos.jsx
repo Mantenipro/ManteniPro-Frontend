@@ -13,23 +13,22 @@ const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const Catalogo = () => {
-  const [machines, setMachines] = useState([]); // Equipos
-  const [users, setUsers] = useState([]); // Usuarios
-  const [owners, setOwners] = useState([]); // Propietarios
-  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]); // Cliente seleccionado
-  const [selectedLocations, setSelectedLocations] = useState([]); // Ubicación seleccionada
-  const [locations, setLocations] = useState([]); // Ubicaciones
-  const [selectedDate, setSelectedDate] = useState(''); // Fecha seleccionada
+  const [machines, setMachines] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [owners, setOwners] = useState([]);
+  const [selectedAssignedTo, setSelectedAssignedTo] = useState([]); // Para clientes
+  const [selectedLocations, setSelectedLocations] = useState([]); // Para ubicaciones
+  const [locations, setLocations] = useState([]); // Lista de ubicaciones
+  const [selectedDate, setSelectedDate] = useState(''); // Para fecha seleccionada
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+  const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Función para obtener los equipos y usuarios
   useEffect(() => {
     const fetchUsersAndMachines = async () => {
       try {
@@ -51,7 +50,12 @@ const Catalogo = () => {
             const data = await getEquipmentByCompanyId(userId, token);
             setMachines(data);
 
-            const uniqueOwners = [...new Set(data.map(machine => machine.owner))];
+            // Obtener los propietarios y ubicaciones
+            const uniqueOwnerIds = [...new Set(data.map(machine => machine.owner))];
+            const uniqueOwners = uniqueOwnerIds.map(ownerId => {
+              const ownerUser = userList.find(user => user._id === ownerId);
+              return ownerUser ? { _id: ownerId, name: ownerUser.name } : { _id: ownerId, name: 'Desconocido' };
+            });
             setOwners(uniqueOwners);
 
             const uniqueLocations = [...new Set(data.map(machine => machine.location))];
@@ -72,28 +76,24 @@ const Catalogo = () => {
     return <div>Cargando...</div>;
   }
 
-  // Función para manejar la eliminación de un equipo
   const handleDelete = (deletedId) => {
     setMachines((prevMachines) => prevMachines.filter((machine) => machine._id !== deletedId));
   };
 
-  // Filtrado de máquinas
   const filteredMachines = machines.filter(machine => {
     const matchesOwner = selectedAssignedTo.length === 0 || selectedAssignedTo.includes(machine.owner);
     const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(machine.location);
-    const matchesDate = selectedDate ? machine.date === selectedDate : true; 
+    const matchesDate = selectedDate ? new Date(machine.date).toDateString() === new Date(selectedDate).toDateString() : true; 
     const matchesSearchTerm = machine.model.toLowerCase().startsWith(searchTerm.toLowerCase());
 
     return matchesOwner && matchesLocation && matchesDate && matchesSearchTerm;
-  });
+});
 
   return (
     <div className={`${montserrat.className} h-dvh flex flex-row lg:flex-grow relative`}>
-      <div
-        className={`${
+      <div className={`${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#31416d] to-[#232c48] md:w-[30%] lg:w-[15%] w-[50%] h-full fixed lg:static z-40`}
-      >
+        } lg:translate-x-0 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#31416d] to-[#232c48] md:w-[30%] lg:w-[15%] w-[50%] h-full fixed lg:static z-40`}>
         <LefthDashboard />
       </div>
       <main className='flex-1 p-6'>
@@ -119,8 +119,7 @@ const Catalogo = () => {
               selectedLocations={selectedLocations}
               setSelectedLocations={setSelectedLocations}
               locations={locations} 
-              selectedDate={selectedDate} 
-              setSelectedDate={setSelectedDate} 
+              setSelectedDate={setSelectedDate}  // Para actualizar el filtro de fecha
               setMachines={setMachines}
             />
           </div>
@@ -128,9 +127,18 @@ const Catalogo = () => {
 
         <div className='h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
           {filteredMachines.length > 0 ? (
-            filteredMachines.map((machine, index) => (
-              <MachineCard key={index} machine={machine} onDelete={handleDelete} />
-            ))
+            filteredMachines.map((machine, index) => {
+              const ownerUser = users.find(user => user._id === machine.owner);
+              const ownerName = ownerUser ? ownerUser.name : 'Desconocido';
+
+              return (
+                <MachineCard 
+                  key={index} 
+                  machine={{ ...machine, owner: ownerName }} 
+                  onDelete={handleDelete} 
+                />
+              );
+            })
           ) : (
             <div>No hay equipos disponibles.</div>
           )}
@@ -141,6 +149,9 @@ const Catalogo = () => {
 };
 
 export default Catalogo;
+
+
+
 
 
 

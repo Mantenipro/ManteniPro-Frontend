@@ -45,7 +45,6 @@ const DateFilter2 = ({ selectedDate, setSelectedDate, setMachines }) => {
     const newSelectedDate = option === selectedDate ? '' : option;
     setSelectedDate(newSelectedDate);
 
-    // Aquí puedes gestionar el estado de machines basado en la nueva selección
     setMachines(prevMachines => {
       const sortedMachines = [...prevMachines];
       sortedMachines.sort((a, b) => {
@@ -84,15 +83,15 @@ const DateFilter2 = ({ selectedDate, setSelectedDate, setMachines }) => {
             {dateOptions.map((option, index) => (
               <li
                 key={index}
-                className="flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm"
+                className={`flex justify-between items-center p-1 hover:bg-blue-100 cursor-pointer text-xs md:text-sm ${
+                  selectedDate === option ? 'text-black font-medium' : ''
+                }`}
                 onClick={() => handleCheckboxChange(option)}
               >
-                <span className={selectedDate === option ? 'font-medium' : ''}>
-                  {option}
-                </span>
+                <span>{option}</span>
                 <input
                   type="checkbox"
-                  checked={selectedDate === option}
+                  checked={selectedDate === option} 
                   readOnly
                   className="ml-2 h-3 w-3 md:h-4 md:w-4"
                 />
@@ -106,5 +105,10 @@ const DateFilter2 = ({ selectedDate, setSelectedDate, setMachines }) => {
 };
 
 export default DateFilter2;
+
+
+
+
+
 
 

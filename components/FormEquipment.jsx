@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import QRCode from 'qrcode'; // Asegúrate de instalar qrcode con `npm install qrcode`
+import QRCode from 'qrcode';
 import { createEquipment, getUsers } from '@/api/api';
 import { Source_Sans_3 } from 'next/font/google';
+import PropietarioSelect from './PropietarioSelect';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 export default function FormEquipment() {
-  const { handleSubmit, register, formState: { errors } } = useForm();
+  const { handleSubmit, register, setValue, formState: { errors } } = useForm();
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [qrCodeUrl, setQrCodeUrl] = useState('');
@@ -19,16 +20,13 @@ export default function FormEquipment() {
   };
 
   function generateUniqueNumber() {
-    return Math.floor(Math.random() * 20000) + 1; // Genera un número entre 1 y 20000
+    return Math.floor(Math.random() * 20000) + 1;
   }
 
   async function uploadImageToS3(file) {
     if (!file) return null;
     try {
-      const fileData = {
-        fileName: file.name,
-        fileType: file.type,
-      };
+      const fileData = { fileName: file.name, fileType: file.type };
       const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,14 +48,10 @@ export default function FormEquipment() {
   async function uploadQRCodeToS3(qrCodeData) {
     try {
       const qrCodeBlob = await (await fetch(qrCodeData)).blob();
-      const uniqueNumber = generateUniqueNumber(); // Genera un número único
-      const qrCodeFile = new File([qrCodeBlob], `qrcode_${uniqueNumber}.png`, { type: 'image/png' }); // Asigna un nombre único
+      const uniqueNumber = generateUniqueNumber();
+      const qrCodeFile = new File([qrCodeBlob], `qrcode_${uniqueNumber}.png`, { type: 'image/png' });
 
-      const fileData = {
-        fileName: qrCodeFile.name,
-        fileType: qrCodeFile.type,
-      };
-
+      const fileData = { fileName: qrCodeFile.name, fileType: qrCodeFile.type };
       const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,7 +71,7 @@ export default function FormEquipment() {
   }
 
   async function generateQRCode() {
-    const url = 'http://localhost:3000/inventarioEquipos'; // URL que quieres codificar en el QR
+    const url = 'http://localhost:3000/inventarioEquipos';
     try {
       const qrCodeDataUrl = await QRCode.toDataURL(url);
       setQrCodeUrl(qrCodeDataUrl);
@@ -108,7 +102,6 @@ export default function FormEquipment() {
           imageUrl = await uploadImageToS3(selectedFile);
         }
 
-        // Llamar a la función para generar el código QR
         const qrCodeDataUrl = await generateQRCode();
         let qrCodeUrl = null;
         if (qrCodeDataUrl) {
@@ -172,23 +165,11 @@ export default function FormEquipment() {
           {errors.model && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
         </div>
 
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='owner'>
-            Propietario
-          </label>
-          <input
-            {...register('owner', { required: true })}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='owner'
-            type='text'
-            placeholder='Propietario del equipo'
-          />
-          {errors.owner && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div>
+        <PropietarioSelect register={register} setValue={setValue} />
 
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='manufactureDate'>
-          Ultima actualización
+          Última fecha de mantenimiento
           </label>
           <input
             {...register('manufactureDate', { required: true })}
@@ -212,7 +193,6 @@ export default function FormEquipment() {
           />
           {errors.brand && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
         </div>
-
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='location'>
             Ubicación
@@ -226,7 +206,6 @@ export default function FormEquipment() {
           />
           {errors.location && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
         </div>
-
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='unitType'>
             Tipo de unidad
@@ -239,8 +218,9 @@ export default function FormEquipment() {
             placeholder='Tipo de unidad'
           />
           {errors.unitType && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div>
-
+        </div> 
+        
+        
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='file'>
             Cargar imagen
@@ -266,6 +246,263 @@ export default function FormEquipment() {
     </form>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

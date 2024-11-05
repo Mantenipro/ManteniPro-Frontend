@@ -11,10 +11,10 @@ const InfoPanel2 = ({
   selectedLocations,
   setSelectedLocations,
   locations,
-  setMachines 
+  setMachines,
 }) => {
-  const [selectedDate, setSelectedDate] = useState('');
   const [userRole, setUserRole] = useState('');
+  const [selectedDate, setSelectedDate] = useState(''); 
 
   useEffect(() => {
     const fetchUserProfileData = async () => {
@@ -43,9 +43,9 @@ const InfoPanel2 = ({
           owners={owners} 
         />
       )}
-      <DateFilter2
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
+      <DateFilter2 
+        selectedDate={selectedDate}           
+        setSelectedDate={setSelectedDate}     
         setMachines={setMachines} 
       />
       <LocationFilter2
@@ -58,6 +58,22 @@ const InfoPanel2 = ({
 };
 
 export default InfoPanel2;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
