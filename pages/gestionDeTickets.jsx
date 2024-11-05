@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import LefthDashboard from '@/components/LefthDashboard';
 import Title from '@/components/Title';
 import InfoPanelCustomer from '@/components/InfoPanelCustomer';
-import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; // Asegúrate de importar deleteReport
+import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';
 import TicketClosed from '@/components/TicketClosed';
 import TicketDetail from '@/components/TicketDetail';
@@ -21,6 +21,7 @@ const GestionDeTickets = () => {
   const [users, setUsers] = useState([]);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState('Recientes'); // Default to "Recientes"
 
   useEffect(() => {
     const fetchUsersAndReports = async () => {
@@ -55,9 +56,16 @@ const GestionDeTickets = () => {
     fetchUsersAndReports();
   }, [router]);
 
-  const tasksToDisplay = activeTab === 'inProgress' 
-    ? reports.filter(report => report.status === 'pending' || report.status === 'in-progress')
+  // Filtrar las tareas según el estado del ticket y la fecha seleccionada
+  const tasksToDisplay = activeTab === 'inProgress'
+    ? reports.filter(report => (report.status === 'pending' || report.status === 'in-progress'))
     : reports.filter(report => report.status === 'completed');
+
+  const sortedTasks = [...tasksToDisplay].sort((a, b) => {
+    const dateA = new Date(a.created_at);
+    const dateB = new Date(b.created_at);
+    return selectedDate === 'Recientes' ? dateB - dateA : dateA - dateB;
+  });
 
   const handleCardClick = (task) => {
     setSelectedTask(task);
@@ -105,7 +113,7 @@ const GestionDeTickets = () => {
         <Title className="text-2xl">Tickets</Title>
 
         <div className="mt-4">
-          <InfoPanelCustomer />
+          <InfoPanelCustomer setSelectedDate={setSelectedDate} />
         </div>
 
         <section className="w-full mt-4">
@@ -132,8 +140,8 @@ const GestionDeTickets = () => {
                   </div>
                   <div className="relative w-full h-[65vh] md:h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
                     <div className="flex flex-col space-y-5 mt-4">
-                      {tasksToDisplay.length > 0 ? (
-                        tasksToDisplay.map((report) => (
+                      {sortedTasks.length > 0 ? (
+                        sortedTasks.map((report) => (
                           <TaskCard
                             key={report._id}
                             picture={report.image}
@@ -141,7 +149,7 @@ const GestionDeTickets = () => {
                             description={report.description}
                             createdAt={report.created_at}
                             onClick={() => handleCardClick(report)}
-                            onDelete={() => handleDeleteReport(report._id)} // Pasa la función de eliminación
+                            onDelete={() => handleDeleteReport(report._id)}
                           />
                         ))
                       ) : (

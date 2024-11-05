@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
-import DateFilter from './DateFilter'; 
-import LocationFilter from './LocationFilter'; 
-const InfoPanelCustomer = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [location, setLocation] = useState(''); 
+import DateFilter2 from './DateFilterCustomer';
+
+const InfoPanelCustomer = ({ setSelectedDate }) => {
+  const [selectedDate, setSelectedDateState] = useState('Recientes');
+
+  const handleDateChange = (date) => {
+    setSelectedDateState(date);
+    setSelectedDate(date); // Propaga el cambio al componente padre
+  };
 
   return (
     <div className='flex overflow-x-auto space-x-2 items-center text-white'>
-     
-      <DateFilter
+      <DateFilter2
         selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-      />
-      
-    
-      <LocationFilter
-        selectedLocations={location}
-        setSelectedLocations={setLocation}
+        setSelectedDate={handleDateChange}
       />
     </div>
-  )
+  );
 };
 
 export default InfoPanelCustomer;
