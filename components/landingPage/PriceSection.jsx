@@ -37,7 +37,7 @@ const PriceSection = forwardRef((props, ref) => {
   ];
 
   return (
-    <section ref={ref} className='mx-auto max-w-screen-2xl px-4 py-16'>
+    <section ref={ref} className='mx-auto max-w-screen-2xl mx-5 md:mx-0'>
       <h2 className='mb-6 text-center text-2xl md:text-4xl font-medium'>
         ¡Conoce Mantenipro hoy mismo!
       </h2>
@@ -45,7 +45,7 @@ const PriceSection = forwardRef((props, ref) => {
         Con Mantenipro, puedes empezar con una prueba gratuita de 30 días para explorar todas las funciones y decidir si se ajusta a tus necesidades.
       </p>
       {/* Cards */}
-      <div className='flex flex-col flex-wrap items-center justify-center gap-16 lg:flex-row lg:items-stretch'>
+      <div className='flex flex-col flex-wrap items-center justify-center gap-5 lg:flex-row lg:items-stretch'>
         {cardDetails.map((card, index) => (
           <PriceCard
             key={index}

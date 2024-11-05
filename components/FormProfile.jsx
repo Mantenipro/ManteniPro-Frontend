@@ -236,6 +236,10 @@ const UserProfile = () => {
     }
   }
 
+  const handleUpdateSubscription = () => {
+    router.push('https://billing.stripe.com/p/login/test_28odUQarH7FK8XC7ss')
+  }
+
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
       <label
@@ -387,6 +391,12 @@ const UserProfile = () => {
               className='mt-4 w-full rounded-md bg-green-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-green-600'
             >
               Reactivar Suscripción
+            </button>
+            <button
+              onClick={handleUpdateSubscription}
+              className='mt-4 w-full rounded-md bg-yellow-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-yellow-600'
+            >
+              Actualizar Suscripción
             </button>
           </>
         )}

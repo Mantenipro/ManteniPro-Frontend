@@ -1,14 +1,10 @@
-import { Source_Sans_3 } from 'next/font/google';
-import React, { forwardRef } from 'react';
+import { Source_Sans_3 } from 'next/font/google'
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
-
-const AboutUs = forwardRef((props, ref) => {
+export default function AboutUs() {
   return (
-    <section
-      ref={ref}
-      className='mx-auto my-14 flex w-full flex-col items-center justify-center gap-10 bg-[#e6eef8] p-4 md:px-10 lg:mt-36 lg:flex-row'
-    >
+    <div className='md:flex md:justify-center mx-5'>
+    <section className='mx-auto mb-20 flex w-full flex-col items-center justify-center gap-10 bg-[#e6eef8] p-4 md:px-10 lg:mt-36 lg:flex-row'>
       <h2 className='mb-5 text-center text-2xl font-medium text-slate-800 lg:hidden'>
         Acerca de Mantenipro
       </h2>
@@ -30,8 +26,6 @@ const AboutUs = forwardRef((props, ref) => {
         </p>
       </div>
     </section>
-  );
-});
-
-export default AboutUs;
-
+    </div>
+  )
+}
