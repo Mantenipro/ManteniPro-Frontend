@@ -302,3 +302,26 @@ export async function deleteReport(reportId) {
   }
 }
 
+
+// Función para obtener reportes por compañía
+export async function getReportsByCompany(companyId, token) {
+  try {
+    const res = await fetch(`${API_URL}/report/company/${companyId}`, { // Asegúrate de que la ruta del endpoint sea correcta
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // Agregar token si es necesario para la autenticación
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
+    }
+
+    const json = await res.json();
+    return json.data; // Retorna los reportes obtenidos
+  } catch (error) {
+    console.error("Error fetching reports by company:", error);
+    throw error;
+  }
+}
