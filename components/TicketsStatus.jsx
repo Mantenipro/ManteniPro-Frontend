@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAllUsers, getReportsByCompany } from '@/api/api';
+import TicketCard from './TicketCard';
 
 const TicketsStatus = () => {
   const [users, setUsers] = useState([]);
@@ -9,6 +10,13 @@ const TicketsStatus = () => {
     completados: []
   });
   const [loading, setLoading] = useState(true);
+  const [currentSection, setCurrentSection] = useState(0);
+
+  const sections = [
+    { title: 'Por hacer', tickets: reports.porHacer },
+    { title: 'En proceso', tickets: reports.enProceso },
+    { title: 'Completados', tickets: reports.completados },
+  ];
 
   useEffect(() => {
     const fetchUsersAndReports = async () => {
@@ -17,54 +25,30 @@ const TicketsStatus = () => {
         const email = localStorage.getItem("email");
 
         if (token && email) {
-          console.log("Token y email obtenidos de localStorage:", { token, email });
-
-          // 1. Obtener todos los usuarios
           const userList = await getAllUsers(token);
           setUsers(userList);
-          console.log("Lista de usuarios obtenida:", userList);
 
-          if (!Array.isArray(userList) || userList.length === 0) {
-            console.warn("La lista de usuarios está vacía o no es un arreglo.");
-            return;
-          }
-
-          // 2. Encontrar el usuario actual
           const currentUser = userList.find(user => user.email === email);
-          if (!currentUser) {
-            console.warn("No se encontró un usuario con el email proporcionado.");
-            return;
-          }
+          const userId = currentUser?._id;
 
-          console.log("Datos del usuario actual:", currentUser);
-          const userId = currentUser._id; // Cambiado a _id según los datos obtenidos
-          console.log("ID de usuario obtenido:", userId);
-
-          if (!userId) {
-            console.warn("El usuario actual no tiene un ID válido.");
-            return;
-          }
-
-          // 3. Obtener los reportes por usuario
-          try {
+          if (userId) {
             const userReports = await getReportsByCompany(userId, token);
-            console.log("Reportes del usuario obtenidos:", userReports);
 
-            const ticketsPorHacer = userReports.filter(report => report.status === 'pending');
-            const ticketsEnProceso = userReports.filter(report => report.status === 'in-progress');
-            const ticketsCompletados = userReports.filter(report => report.status === 'completed');
+            // Agregar nombre del usuario al reporte
+            const updatedReports = userReports.map(report => {
+              const reportUser = userList.find(user => user._id === report.userId);
+              return {
+                ...report,
+                userName: reportUser ? reportUser.name : '',
+              };
+            });
 
             setReports({
-              porHacer: ticketsPorHacer,
-              enProceso: ticketsEnProceso,
-              completados: ticketsCompletados
+              porHacer: updatedReports.filter(report => report.status === 'pending'),
+              enProceso: updatedReports.filter(report => report.status === 'in-progress'),
+              completados: updatedReports.filter(report => report.status === 'completed')
             });
-          } catch (reportError) {
-            console.error("Error fetching reports by user:", reportError);
           }
-
-        } else {
-          console.warn("Token o email no disponible en localStorage.");
         }
       } catch (error) {
         console.error("Error al obtener usuarios o reportes:", error);
@@ -76,57 +60,74 @@ const TicketsStatus = () => {
     fetchUsersAndReports();
   }, []);
 
+  const handleNextSection = () => {
+    setCurrentSection((prevSection) => (prevSection + 1) % sections.length);
+  };
+
+  const handlePrevSection = () => {
+    setCurrentSection((prevSection) => (prevSection - 1 + sections.length) % sections.length);
+  };
+
   if (loading) {
     return <div>Cargando...</div>;
   }
 
   return (
-    <div>
-      <h1>Estado de Tickets</h1>
-      <div>
-        <h2>Por Hacer</h2>
-        {reports.porHacer.length > 0 ? (
-          reports.porHacer.map((report, index) => (
-            <div key={index}>
-              <p>{report.title}</p>
-              <p>{report.description}</p>
-            </div>
-          ))
-        ) : (
-          <p>No hay tickets por hacer.</p>
-        )}
-      </div>
-      <div>
-        <h2>En Proceso</h2>
-        {reports.enProceso.length > 0 ? (
-          reports.enProceso.map((report, index) => (
-            <div key={index}>
-              <p>{report.title}</p>
-              <p>{report.description}</p>
-            </div>
-          ))
-        ) : (
-          <p>No hay tickets en proceso.</p>
-        )}
-      </div>
-      <div>
-        <h2>Completados</h2>
-        {reports.completados.length > 0 ? (
-          reports.completados.map((report, index) => (
-            <div key={index}>
-              <p>{report.title}</p>
-              <p>{report.description}</p>
-            </div>
-          ))
-        ) : (
-          <p>No hay tickets completados.</p>
-        )}
+    <div className="bg-[#F5F5F5] p-4 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <StatusColumn
+          title={sections[currentSection].title}
+          tickets={sections[currentSection].tickets}
+          handleNextSection={handleNextSection}
+          handlePrevSection={handlePrevSection}
+          showNavigation={true}
+        />
+        <div className="hidden md:block">
+          <StatusColumn title="En proceso" tickets={reports.enProceso} />
+        </div>
+        <div className="hidden md:block">
+          <StatusColumn title="Completados" tickets={reports.completados} />
+        </div>
       </div>
     </div>
   );
 };
 
+const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, showNavigation }) => (
+  <div className="flex flex-col items-center group">
+    <div className="flex items-center justify-between w-full mb-4">
+      {showNavigation && (
+        <button onClick={handlePrevSection} className="block md:hidden bg-gray-200 p-2 rounded-full">
+          <img src="/icon/left-arrow-icon.png" alt="Left arrow" className="w-4 h-4" />
+        </button>
+      )}
+      <div className="flex items-center">
+        <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#21262D] to-[#414B66] mr-2"></span>
+        <h2 className="text-xl font-semibold">{title}</h2>
+      </div>
+      {showNavigation && (
+        <button onClick={handleNextSection} className="block md:hidden bg-gray-200 p-2 rounded-full">
+          <img src="/icon/right-arrow-icon.png" alt="Right arrow" className="w-4 h-4" />
+        </button>
+      )}
+    </div>
+    <div className="w-full h-1 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-[#21262D] to-[#414B66]"></div>
+    <div className="w-full mt-4 group-hover:bg-opacity-100 h-auto md:h-[60vh] flex flex-col justify-center items-center overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+      {tickets.length === 0 ? (
+        <p>No hay tickets para mostrar</p>
+      ) : (
+        tickets.map((ticket) => (
+          <TicketCard key={ticket._id} report={ticket} />
+        ))
+      )}
+    </div>
+  </div>
+);
+
 export default TicketsStatus;
+
+
+
 
 
 
