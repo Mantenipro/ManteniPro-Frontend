@@ -1,4 +1,4 @@
-const API_URL = 'https://mantenipro-api-1tyv.onrender.com'
+const API_URL = 'http://localhost:8000'
 
 export async function login(email, password) {
   const response = await fetch(`${API_URL}/auth/login`, {
@@ -15,8 +15,7 @@ export async function login(email, password) {
   if (!response.ok) {
     throw new Error(json.error || 'Error al iniciar sesión')
   }
-
-  return json.data.token
+  return json.data
 }
 
 export const registerForm = async (
@@ -159,6 +158,30 @@ export const resetPassword = async (data) => {
   }
 }
 
+export async function changePassword(data) {
+  try {
+        const token = localStorage.getItem('token')
+
+    const response = await fetch(`${API_URL}/changePassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al cambiar la contraseña')
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('Error al cambiar la contraseña:', error)
+    throw error
+  }
+ }
+
 export async function fetchProducts() {
   try {
     const response = await fetch(`${API_URL}/products`)
@@ -206,10 +229,10 @@ export const fetchUserData = async () => {
 
     const startDate = data.subscription_type
       ? new Date(data.subscription_type.currentPeriodStart).toLocaleDateString()
-      : 'Fecha no disponible'
+      : '-'
     const endDate = data.subscription_type
       ? new Date(data.subscription_type.currentPeriodEnd).toLocaleDateString()
-      : 'Fecha no disponible'
+      : '-'
     const subscriptionId = data.subscription_type
       ? data.subscription_type.stripeSubscriptionId
       : 'ID no disponible'

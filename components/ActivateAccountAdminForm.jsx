@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/router'
 import { activateAccount } from '../pages/api/api'
 
-const AccountActivation = ({ textColor, bgColor }) => {
+const ActivateAccountAdminForm = ({ textColor, bgColor }) => {
   const [activationCode, setActivationCode] = useState(Array(6).fill(''))
   const [error, setError] = useState('')
   const [isValid, setIsValid] = useState(false)
@@ -70,6 +70,7 @@ const AccountActivation = ({ textColor, bgColor }) => {
         token,
         activationCode: activationCodeStr
       })
+      console.log(response)
       if (response.success) {
         toast.success('Cuenta activada exitosamente', {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
@@ -185,4 +186,4 @@ const AccountActivation = ({ textColor, bgColor }) => {
   )
 }
 
-export default AccountActivation
+export default ActivateAccountAdminForm

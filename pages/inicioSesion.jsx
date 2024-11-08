@@ -38,39 +38,66 @@ const LoginForm = ({ textColor, bgColor }) => {
 
   const onSubmit = async (data) => {
     try {
-      const token = await login(data.email, data.password)
+      // Llamada a la función login
+      console.log('Iniciando login con datos:', data)
+      const response = await login(data.email, data.password)
+      console.log('Respuesta de la API:', response)
 
-      if (token) {
-        localStorage.setItem('email', data.email);
+      if (response) {
+        const { token, mustChangePassword, role } = response // Extrae `mustChangePassword` de la respuesta
+        console.log('Token recibido:', response.token)
+        console.log('mustChangePassword recibido:', response.mustChangePassword)
+        console.log('Role recibido:', response.role)
+
+        localStorage.setItem('email', data.email)
         window.localStorage.setItem('token', token)
-        toast.success('Bienvenido', {
-          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
-          style: {
-            fontSize: '20px',
-            padding: '20px',
-            maxWidth: '90vw', // Ajuste para pantallas pequeñas
-            width: 'auto'
-          }
-        })
-        setTimeout(() => {
-          router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
-        }, 2000)
+
+        // Verificar si el usuario necesita cambiar la contraseña
+        if (mustChangePassword && role !== 'admin') {
+          console.log('El usuario debe cambiar la contraseña.')
+          toast.warning('Debes cambiar tu contraseña.', {
+            position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+            style: {
+              fontSize: '20px',
+              padding: '20px',
+              maxWidth: '90vw',
+              width: 'auto'
+            }
+          })
+          setTimeout(() => {
+            router.push('/changePasswordFirst') // Redirige al usuario para que cambie la contraseña
+          }, 2000)
+        } else {
+          console.log('El usuario no necesita cambiar la contraseña.')
+          toast.success('Bienvenido', {
+            position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+            style: {
+              fontSize: '20px',
+              padding: '20px',
+              maxWidth: '90vw',
+              width: 'auto'
+            }
+          })
+          setTimeout(() => {
+            router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
+          }, 2000)
+        }
       } else {
-        toast.error('Error al iniciar sesion')
+        console.warn('Respuesta de la API inválida o sin data.')
+        toast.error('Error al iniciar sesión')
         setError('root.credentials', {
           type: 'manual',
-          message: 'Credenciales Invalidas'
-        }) // en dado caso de que sea general
-
-        // setError("username", {type: "manual", message: "Usuario invalido"}) en caso de que eñ backend indique que el error es de un input
+          message: 'Credenciales inválidas'
+        })
       }
     } catch (error) {
+      console.error('Error durante el inicio de sesión:', error)
       toast.error(error.message, {
-        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
           fontSize: '20px',
           padding: '20px',
-          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          maxWidth: '90vw',
           width: 'auto'
         }
       })
@@ -78,9 +105,10 @@ const LoginForm = ({ textColor, bgColor }) => {
         type: 'manual',
         message: error.message
       })
-      console.error('[Login error]', error)
     }
   }
+
+
     function handleShowHidePassword() {
       setShowPassword(!showPassword)
     }

@@ -9,7 +9,8 @@ import {
   updateUserData,
   cancelSubscription,
   reactivateSubscription,
-  fetchUserProfile
+  fetchUserProfile,
+  changePassword
 } from '../pages/api/api'
 
 const UserProfile = () => {
@@ -17,7 +18,7 @@ const UserProfile = () => {
     company: '',
     email: '',
     password: '',
-    subscription: false,
+    subscription: '',
     phone: '',
     address: '',
     startDate: '',
@@ -240,6 +241,10 @@ const UserProfile = () => {
     router.push('https://billing.stripe.com/p/login/test_28odUQarH7FK8XC7ss')
   }
 
+  const handleChangePassword = () => {
+    router.push('/changePassword')
+   }
+
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
       <label
@@ -256,9 +261,11 @@ const UserProfile = () => {
           {...register(field)} // Usamos register
           defaultValue={
             field === 'subscription'
-              ? user.subscription
-                ? `Activa`
-                : `Cancelada, activa hasta ${user.endDate}`
+              ? user.subscription === null
+                ? 'Sin Activar'
+                : user.subscription
+                  ? `Activa`
+                  : `Cancelada, activa hasta ${user.endDate}`
               : userRole === 'admin'
                 ? (user[field] ?? '')
                 : (userProfile[field] ?? '')
@@ -267,6 +274,15 @@ const UserProfile = () => {
           className={`w-full border px-3 py-2 ${errors[field] ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 ${editMode[field] ? 'bg-white' : 'bg-gray-100'}`}
           aria-label={label}
         />
+        {field === 'password' && (
+          <button
+            type='button'
+            onClick={() => handleChangePassword()}
+            className='absolute right-2 top-2 rounded text-black hover:text-gray-500'
+          >
+            Cambiar
+          </button>
+        )}
         {editable && (
           <button
             type='button'
