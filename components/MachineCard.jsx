@@ -5,6 +5,7 @@ import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
+
 // Función para truncar texto
 const truncateText = (text, maxLength) => {
   if (!text) return '';
@@ -190,6 +191,31 @@ const MachineCard = ({ machine, onDelete }) => {
     </div>
   );
 };
+
+// Función para obtener reportes por usuario
+export async function getReportsByUser(userId, token) {
+  try {
+    const res = await fetch(`${API_URL}/report/user/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: token }),
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status} ${res.statusText}`);
+    }
+
+    
+    const json = await res.json();
+    return json.data; // Devuelve los reportes del usuario
+  } catch (error) {
+    console.error("Error fetching reports by user:", error);
+    throw error;
+  }
+}
+
 
 export default MachineCard;
 

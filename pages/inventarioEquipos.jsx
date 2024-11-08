@@ -9,6 +9,7 @@ import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getEquipmentByCompanyId, getAllUsers } from '@/api/api';
 import { useRouter } from 'next/router';
 
+
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
