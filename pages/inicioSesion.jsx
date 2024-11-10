@@ -69,7 +69,7 @@ const LoginForm = ({ textColor, bgColor }) => {
           }, 2000)
         } else {
           console.log('El usuario no necesita cambiar la contraseña.')
-          toast.success('Bienvenido', {
+          toast.success('Bienvenido'  , {
             position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
             style: {
               fontSize: '20px',
@@ -84,14 +84,14 @@ const LoginForm = ({ textColor, bgColor }) => {
         }
       } else {
         console.warn('Respuesta de la API inválida o sin data.')
-        toast.error('Error al iniciar sesión')
+        toast.error(response.message)
         setError('root.credentials', {
           type: 'manual',
           message: 'Credenciales inválidas'
         })
       }
     } catch (error) {
-      console.error('Error durante el inicio de sesión:', error)
+      console.error(error.message)
       toast.error(error.message, {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {

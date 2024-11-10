@@ -1,21 +1,27 @@
 const API_URL = 'http://localhost:8000'
 
 export async function login(email, password) {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email,
-      password
+  try {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password
+      })
     })
-  })
-
-  const json = await response.json()
-
-  if (!response.ok) {
-    throw new Error(json.error || 'Error al iniciar sesión')
+  
+    const json = await response.json()
+  
+    if (!response.ok) {
+      throw new Error(json.message || 'Error al iniciar sesión')
+    }
+    console.log('Respuesta de la API:', json)
+    return json.data
+  } catch (error) {
+    console.error('Error en la solicitud de inicio de sesión:', error)
+    throw error
   }
-  return json.data
 }
 
 export const registerForm = async (
@@ -110,14 +116,16 @@ export const recoverPassword = async (email) => {
     // Log para verificar que la URL es correcta
     console.log('URL de solicitud:', `${API_URL}/requestPasswordReset`)
 
+    const result = await response.json()
+
     if (!response.ok) {
       // Capturar el código de estado para más detalles
-      const errorMessage = `Error al recuperar la contraseña: ${response.status} ${response.statusText}`
+      const errorMessage = `Error al recuperar la contraseña: ${result.message}`
       console.error(errorMessage)
       throw new Error(errorMessage)
     }
 
-    return await response.json()
+    return result
   } catch (error) {
     console.error('Error en la solicitud de recuperación de contraseña:', error)
     throw error
@@ -443,13 +451,48 @@ export const fetchUsers = async () => {
       }
     })
     const data = await response.json()
+    console.log('Respuesta de la API:', data)
     if (data.success) {
-      setUsuarios(data.data.users)
+      // Filtrar usuarios por rol
+      const usuariosFiltrados = data.data.users.filter(
+        (user) => user.role === 'usuario'
+      )
+      return usuariosFiltrados
     } else {
       console.error('Error al obtener usuarios:', data.error)
+      return []
     }
   } catch (error) {
     console.error('Error al hacer la solicitud:', error)
+    return []
+  }
+}
+
+export const fetchTechnician = async () => {
+  try {
+    const token = localStorage.getItem('token') // Reemplaza con tu token real
+    const response = await fetch(`${API_URL}/users`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    console.log('Respuesta de la API:', data)
+    if (data.success) {
+      // Filtrar usuarios por rol
+      const tecnicosFiltrados = data.data.users.filter(
+        (user) => user.role === 'tecnico'
+      )
+      return tecnicosFiltrados
+    } else {
+      console.error('Error al obtener usuarios:', data.error)
+      return []
+    }
+  } catch (error) {
+    console.error('Error al hacer la solicitud:', error)
+    return []
   }
 }
 
@@ -520,5 +563,32 @@ export const fetchEquimentById = async (equipmentId) => {
   } catch (error) {
     console.error('Error al hacer la solicitud:', error)
     return null
+  }
+}
+
+export const unlockUser = async (email) => {
+  try {
+    const response = await fetch(`${API_URL}/users/unlockUser`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email })
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      return { success: true, data }
+      // Manejar la respuesta exitosa
+      console.log('Usuario desbloqueado exitosamente')
+    } else {
+      return { success: false, error: data.message }
+      // Manejar errores
+      console.error('Error al desbloquear el usuario')
+    }
+  } catch (error) {
+    return { success: false, error: error.message }
+    console.error('Error al realizar la solicitud:', error)
   }
 }

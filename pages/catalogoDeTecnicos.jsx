@@ -6,6 +6,7 @@ import UserCard from '../components/UserCard'
 import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import AddUser from '@/components/AddUser'
+import { fetchTechnician } from '@/pages/api/api'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -13,7 +14,7 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 const CatalogoDeTecnicos = () => {
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [usuarios, setUsuarios] = useState([])
+  const [tecnicos, setTecnicos] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [sortCriteria, setSortCriteria] = useState('')
 
@@ -26,34 +27,18 @@ const CatalogoDeTecnicos = () => {
   }
 
   useEffect(() => {
-    const fetchUsuarios = async () => {
-      try {
-        const token = localStorage.getItem('token') // Reemplaza con tu token real
-        const response = await fetch(
-          'https://mantenipro-api-1tyv.onrender.com/users',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        const data = await response.json()
-        if (data.success) {
-          // Filtrar usuarios por rol
-          const usuariosFiltrados = data.data.users.filter(
-            (user) => user.role === 'tecnico'
-          )
-          setUsuarios(usuariosFiltrados)
-        } else {
-          console.error('Error al obtener usuarios:', data.error)
-        }
-      } catch (error) {
-        console.error('Error al hacer la solicitud:', error)
-      }
+    const fetchData = async () => {
+      const tecnicos = await fetchTechnician()
+      setTecnicos(tecnicos)
     }
-    fetchUsuarios()
+
+    fetchData()
+
+    const interval = setInterval(() => {
+      fetchData()
+    }, 3000) // Actualiza cada 3 segundos
+
+    return () => clearInterval(interval)
   }, [])
 
   const handleSortChange = (criteria) => {
@@ -61,12 +46,13 @@ const CatalogoDeTecnicos = () => {
   }
 
   const handleUserDelete = (userId) => {
-    setUsuarios((prevUsuarios) =>
-      prevUsuarios.filter((user) => user._id !== userId)
+    setUsuarios((prevTecnicos) =>
+      prevTecnicos.filter((user) => user._id !== userId)
     )
+    fetchTechnician()
   }
 
-  const sortedUsuarios = [...usuarios].sort((a, b) => {
+  const sortedTecnicos = [...tecnicos].sort((a, b) => {
     if (sortCriteria === 'A a la Z') {
       return a.name.localeCompare(b.name)
     } else if (sortCriteria === 'Z a la A') {
@@ -79,7 +65,7 @@ const CatalogoDeTecnicos = () => {
     return 0
   })
 
-  const filteredUsuarios = sortedUsuarios.filter((user) =>
+  const filteredTecnicos = sortedTecnicos.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -124,8 +110,8 @@ const CatalogoDeTecnicos = () => {
         </div>
 
         <div className='animate-fadeIn h-[30rem] w-full space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
-          {filteredUsuarios.length > 0 ? (
-            filteredUsuarios.map((user, index) => (
+          {filteredTecnicos.length > 0 ? (
+            filteredTecnicos.map((user, index) => (
               <UserCard key={index} user={user} onDelete={handleUserDelete} />
             ))
           ) : (

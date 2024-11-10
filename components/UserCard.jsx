@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { Source_Sans_3 } from 'next/font/google'
-import { deleteUser } from '../pages/api/api'
+import { deleteUser, unlockUser } from '../pages/api/api'
 import { toast, Toaster } from 'sonner'
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -72,6 +72,29 @@ const UserCard = ({ user, onDelete }) => {
     setInputValue('')
   }
 
+  const handleUnlockClick = async () => {
+    try {
+      const response = await unlockUser(user.email)
+
+      if (response.success) {
+        toast.success('Usuario desbloqueado exitosamente', {
+          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+          style: {
+            fontSize: '20px',
+            padding: '20px',
+            maxWidth: '90vw',
+            width: 'auto'
+          }
+        })
+      } else {
+        toast.error(`Error al desbloquear usuario: ${response.error}`)
+      }
+    } catch (error) {
+      toast.error(`Error al desbloquear usuario: ${error.message}`)
+    }
+   }
+
+
   return (
     <div>
       <Toaster />
@@ -79,10 +102,10 @@ const UserCard = ({ user, onDelete }) => {
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`mb-4 flex items-center justify-between rounded-lg bg-[#FAFAFA] p-4 shadow-md transition-all duration-300 md:p-4 ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66] text-white' : ''} ${sourceSans3.className} ${isHovered ? 'shadow-lg' : ''} cursor-pointer`}
+        className={`mb-2 flex items-center justify-between rounded-lg bg-[#FAFAFA] p-4 shadow-md transition-all duration-300 md:p-4 ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66] text-white' : ''} ${sourceSans3.className} ${isHovered ? 'shadow-lg' : ''} cursor-pointer`}
       >
         {/* Imagen del Usuario */}
-        <div className='flex-shrink-0'>
+        <div className='hidden flex-shrink-0 sm:block'>
           <Image
             src='/profile.jpg'
             alt={user.foto}
@@ -93,10 +116,10 @@ const UserCard = ({ user, onDelete }) => {
         </div>
 
         {/* Información del Usuario */}
-        <div className='ml-4 flex flex-grow justify-between'>
+        <div className='flex flex-grow justify-between sm:ml-2 lg:ml-4'>
           <div className='flex flex-1 flex-col justify-center'>
             <span
-              className={`text-lg font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'} truncate sm:hidden`}
+              className={`text-sm font-bold transition-colors duration-300 lg:text-lg ${isHovered ? 'text-white' : 'text-black'} truncate sm:hidden`}
               style={{ maxWidth: '100px' }} // Ancho fijo para resoluciones bajas
             >
               {user.name}
@@ -125,18 +148,46 @@ const UserCard = ({ user, onDelete }) => {
               {user.email}
             </span>
           </div>
-          
+
           {/* Estado de la cuenta */}
-          <div className='ml-2 hidden flex-col justify-center md:flex'>
+          <div className='ml-2 flex-col justify-center'>
+            <span className='md:hidden items-center'>
+              {user.accountStatus ? (
+                <Image
+                  src='/icon/check.png'
+                  alt='Edit'
+                  width={25}
+                  height={25}
+                />
+              ) : (
+                <Image
+                  src='/icon/notcheck.png'
+                  alt='Edit'
+                  width={25}
+                  height={25}
+                />
+              )}
+            </span>
             <span
-              className={`rounded-lg px-2 py-1 transition-colors duration-300 ${user.accountStatus ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
+              className={`hidden rounded-lg px-2 py-1 transition-colors duration-300 md:block ${user.accountStatus ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
             >
               {user.accountStatus ? 'Verificado' : 'No verificado'}
             </span>
           </div>
         </div>
 
+        {/* Botones tablet hacia arriba*/}
         <div className='ml-12 flex flex-shrink-0 space-x-4'>
+          <button 
+          onClick={handleUnlockClick}
+          className='hidden rounded-lg bg-gray-200 p-3 transition-all duration-300 hover:bg-white sm:block'>
+            <Image
+              src={user.unlockRequested ? '/icon/lock.png' : '/icon/unlock.png'}
+              alt={user.unlockRequested ? 'Lock' : 'Unlock'}
+              width={14}
+              height={20}
+            />
+          </button>
           <button
             onClick={handleEditClick}
             className='hidden rounded-lg bg-gray-200 p-2 transition-all duration-300 hover:bg-white sm:block'
@@ -161,7 +212,16 @@ const UserCard = ({ user, onDelete }) => {
           </button>
         </div>
 
-        <div className='ml-6 flex flex-shrink-0 space-x-4 sm:hidden'>
+        {/* Botones para celular*/}
+        <div className='ml-2 flex flex-shrink-0 space-x-4 sm:hidden'>
+          <button className='rounded-lg bg-gray-200 p-1 transition-all duration-300 hover:bg-white'>
+            <Image
+              src={user.unlockRequested ? '/icon/lock.png' : '/icon/unlock.png'}
+              alt={user.unlockRequested ? 'Lock' : 'Unlock'}
+              width={12}
+              height={18}
+            />
+          </button>
           <button
             onClick={handleEditClick}
             className='rounded-lg bg-gray-200 p-1 transition-all duration-300 hover:bg-white'

@@ -41,16 +41,30 @@ const PasswordRecoveryForm = ({ textColor, bgColor }) => {
         }, 4000) // Espera 2 segundos antes de redirigir// Redirige al login después de enviar el correo
       } else {
         // Si hay error en la respuesta
-        toast.error('Error al enviar correo de recuperación')
+        toast.error(`${response.message}`)
         setError('email', {
           type: 'manual',
-          message: 'Correo no encontrado'
+          message: response.message
         })
       }
     } catch (error) {
       // Manejo de errores de red o API
-      toast.error('Error al enviar correo de recuperación')
-      console.error('[Password recovery error]', error)
+      toast.error(`${error.message}, favor de revisar el correo electronico para reestablecimiento de contraseña`, {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          width: 'auto'
+        }
+      })
+      setTimeout(() => {
+        router.push('/inicioSesion') // Redirige al resetPassword después de enviar el correo
+      }, 5000)
+      setError('email', {
+        type: 'manual',
+        message: error.message
+      })
     }
   }
 

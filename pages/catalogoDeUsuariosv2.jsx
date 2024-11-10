@@ -6,7 +6,7 @@ import UserCard from '../components/UserCard'
 import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import AddUser from '@/components/AddUser'
-
+import { fetchUsers } from '@/pages/api/api'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -17,6 +17,7 @@ const CatalogoDeUsuarios = () => {
   const [usuarios, setUsuarios] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [sortCriteria, setSortCriteria] = useState('')
+  
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -27,35 +28,18 @@ const CatalogoDeUsuarios = () => {
   }
 
   useEffect(() => {
-    const fetchUsuarios = async () => {
-      try {
-        const token = localStorage.getItem('token') // Reemplaza con tu token real
-        const response = await fetch(
-          'https://mantenipro-api-1tyv.onrender.com/users',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        const data = await response.json()
-        console.log('Respuesta de la API:', data)
-        if (data.success) {
-          // Filtrar usuarios por rol
-          const usuariosFiltrados = data.data.users.filter(
-            (user) => user.role === 'usuario'
-          )
-          setUsuarios(usuariosFiltrados)
-        } else {
-          console.error('Error al obtener usuarios:', data.error)
-        }
-      } catch (error) {
-        console.error('Error al hacer la solicitud:', error)
-      }
+    const fetchData = async () => {
+      const usuarios = await fetchUsers()
+      setUsuarios(usuarios)
     }
-    fetchUsuarios()
+
+    fetchData()
+
+    const interval = setInterval(() => {
+      fetchData()
+    }, 3000) // Actualiza cada 3 segundos
+
+    return () => clearInterval(interval)
   }, [])
 
   const handleSortChange = (criteria) => {
@@ -66,6 +50,7 @@ const CatalogoDeUsuarios = () => {
     setUsuarios((prevUsuarios) =>
       prevUsuarios.filter((user) => user._id !== userId)
     )
+    fetchUsers()
   }
 
   const sortedUsuarios = [...usuarios].sort((a, b) => {
@@ -124,7 +109,7 @@ const CatalogoDeUsuarios = () => {
           </div>
         </div>
 
-        <div className='animate-fadeIn h-[30rem] w-full space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
+        <div className='animate-fadeIn h-[30rem] w-full space-y-8 overflow-y-auto rounded-lg bg-white p-4 shadow-xl scrollbar-hide'>
           {filteredUsuarios.length > 0 ? (
             filteredUsuarios.map((user, index) => (
               <UserCard key={index} user={user} onDelete={handleUserDelete} />
