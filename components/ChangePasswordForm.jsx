@@ -5,7 +5,6 @@ import { changePassword } from '../pages/api/api'
 import { Toaster, toast } from 'sonner'
 import { useRouter } from 'next/router'
 
-
 const PasswordChangeForm = () => {
   const router = useRouter()
   const [formData, setFormData] = useState({
@@ -25,11 +24,11 @@ const PasswordChangeForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const passwordRequirements = [
-    { id: 1, text: 'At least 8 characters', regex: /.{8,}/ },
-    { id: 2, text: 'Contains uppercase letter', regex: /[A-Z]/ },
-    { id: 3, text: 'Contains lowercase letter', regex: /[a-z]/ },
-    { id: 4, text: 'Contains number', regex: /[0-9]/ },
-    { id: 5, text: 'Contains special character', regex: /[!@#$%^&*]/ }
+    { id: 1, text: 'Al menos 8 caracteres', regex: /.{8,}/ },
+    { id: 2, text: 'Contiene letra mayúscula', regex: /[A-Z]/ },
+    { id: 3, text: 'Contiene letra minúscula', regex: /[a-z]/ },
+    { id: 4, text: 'Contiene números', regex: /[0-9]/ },
+    { id: 5, text: 'Contiene un carácter especial', regex: /[!@#$%^&*]/ }
   ]
 
   const validatePassword = (password) => {
@@ -50,7 +49,7 @@ const PasswordChangeForm = () => {
 
     if (formData.newPassword) {
       if (!validatePassword(formData.newPassword)) {
-        newErrors.newPassword = 'Password does not meet requirements'
+        newErrors.newPassword = 'La contraseña no cumple los requisitos'
       }
     }
 
@@ -58,7 +57,7 @@ const PasswordChangeForm = () => {
       formData.confirmPassword &&
       formData.newPassword !== formData.confirmPassword
     ) {
-      newErrors.confirmPassword = 'Passwords do not match'
+      newErrors.confirmPassword = 'Las contraseñas no coinciden'
     }
 
     setErrors(newErrors)
@@ -83,7 +82,7 @@ const PasswordChangeForm = () => {
           confirmPassword: ''
         })
         toast.success(
-          result.message || 'Password changed successfully',
+          result.message || 'La contraseña se cambió correctamente',
           {
             position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
             style: {
@@ -99,8 +98,8 @@ const PasswordChangeForm = () => {
         )
       } else {
         // Handle errors returned by the API
-        setErrors({ apiError: result.message || 'Error changing password' })
-        toast.error(result.message || 'Error changing password')
+        setErrors({ apiError: result.message || 'Error al cambiar la contraseña' })
+        toast.error(result.message || 'Error al cambiar la contraseña')
       }
     } catch (error) {
       setErrors({ apiError: error.message })
@@ -116,7 +115,7 @@ const PasswordChangeForm = () => {
       <Toaster />
       <div className='w-full max-w-2xl space-y-6 rounded-xl bg-white p-8 shadow-xl'>
         <h2 className='mb-8 text-center text-3xl font-bold text-gray-800'>
-          Change Password
+          Cambio de Contraseña
         </h2>
 
         <form onSubmit={handleSubmit} className='space-y-6'>
@@ -126,7 +125,7 @@ const PasswordChangeForm = () => {
               htmlFor='currentPassword'
               className='mb-2 block text-sm font-medium text-gray-700'
             >
-              Current Password
+              Contraseña actual
             </label>
             <div className='relative'>
               <input
@@ -158,7 +157,7 @@ const PasswordChangeForm = () => {
               htmlFor='newPassword'
               className='mb-2 block text-sm font-medium text-gray-700'
             >
-              New Password
+              Nueva contraseña
             </label>
             <div className='relative'>
               <input
@@ -218,7 +217,7 @@ const PasswordChangeForm = () => {
               htmlFor='confirmPassword'
               className='mb-2 block text-sm font-medium text-gray-700'
             >
-              Confirm New Password
+              Confirmar nueva contraseña
             </label>
             <div className='relative'>
               <input
@@ -263,10 +262,10 @@ const PasswordChangeForm = () => {
             {isLoading ? (
               <>
                 <ImSpinner8 className='animate-spin' />
-                <span>Changing Password...</span>
+                <span>Guardando...</span>
               </>
             ) : (
-              'Change Password'
+              'Cambiar Contraseña'
             )}
           </button>
         </form>

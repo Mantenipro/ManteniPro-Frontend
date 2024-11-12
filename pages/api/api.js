@@ -10,9 +10,9 @@ export async function login(email, password) {
         password
       })
     })
-  
+
     const json = await response.json()
-  
+
     if (!response.ok) {
       throw new Error(json.message || 'Error al iniciar sesión')
     }
@@ -168,7 +168,7 @@ export const resetPassword = async (data) => {
 
 export async function changePassword(data) {
   try {
-        const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const response = await fetch(`${API_URL}/changePassword`, {
       method: 'POST',
@@ -188,7 +188,7 @@ export async function changePassword(data) {
     console.error('Error al cambiar la contraseña:', error)
     throw error
   }
- }
+}
 
 export async function fetchProducts() {
   try {
@@ -296,12 +296,13 @@ export const updateUserData = async (data) => {
 }
 
 export const updateUser = async (userId, userData) => {
-console.log('Datos del usuario:', userData)
+  console.log('Datos del usuario:', userData)
   try {
     const response = await fetch(`${API_URL}/users/${userId}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'},
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(userData)
     })
 
@@ -554,6 +555,7 @@ export const fetchEquimentById = async (equipmentId) => {
       }
     )
     const data = await response.json()
+    console.log(data)
     if (response.ok) {
       return data
     } else {
@@ -590,5 +592,68 @@ export const unlockUser = async (email) => {
   } catch (error) {
     return { success: false, error: error.message }
     console.error('Error al realizar la solicitud:', error)
+  }
+}
+
+export const getReportById = async (reportId) => {
+  try {
+    const response = await fetch(`${API_URL}/report/${reportId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    console.log(data)
+    if (response.ok) {
+      return data
+    } else {
+      console.error('Error al obtener reporte:', data.message)
+      return null
+    }
+  } catch (error) {
+    console.error('Error al hacer la solicitud:', error)
+    return null
+  }
+}
+
+export async function fetchComments(userId, reportId) {
+  try {
+    const response = await fetch(
+      `${API_URL}/comments?userId=${userId}&reportId=${reportId}`
+    )
+    if (!response.ok) {
+      throw new Error('Error al obtener los comentarios')
+    }
+    const comments = await response.json()
+    console.log(comments)
+    return comments
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+
+export async function addComment(userId, reportId, content) {
+  const data = {
+    content: content
+  }
+  try {
+    const response = await fetch(
+      `${API_URL}/comments?userId=${userId}&reportId=${reportId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+    )
+    if (!response.ok) {
+      throw new Error('Error al agregar el comentario')
+    }
+    const newComment = await response.json()
+    console.log(newComment)
+  } catch (error) {
+    console.error(error.message)
   }
 }

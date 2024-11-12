@@ -1,32 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import {
+  FaEye,
+  FaEyeSlash,
+  FaCheck,
+  FaTimes
+} from 'react-icons/fa'
+import { ImSpinner8 } from 'react-icons/im'
 import { resetPassword } from '../pages/api/api'
 import { useRouter } from 'next/router'
-import { toast } from 'sonner'
+import { toast, Toaster } from 'sonner'
 
 const ResetPasswordForm = ({ textColor, bgColor }) => {
-  const [formData, setFormData] = useState({
-    password: '',
-    confirmPassword: ''
-  })
-
-  const [errors, setErrors] = useState({
-    password: '',
-    confirmPassword: ''
-  })
-
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [token, setToken] = useState(null)
   const router = useRouter()
+  const [formData, setFormData] = useState({
+    newPassword: '',
+    confirmPassword: ''
+  })
+
+  const [showPasswords, setShowPasswords] = useState({
+    new: false,
+    confirm: false
+  })
+
+  
+   const [errors, setErrors] = useState({})
+   const [isLoading, setIsLoading] = useState(false)
+   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [token, setToken] = useState(null)
+
+  const passwordRequirements = [
+    { id: 1, text: 'Al menos 8 caracteres', regex: /.{8,}/ },
+    { id: 2, text: 'Contiene letra mayúscula', regex: /[A-Z]/ },
+    { id: 3, text: 'Contiene letra minúscula', regex: /[a-z]/ },
+    { id: 4, text: 'Contiene números', regex: /[0-9]/ },
+    { id: 5, text: 'Contiene un carácter especial', regex: /[!@#$%^&*]/ }
+  ]
 
   const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    return passwordRegex.test(password)
+    return passwordRequirements.every((req) => req.regex.test(password))
   }
 
   // Esperar hasta que `router.query` esté disponible
@@ -37,192 +48,206 @@ const ResetPasswordForm = ({ textColor, bgColor }) => {
     }
   }, [router.isReady, router.query])
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
+ const handleInputChange = (e) => {
+   const { name, value } = e.target
+   setFormData((prev) => ({ ...prev, [name]: value }))
+ }
 
-    if (name === 'password') {
-      if (!validatePassword(value)) {
-        setErrors((prev) => ({
-          ...prev,
-          password:
-            'La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.'
-        }))
-        toast.error(
-          'La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.',
-          {
-            position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
-            style: {
-              fontSize: '20px',
-              padding: '20px',
-              maxWidth: '90vw',
-              width: 'auto'
-            }, duration: 1000
-          }
-        )
-      } else {
-        setErrors((prev) => ({ ...prev, password: '' }))
-      }
-    }
+ const togglePasswordVisibility = (field) => {
+   setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }))
+ }
 
-    if (name === 'confirmPassword') {
-      if (value !== formData.password) {
-        setErrors((prev) => ({
-          ...prev,
-          confirmPassword: 'Las contraseñas no coinciden'
-        }))
-      } else {
-        setErrors((prev) => ({ ...prev, confirmPassword: '' }))
-      }
-    }
-  }
+ useEffect(() => {
+   const newErrors = {}
+
+   if (formData.newPassword) {
+     if (!validatePassword(formData.newPassword)) {
+       newErrors.newPassword = 'La contraseña no cumple los requisitos'
+     }
+   }
+
+   if (
+     formData.confirmPassword &&
+     formData.newPassword !== formData.confirmPassword
+   ) {
+     newErrors.confirmPassword = 'Las contraseñas no coinciden'
+   }
+
+   setErrors(newErrors)
+ }, [formData])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!errors.password && !errors.confirmPassword) {
-      setIsLoading(true)
+    setIsSubmitting(true)
+    setIsLoading(true)
       try {
-        const response = await resetPassword({
+        const result = await resetPassword({
           token: token,
-          newPassword: formData.password
+          newPassword: formData.newPassword
         })
-
-        if (response.success) {
-          toast.success('Contraseña cambiada exitosamente', {
-            position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
-            style: {
-              fontSize: '20px',
-              padding: '20px',
-              maxWidth: '90vw',
-              width: 'auto'
-            }
+        if (result.success === true) {
+          // Reset form after successful submission
+          setFormData({
+            newPassword: '',
+            confirmPassword: ''
           })
-          setTimeout(() => {
-            router.push('/inicioSesion')
-          }, 3000)
-          setIsSuccess(true)
-        } else {
-          toast.error('Error al cambiar la contraseña')
-          setErrors((prev) => ({
-            ...prev,
-            root: {
-              credentials: {
-                type: 'manual',
-                message: 'Error al cambiar la contraseña'
+          toast.success(
+            result.message || 'La contraseña se cambió correctamente',
+            {
+              position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+              style: {
+                fontSize: '20px',
+                padding: '20px',
+                maxWidth: '90vw', // Ajuste para pantallas pequeñas
+                width: 'auto'
               }
-            }
-          }))
+            },
+            setTimeout(() => {
+              router.push('/inicioSesion') // Redirige al resetPassword después de enviar el correo
+            }, 2000)
+          )
+        } else {
+          // Handle errors returned by the API
+          setErrors({
+            apiError: result.message || 'Error al cambiar la contraseña'
+          })
+          toast.error(result.message || 'Error al cambiar la contraseña')
         }
       } catch (error) {
-        toast.error('Error al cambiar la contraseña')
-        console.error('[Change password error]', error)
+        setErrors({ apiError: error.message })
+        toast.error(error.message)
       } finally {
         setIsLoading(false)
+        setIsSubmitting(false)
       }
-    }
   }
 
   return (
-    <div className='flex items-center justify-center'>
-      <div className='w-full p-8'>
-        <div className='text-center'>
-          <h1 className={`mt-6 text-3xl font-extrabold ${textColor}`}>
-            Restablecer contraseña
-          </h1>
-          <p className={`mt-2 text-sm ${textColor}`}>
-            Ingrese su nueva contraseña a continuación
-          </p>
-        </div>
+    <div className='flex min-h-screen items-center justify-center bg-slate-100 p-4'>
+      <Toaster />
+      <div className='w-full max-w-2xl space-y-6 rounded-xl bg-white p-8 shadow-xl'>
+        <h2 className='mb-8 text-center text-3xl font-bold text-gray-800'>
+          Cambio de Contraseña
+        </h2>
 
-        {isSuccess ? (
-          <div className='relative flex items-center justify-center space-x-2 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700 transition-all duration-500 ease-in-out'>
-            <FaCheckCircle className='text-green-500' />
-            <span>Restablecimiento de contraseña exitoso!</span>
-          </div>
-        ) : (
-          <form className='mt-8 space-y-6' onSubmit={handleSubmit}>
-            <div className='space-y-4 rounded-md shadow-sm'>
-              <div className='relative'>
-                <label htmlFor='password' className='sr-only'>
-                  New Password
-                </label>
-                <input
-                  id='password'
-                  name='password'
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  className={`relative block w-full appearance-none rounded-lg border px-3 py-2 ${errors.password ? 'border-red-700' : 'border-gray-300'} text-gray-900 placeholder-gray-500 transition-colors duration-200 focus:z-10 focus:border-green-600 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-                  placeholder='Nueva contraseña
-'
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  aria-label='New Password'
-                />
-                <button
-                  type='button'
-                  className='absolute inset-y-0 right-0 flex items-center pr-3'
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <FaEyeSlash className='h-5 w-5 text-gray-400' />
-                  ) : (
-                    <FaEye className='h-5 w-5 text-gray-400' />
-                  )}
-                </button>
-              </div>
-
-              <div className='relative'>
-                <label htmlFor='confirmPassword' className='sr-only'>
-                  Confirm Password
-                </label>
-                <input
-                  id='confirmPassword'
-                  name='confirmPassword'
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  required
-                  className={`relative block w-full appearance-none rounded-lg border px-3 py-2 ${errors.confirmPassword ? 'border-red-600' : 'border-gray-300'} text-gray-900 placeholder-gray-500 transition-colors duration-200 focus:z-10 focus:border-green-600 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-                  placeholder='Confirmar Contraseña'
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  aria-label='Confirm Password'
-                />
-                <button
-                  type='button'
-                  className='absolute inset-y-0 right-0 flex items-center pr-3'
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? (
-                    <FaEyeSlash className='h-5 w-5 text-gray-400' />
-                  ) : (
-                    <FaEye className='h-5 w-5 text-gray-400' />
-                  )}
-                </button>
-                {errors.confirmPassword && (
-                  <p className='mt-1 max-w-xs break-words text-xs text-red-500'>
-                    {errors.confirmPassword}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
+        <form onSubmit={handleSubmit} className='space-y-6'>
+          {/* New Password Field */}
+          <div>
+            <label
+              htmlFor='newPassword'
+              className='mb-2 block text-sm font-medium text-gray-700'
+            >
+              Nueva contraseña
+            </label>
+            <div className='relative'>
+              <input
+                type={showPasswords.new ? 'text' : 'password'}
+                id='newPassword'
+                name='newPassword'
+                value={formData.newPassword}
+                onChange={handleInputChange}
+                className={`w-full rounded-lg border px-4 py-3 ${errors.newPassword ? 'border-red-500' : 'border-gray-300'} transition-all focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                aria-label='New Password'
+                required
+              />
               <button
-                type='submit'
-                disabled={
-                  isLoading ||
-                  Object.values(errors).some((error) => error !== '')
+                type='button'
+                onClick={() => togglePasswordVisibility('new')}
+                className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700'
+                aria-label={
+                  showPasswords.new ? 'Hide password' : 'Show password'
                 }
-                className='group relative flex w-full justify-center rounded-md border border-transparent bg-[#EEE727] px-4 py-2 text-sm font-medium text-black transition-colors duration-200 hover:bg-[#FFEE00] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-300'
               >
-                {isLoading ? (
-                  <AiOutlineLoading3Quarters className='h-5 w-5 animate-spin' />
-                ) : (
-                  'Enviar'
-                )}
+                {showPasswords.new ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-          </form>
-        )}
+
+            {/* Password Requirements */}
+            <div className='mt-4 space-y-2'>
+              {passwordRequirements.map((req) => (
+                <div
+                  key={req.id}
+                  className='flex items-center text-sm'
+                  aria-label={req.text}
+                >
+                  {formData.newPassword &&
+                  req.regex.test(formData.newPassword) ? (
+                    <FaCheck className='mr-2 text-green-500' />
+                  ) : (
+                    <FaTimes className='mr-2 text-red-500' />
+                  )}
+                  <span
+                    className={
+                      formData.newPassword &&
+                      req.regex.test(formData.newPassword)
+                        ? 'text-green-500'
+                        : 'text-gray-500'
+                    }
+                  >
+                    {req.text}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Confirm Password Field */}
+          <div>
+            <label
+              htmlFor='confirmPassword'
+              className='mb-2 block text-sm font-medium text-gray-700'
+            >
+              Confirmar nueva contraseña
+            </label>
+            <div className='relative'>
+              <input
+                type={showPasswords.confirm ? 'text' : 'password'}
+                id='confirmPassword'
+                name='confirmPassword'
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className={`w-full rounded-lg border px-4 py-3 ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} transition-all focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                aria-label='Confirm New Password'
+                required
+              />
+              <button
+                type='button'
+                onClick={() => togglePasswordVisibility('confirm')}
+                className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700'
+                aria-label={
+                  showPasswords.confirm ? 'Hide password' : 'Show password'
+                }
+              >
+                {showPasswords.confirm ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+            {errors.confirmPassword && (
+              <p className='mt-1 text-sm text-red-500' role='alert'>
+                {errors.confirmPassword}
+              </p>
+            )}
+          </div>
+
+          <button
+            type='submit'
+            disabled={
+              isLoading ||
+              Object.keys(errors).length > 0 ||
+              !formData.newPassword ||
+              !formData.confirmPassword
+            }
+            className='flex w-full items-center justify-center space-x-2 rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+          >
+            {isLoading ? (
+              <>
+                <ImSpinner8 className='animate-spin' />
+                <span>Guardando...</span>
+              </>
+            ) : (
+              'Cambiar Contraseña'
+            )}
+          </button>
+        </form>
       </div>
     </div>
   )

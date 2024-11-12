@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function TicketCard({ report }) {
+    const router = useRouter()
   const { title, description, userName, created_at, priority, status, _id: ticketId } = report;
   const [isHovered, setIsHovered] = useState(false);
 
+
+  const handleEditClick = (e) => {
+    e.stopPropagation()
+    console.log('Edit button clicked', { ticketId });
+    router.push({
+      pathname: '/StatusDetail',
+      query: { ticketId }
+    })
+  }
+
   return (
-    <Link href={`/StatusDetail/${ticketId}`}>
       <button
         className={`mb-1 rounded-lg p-2 shadow-md transition-all duration-200 
           ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'} 
@@ -21,6 +31,7 @@ function TicketCard({ report }) {
           flexDirection: 'column',
           justifyContent: 'space-between',
         }}
+        onClick={handleEditClick}
       >
         <div className='absolute top-2 left-2'>
           <span 
@@ -63,7 +74,6 @@ function TicketCard({ report }) {
           </span>
         </div>
       </button>
-    </Link>
   );
 }
 

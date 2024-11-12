@@ -24,11 +24,11 @@ const PasswordChangeFormFirst = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const passwordRequirements = [
-    { id: 1, text: 'At least 8 characters', regex: /.{8,}/ },
-    { id: 2, text: 'Contains uppercase letter', regex: /[A-Z]/ },
-    { id: 3, text: 'Contains lowercase letter', regex: /[a-z]/ },
-    { id: 4, text: 'Contains number', regex: /[0-9]/ },
-    { id: 5, text: 'Contains special character', regex: /[!@#$%^&*]/ }
+    { id: 1, text: 'Al menos 8 caracteres', regex: /.{8,}/ },
+    { id: 2, text: 'Contiene letra mayúscula', regex: /[A-Z]/ },
+    { id: 3, text: 'Contiene letra minúscula', regex: /[a-z]/ },
+    { id: 4, text: 'Contiene números', regex: /[0-9]/ },
+    { id: 5, text: 'Contiene un carácter especial', regex: /[!@#$%^&*]/ }
   ]
 
   const validatePassword = (password) => {
@@ -115,7 +115,7 @@ const PasswordChangeFormFirst = () => {
       <Toaster />
       <div className='w-full max-w-2xl space-y-6 rounded-xl bg-white p-8 shadow-xl'>
         <h2 className='mb-8 text-center text-3xl font-bold text-gray-800'>
-          Change Password
+          Cambio de Contraseña
         </h2>
 
         <form onSubmit={handleSubmit} className='space-y-6'>
@@ -125,7 +125,7 @@ const PasswordChangeFormFirst = () => {
               htmlFor='currentPassword'
               className='mb-2 block text-sm font-medium text-gray-700'
             >
-              Current Password
+              Contraseña actual
             </label>
             <div className='relative'>
               <input
@@ -157,7 +157,7 @@ const PasswordChangeFormFirst = () => {
               htmlFor='newPassword'
               className='mb-2 block text-sm font-medium text-gray-700'
             >
-              New Password
+              Nueva contraseña
             </label>
             <div className='relative'>
               <input
@@ -217,7 +217,7 @@ const PasswordChangeFormFirst = () => {
               htmlFor='confirmPassword'
               className='mb-2 block text-sm font-medium text-gray-700'
             >
-              Confirm New Password
+              Confirmar nueva contraseña
             </label>
             <div className='relative'>
               <input
@@ -262,10 +262,10 @@ const PasswordChangeFormFirst = () => {
             {isLoading ? (
               <>
                 <ImSpinner8 className='animate-spin' />
-                <span>Changing Password...</span>
+                <span>Guardando...</span>
               </>
             ) : (
-              'Change Password'
+              'Cambiar Contraseña'
             )}
           </button>
         </form>

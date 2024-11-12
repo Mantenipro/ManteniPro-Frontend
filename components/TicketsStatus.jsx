@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import { getAllUsers, getReportsByCompany } from '@/api/api';
 import TicketCard from './TicketCard';
@@ -116,8 +117,8 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
       {tickets.length === 0 ? (
         <p>No hay tickets para mostrar</p>
       ) : (
-        tickets.map((ticket) => (
-          <TicketCard key={ticket._id} report={ticket} />
+        tickets.map((ticket, index) => (
+          <TicketCard key={index} ticket={ticket} report={ticket} />
         ))
       )}
     </div>
