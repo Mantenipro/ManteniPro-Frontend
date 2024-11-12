@@ -617,11 +617,9 @@ export const getReportById = async (reportId) => {
   }
 }
 
-export async function fetchComments(userId, reportId) {
+export async function fetchComments(reportId) {
   try {
-    const response = await fetch(
-      `${API_URL}/comments?userId=${userId}&reportId=${reportId}`
-    )
+    const response = await fetch(`${API_URL}/comments?reportId=${reportId}`)
     if (!response.ok) {
       throw new Error('Error al obtener los comentarios')
     }
@@ -633,26 +631,53 @@ export async function fetchComments(userId, reportId) {
   }
 }
 
-export async function addComment(userId, reportId, content) {
+export async function addComment(reportId, content) {
+  const token = localStorage.getItem('token') // Obtener el token del almacenamiento local
   const data = {
     content: content
   }
   try {
-    const response = await fetch(
-      `${API_URL}/comments?userId=${userId}&reportId=${reportId}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }
-    )
+    const response = await fetch(`${API_URL}/comments?reportId=${reportId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
     if (!response.ok) {
       throw new Error('Error al agregar el comentario')
     }
     const newComment = await response.json()
     console.log(newComment)
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+
+export async function addAssignment(technicianId, reportId, priority, status) {
+  const data = {
+    technician: technicianId,
+    report: reportId,
+    priority: priority,
+    status: status
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/assignment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al agregar la asignación')
+    }
+
+    const newAssignment = await response.json()
+    console.log(newAssignment)
   } catch (error) {
     console.error(error.message)
   }

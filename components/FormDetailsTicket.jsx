@@ -9,6 +9,7 @@ import {
   FaPaperPlane
 } from 'react-icons/fa'
 import { fetchComments, addComment } from '../pages/api/api'
+import { formatDistanceToNow } from 'date-fns'
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
@@ -22,10 +23,7 @@ const StatusDetailLayout = ({ initialData }) => {
     if (report) {
       const fetchInitialComments = async () => {
         try {
-          const fetchedComments = await fetchComments(
-            report.user._id,
-            report._id
-          )
+          const fetchedComments = await fetchComments(report._id)
 
           console.log('fetchedComments:', fetchedComments)
           setComments(Array.isArray(fetchedComments) ? fetchedComments : [])
@@ -54,15 +52,19 @@ const StatusDetailLayout = ({ initialData }) => {
     e.preventDefault()
     if (!newComment.trim()) return
 
-    const newCommentObj = await addComment(
-      report.user._id,
-      report._id,
-      newComment
-    )
+    const newCommentObj = await addComment(report._id, newComment)
     if (newCommentObj) {
       setComments([...comments, newCommentObj])
       setNewComment('')
     }
+  }
+
+  const CommentTime = ({ createdAt }) => {
+    return (
+      <span>
+        {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+      </span>
+    )
   }
 
   return (
@@ -74,24 +76,36 @@ const StatusDetailLayout = ({ initialData }) => {
               <h3 className='p-2 text-lg font-bold'>{report.title}</h3>
             </div>
             <div className='mb-3 mt-2 flex flex-wrap space-x-4'>
-              <div className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'>
+              <button
+                className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+                onClick={() => {
+                  document
+                    .getElementById('comments-section')
+                    .scrollIntoView({ behavior: 'smooth' })
+                }}
+              >
                 <img
                   src='/comment.svg'
                   alt='icon'
                   className='mr-2 h-4 w-4 object-cover'
                 />
                 Comentarios
-              </div>
-              <div className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'>
+              </button>
+              {/* <div className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'>
                 <img
                   src='/Pencil.svg'
                   alt='icon'
                   className='mr-2 h-5 w-5 object-cover'
                 />
                 Editar
-              </div>
+              </div> */}
               <Link
-                href='/AsignaciondeTicket'
+                href={{
+                  pathname: '/AsignaciondeTicket',
+                  query: {
+                    ticketId: report._id
+                  }
+                }}
                 className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
               >
                 <img
@@ -213,7 +227,7 @@ const StatusDetailLayout = ({ initialData }) => {
           <div className='mx-4 my-4 h-auto border-b-2'></div>
 
           {/* Comments Section */}
-          <div className=' bg-white p-6'>
+          <div id='comments-section' className='bg-white p-6'>
             <h3 className='mb-4 text-xl font-semibold text-gray-800'>
               Comentarios
             </h3>
@@ -235,7 +249,7 @@ const StatusDetailLayout = ({ initialData }) => {
                         {comment.author.name}
                       </div>
                       <span className='text-sm text-gray-500'>
-                        {new Date(comment.created_at).toLocaleDateString()}
+                        {<CommentTime createdAt={comment.created_at} />}
                       </span>
                       <p className='mt-1 text-gray-700'>{comment.content}</p>
                     </div>
