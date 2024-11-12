@@ -35,7 +35,6 @@ const TicketsStatus = () => {
           if (userId) {
             const userReports = await getReportsByCompany(userId, token);
 
-            // Agregar nombre del usuario al reporte
             const updatedReports = userReports.map(report => {
               const reportUser = userList.find(user => user._id === report.userId);
               return {
@@ -74,8 +73,9 @@ const TicketsStatus = () => {
   }
 
   return (
-    <div className="bg-[#F5F5F5] p-4 rounded-lg">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="bg-[#F5F5F5] p-2 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Ajustado el gap y margen entre columnas */}
         <StatusColumn
           title={sections[currentSection].title}
           tickets={sections[currentSection].tickets}
@@ -95,8 +95,8 @@ const TicketsStatus = () => {
 };
 
 const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, showNavigation }) => (
-  <div className="flex flex-col items-center group">
-    <div className="flex items-center justify-between w-full mb-4">
+  <div className="relative flex flex-col items-center group">
+    <div className="flex items-center justify-between w-full z-10">
       {showNavigation && (
         <button onClick={handlePrevSection} className="block md:hidden bg-gray-200 p-2 rounded-full">
           <img src="/icon/left-arrow-icon.png" alt="Left arrow" className="w-4 h-4" />
@@ -112,13 +112,15 @@ const StatusColumn = ({ title, tickets, handleNextSection, handlePrevSection, sh
         </button>
       )}
     </div>
-    <div className="w-full h-1 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-[#21262D] to-[#414B66]"></div>
-    <div className="w-full mt-4 group-hover:bg-opacity-100 h-auto md:h-[60vh] flex flex-col justify-center items-center overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+    <div className="w-full h-1 bg-gradient-to-r from-[#21262D] to-[#414B66] mb-4"></div>
+    <div className="w-full mt-8 md:h-[60vh] h-[60vh] flex flex-col justify-start items-center overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 relative z-0">
       {tickets.length === 0 ? (
         <p>No hay tickets para mostrar</p>
       ) : (
         tickets.map((ticket, index) => (
-          <TicketCard key={index} ticket={ticket} report={ticket} />
+          <div key={index} className="mb-1 w-full">
+            <TicketCard ticket={ticket} report={ticket} />
+          </div>
         ))
       )}
     </div>
