@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fa'
 import { fetchComments, addComment } from '../pages/api/api'
 import { formatDistanceToNow } from 'date-fns'
+import { es } from 'date-fns/locale'
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
@@ -21,19 +22,19 @@ const StatusDetailLayout = ({ initialData }) => {
 
   useEffect(() => {
     if (report) {
-      const fetchInitialComments = async () => {
+      const interval = setInterval(async () => {
         try {
           const fetchedComments = await fetchComments(report._id)
-
-          console.log('fetchedComments:', fetchedComments)
           setComments(Array.isArray(fetchedComments) ? fetchedComments : [])
         } catch (error) {
           console.error('Error fetching comments:', error)
         }
-      }
-      fetchInitialComments()
+      }, 3000) // Actualiza cada 3 segundos
+
+      // Limpiamos el intervalo cuando el componente se desmonta
+      return () => clearInterval(interval)
     }
-  }, [report])
+  }, [report]) // Dependencia en el reporte para que se ejecute solo cuando el reporte cambie
 
   if (!report) {
     return <div>Loading...</div>
@@ -52,17 +53,26 @@ const StatusDetailLayout = ({ initialData }) => {
     e.preventDefault()
     if (!newComment.trim()) return
 
-    const newCommentObj = await addComment(report._id, newComment)
-    if (newCommentObj) {
-      setComments([...comments, newCommentObj])
-      setNewComment('')
+    try {
+      const newCommentObj = await addComment(report._id, newComment)
+
+      if (newCommentObj) {
+        // Añadimos el nuevo comentario directamente al estado de comentarios
+        setComments((prevComments) => [...prevComments, newCommentObj])
+        setNewComment('') // Limpiamos el campo de entrada
+      }
+    } catch (error) {
+      console.error('Error al enviar el comentario:', error)
     }
   }
 
   const CommentTime = ({ createdAt }) => {
     return (
       <span>
-        {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+        {formatDistanceToNow(new Date(createdAt), {
+          addSuffix: true,
+          locale: es
+        })}
       </span>
     )
   }
@@ -237,14 +247,20 @@ const StatusDetailLayout = ({ initialData }) => {
                 comments.map((comment) => (
                   <div
                     key={comment._id}
-                    className='flex space-x-4 rounded-lg bg-gray-50 p-4 transition-all duration-300 hover:bg-gray-100'
+                    className={`flex items-start space-x-4 rounded-lg bg-gray-50 p-4 transition-all duration-300 hover:bg-gray-100 ${
+                      comment.author._id === report.user._id
+                        ? 'flex-row'
+                        : 'flex-row-reverse'
+                    }`}
                   >
                     <img
                       src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'
                       alt='user-avatar'
                       className='h-10 w-10 rounded-full object-cover'
                     />
-                    <div>
+                    <div
+                      className={`text-left ${comment.author._id === report.user._id ? '' : 'px-4 text-right'}`}
+                    >
                       <div className='text-sm font-semibold text-gray-800'>
                         {comment.author.name}
                       </div>
