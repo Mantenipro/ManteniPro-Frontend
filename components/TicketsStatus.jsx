@@ -1,6 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react'
-import { getAllUsers, getReportsByCompany, getReportsByUser } from '@/api/api'
+import {
+  getAllUsers,
+  getReportsByCompany,
+  getReportsByUser,
+  fetchReportsByTecnico
+} from '@/api/api'
 import TicketCard from './TicketCard'
 
 const TicketsStatus = () => {
@@ -37,7 +42,7 @@ const TicketsStatus = () => {
 
           if (userId && role === 'admin') {
             const userReports = await getReportsByCompany(userId, token)
-
+            console.log('Reportes de la empresa:', userReports)
             const updatedReports = userReports.map((report) => {
               const reportUser = userList.find(
                 (user) => user._id === report.userId
@@ -59,7 +64,7 @@ const TicketsStatus = () => {
                 (report) => report.status === 'completed'
               )
             })
-          } else if (userId && role !== 'admin') {
+          } else if (userId && role === 'usuario') {
             const userReports = await getReportsByUser(userId, token)
             console.log('Reportes del usuario:', userReports)
             setReports({
@@ -73,6 +78,37 @@ const TicketsStatus = () => {
                 (report) => report.status === 'completed'
               )
             })
+          } else if (userId && role === 'tecnico') {
+            try {
+              const tecnicoReports = await fetchReportsByTecnico()
+              console.log('Reportes del tecnico:', tecnicoReports)
+
+              if (Array.isArray(tecnicoReports)) {
+                setReports({
+                  enProceso: tecnicoReports.filter(
+                    (report) => report.status === 'in-progress'
+                  ),
+                  completados: tecnicoReports.filter(
+                    (report) => report.status === 'completed'
+                  )
+                })
+              } else {
+                console.error(
+                  'fetchAssignments no devolvió un array:',
+                  tecnicoReports
+                )
+                setReports({
+                  enProceso: [],
+                  completados: []
+                })
+              }
+            } catch (error) {
+              console.error('Error al obtener reportes del técnico:', error)
+              setReports({
+                enProceso: [],
+                completados: []
+              })
+            }
           }
         }
       } catch (error) {
@@ -101,9 +137,11 @@ const TicketsStatus = () => {
 
   return (
     <div className='rounded-lg bg-[#F5F5F5] p-2'>
-      <div className='mb-12 grid grid-cols-1 gap-8 md:grid-cols-3'>
+      <div
+        className={`mb-12 grid grid-cols-1 gap-8 ${userRole === 'admin' ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}
+      >
         {/* Ajustado el gap y margen entre columnas */}
-        {userRole === 'admin' || userRole === 'tecnico' ? (
+        {userRole === 'admin' ? (
           <>
             <StatusColumn
               title='Por hacer'
@@ -178,9 +216,10 @@ const StatusColumn = ({
     </div>
     <div className='mb-4 h-1 w-full bg-gradient-to-r from-[#21262D] to-[#414B66]'></div>
     <div className='scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 relative z-0 mt-8 flex h-[60vh] w-full flex-col items-center justify-start overflow-y-auto md:h-[60vh]'>
-      {tickets.length === 0 ? (
+      {tickets && tickets.length === 0 ? (
         <p>No hay tickets para mostrar</p>
       ) : (
+        tickets &&
         tickets.map((ticket, index) => (
           <div key={index} className='mb-1 w-full'>
             <TicketCard ticket={ticket} report={ticket} />

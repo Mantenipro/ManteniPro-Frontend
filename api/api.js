@@ -325,3 +325,21 @@ export async function getReportsByCompany(companyId, token) {
     throw error;
   }
 }
+
+export async function fetchReportsByTecnico() {
+  const token = localStorage.getItem('token') // Obtener el token del almacenamiento local
+  try {
+    const response = await fetch(`${API_URL}/report/tecnico`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Error al obtener los reportes')
+    }
+    const json = await response.json()
+    return json.data
+  } catch (error) {
+    console.error(error.message)
+  }
+}
