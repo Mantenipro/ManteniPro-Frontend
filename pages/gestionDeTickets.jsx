@@ -5,8 +5,7 @@ import Title from '@/components/Title';
 import InfoPanelCustomer from '@/components/InfoPanelCustomer';
 import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';
-import TicketClosed from '@/components/TicketClosed';
-import TicketDetail from '@/components/TicketDetail';
+
 
 const GestionDeTickets = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -118,7 +117,6 @@ const GestionDeTickets = () => {
 
         <section className="w-full mt-4">
           <div className="flex w-full h-[75vh] md:h-[80vh] p-4 overflow-hidden bg-white rounded-xl shadow-lg">
-            {!selectedTask && (
               <div className="flex flex-col w-full flex-1">
                 <div className="flex-1">
                   <div className="flex flex-col mb-4">
@@ -159,22 +157,6 @@ const GestionDeTickets = () => {
                   </div>
                 </div>
               </div>
-            )}
-            {selectedTask && (
-              <div className="flex flex-col flex-1 w-full">
-                <button
-                  onClick={handleBackClick} 
-                  className="text-lg font-bold text-blue-500 mb-4 self-start"
-                >
-                  &larr; Volver
-                </button>
-                {activeTab === 'completed' ? (
-                  <TicketClosed task={selectedTask} /> 
-                ) : (
-                  <TicketDetail task={selectedTask} />
-                )}
-              </div>
-            )}
           </div>
         </section>
       </main>

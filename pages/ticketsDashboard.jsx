@@ -12,11 +12,7 @@
   const TicketsStatus = lazy(() => import('../components/TicketsStatus'))
 
   const useTickets = () => {
-    const [tickets, setTickets] = useState({
-      porHacer: [],
-      enProceso: [],
-      completados: []
-    })
+    const [tickets, setTickets] = useState({})
     const [loadingTickets, setLoadingTickets] = useState(true)
 
     
@@ -25,95 +21,7 @@
       const loadTickets = () => {
         setLoadingTickets(true)
         setTimeout(() => {
-          setTickets({
-            porHacer: [
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '13/05/24',
-                priority: 'Sin prioridad',
-                ticketId: '132314'
-              },
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '14/05/24',
-                priority: 'Sin prioridad',
-                ticketId: '132315'
-              },
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '15/05/24',
-                priority: 'Sin prioridad',
-                ticketId: '132316'
-              }
-            ],
-            enProceso: [
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '16/05/24',
-                priority: 'Baja',
-                ticketId: '132317'
-              },
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '17/05/24',
-                priority: 'Media',
-                ticketId: '132318'
-              },
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '18/05/24',
-                priority: 'Alta',
-                ticketId: '132319'
-              }
-            ],
-            completados: [
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '19/05/24',
-                priority: 'Baja',
-                ticketId: '132320'
-              },
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '20/05/24',
-                priority: 'Media',
-                ticketId: '132321'
-              },
-              {
-                title: 'Aire acondicionado no enfría adecuadamente.',
-                description:
-                  'La unidad hace ruidos extraños y el flujo de aire es débil.',
-                username: 'Username',
-                date: '21/05/24',
-                priority: 'Alta',
-                ticketId: '132322'
-              }
-            ]
-          })
+          setTickets({ porHacer: [], enProceso: [], completados: [] })
           setLoadingTickets(false)
         }, 2000) // Simula 2 segundos de carga
       }
@@ -189,21 +97,36 @@
     }
 
     const filteredTickets = useMemo(() => {
+      console.log('userRole:', userRole)
+      console.log('tickets:', tickets)
+
+      if (!userRole) return { porHacer: [], enProceso: [], completados: [] }
+
       switch (userRole) {
         case 'admin':
+          console.log('Returning tickets for admin:', tickets)
           return tickets
         case 'usuario':
+          console.log('Returning tickets for usuario:', {
+            enProceso: tickets.enProceso,
+            completados: tickets.completados
+          })
           return {
             enProceso: tickets.enProceso,
             completados: tickets.completados
           }
         case 'tecnico':
+          console.log('Returning tickets for tecnico:', {
+            porHacer: tickets.porHacer,
+            completados: tickets.completados
+          })
           return {
             porHacer: tickets.porHacer,
             completados: tickets.completados
           }
         default:
-          return tickets
+          console.log('Returning default empty tickets')
+          return { porHacer: [], enProceso: [], completados: [] }
       }
     }, [tickets, userRole])
 
