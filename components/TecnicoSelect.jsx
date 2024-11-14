@@ -43,7 +43,6 @@ export default function TecnicoSelect({ register, setValue }) {
         className='mb-[2px] block text-left text-sm font-semibold text-gray-700'
         htmlFor='owner'
       >
-        Propietario
       </label>
       <select
         {...register('assignTo', { required: true })}

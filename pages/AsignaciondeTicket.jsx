@@ -8,6 +8,7 @@ import { getReportById, addAssignment } from './api/api'
 import TecnicoSelect from '../components/TecnicoSelect'
 import { useForm } from 'react-hook-form'
 import { toast, Toaster } from 'sonner'
+import { MdArrowBackIosNew } from 'react-icons/md'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -46,6 +47,10 @@ export default function AsignaciondeTicket() {
     setShowProfilesMenu(!showProfilesMenu)
   }
 
+  const handleBack = () => {
+    router.back()
+  }
+
   const onSubmit = async (data) => {
     console.log('Asignar a:', data.assignTo)
     console.log('Fecha de Inicio:', data.startDate)
@@ -82,37 +87,44 @@ export default function AsignaciondeTicket() {
 
     return (
       <div
-        className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}>
-          <Toaster />        <div
+        className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}
+      >
+        <Toaster />{' '}
+        <div
           className={`${
             isMenuOpen ? 'translate-x-0' : '-translate-x-full'
           } fixed z-40 h-full w-[50%] transform bg-gradient-to-b from-[#31416d] to-[#232c48] transition-transform duration-300 ease-in-out md:w-[30%] lg:static lg:w-[15%] lg:translate-x-0`}
         >
           <LefthDashboard />
         </div>
-
         <main className='flex-1 p-6'>
-          <div className='flex lg:items-center lg:justify-between'>
+          <div className='flex items-center justify-between'>
             <div className='left-4 top-4 z-50 lg:hidden'>
               <button
                 onClick={toggleMenu}
-                className='rounded-md bg-[#21262D] p-2 text-white focus:outline-none'
+                className='flex h-10 w-10 items-center justify-center rounded-md bg-[#21262D] p-2 text-white focus:outline-none'
               >
                 {isMenuOpen ? '✖' : '☰'}
               </button>
             </div>
+            <button
+              onClick={handleBack}
+              className='absolute right-[1.5rem] top-[1.5rem] z-50 flex h-10 w-10 items-center justify-center rounded-md bg-[#21262D] p-2 text-white focus:outline-none lg:static lg:ml-4'
+            >
+              <MdArrowBackIosNew className='h-5 w-5' />
+            </button>
           </div>
 
           <div>
             <h1
-              className={`mb:text-left mb-2 ml-3 text-center text-3xl font-bold ${montserrat.className}`}
+              className={`mb:text-left mb-2 ml-3 my-4 text-center text-3xl font-bold ${montserrat.className}`}
               style={{ color: '#2E3A59' }}
             >
               Asignacion de Ticket
             </h1>
           </div>
 
-          <section className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[595px] md:w-2/3'>
+          <section className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[550px] md:w-2/3'>
             <div className='mb-4'>
               <label
                 className='mb-2 block font-bold text-gray-700'
@@ -128,7 +140,7 @@ export default function AsignaciondeTicket() {
               />
             </div>
 
-            <div className='mb-4'>
+            {/* <div className='mb-4'>
               <label
                 className='mb-2 block font-bold text-gray-700'
                 htmlFor='description'
@@ -143,7 +155,7 @@ export default function AsignaciondeTicket() {
               >
                 {report.description}
               </textarea>
-            </div>
+            </div> */}
 
             <div className='mb-4'>
               <label
@@ -182,6 +194,7 @@ export default function AsignaciondeTicket() {
                   id='startDate'
                   className='w-full rounded border p-2'
                   {...register('startDate', { required: true })}
+                  min={new Date().toISOString().split('T')[0]} // Establecer la fecha mínima a hoy
                 />
               </div>
               <div className='mb-4'>
@@ -201,12 +214,14 @@ export default function AsignaciondeTicket() {
                   <option value='alta'>Alta</option>
                 </select>
               </div>
-              <button
-                type='submit'
-                className='mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
-              >
-                Asignar
-              </button>
+              <div className='flex justify-center'>
+                <button
+                  type='submit'
+                  className='mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
+                >
+                  Asignar
+                </button>
+              </div>
             </form>
           </section>
         </main>

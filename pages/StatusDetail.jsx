@@ -7,6 +7,7 @@ import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import { getReportById } from './api/api'
 import { useRouter } from 'next/router'
+import { MdArrowBackIosNew } from "react-icons/md";
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -36,6 +37,11 @@ export default function StatusDetailLayout() {
   const toggleProfilesMenu = () => {
     setShowProfilesMenu(!showProfilesMenu)
   }
+
+const handleBack = () => {
+  router.back()
+}
+
   return (
     <div
       className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}
@@ -48,15 +54,21 @@ export default function StatusDetailLayout() {
         <LefthDashboard />
       </div>
       <main className='flex-1 p-6'>
-        <div className='flex lg:items-center lg:justify-between'>
+        <div className='flex items-center justify-between'>
           <div className='left-4 top-4 z-50 lg:hidden'>
             <button
               onClick={toggleMenu}
-              className='rounded-md bg-[#21262D] p-2 text-white focus:outline-none'
+              className='flex h-10 w-10 items-center justify-center rounded-md bg-[#21262D] p-2 text-white focus:outline-none'
             >
               {isMenuOpen ? '✖' : '☰'}
             </button>
           </div>
+          <button
+            onClick={handleBack}
+            className='absolute right-[1.5rem] top-[1.5rem] z-50 flex h-10 w-10 items-center justify-center rounded-md bg-[#21262D] p-2 text-white focus:outline-none lg:static lg:ml-4'
+          >
+            <MdArrowBackIosNew className='h-5 w-5' />
+          </button>
         </div>
         <div className='flex justify-center'>
           <Title className='mt-2 text-2xl lg:mt-0'>Estado del Ticket</Title>

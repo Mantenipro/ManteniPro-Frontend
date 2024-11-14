@@ -72,6 +72,10 @@ const UserCard = ({ user, onDelete }) => {
     setInputValue('')
   }
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
+
   const handleUnlockClick = async () => {
     try {
       const response = await unlockUser(user.email)
@@ -136,7 +140,7 @@ const UserCard = ({ user, onDelete }) => {
             <span
               className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}
             >
-              {user.role}
+              {capitalizeFirstLetter(user.role)}
             </span>
           </div>
 
@@ -151,7 +155,7 @@ const UserCard = ({ user, onDelete }) => {
 
           {/* Estado de la cuenta */}
           <div className='ml-2 flex-col justify-center'>
-            <span className='md:hidden items-center'>
+            <span className='items-center md:hidden'>
               {user.accountStatus ? (
                 <Image
                   src='/icon/check.png'
@@ -178,9 +182,10 @@ const UserCard = ({ user, onDelete }) => {
 
         {/* Botones tablet hacia arriba*/}
         <div className='ml-12 flex flex-shrink-0 space-x-4'>
-          <button 
-          onClick={handleUnlockClick}
-          className='hidden rounded-lg bg-gray-200 p-3 transition-all duration-300 hover:bg-white sm:block'>
+          <button
+            onClick={handleUnlockClick}
+            className='hidden rounded-lg bg-gray-200 p-3 transition-all duration-300 hover:bg-white sm:block'
+          >
             <Image
               src={user.unlockRequested ? '/icon/lock.png' : '/icon/unlock.png'}
               alt={user.unlockRequested ? 'Lock' : 'Unlock'}

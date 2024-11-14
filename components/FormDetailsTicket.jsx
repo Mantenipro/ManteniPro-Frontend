@@ -79,7 +79,7 @@ const StatusDetailLayout = ({ initialData }) => {
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='animate-fadeIn max-h-screen space-y-4 overflow-y-auto scrollbar-hide md:h-[595px] md:w-3/4'>
+      <div className='animate-fadeIn max-h-screen space-y-4 overflow-y-auto scrollbar-hide md:h-[560px] md:w-3/4'>
         <div className='rounded border p-2 shadow-lg'>
           <div className='flex flex-col justify-between rounded border-b-2 p-2 md:flex-col md:items-center'>
             <div>
@@ -248,7 +248,8 @@ const StatusDetailLayout = ({ initialData }) => {
                   <div
                     key={comment._id}
                     className={`flex items-start space-x-4 rounded-lg bg-gray-50 p-4 transition-all duration-300 hover:bg-gray-100 ${
-                      comment.author._id === report.user._id
+                      comment.author._id === report.user._id ||
+                      comment.author._id === report.assignedTo
                         ? 'flex-row'
                         : 'flex-row-reverse'
                     }`}
@@ -259,7 +260,7 @@ const StatusDetailLayout = ({ initialData }) => {
                       className='h-10 w-10 rounded-full object-cover'
                     />
                     <div
-                      className={`text-left ${comment.author._id === report.user._id ? '' : 'px-4 text-right'}`}
+                      className={`text-left ${comment.author._id === report.user._id || comment.author._id === report.assignedTo ? '' : 'px-4 text-right'}`}
                     >
                       <div className='text-sm font-semibold text-gray-800'>
                         {comment.author.name}

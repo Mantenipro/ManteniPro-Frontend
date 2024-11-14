@@ -144,7 +144,7 @@
 
     return (
       <div
-        className={`relative flex min-h-screen bg-white ${montserrat.className}`}
+        className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}
       >
         <div
           className={`${
@@ -154,8 +154,8 @@
           <LefthDashboard />
         </div>
 
-        <main className='mt-1 flex-1 px-6'>
-          <div className='mb-4 flex flex-wrap items-center justify-between'>
+        <main className='mt-1 flex-1 p-4'>
+          <div className='flex flex-wrap items-center justify-between'>
             <div className='left-4 top-4 z-50 lg:hidden'>
               <button
                 onClick={toggleMenu}
@@ -191,7 +191,7 @@
             </div>
           </div>
 
-          <div className='mb-1'>
+          <div className='mb-4 mt-4'>
             <Title className='text-2xl'>Tickets</Title>
           </div>
 
@@ -206,7 +206,7 @@
             ) : null}
           </div>
 
-          <div className='mb-2'>
+          <div className='mt-6'>
             {loading || loadingTickets ? (
               <div>Cargando Tickets...</div>
             ) : apiError ? (
