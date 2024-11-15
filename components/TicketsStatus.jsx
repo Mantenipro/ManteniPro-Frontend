@@ -40,6 +40,9 @@ const TicketsStatus = () => {
           const role = currentUser ? currentUser.role : null
           setUserRole(role)
 
+          // Configura la sección inicial en función del rol
+          setCurrentSection(role === 'admin' ? 0 : 1)
+
           if (userId && role === 'admin') {
             const userReports = await getReportsByCompany(userId, token)
             console.log('Reportes de la empresa:', userReports)
@@ -68,9 +71,6 @@ const TicketsStatus = () => {
             const userReports = await getReportsByUser(userId, token)
             console.log('Reportes del usuario:', userReports)
             setReports({
-              porHacer: userReports.filter(
-                (report) => report.status === 'pending'
-              ),
               enProceso: userReports.filter(
                 (report) => report.status === 'in-progress'
               ),
@@ -123,7 +123,12 @@ const TicketsStatus = () => {
 
   const handleNextSection = () => {
     setCurrentSection((prevSection) => {
-      const nextSection = (prevSection + 1) % sections.length
+      const nextSection =
+        userRole === 'admin'
+          ? (prevSection + 1) % sections.length
+          : prevSection === 1
+            ? 2
+            : 1 // Alterna solo entre "En proceso" y "Completados" para roles no-admin
       console.log(`Next section: ${nextSection}`)
       return nextSection
     })
@@ -132,7 +137,11 @@ const TicketsStatus = () => {
   const handlePrevSection = () => {
     setCurrentSection((prevSection) => {
       const prevSectionIndex =
-        (prevSection - 1 + sections.length) % sections.length
+        userRole === 'admin'
+          ? (prevSection - 1 + sections.length) % sections.length
+          : prevSection === 2
+            ? 1
+            : 2 // Alterna solo entre "En proceso" y "Completados" para roles no-admin
       console.log(`Previous section: ${prevSectionIndex}`)
       return prevSectionIndex
     })
@@ -223,9 +232,10 @@ const StatusColumn = ({
     </div>
     <div className='mb-4 h-1 w-full bg-gradient-to-r from-[#21262D] to-[#414B66]'></div>
     <div className='scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 relative z-0 mt-8 flex h-[60vh] w-full flex-col items-center justify-start overflow-y-auto md:h-[51vh]'>
-      {tickets.length === 0 ? (
+      {tickets && tickets.length === 0 ? (
         <p>No hay tickets para mostrar</p>
       ) : (
+        tickets &&
         tickets.map((ticket, index) => (
           <div key={index} className='mb-1 w-full'>
             <TicketCard ticket={ticket} report={ticket} />
