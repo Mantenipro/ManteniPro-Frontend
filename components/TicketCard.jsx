@@ -1,10 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { FaHardHat } from 'react-icons/fa'
 
 function TicketCard({ report }) {
     const router = useRouter()
-  const { title, description, user , created_at, priority, status, _id: ticketId } = report;
+  const {
+    title,
+    description,
+    user,
+    created_at,
+    priority,
+    status,
+    _id: ticketId,
+    assignedTo
+  } = report
   const [isHovered, setIsHovered] = useState(false);
 
 
@@ -23,7 +33,7 @@ function TicketCard({ report }) {
 
   return (
     <button
-      className={`mb-1 rounded-lg p-2 shadow-md transition-all duration-200 ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'} relative w-full sm:w-[200px] sm:p-1 sm:text-xs md:mb-3 md:w-[250px] md:rounded-xl md:p-3 md:shadow-lg lg:w-[50vh]`}
+      className={`mb-1 rounded-lg p-2 shadow-md transition-all duration-200 ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'} relative w-full sm:w-[200px] sm:p-1 sm:text-xs md:mb-3 md:w-auto md:rounded-xl md:p-3 md:shadow-lg lg:w-[50vh] xl:w-auto`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
@@ -74,20 +84,31 @@ function TicketCard({ report }) {
 
       <div className='mt-2 flex items-center justify-between'>
         <div className='flex items-center'>
-          <img
-            src='/profile1.jpg'
-            alt={user.name}
-            className='mr-1 h-5 w-5 rounded-full'
-          />
-          <span
-            className={`text-xs md:text-sm ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}
-          >
-            {user.name}
-          </span>
+          {user && (
+            <>
+              <img
+                src='/profile1.jpg'
+                alt={user.name}
+                className='mr-1 h-5 w-5 rounded-full'
+              />
+              <span
+                className={`text-xs md:text-sm ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}
+              >
+                {user.name}
+              </span>
+            </>
+          )}
         </div>
-        {/* <span className={`text-xs md:text-sm ${isHovered ? 'text-gray-300' : 'text-gray-500'}`}>
-            {ticketId}
-          </span> */}
+        <div className='buttom-2 absolute right-2 flex items-center'>
+              <div className='mr-1 flex h-6 w-6 items-center justify-center rounded-full bg-white'>
+                <FaHardHat className='h-5 w-5' />
+              </div>
+              <span
+                className={`text-xs md:text-sm ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}
+              >
+                {assignedTo ? assignedTo.name : 'Sin asignar'}
+              </span>
+        </div>
       </div>
     </button>
   )

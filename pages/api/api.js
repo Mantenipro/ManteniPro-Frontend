@@ -531,6 +531,7 @@ export const fetchUserById = async (userId) => {
       }
     })
     const data = await response.json()
+    console.log(data)
     if (response.ok) {
       return data
     } else {

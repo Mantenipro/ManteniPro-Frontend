@@ -338,6 +338,7 @@ export async function fetchReportsByTecnico() {
       throw new Error('Error al obtener los reportes')
     }
     const json = await response.json()
+    console.log('Reportes del técnico:', json.data)
     return json.data
   } catch (error) {
     console.error(error.message)

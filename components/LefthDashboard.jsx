@@ -105,7 +105,8 @@ export default function LefthDashboard() {
                   onClick={toggleProfilesMenu} // Usar toggleProfilesMenu para controlar el menú desplegable
                 >
                   <button className='ml-5 text-sm font-medium'>
-                    {showProfilesMenu ? '˄' : '˅'} {/* Actualiza según el estado */}
+                    {showProfilesMenu ? '˄' : '˅'}{' '}
+                    {/* Actualiza según el estado */}
                     {showProfilesMenu}
                   </button>
                 </MenuItem>
@@ -138,14 +139,14 @@ export default function LefthDashboard() {
             )}
             {userProfile.role === 'tecnico' && (
               <>
-                <Link href='/homeTecnico'>
+                <Link href='/ticketsDashboard'>
                   <MenuItem icon='/tickets-dash.svg' title='Tickets' />
                 </Link>
               </>
             )}
             {userProfile.role === 'usuario' && (
               <>
-                <Link href='/gestionDeTickets'>
+                <Link href='/ticketsDashboard'>
                   <MenuItem icon='/tickets-dash.svg' title='Tickets' />
                 </Link>
                 <Link href='/equiposCliente'>

@@ -75,7 +75,7 @@ export default function GetInfoMachine() {
         setTipoEquipo('');
         setProblemasComunes([]);
         setSelectedFile(null);
-        router.push('/gestionDeTickets');
+        router.push('/ticketsDashboard');
       }
     } catch (error) {
       console.error('Error al enviar el reporte:', error);
