@@ -4,7 +4,7 @@ import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
-const PriceSection = forwardRef((props, ref) => {
+const PriceSection = forwardRef(function PriceSection(props, ref) {
   const cardDetails = [
     {
       title: 'Básico',
@@ -37,7 +37,7 @@ const PriceSection = forwardRef((props, ref) => {
   ];
 
   return (
-    <section ref={ref} className='mx-auto max-w-screen-2xl mx-5 md:mx-0'>
+    <section ref={ref} className='mx-auto max-w-screen-2xl md:mx-0'>
       <h2 className='mb-6 text-center text-2xl md:text-4xl font-medium'>
         ¡Conoce Mantenipro hoy mismo!
       </h2>
