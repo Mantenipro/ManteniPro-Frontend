@@ -126,16 +126,21 @@ const StatusDetailLayout = ({ initialData }) => {
                 Asignar
               </Link>
               <Link
-                href='/CierreTicket'
-                className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
-              >
-                <img
-                  src='/Close.svg'
-                  alt='icon'
-                  className='mr-2 h-4 w-4 object-cover'
-                />
-                Cerrar
-              </Link>
+  href={{
+    pathname: '/CierreTicket',
+    query: {
+      ticketId: report._id // Agrega el id del reporte aquí
+    }
+  }}
+  className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+>
+  <img
+    src='/Close.svg'
+    alt='icon'
+    className='mr-2 h-4 w-4 object-cover'
+  />
+  Cerrar
+</Link>
             </div>
           </div>
 

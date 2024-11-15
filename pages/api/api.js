@@ -617,6 +617,7 @@ export const getReportById = async (reportId) => {
   }
 }
 
+
 export async function fetchComments(reportId) {
   try {
     const response = await fetch(`${API_URL}/comments?reportId=${reportId}`)
@@ -680,5 +681,55 @@ export async function addAssignment(technicianId, reportId, priority, status) {
     console.log(newAssignment)
   } catch (error) {
     console.error(error.message)
+  }
+}
+
+export const updateAssignment = async (assignmentId, solution, finishedAt, VaBo, token) => {
+  try {
+    const response = await fetch(`${API_URL}/assignments/${assignmentId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ solution, finishedAt, VaBo })
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      throw new Error(json.message || 'Error al actualizar la asignación');
+    }
+    
+    console.log('Asignación actualizada:', json);
+    return json;
+  } catch (error) {
+    console.error('Error en la solicitud de actualización:', error);
+    throw error;
+  }
+};
+
+export const updateAssignmentByReport = async (reportId, solution, finishedAt, VaBo, token) => {
+  try {
+    // Cuerpo de la solicitud con los datos que queremos actualizar
+    const response = await fetch(`${API_URL}/assignment/byReport/${reportId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`  // Agregado el encabezado de autorización con el token
+      },
+      body: JSON.stringify({ solution, finishedAt, VaBo }) // Enviar los datos para actualizar
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(result.message || 'Error al actualizar la asignación por ID de reporte')
+    }
+
+    return result
+  } catch (error) {
+    console.error('Error al actualizar la asignación:', error)
+    throw error
   }
 }
