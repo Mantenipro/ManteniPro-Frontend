@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import LefthDashboard from '@/components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getReportById, updateAssignmentByReport } from './api/api'; // Actualizar la importación
+import SignatureCanvas from 'react-signature-canvas'; // Importa SignatureCanvas
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
@@ -17,6 +18,7 @@ export default function CierreTicket() {
   const [endDate, setEndDate] = useState('');
   const [vabo, setVabo] = useState('');  // Estado para el VoBo del cliente
   
+  const sigCanvas = useRef(null);  // Referencia para el canvas de la firma
   const router = useRouter();
   const { ticketId } = router.query;
 
@@ -154,19 +156,14 @@ export default function CierreTicket() {
           </div>
 
           <div className='flex flex-col'>
-            <label
-              className='mb-2 font-bold text-gray-700'
-              htmlFor='vabo'
-            >
+            <label className='mb-2 font-bold text-gray-700' htmlFor='vabo'>
               VoBo del Cliente
             </label>
-            <input
-              type='text'
-              id='vabo'
-              value={vabo}
-              onChange={(e) => setVabo(e.target.value)}
-              className='w-full rounded border p-2'
-              placeholder='Ingrese el VoBo del cliente'
+            <SignatureCanvas
+              ref={sigCanvas}
+              penColor='black'
+              canvasProps={{ className: 'w-full rounded border p-2' }}
+              onEnd={() => setVabo(sigCanvas.current.getTrimmedCanvas().toDataURL())}
             />
           </div>
 
