@@ -33,7 +33,7 @@ function TicketCard({ report }) {
 
   return (
     <button
-      className={`mb-1 rounded-lg p-2 shadow-md transition-all duration-200 ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'} relative w-full sm:w-[200px] sm:p-1 sm:text-xs md:mb-3 md:w-auto md:rounded-xl md:p-3 md:shadow-lg lg:w-[50vh] xl:w-auto`}
+      className={`mb-1 rounded-lg p-2 shadow-md transition-all duration-200 ${isHovered ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'bg-white'} relative w-full sm:w-auto sm:p-1 sm:text-xs md:mb-3 md:w-auto md:rounded-xl md:p-3 lg:w-auto md:shadow-lg xl:w-auto xl:min-w-[350px] 2xl:w-auto`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{

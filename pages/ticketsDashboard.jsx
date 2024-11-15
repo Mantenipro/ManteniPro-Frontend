@@ -100,34 +100,7 @@
       console.log('userRole:', userRole)
       console.log('tickets:', tickets)
 
-      if (!userRole) return { porHacer: [], enProceso: [], completados: [] }
-
-      switch (userRole) {
-        case 'admin':
-          console.log('Returning tickets for admin:', tickets)
-          return tickets
-        case 'usuario':
-          console.log('Returning tickets for usuario:', {
-            enProceso: tickets.enProceso,
-            completados: tickets.completados
-          })
-          return {
-            enProceso: tickets.enProceso,
-            completados: tickets.completados
-          }
-        case 'tecnico':
-          console.log('Returning tickets for tecnico:', {
-            porHacer: tickets.porHacer,
-            completados: tickets.completados
-          })
-          return {
-            porHacer: tickets.porHacer,
-            completados: tickets.completados
-          }
-        default:
-          console.log('Returning default empty tickets')
-          return { porHacer: [], enProceso: [], completados: [] }
-      }
+      return tickets
     }, [tickets, userRole])
 
     const MemoizedTicketsStatus = useMemo(
