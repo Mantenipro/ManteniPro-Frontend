@@ -19,7 +19,7 @@ const GestionDeTickets = () => {
   const [users, setUsers] = useState([]);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState('Recientes'); // Default to "Recientes"
+  const [selectedDate, setSelectedDate] = useState('Recientes'); 
 
   useEffect(() => {
     const fetchUsersAndReports = async () => {
@@ -67,6 +67,10 @@ const GestionDeTickets = () => {
 
   const handleCardClick = (report) => {
     switch (report.status) {
+      case 'pending':
+        router.push(`/EstadoDeAsignacion`);
+        break;
+      
       case 'in-progress':
         router.push(`/StatusDetail?ticketId=${report._id}`);
         break;
@@ -152,6 +156,7 @@ const GestionDeTickets = () => {
                             key={report._id}
                             picture={report.image}
                             title={report.title}
+                            status={report.status}
                             description={report.description}
                             createdAt={report.created_at}
                             onClick={() => handleCardClick(report)}
