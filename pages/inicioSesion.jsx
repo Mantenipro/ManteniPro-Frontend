@@ -42,16 +42,16 @@ const LoginForm = ({ textColor, bgColor }) => {
       console.log('Iniciando login con datos:', data)
       const response = await login(data.email, data.password)
       console.log('Respuesta de la API:', response)
-
+  
       if (response) {
-        const { token, mustChangePassword, role } = response // Extrae `mustChangePassword` de la respuesta
+        const { token, mustChangePassword, role } = response // Extrae `mustChangePassword` y `role`
         console.log('Token recibido:', response.token)
         console.log('mustChangePassword recibido:', response.mustChangePassword)
         console.log('Role recibido:', response.role)
-
+  
         localStorage.setItem('email', data.email)
         window.localStorage.setItem('token', token)
-
+  
         // Verificar si el usuario necesita cambiar la contraseña
         if (mustChangePassword && role !== 'admin') {
           console.log('El usuario debe cambiar la contraseña.')
@@ -69,7 +69,7 @@ const LoginForm = ({ textColor, bgColor }) => {
           }, 2000)
         } else {
           console.log('El usuario no necesita cambiar la contraseña.')
-          toast.success('Bienvenido'  , {
+          toast.success('Bienvenido', {
             position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
             style: {
               fontSize: '20px',
@@ -78,9 +78,17 @@ const LoginForm = ({ textColor, bgColor }) => {
               width: 'auto'
             }
           })
-          setTimeout(() => {
-            router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
-          }, 2000)
+          
+          // Redirigir según el perfil del usuario
+          if (role === 'usuario') {
+            setTimeout(() => {
+              router.push('/gestionDeTickets') // Redirige a la página de equipos cliente si es un usuario
+            }, 2000)
+          } else {
+            setTimeout(() => {
+              router.push('/ticketsDashboard') // Redirige al dashboard si no es usuario
+            }, 2000)
+          }
         }
       } else {
         console.warn('Respuesta de la API inválida o sin data.')
