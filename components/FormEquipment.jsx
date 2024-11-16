@@ -5,6 +5,7 @@ import QRCode from 'qrcode';
 import { createEquipment, getUsers } from '@/api/api';
 import { Source_Sans_3 } from 'next/font/google';
 import PropietarioSelect from './PropietarioSelect';
+import LocationInput from './LocationInput';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
@@ -45,6 +46,8 @@ export default function FormEquipment() {
     }
   }
 
+
+  
   async function uploadQRCodeToS3(qrCodeData) {
     try {
       const qrCodeBlob = await (await fetch(qrCodeData)).blob();
@@ -133,120 +136,114 @@ export default function FormEquipment() {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-1 w-full max-w-[30rem] min-h-[30rem] flex flex-col`}
-    >
-      <div className='space-y-4 flex-1'>
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='equipmentName'>
-            Nombre del equipo
-          </label>
-          <input
-            {...register('equipmentName', { required: true })}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='equipmentName'
-            type='text'
-            placeholder='Nombre del equipo'
-          />
-          {errors.equipmentName && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div>
-
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='model'>
-            Modelo
-          </label>
-          <input
-            {...register('model', { required: true })}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='model'
-            type='text'
-            placeholder='Modelo del equipo'
-          />
-          {errors.model && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div>
-
-        <PropietarioSelect register={register} setValue={setValue} />
-
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='manufactureDate'>
-          Última fecha de mantenimiento
-          </label>
-          <input
-            {...register('manufactureDate', { required: true })}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='manufactureDate'
-            type='date'
-          />
-          {errors.manufactureDate && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div>
-
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='brand'>
-            Marca
-          </label>
-          <input
-            {...register('brand', { required: true })}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='brand'
-            type='text'
-            placeholder='Marca del equipo'
-          />
-          {errors.brand && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div>
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='location'>
-            Ubicación
-          </label>
-          <input
-            {...register('location', { required: true })}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='location'
-            type='text'
-            placeholder='Ubicación del equipo'
-          />
-          {errors.location && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div>
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='unitType'>
-            Tipo de unidad
-          </label>
-          <input
-            {...register('unitType', { required: true })}
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-            id='unitType'
-            type='text'
-            placeholder='Tipo de unidad'
-          />
-          {errors.unitType && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-        </div> 
-        
-        
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='file'>
-            Cargar imagen
-          </label>
-          <input
-            id='file'
-            type='file'
-            onChange={handleFileChange}
-            accept='image/*'
-            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-          />
-        </div>
-      </div>
-
-      <div className="flex justify-center">
-  <button
-    type='submit'
-    className='bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold py-2 px-4 rounded-lg mt-7 mb-5 w-36'
+    onSubmit={handleSubmit(onSubmit)}
+    className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-1 w-[48vh] md:w-[70vh]  h-[80vh]  flex flex-col overflow-y-auto`}
   >
-    Crear Equipo
-  </button>
-</div>
-    </form>
+    <div className='space-y-4 flex-1'>
+      <div className='mb-4'>
+        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='equipmentName'>
+          Nombre del equipo
+        </label>
+        <input
+          {...register('equipmentName', { required: true })}
+          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+          id='equipmentName'
+          type='text'
+          placeholder='Nombre del equipo'
+        />
+        {errors.equipmentName && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+      </div>
+  
+      <div className='mb-4'>
+        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='model'>
+          Modelo
+        </label>
+        <input
+          {...register('model', { required: true })}
+          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+          id='model'
+          type='text'
+          placeholder='Modelo del equipo'
+        />
+        {errors.model && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+      </div>
+  
+      <PropietarioSelect register={register} setValue={setValue} />
+  
+      <div className='mb-4'>
+        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='manufactureDate'>
+          Última fecha de mantenimiento
+        </label>
+        <input
+          {...register('manufactureDate', { required: true })}
+          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+          id='manufactureDate'
+          type='date'
+        />
+        {errors.manufactureDate && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+      </div>
+  
+      <div className='mb-4'>
+        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='brand'>
+          Marca
+        </label>
+        <input
+          {...register('brand', { required: true })}
+          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+          id='brand'
+          type='text'
+          placeholder='Marca del equipo'
+        />
+        {errors.brand && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+      </div>
+  
+      <div className='mb-4'>
+        <label className='block text-gray-700 text-sm font-semibold mb-[5px]  text-left'>
+          Ubicación
+        </label>
+        <LocationInput register={register} setValue={setValue} />
+        {errors.location && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+      </div>
+  
+      <div className='mb-4'>
+        <label className='block text-gray-700 text-sm font-semibold mb-[2px] mt-8 text-left' htmlFor='unitType'>
+          Tipo de unidad
+        </label>
+        <input
+          {...register('unitType', { required: true })}
+          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+          id='unitType'
+          type='text'
+          placeholder='Tipo de unidad'
+        />
+        {errors.unitType && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+      </div>
+  
+      <div className='mb-4'>
+        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='file'>
+          Cargar imagen
+        </label>
+        <input
+          id='file'
+          type='file'
+          onChange={handleFileChange}
+          accept='image/*'
+          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+        />
+      </div>
+    </div>
+  
+    <div className="flex justify-center">
+      <button
+        type='submit'
+        className='bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold py-2 px-4 rounded-lg mt-7 mb-5 w-36'
+      >
+        Crear Equipo
+      </button>
+    </div>
+  </form>
   );
 }
-
 
 
 
