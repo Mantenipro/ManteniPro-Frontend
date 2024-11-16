@@ -86,7 +86,7 @@ export default function LefthDashboard() {
 
         <div className='flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
           {/* Usar la propiedad photo si está disponible */}
-          <img className='h-10 w-10' src={userProfile.photo || '/userphoto.svg'} alt='User' />
+          <img className='h-10 w-10' src={userProfile.photo || '/profilepic.png'} alt='User' />
           <p className='text-center text-xs font-bold'>{userProfile.name}</p>
           <p className='text-center text-xs'>{userProfile.role}</p>
         </div>

@@ -27,6 +27,8 @@ const TicketsDashboard = () => {
           const user = userList.find(user => user.email === email);
           if (user?._id) {
             setUserId(user._id);
+            // Asignar la foto del usuario, si existe
+            setProfileImage(user.photo || '/default-image.jpg');
           } else {
             console.error('No user found with this email:', email);
           }
@@ -120,27 +122,28 @@ const TicketsDashboard = () => {
       </div>
 
       <main className="flex-1">
-      <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mt-2'>
-            <div className='lg:hidden top-4 left-4 z-50'>
-              <button
-                onClick={toggleMenu}
-                className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
-              >
-                {isMenuOpen ? '✖' : '☰'}
-              </button>
-            </div>
+        <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between mt-2'>
+          <div className='lg:hidden top-4 left-4 z-50'>
+            <button
+              onClick={toggleMenu}
+              className='text-white bg-[#21262D] p-2 rounded-md focus:outline-none'
+            >
+              {isMenuOpen ? '✖' : '☰'}
+            </button>
           </div>
-        {/* Profile Image */}
-        <div className="text-center bg-none mt-5 ">
-          <div className="relative inline-block">
-            <img src={profileImage || '/default-image.jpg'} alt="Profile Image" className="mx-auto h-32 w-32 transform rounded-full object-cover shadow-lg transition duration-300 ease-in-out hover:scale-105" />
-            <label htmlFor="profile-image-upload" className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600">
-              <input id="profile-image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-              📷
-            </label>
-          </div>
-          <h2 className="mt-4 text-3xl font-bold">Company Profile</h2>
         </div>
+
+        {/* Profile Image */}
+        <div className="text-center bg-none mt-5">
+  <div className="relative inline-block">
+    <img src={profileImage || '/default-image.jpg'} alt="Profile Image" className="mx-auto h-32 w-32 transform rounded-full object-cover shadow-lg transition duration-300 ease-in-out hover:scale-105" />
+    <label htmlFor="profile-image-upload" className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600">
+      <input id="profile-image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+      <img src="/icon/camera-icon.png" alt="Camera Icon" className="w-6 h-6" />
+    </label>
+  </div>
+  <h2 className="mt-4 text-3xl font-bold">Company Profile</h2>
+</div>
 
         <FormProfile />
       </main>

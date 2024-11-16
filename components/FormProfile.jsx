@@ -316,7 +316,7 @@ const UserProfile = () => {
   return (
     <div className=' items-center justify-center bg-gray-100 '>
       <Toaster />
-      <div className='animate-fadeIn md:h-[72vh] h-[65vh] w-full  space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
+      <div className='animate-fadeIn md:h-[70vh] h-[65vh] w-full  space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
        
 
         {/* Formulario */}
