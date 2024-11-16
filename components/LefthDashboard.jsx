@@ -146,7 +146,7 @@ export default function LefthDashboard() {
             )}
             {userProfile.role === 'usuario' && (
               <>
-                <Link href='/ticketsDashboard'>
+                <Link href='/gestionDeTickets'>
                   <MenuItem icon='/tickets-dash.svg' title='Tickets' />
                 </Link>
                 <Link href='/equiposCliente'>

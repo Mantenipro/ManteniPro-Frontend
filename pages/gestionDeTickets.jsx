@@ -6,7 +6,6 @@ import InfoPanelCustomer from '@/components/InfoPanelCustomer';
 import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';
 
-
 const GestionDeTickets = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -66,8 +65,17 @@ const GestionDeTickets = () => {
     return selectedDate === 'Recientes' ? dateB - dateA : dateA - dateB;
   });
 
-  const handleCardClick = (task) => {
-    setSelectedTask(task);
+  const handleCardClick = (report) => {
+    switch (report.status) {
+      case 'in-progress':
+        router.push(`/StatusDetail?ticketId=${report._id}`);
+        break;
+      case 'completed':
+        router.push(`/CierreTicket?ticketId=${report._id}`);
+        break;
+      default:
+        console.log("El ticket está pendiente y no se puede redirigir.");
+    }
   };
 
   const handleTabChange = (tab) => {
