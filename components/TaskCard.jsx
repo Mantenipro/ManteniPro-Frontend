@@ -6,10 +6,10 @@ export default function TaskCard({ title, description, createdAt, picture, onCli
   const [inputValue, setInputValue] = useState('');
   const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768); // Detecta si es desktop
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768); 
 
   useEffect(() => {
-    // Detectar cambios en el tamaño de la pantalla
+   
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 768);
     };
@@ -52,7 +52,7 @@ export default function TaskCard({ title, description, createdAt, picture, onCli
   const truncatedTitle = title.length > (isDesktop ? 40 : 30) ? `${title.slice(0, isDesktop ? 40 : 30)}...` : title;
   const truncatedDescription = description.length > (isDesktop ? 40 : 20) ? `${description.slice(0, isDesktop ? 110 : 20)}...` : description;
 
-  // Función para traducir el estado
+  
   const translateStatus = (status) => {
     switch (status) {
       case 'pending':
@@ -62,7 +62,7 @@ export default function TaskCard({ title, description, createdAt, picture, onCli
       case 'completed':
         return 'Completado';
       default:
-        return status; // Si el estado no está en la lista, lo deja tal cual
+        return status; 
     }
   };
 

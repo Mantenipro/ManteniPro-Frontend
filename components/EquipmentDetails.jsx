@@ -40,7 +40,7 @@ const EquipmentDetails = ({ equipment }) => {
     >
       {/* Imagen */}
       <Image
-        src={equipment.image || '/airConditioning.jpg'}
+        src={equipment.image || '/noimg3.jpg'}
         alt={equipment.equipmentName || 'Air Conditioning'}
         width={200}
         height={200}

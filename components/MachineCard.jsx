@@ -81,7 +81,7 @@ const MachineCard = ({ machine, onDelete }) => {
     {/* Imagen del equipo */}
     <div className="flex-shrink-0">
       <img
-        src={machine.image}
+        src={machine.image || '/noimg3.jpg' }
         alt="Imagen del equipo"
         className="w-12 h-12 rounded-full object-cover bg-gray-300"
       />

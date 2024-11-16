@@ -54,7 +54,7 @@ const GestionDeTickets = () => {
     fetchUsersAndReports();
   }, [router]);
 
-  // Filtrar las tareas según el estado del ticket y la fecha seleccionada
+
   const tasksToDisplay = activeTab === 'inProgress'
     ? reports.filter(report => (report.status === 'pending' || report.status === 'in-progress'))
     : reports.filter(report => report.status === 'completed');

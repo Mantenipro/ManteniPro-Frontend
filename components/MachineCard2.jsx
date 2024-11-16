@@ -4,7 +4,7 @@ import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
-// Función para truncar texto
+
 const truncateText = (text, maxLength) => {
   if (!text) return '';
   return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
@@ -15,10 +15,10 @@ const MachineCard = ({ machine }) => {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
-  // Detectar si está en una pantalla móvil (menos de 768px)
+  
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    handleResize(); // Ejecutar una vez cuando el componente se monta
+    handleResize(); 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -41,7 +41,7 @@ const MachineCard = ({ machine }) => {
         {/* Imagen del equipo */}
         <div className="flex-shrink-0">
           <img
-            src={machine.image}
+            src={machine.image || '/noimg3.jpg' }
             alt="Imagen del equipo"
             className="w-12 h-12 rounded-full object-cover bg-gray-300"
           />
