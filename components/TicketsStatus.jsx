@@ -225,7 +225,7 @@ const StatusColumn = ({
       )}
     </div>
     <div className='mb-4 h-1 w-full bg-gradient-to-r from-[#21262D] to-[#414B66]'></div>
-    <div className='animate-fadeIn scrollbar-hide relative z-0 mt-8 flex h-[55vh] w-auto flex-col items-center justify-start overflow-y-auto md:h-[55vh]'>
+    <div className='animate-fadeIn scrollbar-hide relative z-0 mt-8 flex h-[60vh] w-auto flex-col items-center justify-start overflow-y-auto md:h-[65vh]'>
       {tickets && tickets.length === 0 ? (
         <p>No hay tickets para mostrar</p>
       ) : (
