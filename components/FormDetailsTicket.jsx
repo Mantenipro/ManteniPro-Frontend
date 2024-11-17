@@ -189,41 +189,41 @@ const StatusDetailLayout = ({ initialData }) => {
           </div>
 
           <div className='flex flex-col items-center justify-center border-t-2 p-2 md:flex-row'>
-            <div>
-              <div className='mb-2'>
-                <span className='font-semibold'>Reportado por:</span>
-              </div>
-              <div className='rounded-lg bg-white p-4 text-sm shadow-md'>
-                <div className='flex items-center space-x-4'>
-                  <img
-                    src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3'
-                    alt='User avatar'
-                    className='h-12 w-12 rounded-full object-cover'
-                  />
-                  <div>
-                    <p className='font-medium text-gray-800'>
-                      {report.user.name}
-                    </p>
-                    <p className='text-gray-600'>{report.user.role}</p>
-                    <p className='text-sm text-gray-500'>{report.user.email}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <div>
+    <div className='mb-2'>
+      <span className='font-semibold'>Reportado por:</span>
+    </div>
+    <div className='rounded-lg bg-white p-4 text-sm shadow-md'>
+      <div className='flex items-center space-x-4'>
+        <img
+          src={report.user.photo || 'profilepic3.png'}
+          alt='User avatar'
+          className='h-12 w-12 rounded-full object-cover'
+        />
+        <div>
+          <p className='font-medium text-gray-800'>
+            {report.user.name}
+          </p>
+          <p className='text-gray-600'>{report.user.role}</p>
+          <p className='text-sm text-gray-500'>{report.user.email}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            <div className='mx-4 h-auto border-l-2'></div>
+  <div className='mx-4 h-auto border-l-2'></div>
 
-            <div className='mt-5 max-w-sm rounded-lg bg-white p-6 shadow-md'>
-              <div className='mb-2 mt-2 flex flex-col p-2'>
-                <span className='font-semibold'>Direccion:</span>
-                <span>{report.user.company.address}</span>
-              </div>
-              <div className='mb-2 mt-2 flex flex-col p-2'>
-                <span className='font-semibold'>Compañia:</span>
-                <span>{report.user.company.name}</span>
-              </div>
-            </div>
-          </div>
+  <div className='mt-5 max-w-sm rounded-lg bg-white p-6 shadow-md'>
+    <div className='mb-2 mt-2 flex flex-col p-2'>
+      <span className='font-semibold'>Dirección:</span>
+      <span>{report.user.company.address}</span>
+    </div>
+    <div className='mb-2 mt-2 flex flex-col p-2'>
+      <span className='font-semibold'>Compañía:</span>
+      <span>{report.user.company.name}</span>
+    </div>
+  </div>
+</div>
 
           <div>
             <div className='text-md mb-2 p-6 font-semibold'>Descripción:</div>

@@ -27,7 +27,7 @@ const TicketsDashboard = () => {
           const user = userList.find(user => user.email === email);
           if (user?._id) {
             setUserId(user._id);
-            // Asignar la foto del usuario, si existe
+           
             setProfileImage(user.photo || '/default-image.jpg');
           } else {
             console.error('No user found with this email:', email);
@@ -53,11 +53,11 @@ const TicketsDashboard = () => {
       reader.onloadend = async () => {
         setProfileImage(reader.result);
 
-        // Intentar cargar la imagen automáticamente después de seleccionarla
+        
         const imageUrl = await uploadImageToS3(file);
         if (imageUrl) {
           await updateUserPhoto(imageUrl);
-          window.location.reload(); // Recargar la página una vez que se haya subido
+          window.location.reload(); 
         } else {
           console.error("Failed to upload image");
         }
@@ -66,7 +66,7 @@ const TicketsDashboard = () => {
     }
   };
 
-  // Función para cargar imagen a S3
+  
   const uploadImageToS3 = async (file) => {
     if (!file) return null;
     try {
@@ -100,7 +100,7 @@ const TicketsDashboard = () => {
     }
   };
 
-  // Función para actualizar la foto del usuario
+  
   const updateUserPhoto = async (newPhotoUrl) => {
     const userData = { photo: newPhotoUrl };
     try {
@@ -137,7 +137,7 @@ const TicketsDashboard = () => {
         <div className="text-center bg-none mt-5">
   <div className="relative inline-block">
     <img src={profileImage || '/default-image.jpg'} alt="Profile Image" className="mx-auto h-32 w-32 transform rounded-full object-cover shadow-lg transition duration-300 ease-in-out hover:scale-105" />
-    <label htmlFor="profile-image-upload" className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600">
+    <label htmlFor="profile-image-upload" className="absolute bottom-0 right-0 cursor-pointer rounded-full  bg-gradient-to-r from-[#21262D] to-[#414B66]  p-2 text-white hover:bg-blue-600">
       <input id="profile-image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
       <img src="/icon/camera-icon.png" alt="Camera Icon" className="w-6 h-6" />
     </label>

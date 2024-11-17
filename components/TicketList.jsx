@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TaskCard from './TaskCard'; 
 import TicketDetail from './TicketDetail'; 
 import TicketClosed from './TicketClosed'; 
-import { getAllUsers, getReportsByUserId } from '@/api/api'; // Importa tus funciones API
+import { getAllUsers, getReportsByUserId } from '@/api/api'; 
 
 export default function TicketList({ tasksInProgress, tasksCompleted }) {
   const [activeTab, setActiveTab] = useState('inProgress'); 
@@ -19,10 +19,10 @@ export default function TicketList({ tasksInProgress, tasksCompleted }) {
           const userList = await getAllUsers(token);
           setUsers(userList);
 
-          // Suponiendo que cada usuario tiene un ID
+         
           const reportPromises = userList.map(user => getReportsByUserId(user._id, token));
           const userReports = await Promise.all(reportPromises);
-          setReports(userReports.flat()); // Aplanamos el array de reportes
+          setReports(userReports.flat());
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -92,11 +92,11 @@ export default function TicketList({ tasksInProgress, tasksCompleted }) {
                 {reports.map((report, index) => (
                   <TaskCard
                     key={index}
-                    picture={report.picture} // Suponiendo que cada reporte tiene una imagen
-                    title={report.description} // Descripción del reporte
-                    idOrder={report.id} // ID del reporte
-                    date={report.creationDate} // Fecha de creación
-                    onClick={() => handleCardClick(report)} // Maneja el clic en el reporte
+                    picture={report.picture} 
+                    title={report.description} 
+                    idOrder={report.id} 
+                    date={report.creationDate} 
+                    onClick={() => handleCardClick(report)} 
                   />
                 ))}
               </div>

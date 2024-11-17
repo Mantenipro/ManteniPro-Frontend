@@ -83,22 +83,22 @@ function TicketCard({ report }) {
       </div>
 
       <div className='mt-2 flex items-center justify-between'>
-        <div className='flex items-center'>
-          {user && (
-            <>
-              <img
-                src='/profile1.jpg'
-                alt={user.name}
-                className='mr-1 h-5 w-5 rounded-full'
-              />
-              <span
-                className={`text-xs md:text-sm ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}
-              >
-                {user.name}
-              </span>
-            </>
-          )}
-        </div>
+      <div className='flex items-center'>
+  {user && (
+    <>
+      <img
+        src={user.photo || '/profilepic3.png'} 
+        alt={user.name}
+        className='mr-1 h-5 w-5 rounded-full'
+      />
+      <span
+        className={`text-xs md:text-sm ${isHovered ? 'text-gray-300' : 'text-gray-700'}`}
+      >
+        {user.name}
+      </span>
+    </>
+  )}
+</div>
         <div className='buttom-2 absolute right-2 flex items-center'>
               <div className='mr-1 flex h-6 w-6 items-center justify-center rounded-full bg-white'>
                 <FaHardHat className='h-5 w-5' />

@@ -64,11 +64,11 @@ const DateFilter2 = ({ selectedDate, setSelectedDate, setMachines }) => {
         className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img
-          src="/icon/calendar-icon.png"
-          alt="Fecha"
+          src="/icon/time.png"
+          alt="Ordenar por"
           className="h-4 w-4 md:h-5 md:w-5 hidden md:block"
         />
-        <span>{selectedDate || 'Fecha'}</span>
+        <span>{selectedDate || 'Ordenar por'}</span>
       </button>
       {showDropdown && positionCalculated && (
         <div
