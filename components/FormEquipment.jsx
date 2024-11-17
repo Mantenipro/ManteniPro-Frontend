@@ -88,29 +88,35 @@ export default function FormEquipment() {
   async function onSubmit(data) {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
-
+  
+    // Verificar si la ubicación está vacía
+    if (!data.location) {
+      alert("El campo 'Ubicación' es obligatorio");
+      return;
+    }
+  
     if (token && email) {
       try {
         const userList = await getUsers();
         const user = userList.find((user) => user.email === email);
         const userId = user ? user._id : null;
-
+  
         if (!userId) {
           console.error("No se encontró un usuario con el email especificado.");
           return;
         }
-
+  
         let imageUrl = null;
         if (selectedFile) {
           imageUrl = await uploadImageToS3(selectedFile);
         }
-
+  
         const qrCodeDataUrl = await generateQRCode();
         let qrCodeUrl = null;
         if (qrCodeDataUrl) {
           qrCodeUrl = await uploadQRCodeToS3(qrCodeDataUrl);
         }
-
+  
         await createEquipment(
           data.equipmentName,
           data.model,
@@ -124,7 +130,7 @@ export default function FormEquipment() {
           qrCodeUrl,
           token
         );
-
+  
         router.push("/inventarioEquipos");
       } catch (error) {
         console.error("Error creating equipment:", error);
