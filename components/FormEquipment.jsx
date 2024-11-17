@@ -181,7 +181,7 @@ export default function FormEquipment() {
           Última fecha de mantenimiento
         </label>
         <input
-          {...register('manufactureDate', { required: true })}
+          {...register('manufactureDate', { required: false })}
           className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
           id='manufactureDate'
           type='date'
