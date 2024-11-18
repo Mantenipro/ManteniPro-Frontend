@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const dateOptions = ['Recientes', 'Últimos'];
+const dateOptions = ['Creados Primero', 'Ultimos creados'];
 
 const DateFilter2 = ({ selectedDate, setSelectedDate, setMachines }) => {
   const [showDropdown, setShowDropdown] = useState(false);

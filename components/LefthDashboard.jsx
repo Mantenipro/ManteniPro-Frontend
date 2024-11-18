@@ -74,7 +74,7 @@ export default function LefthDashboard() {
   }
 
   return (
-    <main className='h-screen p-2 text-[#f2f6fc]'>
+    <main className='h-screen p-2 text-[#f2f6fc] '>
       <div className='flex flex-col items-center'>
         <div className='flex h-[5rem] w-[10rem]'>
           <img
@@ -86,7 +86,11 @@ export default function LefthDashboard() {
 
         <div className='flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
           {/* Usar la propiedad photo si está disponible */}
-          <img className='h-10 w-10' src={userProfile.photo || '/profilepic.png'} alt='User' />
+          <img
+  className='md:h-15 md:w-15 rounded-full'
+  src={userProfile.photo || '/profilepic.png'}
+  alt='User'
+/>
           <p className='text-center text-xs font-bold'>{userProfile.name}</p>
           <p className='text-center text-xs'>{userProfile.role}</p>
         </div>

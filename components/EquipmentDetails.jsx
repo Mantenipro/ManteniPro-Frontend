@@ -36,8 +36,8 @@ const EquipmentDetails = ({ equipment }) => {
 
   return (
     <div
-      className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] min-h-[40rem]`}
-    >
+  className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] md:min-h-[40vh] min-h-[80vh] `}
+>
       {/* Imagen */}
       <Image
         src={equipment.image || '/noimg3.jpg'}
@@ -46,7 +46,7 @@ const EquipmentDetails = ({ equipment }) => {
         height={200}
         className='rounded-lg mx-auto mb-2'
       />
-      <div className='overflow-y-auto max-h-[25rem]'>
+      <div className='overflow-y-auto md:max-h-[25rem] max-h-[30rem]'>
         <div className='space-y-6 ml-2'>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='nombreEquipo'>
@@ -141,7 +141,7 @@ const EquipmentDetails = ({ equipment }) => {
               {...register('tipoUnidad')}
               defaultValue={equipment.unitType}
               readOnly
-              className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='appearance-none border mb-10 border-gray-300 rounded-lg w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
               id='tipoUnidad'
               type='text'
             />
