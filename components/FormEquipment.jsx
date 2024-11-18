@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import QRCode from 'qrcode';
-import { createEquipment, getUsers } from '@/api/api';
+import { createEquipment, getUsers, editEquipment } from '@/api/api'; // Asegúrate de importar la función editEquipment
 import { Source_Sans_3 } from 'next/font/google';
 import PropietarioSelect from './PropietarioSelect';
 import LocationInput from './LocationInput';
@@ -46,10 +46,12 @@ export default function FormEquipment() {
     }
   }
 
-
-  
   async function uploadQRCodeToS3(qrCodeData) {
     try {
+      if (!qrCodeData) {
+        console.error("No se generó un QR válido");
+        return null;
+      }
       const qrCodeBlob = await (await fetch(qrCodeData)).blob();
       const uniqueNumber = generateUniqueNumber();
       const qrCodeFile = new File([qrCodeBlob], `qrcode_${uniqueNumber}.png`, { type: 'image/png' });
@@ -66,21 +68,24 @@ export default function FormEquipment() {
         headers: { 'Content-Type': qrCodeFile.type },
         body: qrCodeFile,
       });
+      console.log("QR subido exitosamente a S3");
       return url.split('?')[0];
     } catch (error) {
-      console.error("Error uploading QR code to S3:", error);
+      console.error("Error subiendo el QR a S3:", error);
       return null;
     }
   }
 
-  async function generateQRCode() {
-    const url = 'http://localhost:3000/inventarioEquipos';
+  async function generateQRCode(equipmentId) {
+    const url = `http://localhost:3000/equipos2/${equipmentId}`;
     try {
+      console.log("Generando QR para la URL:", url);
       const qrCodeDataUrl = await QRCode.toDataURL(url);
+      console.log("QR generado exitosamente:", qrCodeDataUrl);
       setQrCodeUrl(qrCodeDataUrl);
       return qrCodeDataUrl;
     } catch (error) {
-      console.error("Error generating QR code:", error);
+      console.error("Error generando el código QR:", error);
       return null;
     }
   }
@@ -111,13 +116,8 @@ export default function FormEquipment() {
           imageUrl = await uploadImageToS3(selectedFile);
         }
   
-        const qrCodeDataUrl = await generateQRCode();
-        let qrCodeUrl = null;
-        if (qrCodeDataUrl) {
-          qrCodeUrl = await uploadQRCodeToS3(qrCodeDataUrl);
-        }
-  
-        await createEquipment(
+        // Primero creamos el equipo sin el QR
+        const createdEquipment = await createEquipment(
           data.equipmentName,
           data.model,
           userId,
@@ -127,127 +127,146 @@ export default function FormEquipment() {
           data.location,
           data.unitType,
           imageUrl,
-          qrCodeUrl,
+          null, // No pasamos el QR aún
           token
         );
   
+        const equipmentId = createdEquipment._id; // Obtenemos el id del equipo creado
+  
+        // Generar el URL del QR con el id del equipo
+        const qrCodeDataUrl = await generateQRCode(equipmentId);
+  
+        // Ahora subimos el QR al servidor (S3)
+        const uploadedQrCodeUrl = await uploadQRCodeToS3(qrCodeDataUrl);
+  
+        // Verificar si el QR fue subido correctamente
+        if (!uploadedQrCodeUrl) {
+          console.error("No se pudo obtener la URL del QR después de la subida.");
+          return;
+        }
+  
+        // Creamos el objeto con los datos actualizados (incluyendo el QR)
+        const updatedData = { qr: uploadedQrCodeUrl };
+  
+        // Editamos el equipo con la URL del QR
+        await editEquipment(equipmentId, updatedData, token);
+  
+        // Redirigimos al inventario
         router.push("/inventarioEquipos");
+  
       } catch (error) {
-        console.error("Error creating equipment:", error);
+        console.error("Error creando el equipo:", error);
       }
     } else {
-      console.error("Token or email not found in local storage.");
+      console.error("Token o email no encontrados en el almacenamiento local.");
     }
   }
 
+
   return (
     <form
-    onSubmit={handleSubmit(onSubmit)}
-    className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-1 w-[48vh] md:w-[70vh]  h-[80vh]  flex flex-col overflow-y-auto`}
-  >
-    <div className='space-y-4 flex-1'>
-      <div className='mb-4'>
-        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='equipmentName'>
-          Nombre del equipo
-        </label>
-        <input
-          {...register('equipmentName', { required: true })}
-          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-          id='equipmentName'
-          type='text'
-          placeholder='Nombre del equipo'
-        />
-        {errors.equipmentName && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+      onSubmit={handleSubmit(onSubmit)}
+      className={`${sourceSans3.className} bg-white shadow-lg rounded-lg px-4 pt-1 w-[48vh] md:w-[70vh]  h-[80vh]  flex flex-col overflow-y-auto`}
+    >
+      <div className='space-y-4 flex-1'>
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='equipmentName'>
+            Nombre del equipo
+          </label>
+          <input
+            {...register('equipmentName', { required: true })}
+            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+            id='equipmentName'
+            type='text'
+            placeholder='Nombre del equipo'
+          />
+          {errors.equipmentName && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+        </div>
+
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='model'>
+            Modelo
+          </label>
+          <input
+            {...register('model', { required: true })}
+            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+            id='model'
+            type='text'
+            placeholder='Modelo del equipo'
+          />
+          {errors.model && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+        </div>
+
+        <PropietarioSelect register={register} setValue={setValue} />
+
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='manufactureDate'>
+            Última fecha de mantenimiento
+          </label>
+          <input
+            {...register('manufactureDate', { required: false })}
+            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+            id='manufactureDate'
+            type='date'
+          />
+          {errors.manufactureDate && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+        </div>
+
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='brand'>
+            Marca
+          </label>
+          <input
+            {...register('brand', { required: true })}
+            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+            id='brand'
+            type='text'
+            placeholder='Marca del equipo'
+          />
+          {errors.brand && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+        </div>
+
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-semibold mb-[5px]  text-left'>
+            Ubicación
+          </label>
+          <LocationInput register={register} setValue={setValue} />
+          {errors.location && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+        </div>
+
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='unitType'>
+            Tipo de unidad
+          </label>
+          <input
+            {...register('unitType', { required: true })}
+            className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
+            id='unitType'
+            type='text'
+            placeholder='Tipo de unidad'
+          />
+          {errors.unitType && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
+        </div>
+
+        <div className="mb-4">
+          <label className='block text-gray-700 text-sm font-semibold mb-[5px] text-left' htmlFor='image'>
+            Imagen del equipo (Opcional)
+          </label>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="border border-gray-300 rounded-lg w-full py-1 px-2"
+          />
+        </div>
       </div>
-  
-      <div className='mb-4'>
-        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='model'>
-          Modelo
-        </label>
-        <input
-          {...register('model', { required: true })}
-          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-          id='model'
-          type='text'
-          placeholder='Modelo del equipo'
-        />
-        {errors.model && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-      </div>
-  
-      <PropietarioSelect register={register} setValue={setValue} />
-  
-      <div className='mb-4'>
-        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='manufactureDate'>
-          Última fecha de mantenimiento
-        </label>
-        <input
-          {...register('manufactureDate', { required: false })}
-          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-          id='manufactureDate'
-          type='date'
-        />
-        {errors.manufactureDate && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-      </div>
-  
-      <div className='mb-4'>
-        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='brand'>
-          Marca
-        </label>
-        <input
-          {...register('brand', { required: true })}
-          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-          id='brand'
-          type='text'
-          placeholder='Marca del equipo'
-        />
-        {errors.brand && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-      </div>
-  
-      <div className='mb-4'>
-        <label className='block text-gray-700 text-sm font-semibold mb-[5px]  text-left'>
-          Ubicación
-        </label>
-        <LocationInput register={register} setValue={setValue} />
-        {errors.location && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-      </div>
-  
-      <div className='mb-4'>
-        <label className='block text-gray-700 text-sm font-semibold mb-[2px] mt-8 text-left' htmlFor='unitType'>
-          Tipo de unidad
-        </label>
-        <input
-          {...register('unitType', { required: true })}
-          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-          id='unitType'
-          type='text'
-          placeholder='Tipo de unidad'
-        />
-        {errors.unitType && <span className="text-red-500 text-sm">Este campo es obligatorio</span>}
-      </div>
-  
-      <div className='mb-4'>
-        <label className='block text-gray-700 text-sm font-semibold mb-[2px] text-left' htmlFor='file'>
-          Cargar imagen
-        </label>
-        <input
-          id='file'
-          type='file'
-          onChange={handleFileChange}
-          accept='image/*'
-          className='appearance-none border border-gray-300 rounded-lg w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-        />
-      </div>
-    </div>
-  
-    <div className="flex justify-center">
+
       <button
         type='submit'
-        className='bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold py-2 px-4 rounded-lg mt-7 mb-5 w-36'
+        className='mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
       >
-        Crear Equipo
+        Crear equipo
       </button>
-    </div>
-  </form>
+    </form>
   );
 }
 

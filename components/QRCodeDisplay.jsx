@@ -13,18 +13,40 @@ const QRCodeDisplay = ({ qrCode }) => {
     }
 
     try {
-     
       const response = await fetch(qrCode);
       const blob = await response.blob();
-
-      
-      const imageName = qrCode.split('/').pop(); 
-
-      
-      saveAs(blob, imageName);
+      const imageName = qrCode.split('/').pop(); // Extrae el nombre de la imagen desde la URL
+      saveAs(blob, imageName); // Guarda la imagen
     } catch (error) {
       console.error("Error al guardar el QR:", error);
       alert("Ocurrió un error al intentar guardar el QR.");
+    }
+  };
+
+  const handleShare = async () => {
+    if (!qrCode) {
+      alert("No hay QR disponible para compartir.");
+      return;
+    }
+
+    try {
+      // Intentamos usar la API de Web Share si está disponible
+      if (navigator.share) {
+        const response = await fetch(qrCode);
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+
+        await navigator.share({
+          title: 'QR del Equipo',
+          text: 'Mira este código QR del equipo.',
+          url: imageUrl,
+        });
+      } else {
+        alert("Compartir no está disponible en este dispositivo.");
+      }
+    } catch (error) {
+      console.error("Error al intentar compartir el QR:", error);
+      alert("Ocurrió un error al intentar compartir el QR.");
     }
   };
 
@@ -61,12 +83,20 @@ const QRCodeDisplay = ({ qrCode }) => {
         </p>
       </div>
 
-      <div className='text-center'>
+      <div className='text-center space-x-4'>
         <button
           onClick={handleSave}
           className='bg-[#333333] text-white font-semibold inline-flex items-center justify-center rounded-md py-3 px-6 shadow-lg hover:shadow-xl transition-shadow'
         >
           Guardar
+          <span className='ml-2 text-[#FDB623]'>→</span>
+        </button>
+        
+        <button
+          onClick={handleShare}
+          className='bg-[#25D366] text-white font-semibold inline-flex items-center justify-center rounded-md py-3 px-6 shadow-lg hover:shadow-xl transition-shadow'
+        >
+          Compartir
           <span className='ml-2 text-[#FDB623]'>→</span>
         </button>
       </div>
@@ -75,6 +105,7 @@ const QRCodeDisplay = ({ qrCode }) => {
 };
 
 export default QRCodeDisplay;
+
 
 
 
