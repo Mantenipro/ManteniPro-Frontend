@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { deleteEquipment } from '@/api/api'; // Importa la función para eliminar equipo desde tu API
+import { deleteEquipment } from '@/api/api'; 
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 
-// Función para truncar texto
+
 const truncateText = (text, maxLength) => {
   if (!text) return '';
   return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
@@ -51,10 +51,9 @@ const MachineCard = ({ machine, onDelete }) => {
   const handleDeleteConfirm = async () => {
     if (isDeleteConfirmed) {
       try {
-        const token = localStorage.getItem('token'); // Obtén el token de autenticación
-        await deleteEquipment(machine._id, token); // Llamada a la API para eliminar el equipo
-        console.log('Equipo eliminado');
-        onDelete(machine._id); // Llama a la función onDelete para actualizar la lista en el componente principal
+        const token = localStorage.getItem('token'); 
+        await deleteEquipment(machine._id, token); 
+        onDelete(machine._id); 
         setShowWarning(false);
       } catch (error) {
         console.error("Error eliminando el equipo:", error);
@@ -209,7 +208,7 @@ export async function getReportsByUser(userId, token) {
 
     
     const json = await res.json();
-    return json.data; // Devuelve los reportes del usuario
+    return json.data; 
   } catch (error) {
     console.error("Error fetching reports by user:", error);
     throw error;

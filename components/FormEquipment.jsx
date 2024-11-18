@@ -68,7 +68,7 @@ export default function FormEquipment() {
         headers: { 'Content-Type': qrCodeFile.type },
         body: qrCodeFile,
       });
-      console.log("QR subido exitosamente a S3");
+     
       return url.split('?')[0];
     } catch (error) {
       console.error("Error subiendo el QR a S3:", error);
@@ -79,9 +79,9 @@ export default function FormEquipment() {
   async function generateQRCode(equipmentId) {
     const url = `http://localhost:3000/equipos2/${equipmentId}`;
     try {
-      console.log("Generando QR para la URL:", url);
+
       const qrCodeDataUrl = await QRCode.toDataURL(url);
-      console.log("QR generado exitosamente:", qrCodeDataUrl);
+    
       setQrCodeUrl(qrCodeDataUrl);
       return qrCodeDataUrl;
     } catch (error) {
