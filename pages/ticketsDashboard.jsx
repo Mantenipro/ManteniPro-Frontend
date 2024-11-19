@@ -4,6 +4,7 @@
   import LefthDashboard from '@/components/LefthDashboard'
   import { Montserrat, Source_Sans_3 } from 'next/font/google'
   import { fetchUserData, fetchUserProfile } from '../pages/api/api'
+  import { useRouter } from 'next/router';
 
   const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -33,6 +34,7 @@
   }
 
   const TicketsDashboard = () => {
+      const router = useRouter();
     const [selectedPriorities, setSelectedPriorities] = useState([])
     const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
     const [isSubscriptionSuspended, setIsSubscriptionSuspended] = useState(false)
@@ -43,6 +45,7 @@
     const [loading, setLoading] = useState(true)
     const [apiError, setApiError] = useState(null)
     const [userDataDate, setUserDataDate] = useState('')
+    const [hasReachedTicketLimit, setHasReachedTicketLimit] = useState(false);
 
     // Hook personalizado que gestiona los tickets
     const { tickets, loadingTickets } = useTickets()
@@ -55,6 +58,7 @@
         setIsSubscriptionActive(userData.subscription === true)
         setIsSubscriptionSuspended(userData.cancelAtPeriodEnd === true)
         setUserDataDate(userData.endDate)
+        setHasReachedTicketLimit(userData.hasReachedTicketLimit)
       } catch (error) {
         console.error('Error fetching subscription status:', error)
         setApiError(error.message)
@@ -115,6 +119,10 @@
       [filteredTickets, selectedPriorities]
     )
 
+     const handleUpgradeSubscription = () => {
+       router.push('https://billing.stripe.com/p/login/test_28odUQarH7FK8XC7ss')
+     }
+
     return (
       <div
         className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}
@@ -162,6 +170,17 @@
                 </div>
               )}
             </div>
+            {hasReachedTicketLimit && (
+              <div className='fixed right-4 top-5 z-50'>
+                <button
+                  onClick={handleUpgradeSubscription}
+                  className='rounded bg-red-500 px-2 py-1.5 text-white'
+                >
+                  Has alcanzado el límite de tickets. Actualiza tu suscripción
+                  dando clic aquí.
+                </button>
+              </div>
+            )}
           </div>
 
           <div className='mb-4 mt-4'>

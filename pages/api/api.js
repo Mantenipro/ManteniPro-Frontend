@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000'
+const API_URL = 'https://mantenipro-api-1tyv.onrender.com'
 
 export async function login(email, password) {
   try {
@@ -258,7 +258,8 @@ export const fetchUserData = async () => {
       startDate: startDate,
       endDate: endDate,
       subscriptionId: subscriptionId,
-      cancelAtPeriodEnd: cancelAtPeriodEnd
+      cancelAtPeriodEnd: cancelAtPeriodEnd,
+      hasReachedTicketLimit : data.subscription_type.hasReachedTicketLimit
     }
   } catch (error) {
     throw new Error(error.message)

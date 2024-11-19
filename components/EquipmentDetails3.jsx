@@ -50,52 +50,79 @@ const EquipmentDetails = ({ equipment }) => {
 
   const onSubmit = async (data) => {
     try {
-      const title = `${tipoEquipo} / ${data.problema}`;
+      const title = `${tipoEquipo} / ${data.problema}`
       const reportData = {
         title,
         description: `${data.descripcionProblema || 'Sin descripción'}`,
-        user: equipment.owner,  // Asignamos el ID del propietario (owner)
-        company: equipment.company,  // Asignamos el ID de la compañía
-        equipment: equipment._id,  // Asignamos el ID del equipo
-        created_at: new Date(),
-      };
+        user: equipment.owner, // Asignamos el ID del propietario (owner)
+        company: equipment.company, // Asignamos el ID de la compañía
+        equipment: equipment._id, // Asignamos el ID del equipo
+        created_at: new Date()
+      }
 
       if (selectedFile) {
-        const fileData = { fileName: selectedFile.name, fileType: selectedFile.type };
-        const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(fileData),
-        });
+        const fileData = {
+          fileName: selectedFile.name,
+          fileType: selectedFile.type
+        }
+        const presignedUrlResponse = await fetch(
+          'http://localhost:8000/api/s3/presigned-url',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fileData)
+          }
+        )
 
-        const { url } = await presignedUrlResponse.json();
+        const { url } = await presignedUrlResponse.json()
         await fetch(url, {
           method: 'PUT',
           headers: { 'Content-Type': selectedFile.type },
-          body: selectedFile,
-        });
-        reportData.image = url.split('?')[0];
+          body: selectedFile
+        })
+        reportData.image = url.split('?')[0]
       }
 
-      const response = await createReport(reportData);
+      const response = await createReport(reportData)
 
-      if (response) {
+      if (!response) {
+        throw new Error('No se recibió respuesta del servidor')
+      }
+
+      if (response.success) {
         toast.success('Reporte enviado exitosamente', {
-          position: 'bottom-right',
-          style: { fontSize: '16px', padding: '10px', maxWidth: '90vw', width: 'auto' },
-        });
-        reset();
-        setTipoEquipo('');
-        setProblemasComunes([]);
-        setSelectedFile(null);
-        router.push('/gestionDeTickets');
+          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+          style: {
+            fontSize: '20px',
+            padding: '20px',
+            maxWidth: '90vw',
+            width: 'auto'
+          }
+        })
+        reset()
+        setTipoEquipo('')
+        setProblemasComunes([])
+        setSelectedFile(null)
+        setTimeout(() => {
+          router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
+        }, 3000)
+      } else {
+        throw new Error(response.error || 'Error desconocido')
       }
     } catch (error) {
-      console.error('Error al enviar el reporte:', error);
-      toast.error('Error al enviar el reporte', {
-        position: 'bottom-right',
-        style: { fontSize: '16px', padding: '10px', maxWidth: '90vw', width: 'auto' },
-      });
+      toast.error(`${error.message}`, {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw',
+          width: 'auto'
+        }
+      })
+      setTimeout(() => {
+        router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
+      }, 3000)
+      console.error('Error al enviar el reporte:', error)
     }
   };
 
@@ -108,7 +135,7 @@ const EquipmentDetails = ({ equipment }) => {
   return (
     <>
       <Toaster />
-      <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] min-h-[40rem]`}>
+      <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-4 mx-3 pt-5 w-[30rem] min-h-[40rem]`}>
         <Image
           src={equipment.image || '/airConditioning.jpg'}
           alt={equipment.equipmentName || 'Air Conditioning'}
@@ -116,7 +143,7 @@ const EquipmentDetails = ({ equipment }) => {
           height={200}
           className='rounded-lg mx-auto mb-2'
         />
-        <div className='overflow-y-auto max-h-[25rem]'>
+        <div className='overflow-y-auto animate-fadeIn scrollbar-hide max-h-[25rem]'>
           <div className='space-y-6 ml-2'>
             <div className='mb-4'>
             <label className='block text-white text-sm font-semibold mb-[1px] md:pr-96 pr-80' htmlFor='nombreEquipo'>
@@ -264,7 +291,7 @@ const EquipmentDetails = ({ equipment }) => {
                 />
               </div>
 
-              <div className='flex justify-between'>
+              <div className='flex justify-center'>
                 <button
                   type='submit'
                   className={`mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${

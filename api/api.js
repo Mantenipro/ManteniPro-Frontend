@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000';
+const API_URL = 'https://mantenipro-api-1tyv.onrender.com'
 
 export async function createReport(data) {
   const res = await fetch(`${API_URL}/report`, {
@@ -9,7 +9,7 @@ export async function createReport(data) {
     body: JSON.stringify(data),
   });
   const json = await res.json();
-  return json.data;
+  return json;
 }
 
 // Función para crear un equipo
