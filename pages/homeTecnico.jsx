@@ -1,4 +1,4 @@
-mport React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import NavbarTecnicoMobile from '@/components/NavbarTecnicoMobile';

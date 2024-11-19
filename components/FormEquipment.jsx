@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import QRCode from 'qrcode';
-import { createEquipment, getUsers, editEquipment } from '@/api/api'; // Asegúrate de importar la función editEquipment
+import { createEquipment, getUsers, editEquipment } from '@/api/api'; 
 import { Source_Sans_3 } from 'next/font/google';
 import PropietarioSelect from './PropietarioSelect';
 import LocationInput from './LocationInput';

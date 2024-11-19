@@ -36,13 +36,13 @@ const GestionDeTickets = () => {
 
           if (userId) {
             const userReports = await getReportsByUser(userId, token);
-            console.log("Reportes del usuario:", userReports);
+          
             setReports(userReports);
           } else {
-            console.log("No se encontró el usuario con el email proporcionado.");
+          
           }
         } else {
-          console.log("Token o email no disponible en local storage.");
+        
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -75,10 +75,10 @@ const GestionDeTickets = () => {
         router.push(`/StatusDetail?ticketId=${report._id}`);
         break;
       case 'completed':
-        router.push(`/CierreTicket?ticketId=${report._id}`);
+        router.push(`/CierreTicket2?ticketId=${report._id}`);
         break;
       default:
-        console.log("El ticket está pendiente y no se puede redirigir.");
+       
     }
   };
 

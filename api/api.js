@@ -1,4 +1,4 @@
-const API_URL = 'https://mantenipro-api-1tyv.onrender.com'
+const API_URL = 'http://localhost:8000'
 
 export async function createReport(data) {
   const res = await fetch(`${API_URL}/report`, {
@@ -344,3 +344,29 @@ export async function fetchReportsByTecnico() {
     console.error(error.message)
   }
 }
+
+
+// Nueva función para obtener asignación por ID de reporte
+export const getAssignmentByReportId = async (reportId) => {
+  try {
+    const response = await fetch(`${API_URL}/assignment/byReport/${reportId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` // Añadir el token si es necesario para la autenticación
+      }
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      throw new Error(json.message || 'Error al obtener la asignación por reporte');
+    }
+
+    console.log('Asignación obtenida:', json);
+    return json;
+  } catch (error) {
+    console.error('Error en la solicitud de asignación por reporte:', error);
+    throw error;
+  }
+};

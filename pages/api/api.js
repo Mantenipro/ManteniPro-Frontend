@@ -1,4 +1,4 @@
-const API_URL = 'https://mantenipro-api-1tyv.onrender.com'
+const API_URL = 'http://localhost:8000';
 
 export async function login(email, password) {
   try {
@@ -735,3 +735,4 @@ export const updateAssignmentByReport = async (reportId, solution, finishedAt, V
     throw error
   }
 }
+
