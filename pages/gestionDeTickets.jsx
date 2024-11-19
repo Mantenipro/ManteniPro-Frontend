@@ -72,7 +72,7 @@ const GestionDeTickets = () => {
         break;
       
       case 'in-progress':
-        router.push(`/StatusDetail?ticketId=${report._id}`);
+        router.push(`/StatusDetail2?ticketId=${report._id}`);
         break;
       case 'completed':
         router.push(`/CierreTicket2?ticketId=${report._id}`);

@@ -225,19 +225,19 @@ const StatusDetailLayout = ({ initialData }) => {
   </div>
 </div>
 
-          <div>
-            <div className='text-md mb-2 p-6 font-semibold'>Descripción:</div>
-            <div className='mx-2 rounded bg-gray-200 p-2 md:mx-6'>
-              {report.description}
-            </div>
-          </div>
-          <div className='my-2 flex justify-center'>
-            <img
-              src='/airConditioning.jpg'
-              alt='user-photo'
-              className='m-1 h-24 w-24 rounded-lg object-cover shadow-md'
-            />
-          </div>
+<div>
+  <div className="text-md mb-2 p-6 font-semibold">Descripción:</div>
+  <div className="mx-2 rounded bg-gray-200 p-2 md:mx-6">
+    {report.description}
+  </div>
+  <div className="my-2 flex justify-center">
+    <img
+      src={report.image ? report.image : '/noimg3.jpg'}
+      alt="report-image"
+      className="m-1 h-24 w-24 rounded-lg object-cover "
+    />
+  </div>
+</div>
 
           <div className='mx-4 my-4 h-auto border-b-2'></div>
 

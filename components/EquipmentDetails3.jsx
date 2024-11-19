@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { createReport, getAllUsers } from '../api/api'; // Asegúrate de tener estas funciones
+import { createReport, getAllUsers } from '../api/api'; 
 import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import { Source_Sans_3 } from 'next/font/google';
@@ -104,7 +104,7 @@ const EquipmentDetails = ({ equipment }) => {
         setProblemasComunes([])
         setSelectedFile(null)
         setTimeout(() => {
-          router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
+          router.push('/gestionDeTickets')
         }, 3000)
       } else {
         throw new Error(response.error || 'Error desconocido')
