@@ -137,7 +137,7 @@ const EquipmentDetails = ({ equipment }) => {
       <Toaster />
       <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-4 mx-3 pt-5 w-[30rem] min-h-[40rem]`}>
         <Image
-          src={equipment.image || '/airConditioning.jpg'}
+          src={equipment.image || '/noimg3.jpg'}
           alt={equipment.equipmentName || 'Air Conditioning'}
           width={200}
           height={200}

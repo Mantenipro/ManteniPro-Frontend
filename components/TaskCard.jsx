@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Today } from '@mui/icons-material';
 
-
-export default function TaskCard({ title, description, createdAt, picture, onClick, onDelete, className }) {
+export default function TaskCard({ title, description, createdAt, picture, onClick, onDelete, className, status }) {
   const [showWarning, setShowWarning] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768); // Detecta si es desktop
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768); 
 
   useEffect(() => {
-    // Detectar cambios en el tamaño de la pantalla
+   
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 768);
     };
@@ -50,9 +49,22 @@ export default function TaskCard({ title, description, createdAt, picture, onCli
     }
   };
 
-  // Lógica para truncar el título y la descripción según el tamaño de pantalla
   const truncatedTitle = title.length > (isDesktop ? 40 : 30) ? `${title.slice(0, isDesktop ? 40 : 30)}...` : title;
   const truncatedDescription = description.length > (isDesktop ? 40 : 20) ? `${description.slice(0, isDesktop ? 110 : 20)}...` : description;
+
+  
+  const translateStatus = (status) => {
+    switch (status) {
+      case 'pending':
+        return 'Pendiente';
+      case 'in-progress':
+        return 'En progreso';
+      case 'completed':
+        return 'Completado';
+      default:
+        return status; 
+    }
+  };
 
   return (
     <div className={`relative ${className}`}>
@@ -60,16 +72,17 @@ export default function TaskCard({ title, description, createdAt, picture, onCli
       <div
         onClick={handleCardClick}
         className={`group relative flex flex-col justify-between rounded-xl border-2 bg-[#FAFAFA] p-4 text-sm transition duration-300 ease-in-out cursor-pointer
-          ${isClicked ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'hover:bg-gradient-to-r hover:from-[#21262D] hover:to-[#414B66]'}
-          ${isClicked ? 'text-white' : ''} md:text-xl`}
+          ${isClicked ? 'bg-gradient-to-r from-[#21262D] to-[#414B66]' : 'hover:bg-gradient-to-r hover:from-[#21262D] hover:to-[#414B66]'}` }
       >
-        {/* Botón de eliminar en la parte superior derecha */}
-        <button
-          onClick={handleDeleteClick}
-          className="absolute top-2 right-2 p-2"
-        >
-          <img src="/icon/delete-icon.png" alt="Eliminar" className="h-5 w-5 md:h-6 md:w-6" />
-        </button>
+        {/* Botón de eliminar solo si el estado es 'pending' */}
+        {status === 'pending' && (
+          <button
+            onClick={handleDeleteClick}
+            className="absolute top-2 right-2 p-2"
+          >
+            <img src="/icon/delete-icon.png" alt="Eliminar" className="h-5 w-5 md:h-6 md:w-6" />
+          </button>
+        )}
 
         {/* Contenido de la tarjeta */}
         <div className="flex items-center space-x-3">
@@ -84,6 +97,12 @@ export default function TaskCard({ title, description, createdAt, picture, onCli
             <p className={`md:text-xl text-sm font-medium group-hover:text-white ${isClicked ? 'text-white' : ''}`}>{truncatedTitle}</p>
             <p className={`md:text-lg group-hover:text-gray-300 ${isClicked ? 'text-gray-300 ' : 'text-gray-600'}`}>{truncatedDescription}</p>
           </div>
+        </div>
+
+        {/* Estado del ticket */}
+        <div className="mt-2 text-sm font-semibold text-gray-600">
+          <span className="text-gray-500">Estado: </span> 
+          <span className="text-gray-500">{translateStatus(status)}</span> {/* Estado traducido */}
         </div>
 
         {/* Fecha de creación en la parte inferior derecha */}

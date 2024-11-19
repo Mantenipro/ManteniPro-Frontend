@@ -12,6 +12,7 @@ import { MdArrowBackIosNew } from "react-icons/md";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
+
 export default function StatusDetailLayout() {
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false) 

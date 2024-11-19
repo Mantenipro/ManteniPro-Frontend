@@ -19,7 +19,7 @@ export default function LefthDashboard() {
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [userProfile, setUserProfile] = useState({ name: '', role: '' })
+  const [userProfile, setUserProfile] = useState({ name: '', role: '', photo: '' })
   const router = useRouter()
 
   useEffect(() => {
@@ -44,7 +44,8 @@ export default function LefthDashboard() {
         const profileData = await fetchUserProfile()
         setUserProfile({
           name: profileData.data.name,
-          role: profileData.data.role
+          role: profileData.data.role,
+          photo: profileData.data.photo // Añadir la propiedad photo
         })
       } catch (error) {
         console.error('Error fetching user profile:', error)
@@ -73,7 +74,7 @@ export default function LefthDashboard() {
   }
 
   return (
-    <main className='h-screen p-2 text-[#f2f6fc]'>
+    <main className='h-screen p-2 text-[#f2f6fc] '>
       <div className='flex flex-col items-center'>
         <div className='flex h-[5rem] w-[10rem]'>
           <img
@@ -84,7 +85,12 @@ export default function LefthDashboard() {
         </div>
 
         <div className='flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
-          <img className='h-10 w-10' src='/userphoto.svg' alt='User' />
+          {/* Usar la propiedad photo si está disponible */}
+          <img
+  className='md:h-15 md:w-15 rounded-full'
+  src={userProfile.photo || '/profilepic.png'}
+  alt='User'
+/>
           <p className='text-center text-xs font-bold'>{userProfile.name}</p>
           <p className='text-center text-xs'>{userProfile.role}</p>
         </div>
@@ -146,7 +152,7 @@ export default function LefthDashboard() {
             )}
             {userProfile.role === 'usuario' && (
               <>
-                <Link href='/ticketsDashboard'>
+                <Link href='/gestionDeTickets'>
                   <MenuItem icon='/tickets-dash.svg' title='Tickets' />
                 </Link>
                 <Link href='/equiposCliente'>

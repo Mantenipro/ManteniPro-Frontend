@@ -6,7 +6,6 @@ import InfoPanelCustomer from '@/components/InfoPanelCustomer';
 import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';
 
-
 const GestionDeTickets = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -20,7 +19,7 @@ const GestionDeTickets = () => {
   const [users, setUsers] = useState([]);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState('Recientes'); // Default to "Recientes"
+  const [selectedDate, setSelectedDate] = useState('Recientes'); 
 
   useEffect(() => {
     const fetchUsersAndReports = async () => {
@@ -55,7 +54,7 @@ const GestionDeTickets = () => {
     fetchUsersAndReports();
   }, [router]);
 
-  // Filtrar las tareas según el estado del ticket y la fecha seleccionada
+
   const tasksToDisplay = activeTab === 'inProgress'
     ? reports.filter(report => (report.status === 'pending' || report.status === 'in-progress'))
     : reports.filter(report => report.status === 'completed');
@@ -66,8 +65,21 @@ const GestionDeTickets = () => {
     return selectedDate === 'Recientes' ? dateB - dateA : dateA - dateB;
   });
 
-  const handleCardClick = (task) => {
-    setSelectedTask(task);
+  const handleCardClick = (report) => {
+    switch (report.status) {
+      case 'pending':
+        router.push(`/EstadoDeAsignacion`);
+        break;
+      
+      case 'in-progress':
+        router.push(`/StatusDetail?ticketId=${report._id}`);
+        break;
+      case 'completed':
+        router.push(`/CierreTicket?ticketId=${report._id}`);
+        break;
+      default:
+        console.log("El ticket está pendiente y no se puede redirigir.");
+    }
   };
 
   const handleTabChange = (tab) => {
@@ -144,6 +156,7 @@ const GestionDeTickets = () => {
                             key={report._id}
                             picture={report.image}
                             title={report.title}
+                            status={report.status}
                             description={report.description}
                             createdAt={report.created_at}
                             onClick={() => handleCardClick(report)}

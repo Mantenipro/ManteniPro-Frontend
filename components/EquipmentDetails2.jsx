@@ -11,7 +11,7 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 export default function EquipmentDetails2({ equipment }) {
   const { register, handleSubmit, setValue } = useForm();
   const [error, setError] = useState(null);
-  const [imagePreview, setImagePreview] = useState(equipment.image || '/airConditioning.jpg');
+  const [imagePreview, setImagePreview] = useState(equipment.image || '/noimg3.jpg');
   const [compressedImage, setCompressedImage] = useState(null);
   const [userList, setUserList] = useState([]);
   const router = useRouter();
@@ -109,7 +109,7 @@ export default function EquipmentDetails2({ equipment }) {
       <div className="relative w-52 h-52 mx-auto mb-2">
         <Image
           src={imagePreview}
-          alt={equipment.equipmentName || 'Air Conditioning'}
+          alt={equipment.equipmentName || 'noimg3'}
           width={200}
           height={200}
           className='object-cover w-full h-full rounded-lg'

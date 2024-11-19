@@ -314,59 +314,15 @@ const UserProfile = () => {
   }
 
   return (
-    <div className='flex min-h-screen items-center justify-center bg-gray-100 p-4'>
+    <div className=' items-center justify-center bg-gray-100 '>
       <Toaster />
-      <div className='animate-fadeIn h-[40rem] w-full max-w-2xl space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
-        {/* Encabezado con imagen */}
-        <div className='text-center'>
-          <div className='relative inline-block'>
-            <img
-              src={profileImage}
-              alt='Company Logo'
-              className='mx-auto h-32 w-32 transform rounded-full object-cover shadow-lg transition duration-300 ease-in-out hover:scale-105'
-            />
-            <label
-              htmlFor='profile-image-upload'
-              className='absolute bottom-0 right-0 cursor-pointer rounded-full bg-blue-500 p-2 text-white transition duration-300 ease-in-out hover:bg-blue-600'
-            >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z'
-                />
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M15 13a3 3 0 11-6 0 3 3 0 016 0z'
-                />
-              </svg>
-            </label>
-            <input
-              id='profile-image-upload'
-              type='file'
-              accept='image/*'
-              className='hidden'
-              onChange={handleImageUpload}
-            />
-          </div>
-          <h2 className='mt-4 text-3xl font-bold text-gray-900'>
-            Company Profile
-          </h2>
-        </div>
+      <div className='animate-fadeIn md:h-[70vh] h-[65vh] w-full  space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
+       
 
         {/* Formulario */}
         <form
           onSubmit={handleSubmit(handleUpdateUserData)}
-          className='space-y-6'
+          className='space-y-6 '
         >
           {renderField('company', 'Company Name', 'text', false)}
           {userRole === 'admin' ? (

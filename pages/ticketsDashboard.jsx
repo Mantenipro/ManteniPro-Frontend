@@ -6,32 +6,30 @@
   import { fetchUserData, fetchUserProfile } from '../pages/api/api'
   import { useRouter } from 'next/router';
 
-  const montserrat = Montserrat({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] })
 
-  // Lazy loading de componentes
-  const InfoPanel = lazy(() => import('../components/InfoPanel'))
-  const TicketsStatus = lazy(() => import('../components/TicketsStatus'))
+// Lazy loading del componente TicketsStatus
+const TicketsStatus = lazy(() => import('../components/TicketsStatus'))
 
-  const useTickets = () => {
-    const [tickets, setTickets] = useState({})
-    const [loadingTickets, setLoadingTickets] = useState(true)
+const useTickets = () => {
+  const [tickets, setTickets] = useState({})
+  const [loadingTickets, setLoadingTickets] = useState(true)
 
-    
-    useEffect(() => {
-      // Simulamos la carga de los tickets
-      const loadTickets = () => {
-        setLoadingTickets(true)
-        setTimeout(() => {
-          setTickets({ porHacer: [], enProceso: [], completados: [] })
-          setLoadingTickets(false)
-        }, 2000) // Simula 2 segundos de carga
-      }
+  useEffect(() => {
+    // Simulamos la carga de los tickets
+    const loadTickets = () => {
+      setLoadingTickets(true)
+      setTimeout(() => {
+        setTickets({ porHacer: [], enProceso: [], completados: [] })
+        setLoadingTickets(false)
+      }, 2000) // Simula 2 segundos de carga
+    }
 
-      loadTickets()
-    }, [])
+    loadTickets()
+  }, [])
 
-    return { tickets, loadingTickets }
-  }
+  return { tickets, loadingTickets }
+}
 
   const TicketsDashboard = () => {
       const router = useRouter();
@@ -47,14 +45,14 @@
     const [userDataDate, setUserDataDate] = useState('')
     const [hasReachedTicketLimit, setHasReachedTicketLimit] = useState(false);
 
-    // Hook personalizado que gestiona los tickets
-    const { tickets, loadingTickets } = useTickets()
+  // Hook personalizado que gestiona los tickets
+  const { tickets, loadingTickets } = useTickets()
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchSubscriptionStatus = async () => {
       try {
         const userData = await fetchUserData()
-        console.log('User Data:', userData) // Agrega este log
+        console.log('User Data:', userData)
         setIsSubscriptionActive(userData.subscription === true)
         setIsSubscriptionSuspended(userData.cancelAtPeriodEnd === true)
         setUserDataDate(userData.endDate)
@@ -67,45 +65,45 @@
       }
     }
 
-      const fetchUserProfileData = async () => {
-        try {
-          const token = window.localStorage.getItem('token')
-          if (!token) {
-            throw new Error('No token found')
-          }
-
-          const profileData = await fetchUserProfile()
-          setUserRole(profileData.data.role)
-        } catch (error) {
-          console.error('Error fetching user profile:', error)
-          setApiError(error.message)
-        } finally {
-          setLoading(false)
+    const fetchUserProfileData = async () => {
+      try {
+        const token = window.localStorage.getItem('token')
+        if (!token) {
+          throw new Error('No token found')
         }
+
+        const profileData = await fetchUserProfile()
+        setUserRole(profileData.data.role)
+      } catch (error) {
+        console.error('Error fetching user profile:', error)
+        setApiError(error.message)
+      } finally {
+        setLoading(false)
       }
-
-      fetchUserProfileData()
-      fetchSubscriptionStatus()
-    }, [])
-
-    useEffect(() => {
-      setIsHydrated(true)
-    }, [])
-
-    const toggleMenu = () => {
-      setIsMenuOpen(!isMenuOpen)
     }
 
-    const toggleProfilesMenu = () => {
-      setShowProfilesMenu(!showProfilesMenu)
-    }
+    fetchUserProfileData()
+    fetchSubscriptionStatus()
+  }, [])
 
-    const filteredTickets = useMemo(() => {
-      console.log('userRole:', userRole)
-      console.log('tickets:', tickets)
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
 
-      return tickets
-    }, [tickets, userRole])
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  const toggleProfilesMenu = () => {
+    setShowProfilesMenu(!showProfilesMenu)
+  }
+
+  const filteredTickets = useMemo(() => {
+    console.log('userRole:', userRole)
+    console.log('tickets:', tickets)
+
+    return tickets
+  }, [tickets, userRole])
 
     const MemoizedTicketsStatus = useMemo(
       () => (
@@ -135,20 +133,18 @@
           <LefthDashboard />
         </div>
 
-        <main className='mt-1 flex-1 p-4'>
-          <div className='flex flex-wrap items-center justify-between'>
-            <div className='left-4 top-4 z-50 lg:hidden'>
-              <button
-                onClick={toggleMenu}
-                className='rounded-md bg-[#21262D] p-2 text-sm text-white focus:outline-none sm:text-base lg:text-lg'
-                aria-expanded={isMenuOpen}
-                aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-              >
-                {isMenuOpen ? '✖' : '☰'}
-              </button>
-            </div>
-
-            <SearchBar />
+      <main className='mt-1 flex-1 p-4'>
+        <div className='flex flex-wrap items-center justify-between'>
+          <div className='left-4 top-4 z-50 lg:hidden'>
+            <button
+              onClick={toggleMenu}
+              className='rounded-md bg-[#21262D] p-2 text-sm text-white focus:outline-none sm:text-base lg:text-lg'
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            >
+              {isMenuOpen ? '✖' : '☰'}
+            </button>
+          </div>
 
             <div className='flex flex-col md:mt-0 md:flex-row md:items-center'>
               {userRole === 'admin' &&
@@ -183,35 +179,24 @@
             )}
           </div>
 
-          <div className='mb-4 mt-4'>
-            <Title className='text-2xl'>Tickets</Title>
-          </div>
+        <div className='mb-4 mt-4'>
+          <Title className='text-2xl'>Tickets</Title>
+        </div>
 
-          <div className='mb-2'>
-            {isHydrated ? (
-              <Suspense fallback={<div>Cargando InfoPanel...</div>}>
-                <InfoPanel
-                  selectedPriorities={selectedPriorities}
-                  setSelectedPriorities={setSelectedPriorities}
-                />
-              </Suspense>
-            ) : null}
-          </div>
+        <div className='mt-6'>
+          {loading || loadingTickets ? (
+            <div>Cargando Tickets...</div>
+          ) : apiError ? (
+            <div>Error: {apiError}</div>
+          ) : (
+            <Suspense fallback={<div>Cargando Tickets...</div>}>
+              {MemoizedTicketsStatus}
+            </Suspense>
+          )}
+        </div>
+      </main>
+    </div>
+  )
+}
 
-          <div className='mt-6'>
-            {loading || loadingTickets ? (
-              <div>Cargando Tickets...</div>
-            ) : apiError ? (
-              <div>Error: {apiError}</div>
-            ) : (
-              <Suspense fallback={<div>Cargando Tickets...</div>}>
-                {MemoizedTicketsStatus}
-              </Suspense>
-            )}
-          </div>
-        </main>
-      </div>
-    )
-  }
-
-  export default TicketsDashboard
+export default TicketsDashboard
