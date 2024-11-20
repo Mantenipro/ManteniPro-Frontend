@@ -4,11 +4,12 @@ import LefthDashboard from '@/components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getReportById, updateAssignmentByReport } from './api/api'; 
 import SignatureCanvas from 'react-signature-canvas'; 
-
+import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 export default function CierreTicket() {
+  useAuth2() 
   const [showProfilesMenu, setShowProfilesMenu] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [ticketData, setTicketData] = useState(null);

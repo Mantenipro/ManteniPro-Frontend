@@ -7,11 +7,12 @@ import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import AddUser from '@/components/AddUser'
 import { fetchUsers } from '@/pages/api/api'
-
+import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const CatalogoDeUsuarios = () => {
+  useAuth2()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [usuarios, setUsuarios] = useState([])

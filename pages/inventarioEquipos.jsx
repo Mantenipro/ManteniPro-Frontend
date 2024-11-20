@@ -8,12 +8,13 @@ import LefthDashboard from '@/components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getEquipmentByCompanyId, getAllUsers } from '@/api/api';
 import { useRouter } from 'next/router';
-
+import useAuth2 from "../hooks/useAuth2";
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const Catalogo = () => {
+    useAuth2()
   const [machines, setMachines] = useState([]);
   const [users, setUsers] = useState([]);
   const [owners, setOwners] = useState([]);

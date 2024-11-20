@@ -5,6 +5,7 @@
   import { Montserrat, Source_Sans_3 } from 'next/font/google'
   import { fetchUserData, fetchUserProfile } from '../pages/api/api'
   import { useRouter } from 'next/router';
+  import useAuth2 from "../hooks/useAuth2";
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -12,6 +13,7 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 const TicketsStatus = lazy(() => import('../components/TicketsStatus'))
 
 const useTickets = () => {
+  useAuth2()
   const [tickets, setTickets] = useState({})
   const [loadingTickets, setLoadingTickets] = useState(true)
 

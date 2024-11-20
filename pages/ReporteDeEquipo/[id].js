@@ -22,7 +22,7 @@ const DetalleEquipo = () => {
         if (!token) {
        
           alert('Debes iniciar sesión primero.');
-          router.push('/inicioSesion'); 
+          router.push('/inicioSesion');
           return;
         }
 

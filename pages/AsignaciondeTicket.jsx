@@ -9,12 +9,13 @@ import TecnicoSelect from '../components/TecnicoSelect'
 import { useForm } from 'react-hook-form'
 import { toast, Toaster } from 'sonner'
 import { MdArrowBackIosNew } from 'react-icons/md'
-
+import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 export default function AsignaciondeTicket() {
-    const { register, setValue, handleSubmit } = useForm()
+  useAuth2()  
+  const { register, setValue, handleSubmit } = useForm()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()

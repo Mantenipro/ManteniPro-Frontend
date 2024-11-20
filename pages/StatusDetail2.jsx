@@ -8,12 +8,13 @@ import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import { getReportById } from './api/api'
 import { useRouter } from 'next/router'
 import { MdArrowBackIosNew } from "react-icons/md";
-
+import useAuth3 from "../hooks/useAuth3";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 
 export default function StatusDetailLayout() {
+  useAuth3()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false) 
   const router = useRouter()
