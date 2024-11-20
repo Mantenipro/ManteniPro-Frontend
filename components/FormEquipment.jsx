@@ -77,7 +77,7 @@ export default function FormEquipment() {
   }
 
   async function generateQRCode(equipmentId) {
-    const url = `http://localhost:3000/equipos2/${equipmentId}`;
+    const url = `http://localhost:3000/ReporteDeEquipo/${equipmentId}`;
     try {
 
       const qrCodeDataUrl = await QRCode.toDataURL(url);
@@ -94,7 +94,7 @@ export default function FormEquipment() {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
   
-    // Verificar si la ubicación está vacía
+   
     if (!data.location) {
       alert("El campo 'Ubicación' es obligatorio");
       return;

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { fetchUserData, fetchUserProfile } from '../pages/api/api' // Asegúrate de que la ruta sea correcta
-
+import useAuth from "../hooks/useAuth";
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
     className='mt-2 flex w-full cursor-pointer items-center justify-start rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'
@@ -16,6 +16,7 @@ const MenuItem = ({ icon, title, onClick, children }) => (
 )
 
 export default function LefthDashboard() {
+  useAuth()
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)

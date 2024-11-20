@@ -1,4 +1,4 @@
-const API_URL = 'http://http://ec2-3-149-232-96.us-east-2.compute.amazonaws.com:8000'
+const API_URL = 'http://localhost:8000'
 
 export async function createReport(data) {
   const res = await fetch(`${API_URL}/report`, {

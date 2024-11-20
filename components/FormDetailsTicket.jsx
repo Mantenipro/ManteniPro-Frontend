@@ -259,22 +259,22 @@ const StatusDetailLayout = ({ initialData }) => {
                         : 'flex-row-reverse'
                     }`}
                   >
-                    <img
-                      src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'
-                      alt='user-avatar'
-                      className='h-10 w-10 rounded-full object-cover'
-                    />
-                    <div
-                      className={`text-left ${comment.author._id === report.user._id || comment.author._id === report.assignedTo ? '' : 'px-4 text-right'}`}
-                    >
-                      <div className='text-sm font-semibold text-gray-800'>
-                        {comment.author.name}
-                      </div>
-                      <span className='text-sm text-gray-500'>
-                        {<CommentTime createdAt={comment.created_at} />}
-                      </span>
-                      <p className='mt-1 text-gray-700'>{comment.content}</p>
-                    </div>
+                  <img
+  src={comment.author.photo || '/profilepic3.png'}
+  alt='user-avatar'
+  className='h-10 w-10 rounded-full object-cover'
+/>
+<div
+  className={`text-left ${comment.author._id === report.user._id || comment.author._id === report.assignedTo ? '' : 'px-4 text-right'}`}
+>
+  <div className='text-sm font-semibold text-gray-800'>
+    {comment.author.name}
+  </div>
+  <span className='text-sm text-gray-500'>
+    {<CommentTime createdAt={comment.created_at} />}
+  </span>
+  <p className='mt-1 text-gray-700'>{comment.content}</p>
+</div>
                   </div>
                 ))
               ) : (

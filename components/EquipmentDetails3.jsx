@@ -54,9 +54,9 @@ const EquipmentDetails = ({ equipment }) => {
       const reportData = {
         title,
         description: `${data.descripcionProblema || 'Sin descripción'}`,
-        user: equipment.owner, // Asignamos el ID del propietario (owner)
-        company: equipment.company, // Asignamos el ID de la compañía
-        equipment: equipment._id, // Asignamos el ID del equipo
+        user: equipment.owner, 
+        company: equipment.company, 
+        equipment: equipment._id, 
         created_at: new Date()
       }
 
@@ -120,7 +120,7 @@ const EquipmentDetails = ({ equipment }) => {
         }
       })
       setTimeout(() => {
-        router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
+        router.push('/gestionDeTickets') 
       }, 3000)
       console.error('Error al enviar el reporte:', error)
     }
