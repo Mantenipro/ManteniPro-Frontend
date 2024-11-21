@@ -70,7 +70,7 @@ const TicketsDashboard = () => {
   const uploadImageToS3 = async (file) => {
     if (!file) return null;
     try {
-      const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+      const presignedUrlResponse = await fetch('https://api-v1.mantenipro.net/api/s3/presigned-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fileName: file.name, fileType: file.type }),

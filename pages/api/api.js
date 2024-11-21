@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000';
+const API_URL = 'https://api-v1.mantenipro.net';
 
 export async function login(email, password) {
   try {
@@ -548,7 +548,7 @@ export const fetchUserById = async (userId) => {
 export const fetchEquimentById = async (equipmentId) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/equipment/${equipmentId}`,
+      `https://api-v1.mantenipro.net/equipment/${equipmentId}`,
       {
         method: 'GET',
         headers: {

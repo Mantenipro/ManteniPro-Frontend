@@ -28,7 +28,7 @@ export default function FormEquipment() {
     if (!file) return null;
     try {
       const fileData = { fileName: file.name, fileType: file.type };
-      const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+      const presignedUrlResponse = await fetch('https://api-v1.mantenipro.net/api/s3/presigned-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fileData),
@@ -57,7 +57,7 @@ export default function FormEquipment() {
       const qrCodeFile = new File([qrCodeBlob], `qrcode_${uniqueNumber}.png`, { type: 'image/png' });
 
       const fileData = { fileName: qrCodeFile.name, fileType: qrCodeFile.type };
-      const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+      const presignedUrlResponse = await fetch('https://api-v1.mantenipro.net/api/s3/presigned-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fileData),
