@@ -104,7 +104,7 @@ const EquipmentDetails = ({ equipment }) => {
         setProblemasComunes([])
         setSelectedFile(null)
         setTimeout(() => {
-          router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
+          router.push('/gestionDeTickets') // Redirige al dashboard si no necesita cambiar la contraseña
         }, 3000)
       } else {
         throw new Error(response.error || 'Error desconocido')
@@ -120,7 +120,7 @@ const EquipmentDetails = ({ equipment }) => {
         }
       })
       setTimeout(() => {
-        router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
+        router.push('/gestionDeTickets') // Redirige al dashboard si no necesita cambiar la contraseña
       }, 3000)
       console.error('Error al enviar el reporte:', error)
     }

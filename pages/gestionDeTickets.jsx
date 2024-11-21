@@ -75,7 +75,7 @@ const GestionDeTickets = () => {
         router.push(`/StatusDetail?ticketId=${report._id}`);
         break;
       case 'completed':
-        router.push(`/CierreTicket?ticketId=${report._id}`);
+        router.push(`/CierreTicket?ticketId=${report.closeTicketId}`)
         break;
       default:
         console.log("El ticket está pendiente y no se puede redirigir.");
@@ -148,7 +148,7 @@ const GestionDeTickets = () => {
                     </div>
                     <div className="border-b border-gray-300 my-2" />
                   </div>
-                  <div className="relative w-full h-[65vh] md:h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+                  <div className="relative w-full h-[65vh] md:h-[55vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
                     <div className="flex flex-col space-y-5 mt-4">
                       {sortedTasks.length > 0 ? (
                         sortedTasks.map((report) => (

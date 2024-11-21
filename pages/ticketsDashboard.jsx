@@ -5,6 +5,8 @@
   import { Montserrat, Source_Sans_3 } from 'next/font/google'
   import { fetchUserData, fetchUserProfile } from '../pages/api/api'
   import { useRouter } from 'next/router';
+  import { useModal } from '../context/ModalContext';
+  import SupportForm from '../components/SupportForm'; 
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -32,7 +34,8 @@ const useTickets = () => {
 }
 
   const TicketsDashboard = () => {
-      const router = useRouter();
+    const { isModalOpen, closeModal } = useModal(); // Accede al estado y la función para cerrar el modal
+    const router = useRouter();
     const [selectedPriorities, setSelectedPriorities] = useState([])
     const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
     const [isSubscriptionSuspended, setIsSubscriptionSuspended] = useState(false)
@@ -133,18 +136,18 @@ const useTickets = () => {
           <LefthDashboard />
         </div>
 
-      <main className='mt-1 flex-1 p-4'>
-        <div className='flex flex-wrap items-center justify-between'>
-          <div className='left-4 top-4 z-50 lg:hidden'>
-            <button
-              onClick={toggleMenu}
-              className='rounded-md bg-[#21262D] p-2 text-sm text-white focus:outline-none sm:text-base lg:text-lg'
-              aria-expanded={isMenuOpen}
-              aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            >
-              {isMenuOpen ? '✖' : '☰'}
-            </button>
-          </div>
+        <main className='mt-1 flex-1 p-4'>
+          <div className='flex flex-wrap items-center justify-between'>
+            <div className='left-4 top-4 z-50 lg:hidden'>
+              <button
+                onClick={toggleMenu}
+                className='rounded-md bg-[#21262D] p-2 text-sm text-white focus:outline-none sm:text-base lg:text-lg'
+                aria-expanded={isMenuOpen}
+                aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              >
+                {isMenuOpen ? '✖' : '☰'}
+              </button>
+            </div>
 
             <div className='flex flex-col md:mt-0 md:flex-row md:items-center'>
               {userRole === 'admin' &&
@@ -166,37 +169,62 @@ const useTickets = () => {
                 </div>
               )}
             </div>
-            {hasReachedTicketLimit && (
-              <div className='fixed right-4 top-5 z-50'>
+            {hasReachedTicketLimit && userRole === 'admin' && (
+              <div className='fixed right-4 top-5 z-50 md:top-8'>
                 <button
                   onClick={handleUpgradeSubscription}
-                  className='rounded bg-red-500 px-2 py-1.5 text-white'
+                  className='rounded bg-red-500 px-2 py-1.5 text-white sm:px-4 sm:py-2'
                 >
-                  Has alcanzado el límite de tickets. Actualiza tu suscripción
-                  dando clic aquí.
+                  <span className='hidden sm:inline'>
+                    Has alcanzado el límite de tickets. Actualiza tu suscripción
+                    dando clic aquí.
+                  </span>
+                  <span className='inline sm:hidden'>
+                    Límite de tickets alcanzado. Actualiza.
+                  </span>
                 </button>
               </div>
             )}
           </div>
 
-        <div className='mb-4 mt-4'>
-          <Title className='text-2xl'>Tickets</Title>
-        </div>
-
-        <div className='mt-6'>
-          {loading || loadingTickets ? (
-            <div>Cargando Tickets...</div>
-          ) : apiError ? (
-            <div>Error: {apiError}</div>
-          ) : (
-            <Suspense fallback={<div>Cargando Tickets...</div>}>
-              {MemoizedTicketsStatus}
-            </Suspense>
+          <div className='mb-4 mt-4'>
+            <Title className='text-2xl'>Tickets</Title>
+          </div>
+          {/* Modal */}
+          {isModalOpen && (
+            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+              <div
+                className='relative w-full max-w-md scale-100 transform rounded-lg bg-white p-6 shadow-lg transition-transform duration-300 ease-in-out'
+                style={{ animation: 'fadeIn 0.3s ease-in-out' }}
+              >
+                <button
+                  onClick={closeModal}
+                  className='absolute right-2 top-2 rounded-full bg-red-500 px-3 py-1 text-white'
+                >
+                  ✖
+                </button>
+                <h2 className='mb-4 mt-4 text-xl font-bold'>
+                  ¿Tienes algún problema? Contáctanos
+                </h2>
+                <SupportForm closeModal={closeModal} />
+              </div>
+            </div>
           )}
-        </div>
-      </main>
-    </div>
-  )
+
+          <div className='mt-6'>
+            {loading || loadingTickets ? (
+              <div>Cargando Tickets...</div>
+            ) : apiError ? (
+              <div>Error: {apiError}</div>
+            ) : (
+              <Suspense fallback={<div>Cargando Tickets...</div>}>
+                {MemoizedTicketsStatus}
+              </Suspense>
+            )}
+          </div>
+        </main>
+      </div>
+    )
 }
 
 export default TicketsDashboard

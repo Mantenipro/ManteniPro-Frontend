@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { fetchUserData, fetchUserProfile } from '../pages/api/api' // Asegúrate de que la ruta sea correcta
+import { useModal } from '../context/ModalContext'
 
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
@@ -21,6 +22,7 @@ export default function LefthDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [userProfile, setUserProfile] = useState({ name: '', role: '', photo: '' })
   const router = useRouter()
+  const { openModal } = useModal()
 
   useEffect(() => {
     // Función para obtener el estado de la suscripción desde la API de perfil
@@ -73,8 +75,13 @@ export default function LefthDashboard() {
     setShowProfilesMenu(!showProfilesMenu)
   }
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
+
+
   return (
-    <main className='h-screen p-2 text-[#f2f6fc] '>
+    <main className='h-screen p-2 text-[#f2f6fc]'>
       <div className='flex flex-col items-center'>
         <div className='flex h-[5rem] w-[10rem]'>
           <img
@@ -87,12 +94,14 @@ export default function LefthDashboard() {
         <div className='flex h-[120px] w-[100px] flex-col items-center rounded-[40px] bg-gradient-to-b from-[#232c48] to-[#4361b2] p-4 shadow-sm'>
           {/* Usar la propiedad photo si está disponible */}
           <img
-  className='md:h-15 md:w-15 rounded-full'
-  src={userProfile.photo || '/profilepic.png'}
-  alt='User'
-/>
+            className='rounded-full md:h-12 md:w-12'
+            src={userProfile.photo || '/profilepic.png'}
+            alt='User'
+          />
           <p className='text-center text-xs font-bold'>{userProfile.name}</p>
-          <p className='text-center text-xs'>{userProfile.role}</p>
+          <p className='text-center text-xs'>
+            {capitalizeFirstLetter(userProfile.role)}
+          </p>
         </div>
       </div>
 
@@ -163,10 +172,14 @@ export default function LefthDashboard() {
           </div>
         </div>
         <div className='Seccion2'>
-          <MenuItem icon='/settings-filled-Dash.svg' title='Settings' />
           <Link href='/perfil'>
             <MenuItem icon='/person-filled-dash.svg' title='Profile' />
           </Link>
+          <MenuItem
+            icon='/headset.svg'
+            title='Contáctanos'
+            onClick={openModal} // Botón para abrir el modal
+          />
           <MenuItem
             icon='/signuot-dash.svg'
             title='Sign Out'
