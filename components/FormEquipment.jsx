@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import QRCode from 'qrcode';
-import { createEquipment, getUsers, editEquipment } from '@/api/api'; // Asegúrate de importar la función editEquipment
+import { createEquipment, getUsers, editEquipment } from '@/api/api'; 
 import { Source_Sans_3 } from 'next/font/google';
 import PropietarioSelect from './PropietarioSelect';
 import LocationInput from './LocationInput';
@@ -28,7 +28,7 @@ export default function FormEquipment() {
     if (!file) return null;
     try {
       const fileData = { fileName: file.name, fileType: file.type };
-      const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+      const presignedUrlResponse = await fetch('https://api-v1.mantenipro.net/api/s3/presigned-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fileData),
@@ -57,7 +57,7 @@ export default function FormEquipment() {
       const qrCodeFile = new File([qrCodeBlob], `qrcode_${uniqueNumber}.png`, { type: 'image/png' });
 
       const fileData = { fileName: qrCodeFile.name, fileType: qrCodeFile.type };
-      const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+      const presignedUrlResponse = await fetch('https://api-v1.mantenipro.net/api/s3/presigned-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fileData),
@@ -77,7 +77,7 @@ export default function FormEquipment() {
   }
 
   async function generateQRCode(equipmentId) {
-    const url = `http://localhost:3000/equipos2/${equipmentId}`;
+    const url = `https://mantenipro.vercel.app/ReporteDeEquipo/${equipmentId}`;
     try {
 
       const qrCodeDataUrl = await QRCode.toDataURL(url);
@@ -94,7 +94,7 @@ export default function FormEquipment() {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
   
-    // Verificar si la ubicación está vacía
+   
     if (!data.location) {
       alert("El campo 'Ubicación' es obligatorio");
       return;
@@ -259,13 +259,14 @@ export default function FormEquipment() {
           />
         </div>
       </div>
-
+<div className='flex items-center justify-center'>
       <button
         type='submit'
-        className='mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+        className='mt-4 mb-5  bg-gradient-to-r from-[#21262D] to-[#414B66] w-[30vh] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
       >
         Crear equipo
       </button>
+      </div>
     </form>
   );
 }

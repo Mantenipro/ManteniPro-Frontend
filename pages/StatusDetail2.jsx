@@ -1,20 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import Title from '../components/Title'
-import FormDetailsTicket from '../components/FormDetailsTicket'
+import FormDetailsTicket from '../components/FormDetailsTicket2'
 import { useState, useEffect } from 'react'
 import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import { getReportById } from './api/api'
 import { useRouter } from 'next/router'
 import { MdArrowBackIosNew } from "react-icons/md";
-import useAuth2 from "../hooks/useAuth2";
+import useAuth3 from "../hooks/useAuth3";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 
 export default function StatusDetailLayout() {
-  useAuth2()
+  useAuth3()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false) 
   const router = useRouter()

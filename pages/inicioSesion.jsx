@@ -79,14 +79,14 @@ const LoginForm = ({ textColor, bgColor }) => {
             }
           })
           
-          // Redirigir según el perfil del usuario
+        
           if (role === 'usuario') {
             setTimeout(() => {
-              router.push('/gestionDeTickets') // Redirige a la página de equipos cliente si es un usuario
+              router.push('/equiposCliente') 
             }, 2000)
           } else {
             setTimeout(() => {
-              router.push('/ticketsDashboard') // Redirige al dashboard si no es usuario
+              router.push('/ticketsDashboard') 
             }, 2000)
           }
         }

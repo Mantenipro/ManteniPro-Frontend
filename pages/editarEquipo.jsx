@@ -6,11 +6,12 @@ import { useState, useEffect } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import { useRouter } from 'next/router'
 import { fetchEquimentById } from '../pages/api/api'
-
+import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const ActualizarEquipo = () => {
+  useAuth2() 
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()

@@ -19,7 +19,14 @@ const DetalleEquipo = () => {
     const fetchEquipment = async () => {
       try {
         const token = localStorage.getItem("token");
-        if (id && token) {
+        if (!token) {
+       
+          alert('Debes iniciar sesión primero.');
+          router.push('/inicioSesion');
+          return;
+        }
+
+        if (id) {
           const data = await getEquipmentById(id, token); 
           setEquipment(data);
         }
@@ -31,7 +38,7 @@ const DetalleEquipo = () => {
     };
 
     fetchEquipment();
-  }, [id]);
+  }, [id, router]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -39,7 +46,7 @@ const DetalleEquipo = () => {
     return <div>Cargando...</div>;
   }
 
-  if (!equipment) return <p>No se encontró información del equipo.</p>;
+  if (!equipment) return null; 
 
   return (
     <div className={`min-h-screen bg-gray-100 flex relative ${montserrat.className}`}>

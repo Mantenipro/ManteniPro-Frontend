@@ -25,7 +25,7 @@ const MachineCard = ({ machine }) => {
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
-  const handleCardClick = () => router.push(`/equipment2/${machine._id}`);
+  const handleCardClick = () => router.push(`/ReporteDeEquipo/${machine._id}`);
 
   return (
     <div>

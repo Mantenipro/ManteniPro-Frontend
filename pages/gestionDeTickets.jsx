@@ -5,8 +5,9 @@ import Title from '@/components/Title';
 import InfoPanelCustomer from '@/components/InfoPanelCustomer';
 import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';
-
+import useAuth3 from "../hooks/useAuth3";
 const GestionDeTickets = () => {
+  useAuth3()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -36,13 +37,13 @@ const GestionDeTickets = () => {
 
           if (userId) {
             const userReports = await getReportsByUser(userId, token);
-            console.log("Reportes del usuario:", userReports);
+          
             setReports(userReports);
           } else {
-            console.log("No se encontró el usuario con el email proporcionado.");
+          
           }
         } else {
-          console.log("Token o email no disponible en local storage.");
+        
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -72,13 +73,13 @@ const GestionDeTickets = () => {
         break;
       
       case 'in-progress':
-        router.push(`/StatusDetail?ticketId=${report._id}`);
+        router.push(`/StatusDetail2?ticketId=${report._id}`);
         break;
       case 'completed':
         router.push(`/CierreTicket?ticketId=${report.closeTicketId}`)
         break;
       default:
-        console.log("El ticket está pendiente y no se puede redirigir.");
+       
     }
   };
 

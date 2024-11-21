@@ -17,6 +17,7 @@ const MenuItem = ({ icon, title, onClick, children }) => (
 )
 
 export default function LefthDashboard() {
+  useAuth()
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { createReport, getAllUsers } from '../api/api'; // Asegúrate de tener estas funciones
+import { createReport, getAllUsers } from '../api/api'; 
 import { useRouter } from 'next/router';
 import { toast, Toaster } from 'sonner';
 import { Source_Sans_3 } from 'next/font/google';
@@ -54,9 +54,9 @@ const EquipmentDetails = ({ equipment }) => {
       const reportData = {
         title,
         description: `${data.descripcionProblema || 'Sin descripción'}`,
-        user: equipment.owner, // Asignamos el ID del propietario (owner)
-        company: equipment.company, // Asignamos el ID de la compañía
-        equipment: equipment._id, // Asignamos el ID del equipo
+        user: equipment.owner, 
+        company: equipment.company, 
+        equipment: equipment._id, 
         created_at: new Date()
       }
 
@@ -66,7 +66,7 @@ const EquipmentDetails = ({ equipment }) => {
           fileType: selectedFile.type
         }
         const presignedUrlResponse = await fetch(
-          'http://localhost:8000/api/s3/presigned-url',
+          'https://api-v1.mantenipro.net/api/s3/presigned-url',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -294,7 +294,7 @@ const EquipmentDetails = ({ equipment }) => {
               <div className='flex justify-center'>
                 <button
                   type='submit'
-                  className={`mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+                  className={`mt-4  bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold py-2 px-4 rounded ${
                     isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   disabled={isSubmitting}

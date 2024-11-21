@@ -263,19 +263,19 @@ console.log(userRole)
             </div>
           </div>
 
-          <div>
-            <div className='text-md mb-2 p-6 font-semibold'>Descripción:</div>
-            <div className='mx-2 rounded bg-gray-200 p-2 md:mx-6'>
-              {report.description}
-            </div>
-          </div>
-          <div className='my-2 flex justify-center'>
-            <img
-              src='/airConditioning.jpg'
-              alt='user-photo'
-              className='m-1 h-24 w-24 rounded-lg object-cover shadow-md'
-            />
-          </div>
+<div>
+  <div className="text-md mb-2 p-6 font-semibold">Descripción:</div>
+  <div className="mx-2 rounded bg-gray-200 p-2 md:mx-6">
+    {report.description}
+  </div>
+  <div className="my-2 flex justify-center">
+    <img
+      src={report.image ? report.image : '/noimg3.jpg'}
+      alt="report-image"
+      className="m-1 h-24 w-24 rounded-lg object-cover "
+    />
+  </div>
+</div>
 
           <div className='mx-4 my-4 h-auto border-b-2'></div>
 
@@ -297,22 +297,22 @@ console.log(userRole)
                         : 'flex-row-reverse'
                     }`}
                   >
-                    <img
-                      src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'
-                      alt='user-avatar'
-                      className='h-10 w-10 rounded-full object-cover'
-                    />
-                    <div
-                      className={`text-left ${comment.author._id === report.user._id || comment.author._id === report.assignedTo ? '' : 'px-4 text-right'}`}
-                    >
-                      <div className='text-sm font-semibold text-gray-800'>
-                        {comment.author.name}
-                      </div>
-                      <span className='text-sm text-gray-500'>
-                        {<CommentTime createdAt={comment.created_at} />}
-                      </span>
-                      <p className='mt-1 text-gray-700'>{comment.content}</p>
-                    </div>
+                  <img
+  src={comment.author.photo || '/profilepic3.png'}
+  alt='user-avatar'
+  className='h-10 w-10 rounded-full object-cover'
+/>
+<div
+  className={`text-left ${comment.author._id === report.user._id || comment.author._id === report.assignedTo ? '' : 'px-4 text-right'}`}
+>
+  <div className='text-sm font-semibold text-gray-800'>
+    {comment.author.name}
+  </div>
+  <span className='text-sm text-gray-500'>
+    {<CommentTime createdAt={comment.created_at} />}
+  </span>
+  <p className='mt-1 text-gray-700'>{comment.content}</p>
+</div>
                   </div>
                 ))
               ) : (

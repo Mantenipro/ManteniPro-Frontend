@@ -10,6 +10,7 @@ const AddButton = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
+    
     window.addEventListener('resize', handleResize);
     handleResize();
 

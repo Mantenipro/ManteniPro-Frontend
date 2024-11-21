@@ -4,11 +4,12 @@ import FormUser from '../components/FormUser'
 import LefthDashboard from '@/components/LefthDashboard'
 import { useState } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
-
+import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const AgregarUsuario = () => {
+  useAuth2()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 

@@ -14,6 +14,7 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 const TicketsStatus = lazy(() => import('../components/TicketsStatus'))
 
 const useTickets = () => {
+  useAuth2()
   const [tickets, setTickets] = useState({})
   const [loadingTickets, setLoadingTickets] = useState(true)
 

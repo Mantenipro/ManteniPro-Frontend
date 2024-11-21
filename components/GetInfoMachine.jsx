@@ -49,7 +49,7 @@ export default function GetInfoMachine() {
 
       if (selectedFile) {
         const fileData = { fileName: selectedFile.name, fileType: selectedFile.type };
-        const presignedUrlResponse = await fetch('http://localhost:8000/api/s3/presigned-url', {
+        const presignedUrlResponse = await fetch('https://api-v1.mantenipro.net/api/s3/presigned-url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(fileData),

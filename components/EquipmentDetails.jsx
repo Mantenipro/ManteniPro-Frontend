@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { Source_Sans_3 } from 'next/font/google';
-import { getAllUsers } from '@/api/api'; // Asegúrate de tener esta función para obtener usuarios
+import { getAllUsers } from '@/api/api';
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
@@ -21,7 +21,7 @@ const EquipmentDetails = ({ equipment }) => {
           const owner = users.find(user => user._id === ownerId);
 
           if (owner) {
-            setOwnerName(owner.name); // Asigna el nombre del propietario
+            setOwnerName(owner.name); 
           } else {
             console.error('No se encontró el propietario con el ID proporcionado.');
           }
