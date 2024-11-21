@@ -233,22 +233,7 @@ const FormUser = ({ initialData }) => {
           </div>
         </div>
 
-        <div className='mb-4'>
-          <label
-            className='mb-[2px] block text-sm font-semibold text-gray-700'
-            htmlFor='foto'
-          >
-            Agregar foto (opcional)
-          </label>
-          <div className='w-full lg:w-1/2'>
-            <input
-              {...register('photo')}
-              className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-              id='foto'
-              type='file'
-            />
-          </div>
-        </div>
+     
       </div>
 
       <div className='mb-14 flex justify-end lg:mb-10 lg:mr-10 lg:mt-4'>
