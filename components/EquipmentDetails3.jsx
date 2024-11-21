@@ -294,7 +294,7 @@ const EquipmentDetails = ({ equipment }) => {
               <div className='flex justify-center'>
                 <button
                   type='submit'
-                  className={`mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+                  className={`mt-4  bg-gradient-to-r from-[#21262D] to-[#414B66] text-white font-bold py-2 px-4 rounded ${
                     isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   disabled={isSubmitting}

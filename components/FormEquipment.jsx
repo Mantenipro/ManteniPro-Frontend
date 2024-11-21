@@ -259,13 +259,14 @@ export default function FormEquipment() {
           />
         </div>
       </div>
-
+<div className='flex items-center justify-center'>
       <button
         type='submit'
-        className='mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+        className='mt-4 mb-5  bg-gradient-to-r from-[#21262D] to-[#414B66] w-[30vh] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
       >
         Crear equipo
       </button>
+      </div>
     </form>
   );
 }
