@@ -186,16 +186,16 @@ const useTickets = () => {
         </div>
 
         <div className='mt-6'>
-          {loading || loadingTickets ? (
-            <div>Cargando Tickets...</div>
-          ) : apiError ? (
-            <div>Error: {apiError}</div>
-          ) : (
-            <Suspense fallback={<div>Cargando Tickets...</div>}>
-              {MemoizedTicketsStatus}
-            </Suspense>
-          )}
-        </div>
+  {loading || loadingTickets ? (
+    <div>Cargando Tickets...</div>
+  ) : apiError ? (
+    <div>Necesitas suscribirte para poder ver renderizados tus reportes.</div>
+  ) : (
+    <Suspense fallback={<div>Cargando Tickets...</div>}>
+      {MemoizedTicketsStatus}
+    </Suspense>
+  )}
+</div>
       </main>
     </div>
   )

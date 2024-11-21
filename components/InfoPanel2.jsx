@@ -43,11 +43,7 @@ const InfoPanel2 = ({
           owners={owners} 
         />
       )}
-      <DateFilter2 
-        selectedDate={selectedDate}           
-        setSelectedDate={setSelectedDate}     
-        setMachines={setMachines} 
-      />
+     
       <LocationFilter2
         selectedLocations={selectedLocations}
         setSelectedLocations={setSelectedLocations}
