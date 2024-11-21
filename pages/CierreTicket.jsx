@@ -1,77 +1,74 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import LefthDashboard from '@/components/LefthDashboard'
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
-import { getCloseTicket, updateCloseTicket } from './api/api' // Actualizar la importación
-import SignatureCanvas from 'react-signature-canvas' // Importa SignatureCanvas
-import { toast, Toaster } from 'sonner'
+import React, { useRef, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import LefthDashboard from '@/components/LefthDashboard';
+import { Montserrat, Source_Sans_3 } from 'next/font/google';
+import { getReportById, updateAssignmentByReport } from './api/api'; // Actualizar la importación
+import SignatureCanvas from 'react-signature-canvas'; // Importa SignatureCanvas
 
-const montserrat = Montserrat({ subsets: ['latin'] })
-const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 export default function CierreTicket() {
-  const [showProfilesMenu, setShowProfilesMenu] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [orderId, setOrderId] = useState('')
-  const [solution, setSolution] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
-  const [clientApproval, setclientApproval] = useState('')
-  const [isClosed, setIsClosed] = useState(false)
-
-  const sigCanvas = useRef(null) // Referencia para el canvas de la firma
-  const router = useRouter()
-  const { ticketId } = router.query
+  const [showProfilesMenu, setShowProfilesMenu] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [ticketData, setTicketData] = useState(null);
+  const [orderId, setOrderId] = useState('');
+  const [solution, setSolution] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [vabo, setVabo] = useState('');  // Estado para el VoBo del cliente
+  
+  const sigCanvas = useRef(null);  // Referencia para el canvas de la firma
+  const router = useRouter();
+  const { ticketId } = router.query;
 
   useEffect(() => {
     if (ticketId) {
       const fetchTicketData = async () => {
         try {
-          const response = await getCloseTicket(ticketId)
-          const report = response
-          setOrderId(report.orderId.orderNumber || '')
-          setStartDate(report.assignedAt ? report.assignedAt.split('T')[0] : '')
-          setSolution(report.solution || '')
-          setEndDate(report.endDate ? report.endDate.split('T')[0] : '')
-          setclientApproval(report.clientApproval || '')
-          setIsClosed(report.isCompleted || false)
+          const response = await getReportById(ticketId);
+          const report = response.data.report;
+          setTicketData(report);
+          setOrderId(report.orderNumber || '');
+          setStartDate(report.created_at ? report.created_at.split('T')[0] : '');
         } catch (error) {
-          console.error('Error al obtener los datos del ticket:', error)
+          console.error('Error al obtener los datos del ticket:', error);
         }
-      }
-      fetchTicketData()
+      };
+      fetchTicketData();
     }
-  }, [ticketId])
+  }, [ticketId]);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!solution || !clientApproval || !startDate || !endDate) {
-      toast.error('Todos los campos son obligatorios.')
-      return
+    if (!solution || !vabo || !startDate || !endDate) {
+      alert('Todos los campos son obligatorios.');
+      return;
     }
 
-    try {
-      const data = {
-        solution,
-        endDate,
-        clientApproval
+    const finishedAt = endDate;
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        // Usar la nueva función updateAssignmentByReport
+        const response = await updateAssignmentByReport(ticketId, solution, finishedAt, vabo, token);
+        console.log('Asignación actualizada:', response);
+        router.push('/ticketsDashboard'); // Redirige después de la actualización
+      } catch (error) {
+        console.error('Error en la actualización de la asignación:', error);
       }
-      const response = await updateCloseTicket(ticketId, data)
-      console.log('Cierre de ticket creado:', response)
-      router.push('/ticketsDashboard') // Redirige después de la creación
-    } catch (error) {
-      console.error('Error en la creación del cierre del ticket:', error)
+    } else {
+      console.error('Token no encontrado en el almacenamiento local.');
+      alert('No se encuentra el token de autenticación. Por favor, inicia sesión nuevamente.');
     }
-  }
+  };
 
   return (
-    <div
-      className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}
-    >
-      <Toaster />
+    <div className={`${montserrat.className} relative flex h-dvh flex-row lg:flex-grow`}>
       <div
         className={`${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} fixed z-40 h-full w-[50%] transform bg-gradient-to-b from-[#31416d] to-[#232c48] transition-transform duration-300 ease-in-out md:w-[30%] lg:static lg:w-[15%] lg:translate-x-0`}
       >
@@ -128,7 +125,6 @@ export default function CierreTicket() {
               className='w-full rounded border p-2'
               rows='4'
               placeholder='Describa la solución elaborada'
-              readOnly={isClosed}
             ></textarea>
           </div>
 
@@ -155,9 +151,7 @@ export default function CierreTicket() {
               id='endDate'
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              min={new Date().toISOString().split('T')[0]}
               className='w-full rounded border p-2'
-              readOnly={isClosed}
             />
           </div>
 
@@ -169,32 +163,20 @@ export default function CierreTicket() {
               ref={sigCanvas}
               penColor='black'
               canvasProps={{ className: 'w-full rounded border p-2' }}
-              onEnd={() =>
-                setclientApproval(
-                  sigCanvas.current.getTrimmedCanvas().toDataURL()
-                )
-              }
+              onEnd={() => setVabo(sigCanvas.current.getTrimmedCanvas().toDataURL())}
             />
-            {useEffect(() => {
-              if (isClosed && clientApproval) {
-                sigCanvas.current.clear() // Limpia el canvas
-                sigCanvas.current.fromDataURL(clientApproval) // Dibuja la firma previa
-              }
-            }, [clientApproval, isClosed])}
           </div>
 
-          {!isClosed && (
-            <div className='flex justify-end'>
-              <button
-                type='submit'
-                className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
-              >
-                Cerrar Ticket
-              </button>
-            </div>
-          )}
+          <div className='flex justify-end'>
+            <button
+              type='submit'
+              className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
+            >
+              Cerrar Ticket
+            </button>
+          </div>
         </form>
       </main>
     </div>
-  )
+  );
 }

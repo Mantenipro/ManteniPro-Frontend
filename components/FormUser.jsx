@@ -63,7 +63,7 @@ const FormUser = ({ initialData }) => {
           }
         ) // Mostrar mensaje de éxito
         reset()
-        if (role === 'tecnico') {
+        if(role === 'tecnico') {
           setTimeout(() => {
             router.push('/catalogoDeTecnicos') // Redirige al resetPassword después de enviar el correo
           }, 2000)
@@ -74,33 +74,11 @@ const FormUser = ({ initialData }) => {
         }
       } else {
         toast.error(
-          response.error ||
-            `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`,
-          {
-            position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
-            style: {
-              fontSize: '20px',
-              padding: '20px',
-              maxWidth: '90vw', // Ajuste para pantallas pequeñas
-              width: 'auto'
-            }
-          }
-        ) // Mostrar mensaje de error// Mostrar mensaje de error
+          `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`
+        ) // Mostrar mensaje de error
       }
     } catch (error) {
-      toast.error(
-        error.message ||
-          `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`,
-        {
-          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
-          style: {
-            fontSize: '20px',
-            padding: '20px',
-            maxWidth: '90vw', // Ajuste para pantallas pequeñas
-            width: 'auto'
-          }
-        }
-      ) // Mostrar mensaje de error genérico
+      toast.error(`Error al ${initialData ? 'actualizar' : 'agregar'} usuario`) // Mostrar mensaje de error en caso de excepción
     }
   }
 
@@ -234,6 +212,7 @@ const FormUser = ({ initialData }) => {
                 id='permiso-admin'
                 type='radio'
                 value='admin'
+                disabled
               />
               <label htmlFor='permiso-admin' className='ml-2 text-gray-700'>
                 Admin

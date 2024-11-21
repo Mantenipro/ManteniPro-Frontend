@@ -121,25 +121,25 @@ const TicketsStatus = () => {
     fetchUsersAndReports()
   }, [])
 
- const handleNextSection = () => {
-   setCurrentSection((prevSection) => {
-     if (userRole === 'admin') {
-       return prevSection === 0 ? 1 : 2
-     } else {
-       return prevSection === 1 ? 2 : 1
-     }
-   })
- }
+  const handleNextSection = () => {
+    setCurrentSection((prevSection) => {
+      if (userRole === 'admin') {
+        return prevSection === 0 ? 1 : 0
+      } else {
+        return prevSection === 1 ? 2 : 1
+      }
+    })
+  }
 
- const handlePrevSection = () => {
-   setCurrentSection((prevSection) => {
-     if (userRole === 'admin') {
-       return prevSection === 2 ? 1 : 0
-     } else {
-       return prevSection === 2 ? 1 : 2
-     }
-   })
- }
+  const handlePrevSection = () => {
+    setCurrentSection((prevSection) => {
+      if (userRole === 'admin') {
+        return prevSection === 1 ? 0 : 1
+      } else {
+        return prevSection === 2 ? 1 : 2
+      }
+    })
+  }
 
   if (loading) {
     return <div>Cargando...</div>
@@ -148,7 +148,7 @@ const TicketsStatus = () => {
   return (
     <div className='rounded-lg bg-[#F5F5F5] p-2'>
       <div
-        className={`mb-12 grid grid-cols-1 gap-8 ${userRole === 'admin' ? 'md:grid-cols-3' : 'md:grid-cols-2 md:px-2 md:py-2'}`}
+        className={`mb-12 grid grid-cols-1 gap-8 ${userRole === 'admin' ? 'md:grid-cols-3' : 'md:grid-cols-2 md:py-2 md:px-2'}`}
       >
         {/* Ajustado el gap y margen entre columnas */}
         {userRole === 'admin' ? (
@@ -225,7 +225,7 @@ const StatusColumn = ({
       )}
     </div>
     <div className='mb-4 h-1 w-full bg-gradient-to-r from-[#21262D] to-[#414B66]'></div>
-    <div className='animate-fadeIn scrollbar-hide relative z-0 mt-8 flex h-[55vh] w-auto flex-col items-center justify-start overflow-y-auto md:h-[60vh]'>
+    <div className='animate-fadeIn scrollbar-hide relative z-0 mt-8 flex h-[60vh] w-auto flex-col items-center justify-start overflow-y-auto md:h-[60vh]'>
       {tickets && tickets.length === 0 ? (
         <p>No hay tickets para mostrar</p>
       ) : (

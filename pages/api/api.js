@@ -259,8 +259,7 @@ export const fetchUserData = async () => {
       endDate: endDate,
       subscriptionId: subscriptionId,
       cancelAtPeriodEnd: cancelAtPeriodEnd,
-      hasReachedTicketLimit : data.subscription_type.hasReachedTicketLimit,
-      features: data.subscription_type.features
+      hasReachedTicketLimit : data.subscription_type.hasReachedTicketLimit
     }
   } catch (error) {
     throw new Error(error.message)
@@ -431,15 +430,14 @@ export const sendUserData = async (data) => {
     })
 
     if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || 'Error en la solicitud')
+      throw new Error('Error en la solicitud')
     }
 
     const result = await response.json()
     console.log('Respuesta de la API:', result)
     return result // Retornar la respuesta de la API
   } catch (error) {
-    console.error('Error al enviar los datos:', error.message)
+    console.error('Error al enviar los datos:', error)
     return { success: false, error: error.message } // Retornar un objeto de error
   }
 }
@@ -688,72 +686,53 @@ export async function addAssignment(technicianId, reportId, priority, status) {
   }
 }
 
-export async function getCloseTicket(ticketId) {
+export const updateAssignment = async (assignmentId, solution, finishedAt, VaBo, token) => {
   try {
-    const response = await fetch(`${API_URL}/closeTicket/${ticketId}`, {
-      method: 'GET',
+    const response = await fetch(`${API_URL}/assignments/${assignmentId}`, {
+      method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (!response.ok) {
-      throw new Error('Error al obtener el cierre de ticket')
-    }
-
-    const closeTicket = await response.json()
-    console.log('Cierre de ticket:', closeTicket)
-    return closeTicket
-  } catch (error) {
-    console.error('Error:', error)
-  }
-}
-
-export async function updateCloseTicket(id, updatedData) {
-  try {
-    const response = await fetch(
-      `${API_URL}/closeTicket/${id}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedData)
-      }
-    )
-
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error || 'Error al actualizar el cierre de ticket')
-    }
-
-    const updatedCloseTicket = await response.json()
-    console.log('Cierre de ticket actualizado:', updatedCloseTicket)
-    return updatedCloseTicket
-  } catch (error) {
-    console.error('Error:', error.message)
-    throw error
-  }
-}
-
-export async function supportTicket (data) {
-  try {
-    const response = await fetch(`${API_URL}/support`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(data)
-    })
+      body: JSON.stringify({ solution, finishedAt, VaBo })
+    });
+
+    const json = await response.json();
 
     if (!response.ok) {
-      throw new Error('Error al enviar el mensaje')
+      throw new Error(json.message || 'Error al actualizar la asignación');
+    }
+    
+    console.log('Asignación actualizada:', json);
+    return json;
+  } catch (error) {
+    console.error('Error en la solicitud de actualización:', error);
+    throw error;
+  }
+};
+
+export const updateAssignmentByReport = async (reportId, solution, finishedAt, VaBo, token) => {
+  try {
+    // Cuerpo de la solicitud con los datos que queremos actualizar
+    const response = await fetch(`${API_URL}/assignment/byReport/${reportId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`  // Agregado el encabezado de autorización con el token
+      },
+      body: JSON.stringify({ solution, finishedAt, VaBo }) // Enviar los datos para actualizar
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(result.message || 'Error al actualizar la asignación por ID de reporte')
     }
 
-    return await response.json()
+    return result
   } catch (error) {
-    console.error(error)
-    throw new Error('Error al enviar el mensaje')
+    console.error('Error al actualizar la asignación:', error)
+    throw error
   }
 }
 
