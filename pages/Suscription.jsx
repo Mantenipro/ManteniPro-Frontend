@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import ProductCard from '../components/PlanCard'
 import { FaTimes } from 'react-icons/fa'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
-import LefthDashboard from '@/components/LefthDashboard'
+import LefthDashboard from '@/components/LefthDashboard-'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 

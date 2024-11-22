@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import LefthDashboard from '@/components/LefthDashboard';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getReportById } from './api/api';
 import { getAssignmentByReportId } from '../api/api'; // Asegúrate de importar ambas funciones correctamente

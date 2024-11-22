@@ -1,7 +1,7 @@
   import React, { useState, useEffect, Suspense, lazy, useMemo } from 'react'
-  import SearchBar from '../components/SearchBar'
-  import Title from '../components/Title'
-  import LefthDashboard from '@/components/LefthDashboard'
+  import SearchBar from '../components/SearchBar-'
+  import Title from '../components/Title-'
+  import LefthDashboard from '@/components/LefthDashboard-'
   import { Montserrat, Source_Sans_3 } from 'next/font/google'
   import { fetchUserData, fetchUserProfile } from '../pages/api/api'
   import { useRouter } from 'next/router';

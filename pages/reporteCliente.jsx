@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import LefthDashboard from '../components/LefthDashboard' // Cambiado a LefthCustomer
+import LefthDashboard from '../components/LefthDashboard-' // Cambiado a LefthCustomer
 import GetInfoMachine from '../components/GetInfoMachine'; 
-import Title from '../components/Title'; 
+import Title from '../components/Title-'; 
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 
 const montserrat = Montserrat({ subsets: ['latin'] });

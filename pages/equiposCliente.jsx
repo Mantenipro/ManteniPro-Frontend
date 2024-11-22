@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar2 from '../components/SearchBar2';
-import Title from '../components/Title';
+import Title from '../components/Title-';
 import MachineCard from '../components/MachineCard2';
-import LefthDashboard from '@/components/LefthDashboard';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getEquipmentByOwner, getAllUsers } from '@/api/api'; // Importing the new function
 import { useRouter } from 'next/router';

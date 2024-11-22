@@ -1,7 +1,7 @@
 import React from 'react';
-import Title from '../components/Title';
-import FormEquipment from '../components/FormEquipment';
-import LefthDashboard from '@/components/LefthDashboard';
+import Title from '../components/Title-';
+import FormEquipment from '../components/FormEquipment-';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { useState } from 'react';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import useAuth2 from "../hooks/useAuth2";

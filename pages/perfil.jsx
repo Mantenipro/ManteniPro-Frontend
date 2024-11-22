@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import LefthDashboard from '@/components/LefthDashboard';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat } from 'next/font/google';
 import FormProfile from '../components/FormProfile';
 import { updateUser } from './api/api';

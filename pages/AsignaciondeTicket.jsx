@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import { useState, useEffect } from 'react'
-import LefthDashboard from '@/components/LefthDashboard'
+import LefthDashboard from '@/components/LefthDashboard-'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import { useRouter } from 'next/router'
 import { getReportById, addAssignment } from './api/api'

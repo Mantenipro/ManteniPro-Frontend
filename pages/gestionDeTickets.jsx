@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import LefthDashboard from '@/components/LefthDashboard';
-import Title from '@/components/Title';
+import LefthDashboard from '@/components/LefthDashboard-';
+import Title from '@/components/Title-';
 import InfoPanelCustomer from '@/components/InfoPanelCustomer';
 import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';

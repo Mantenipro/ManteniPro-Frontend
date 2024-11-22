@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import LefthDashboard from '@/components/LefthDashboard';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { motion } from 'framer-motion';
 

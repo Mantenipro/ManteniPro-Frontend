@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
-import Title from '../components/Title'
+import Title from '../components/Title-'
 import FormDetailsTicket from '../components/FormDetailsTicket2'
 import { useState, useEffect } from 'react'
-import LefthDashboard from '@/components/LefthDashboard'
+import LefthDashboard from '@/components/LefthDashboard-'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import { getReportById } from './api/api'
 import { useRouter } from 'next/router'

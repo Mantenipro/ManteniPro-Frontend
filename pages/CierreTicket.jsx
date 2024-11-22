@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import LefthDashboard from '@/components/LefthDashboard';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getReportById, updateAssignmentByReport } from './api/api'; // Actualizar la importación
 import SignatureCanvas from 'react-signature-canvas'; // Importa SignatureCanvas

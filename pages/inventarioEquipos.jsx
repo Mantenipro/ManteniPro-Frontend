@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar2 from '../components/SearchBar2';
-import AddButton from '../components/AddButton';
+import AddButton from '../components/AddButton-';
 import InfoPanel2 from '../components/InfoPanel2';
-import Title from '../components/Title';
-import MachineCard from '../components/MachineCard';
-import LefthDashboard from '@/components/LefthDashboard';
+import Title from '../components/Title-';
+import MachineCard from '../components/MachineCard-';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getEquipmentByCompanyId, getAllUsers } from '@/api/api';
 import { useRouter } from 'next/router';

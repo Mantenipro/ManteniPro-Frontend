@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import EquipmentDetails from '@/components/EquipmentDetails';
+import EquipmentDetails from '@/components/EquipmentDetails-';
 import QRCodeDisplay from '@/components/QRCodeDisplay';
-import LefthDashboard from '@/components/LefthDashboard';
+import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getEquipmentById } from '@/api/api';
 
