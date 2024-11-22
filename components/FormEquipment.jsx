@@ -77,7 +77,7 @@ export default function FormEquipment() {
   }
 
   async function generateQRCode(equipmentId) {
-    const url = `https://ManteniPro.vercel.app/ReporteDeEquipo/${equipmentId}`;
+    const url = `https://manteni-pro.vercel.app/ReporteDeEquipo/${equipmentId}`;
     try {
 
       const qrCodeDataUrl = await QRCode.toDataURL(url);
