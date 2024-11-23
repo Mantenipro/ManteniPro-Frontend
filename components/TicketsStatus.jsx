@@ -124,7 +124,7 @@ const TicketsStatus = () => {
   const handleNextSection = () => {
     setCurrentSection((prevSection) => {
       if (userRole === 'admin') {
-        return prevSection === 0 ? 1 : 0
+        return prevSection === 0 ? 2 : 0
       } else {
         return prevSection === 1 ? 2 : 1
       }

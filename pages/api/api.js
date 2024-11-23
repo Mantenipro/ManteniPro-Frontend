@@ -234,6 +234,7 @@ export const fetchUserData = async () => {
     }
 
     const data = await response.json()
+    const subscriptionType = data.subscription_type || {}
 
     const startDate = data.subscription_type
       ? new Date(data.subscription_type.currentPeriodStart).toLocaleDateString()
@@ -241,11 +242,11 @@ export const fetchUserData = async () => {
     const endDate = data.subscription_type
       ? new Date(data.subscription_type.currentPeriodEnd).toLocaleDateString()
       : '-'
-    const subscriptionId = data.subscription_type
-      ? data.subscription_type.stripeSubscriptionId
+    const subscriptionId = subscriptionType
+      ? subscriptionType.stripeSubscriptionId
       : 'ID no disponible'
-    const cancelAtPeriodEnd = data.subscription_type
-      ? data.subscription_type.cancelAtPeriodEnd
+    const cancelAtPeriodEnd = subscriptionType
+      ? subscriptionType.cancelAtPeriodEnd
       : false // Valor por defecto si es null o undefined
 
     return {
@@ -259,7 +260,8 @@ export const fetchUserData = async () => {
       endDate: endDate,
       subscriptionId: subscriptionId,
       cancelAtPeriodEnd: cancelAtPeriodEnd,
-      hasReachedTicketLimit : data.subscription_type.hasReachedTicketLimit
+      hasReachedTicketLimit: subscriptionType.hasReachedTicketLimit || false, // Valor por defecto si es null o undefined
+      features: subscriptionType.features || [] // Valor por defecto si es null o undefined
     }
   } catch (error) {
     throw new Error(error.message)
@@ -430,14 +432,15 @@ export const sendUserData = async (data) => {
     })
 
     if (!response.ok) {
-      throw new Error('Error en la solicitud')
+      const errorData = await response.json()
+      throw new Error(errorData.error || 'Error en la solicitud')
     }
 
     const result = await response.json()
     console.log('Respuesta de la API:', result)
     return result // Retornar la respuesta de la API
   } catch (error) {
-    console.error('Error al enviar los datos:', error)
+    console.error('Error al enviar los datos:', error.message)
     return { success: false, error: error.message } // Retornar un objeto de error
   }
 }
@@ -733,6 +736,27 @@ export const updateAssignmentByReport = async (reportId, solution, finishedAt, V
   } catch (error) {
     console.error('Error al actualizar la asignación:', error)
     throw error
+  }
+}
+
+export async function supportTicket(data) {
+  try {
+    const response = await fetch(`${API_URL}/support`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al enviar el mensaje')
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error(error)
+    throw new Error('Error al enviar el mensaje')
   }
 }
 

@@ -16,7 +16,6 @@ const PriceSection = forwardRef(function PriceSection(props, ref) {
       features: [
         { title: 'Gestión de Incidencias Limitada:', desc: 'Maneja hasta 10 incidencias al mes.' },
         { title: 'Soporte por Email:', desc: 'Respuesta en 48 a 72 horas.' },
-        { title: 'Historial de Incidencias:', desc: 'Accede a las incidencias de los últimos 30 días.' },
         { title: '1 Administrador:', desc: 'Un usuario con permisos para gestionar el sistema.' },
       ],
     },
@@ -30,7 +29,6 @@ const PriceSection = forwardRef(function PriceSection(props, ref) {
       features: [
         { title: 'Manejo Ampliado de Incidencias:', desc: 'Gestiona hasta 100 incidencias al mes.' },
         { title: 'Soporte Prioritario por Email:', desc: 'Respuesta en 24 a 48 horas.' },
-        { title: 'Historial de Incidencias Extendido:', desc: 'Accede al historial de incidencias de hasta 6 meses.' },
         { title: '2 Administradores:', desc: 'Agrega un segundo administrador para compartir responsabilidades en la gestión.' },
       ],
     },

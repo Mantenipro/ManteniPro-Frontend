@@ -74,11 +74,33 @@ const FormUser = ({ initialData }) => {
         }
       } else {
         toast.error(
-          `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`
-        ) // Mostrar mensaje de error
+          response.error ||
+            `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`,
+          {
+            position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+            style: {
+              fontSize: '20px',
+              padding: '20px',
+              maxWidth: '90vw', // Ajuste para pantallas pequeñas
+              width: 'auto'
+            }
+          }
+        )// Mostrar mensaje de error
       }
     } catch (error) {
-      toast.error(`Error al ${initialData ? 'actualizar' : 'agregar'} usuario`) // Mostrar mensaje de error en caso de excepción
+       toast.error(
+         error.message ||
+           `Error al ${initialData ? 'actualizar' : 'agregar'} usuario`,
+         {
+           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+           style: {
+             fontSize: '20px',
+             padding: '20px',
+             maxWidth: '90vw', // Ajuste para pantallas pequeñas
+             width: 'auto'
+           }
+         }
+       )
     }
   }
 
