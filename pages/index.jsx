@@ -21,9 +21,7 @@ export default function Home() {
     <main
       className={`${montserrat.className} h-screen snap-y snap-mandatory overflow-y-scroll`}
     >
-      <div className='sticky top-0 z-50 bg-white shadow-md'>
-        <Nav/>
-      </div>
+      
       <div className='md:h-screen'>
         <Hero />
       </div>
