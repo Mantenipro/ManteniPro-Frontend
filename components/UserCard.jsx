@@ -110,13 +110,13 @@ const UserCard = ({ user, onDelete }) => {
       >
         {/* Imagen del Usuario */}
         <div className='hidden flex-shrink-0 sm:block'>
-  <Image
-    src={user.photo || '/profilepic3.png'}  // Usa '/default-photo.jpg' si no hay user.photo
+  {/* <Image
+    src={user.photo || '/profilepic.png'}  // Usa '/default-photo.jpg' si no hay user.photo
     alt={user.name}
     width={isHovered ? 60 : 50}
     height={isHovered ? 60 : 50}
     className='rounded-full object-cover'
-  />
+  /> */}
 </div>
 
         {/* Información del Usuario */}

@@ -5,6 +5,8 @@
   import { Montserrat, Source_Sans_3 } from 'next/font/google'
   import { fetchUserData, fetchUserProfile } from '../pages/api/api'
   import { useRouter } from 'next/router';
+  import { useModal } from '../context/ModalContext'
+  import SupportForm from '../components/SupportForm'
   import useAuth2 from "../hooks/useAuth2";
 
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -46,6 +48,7 @@ const useTickets = () => {
     const [apiError, setApiError] = useState(null)
     const [userDataDate, setUserDataDate] = useState('')
     const [hasReachedTicketLimit, setHasReachedTicketLimit] = useState(false);
+        const { isModalOpen, closeModal } = useModal()
 
   // Hook personalizado que gestiona los tickets
   const { tickets, loadingTickets } = useTickets()
@@ -168,14 +171,19 @@ const useTickets = () => {
                 </div>
               )}
             </div>
-            {hasReachedTicketLimit && (
-              <div className='fixed right-4 top-5 z-50'>
+            {hasReachedTicketLimit && userRole === 'admin' && (
+              <div className='fixed right-4 top-5 z-50 md:top-8'>
                 <button
                   onClick={handleUpgradeSubscription}
-                  className='rounded bg-red-500 px-2 py-1.5 text-white'
+                  className='rounded bg-red-500 px-2 py-1.5 text-white sm:px-4 sm:py-2'
                 >
-                  Has alcanzado el límite de tickets. Actualiza tu suscripción
-                  dando clic aquí.
+                  <span className='hidden sm:inline'>
+                    Has alcanzado el límite de tickets. Actualiza tu suscripción
+                    dando clic aquí.
+                  </span>
+                  <span className='inline sm:hidden'>
+                    Límite de tickets alcanzado. Actualiza.
+                  </span>
                 </button>
               </div>
             )}
@@ -186,16 +194,16 @@ const useTickets = () => {
         </div>
 
         <div className='mt-6'>
-  {loading || loadingTickets ? (
-    <div>Cargando Tickets...</div>
-  ) : apiError ? (
-    <div>Necesitas suscribirte para poder ver renderizados tus reportes.</div>
-  ) : (
-    <Suspense fallback={<div>Cargando Tickets...</div>}>
-      {MemoizedTicketsStatus}
-    </Suspense>
-  )}
-</div>
+            {loading || loadingTickets ? (
+              <div>Cargando Tickets...</div>
+            ) : apiError ? (
+              <div>Error: {apiError}</div>
+            ) : (
+              <Suspense fallback={<div>Cargando Tickets...</div>}>
+                {MemoizedTicketsStatus}
+              </Suspense>
+            )}
+          </div>
       </main>
     </div>
   )

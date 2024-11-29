@@ -6,7 +6,7 @@ import UserCard from '../components/UserCard'
 import LefthDashboard from '@/components/LefthDashboard'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import AddUser from '@/components/AddUser'
-import { fetchUsers } from '@/pages/api/api'
+import { fetchUsers, getCurrentUser } from '@/pages/api/api'
 import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -18,7 +18,8 @@ const CatalogoDeUsuarios = () => {
   const [usuarios, setUsuarios] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [sortCriteria, setSortCriteria] = useState('')
-  
+  const [currentUser, setCurrentUser] = useState(null)
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -34,7 +35,13 @@ const CatalogoDeUsuarios = () => {
       setUsuarios(usuarios)
     }
 
+    const fetchCurrentUser = async () => {
+      const user = await getCurrentUser()
+      setCurrentUser(user)
+    }
+
     fetchData()
+    fetchCurrentUser()
 
     const interval = setInterval(() => {
       fetchData()
@@ -66,10 +73,24 @@ const CatalogoDeUsuarios = () => {
     } 
     return 0
   })
+  
+  const filteredUsuarios = sortedUsuarios.filter((user) => {
+    // Excluir al usuario actual
+    if (user._id === currentUser?.id) {
+      return false
+    }
 
-  const filteredUsuarios = sortedUsuarios.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+    // Si el usuario actual es un administrador secundario, excluir al administrador principal
+    if (
+      currentUser?.adminType === 'secundario' &&
+      user.adminType === 'principal'
+    ) {
+      return false
+    }
+
+    // Filtrar por nombre
+    return user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  })
 
   return (
     <div
