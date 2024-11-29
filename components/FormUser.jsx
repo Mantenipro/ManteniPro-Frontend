@@ -234,7 +234,6 @@ const FormUser = ({ initialData }) => {
                 id='permiso-admin'
                 type='radio'
                 value='admin'
-                disabled
               />
               <label htmlFor='permiso-admin' className='ml-2 text-gray-700'>
                 Admin

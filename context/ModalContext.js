@@ -16,4 +16,10 @@ export const ModalProvider = ({ children }) => {
 }
 
 // Hook para usar el contexto
-export const useModal = () => useContext(ModalContext)
+export const useModal = () => {
+  const context = useContext(ModalContext)
+  if (!context) {
+    throw new Error('useModal debe ser usado dentro de un ModalProvider')
+  }
+  return context
+}
