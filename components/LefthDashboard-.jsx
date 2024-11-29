@@ -2,13 +2,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { fetchUserData, fetchUserProfile } from '../pages/api/api' // Asegúrate de que la ruta sea correcta
-<<<<<<< HEAD:components/LefthDashboard-.jsx
+import { fetchUserData, fetchUserProfile } from '../pages/api/api' 
 
-=======
 import { useModal } from '../context/ModalContext'
 import useAuth from "../hooks/useAuth";
->>>>>>> josephColin:components/LefthDashboard.jsx
+
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
     className='mt-2 flex w-full cursor-pointer items-center justify-start rounded-md p-2 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'
@@ -109,7 +107,7 @@ export default function LefthDashboard() {
         </div>
       </div>
 
-      <section className='mt-6 flex h-2/3 flex-col justify-between md:h-2/3 2xl:h-3/4'>
+      <section className='mt-6 flex h-[63vh] flex-col justify-between'>
         <div className='Seccion1'>
           <p className='font-bold'>MAIN</p>
           <div className='flex flex-col'>
