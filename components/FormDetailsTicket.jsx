@@ -8,7 +8,7 @@ import {
   FaCheckCircle,
   FaPaperPlane
 } from 'react-icons/fa'
-import { fetchComments, addComment } from '../pages/api/api'
+import { fetchComments, addComment, fetchUserProfile } from '../pages/api/api'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
 
@@ -17,6 +17,10 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 const StatusDetailLayout = ({ initialData }) => {
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
+  const [userRole, setUserRole] = useState('') // Cambiar a 'user' para probar
+  const [showPendingTime, setShowPendingTime] = useState(false)
+  const [showInProgressTime, setShowInProgressTime] = useState(false)
+  const [showCompletedTime, setShowCompletedTime] = useState(false)
 
   const report = initialData?.data?.report
 
@@ -36,6 +40,23 @@ const StatusDetailLayout = ({ initialData }) => {
     }
   }, [report]) // Dependencia en el reporte para que se ejecute solo cuando el reporte cambie
 
+  useEffect(() => {
+    const fetchUserProfileData = async () => {
+      try {
+        const token = window.localStorage.getItem('token')
+        if (!token) {
+          throw new Error('No token found')
+        }
+
+        const profileData = await fetchUserProfile()
+        setUserRole(profileData.data.role)
+      } catch (error) {
+        console.error('Error fetching user profile:', error)
+      }
+    }
+    fetchUserProfileData()
+  }, [])
+  
   if (!report) {
     return <div>Loading...</div>
   }
@@ -79,7 +100,7 @@ const StatusDetailLayout = ({ initialData }) => {
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='animate-fadeIn max-h-screen space-y-4 overflow-y-auto scrollbar-hide md:h-[560px] md:w-3/4'>
+      <div className='max-h-screen animate-fadeIn space-y-4 overflow-y-auto scrollbar-hide md:h-[560px] md:w-3/4'>
         <div className='rounded border p-2 shadow-lg'>
           <div className='flex flex-col justify-between rounded border-b-2 p-2 md:flex-col md:items-center'>
             <div>
@@ -101,66 +122,83 @@ const StatusDetailLayout = ({ initialData }) => {
                 />
                 Comentarios
               </button>
-              {/* <div className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'>
-                <img
-                  src='/Pencil.svg'
-                  alt='icon'
-                  className='mr-2 h-5 w-5 object-cover'
-                />
-                Editar
-              </div> */}
+              {userRole === 'admin' ? (
+                <Link
+                  href={{
+                    pathname: '/AsignaciondeTicket',
+                    query: {
+                      ticketId: report._id
+                    }
+                  }}
+                  className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+                >
+                  <img
+                    src='/Cargo.svg'
+                    alt='icon'
+                    className='mr-2 h-4 w-4 object-cover'
+                  />
+                  Asignar
+                </Link>
+              ) : (
+                <div className='flex cursor-not-allowed items-center rounded border bg-gray-200 p-2 sm:w-full md:w-auto'>
+                  <img
+                    src='/Cargo.svg'
+                    alt='icon'
+                    className='mr-2 h-4 w-4 object-cover'
+                  />
+                  Asignar
+                </div>
+              )}
               <Link
                 href={{
-                  pathname: '/AsignaciondeTicket',
+                  pathname: '/CierreTicket',
                   query: {
-                    ticketId: report._id
+                    ticketId: report._id // Agrega el id del reporte aquí
                   }
                 }}
                 className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
               >
                 <img
-                  src='/Cargo.svg'
+                  src='/Close.svg'
                   alt='icon'
                   className='mr-2 h-4 w-4 object-cover'
                 />
-                Asignar
+                Cerrar
               </Link>
-              <Link
-  href={{
-    pathname: '/CierreTicket',
-    query: {
-      ticketId: report._id // Agrega el id del reporte aquí
-    }
-  }}
-  className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
->
-  <img
-    src='/Close.svg'
-    alt='icon'
-    className='mr-2 h-4 w-4 object-cover'
-  />
-  Cerrar
-</Link>
             </div>
           </div>
 
           <div>
             <div className='mt-4 flex flex-col justify-around space-y-2 md:flex-row md:space-y-0'>
               <div className='flex flex-col items-center p-2 text-center'>
-                <div className={`${getStatusClasses('pending')} mb-3`}>
+                <div
+                  className={`${getStatusClasses('pending')} mb-3`}
+                  onMouseEnter={() => setShowPendingTime(true)}
+                  onMouseLeave={() => setShowPendingTime(false)}
+                >
                   <FaExclamationCircle className='mr-2 h-5 w-5' />
                   Abierto
                 </div>
+                {showPendingTime && (
+                  <div>Tiempo en Abierto: {report.timeOpen}</div>
+                )}
                 <div className='hidden md:block'>ID Orden de Trabajo:</div>
                 <span className='hidden md:block'>{report.orderNumber}</span>
               </div>
               <div className='flex flex-col items-center p-2 text-center'>
-                <div className={`${getStatusClasses('in-progress')} mb-3`}>
+                <div
+                  className={`${getStatusClasses('in-progress')} mb-3`}
+                  onMouseEnter={() => setShowInProgressTime(true)}
+                  onMouseLeave={() => setShowInProgressTime(false)}
+                >
                   <FaSpinner className='mr-2 h-5 w-5' />
                   En Progreso
                 </div>
+                {showInProgressTime && (
+                  <div>Tiempo en Progreso: {report.timeAssigned}</div>
+                )}
                 <div className='hidden md:block'>Tiempo transcurrido:</div>
-                <span className='hidden md:block'>{report.timeOpen}</span>
+                <span className='hidden md:block'>{report.totalTime}</span>
               </div>
               <div className='flex flex-col items-center p-2 text-center'>
                 <div className={`${getStatusClasses('completed')} mb-3`}>
@@ -179,7 +217,7 @@ const StatusDetailLayout = ({ initialData }) => {
               </div>
               <div className='flex flex-col p-2 text-center'>
                 <div>Tiempo transcurrido:</div>
-                <span>{report.timeOpen}</span>
+                <span>{report.totalTime}</span>
               </div>
               <div className='flex flex-col p-2 text-center'>
                 <div>Fecha:</div>
@@ -189,55 +227,55 @@ const StatusDetailLayout = ({ initialData }) => {
           </div>
 
           <div className='flex flex-col items-center justify-center border-t-2 p-2 md:flex-row'>
-  <div>
-    <div className='mb-2'>
-      <span className='font-semibold'>Reportado por:</span>
-    </div>
-    <div className='rounded-lg bg-white p-4 text-sm shadow-md'>
-      <div className='flex items-center space-x-4'>
-        <img
-          src={report.user.photo || 'profilepic3.png'}
-          alt='User avatar'
-          className='h-12 w-12 rounded-full object-cover'
-        />
-        <div>
-          <p className='font-medium text-gray-800'>
-            {report.user.name}
-          </p>
-          <p className='text-gray-600'>{report.user.role}</p>
-          <p className='text-sm text-gray-500'>{report.user.email}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+            <div>
+              <div className='mb-2'>
+                <span className='font-semibold'>Reportado por:</span>
+              </div>
+              <div className='rounded-lg bg-white p-4 text-sm shadow-md'>
+                <div className='flex items-center space-x-4'>
+                  <img
+                    src={report.user.photo || 'profilepic3.png'}
+                    alt='User avatar'
+                    className='h-12 w-12 rounded-full object-cover'
+                  />
+                  <div>
+                    <p className='font-medium text-gray-800'>
+                      {report.user.name}
+                    </p>
+                    <p className='text-gray-600'>{report.user.role}</p>
+                    <p className='text-sm text-gray-500'>{report.user.email}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-  <div className='mx-4 h-auto border-l-2'></div>
+            <div className='mx-4 h-auto border-l-2'></div>
 
-  <div className='mt-5 max-w-sm rounded-lg bg-white p-6 shadow-md'>
-    <div className='mb-2 mt-2 flex flex-col p-2'>
-      <span className='font-semibold'>Dirección:</span>
-      <span>{report.user.company.address}</span>
-    </div>
-    <div className='mb-2 mt-2 flex flex-col p-2'>
-      <span className='font-semibold'>Compañía:</span>
-      <span>{report.user.company.name}</span>
-    </div>
-  </div>
-</div>
+            <div className='mt-5 max-w-sm rounded-lg bg-white p-6 shadow-md'>
+              <div className='mb-2 mt-2 flex flex-col p-2'>
+                <span className='font-semibold'>Dirección:</span>
+                <span>{report.user.company.address}</span>
+              </div>
+              <div className='mb-2 mt-2 flex flex-col p-2'>
+                <span className='font-semibold'>Compañía:</span>
+                <span>{report.user.company.name}</span>
+              </div>
+            </div>
+          </div>
 
-<div>
-  <div className="text-md mb-2 p-6 font-semibold">Descripción:</div>
-  <div className="mx-2 rounded bg-gray-200 p-2 md:mx-6">
-    {report.description}
-  </div>
-  <div className="my-2 flex justify-center">
-    <img
-      src={report.image ? report.image : '/noimg3.jpg'}
-      alt="report-image"
-      className="m-1 h-24 w-24 rounded-lg object-cover "
-    />
-  </div>
-</div>
+          <div>
+            <div className='text-md mb-2 p-6 font-semibold'>Descripción:</div>
+            <div className='mx-2 rounded bg-gray-200 p-2 md:mx-6'>
+              {report.description}
+            </div>
+            <div className='my-2 flex justify-center'>
+              <img
+                src={report.image ? report.image : '/noimg3.jpg'}
+                alt='report-image'
+                className='m-1 h-24 w-24 rounded-lg object-cover'
+              />
+            </div>
+          </div>
 
           <div className='mx-4 my-4 h-auto border-b-2'></div>
 
@@ -259,22 +297,22 @@ const StatusDetailLayout = ({ initialData }) => {
                         : 'flex-row-reverse'
                     }`}
                   >
-                  <img
-  src={comment.author.photo || '/profilepic3.png'}
-  alt='user-avatar'
-  className='h-10 w-10 rounded-full object-cover'
-/>
-<div
-  className={`text-left ${comment.author._id === report.user._id || comment.author._id === report.assignedTo ? '' : 'px-4 text-right'}`}
->
-  <div className='text-sm font-semibold text-gray-800'>
-    {comment.author.name}
-  </div>
-  <span className='text-sm text-gray-500'>
-    {<CommentTime createdAt={comment.created_at} />}
-  </span>
-  <p className='mt-1 text-gray-700'>{comment.content}</p>
-</div>
+                    <img
+                      src={comment.author.photo || '/profilepic3.png'}
+                      alt='user-avatar'
+                      className='h-10 w-10 rounded-full object-cover'
+                    />
+                    <div
+                      className={`text-left ${comment.author._id === report.user._id || comment.author._id === report.assignedTo ? '' : 'px-4 text-right'}`}
+                    >
+                      <div className='text-sm font-semibold text-gray-800'>
+                        {comment.author.name}
+                      </div>
+                      <span className='text-sm text-gray-500'>
+                        {<CommentTime createdAt={comment.created_at} />}
+                      </span>
+                      <p className='mt-1 text-gray-700'>{comment.content}</p>
+                    </div>
                   </div>
                 ))
               ) : (
