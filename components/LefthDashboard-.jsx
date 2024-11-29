@@ -2,8 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { fetchUserData, fetchUserProfile } from '../pages/api/api' 
-
+import { fetchUserData, fetchUserProfile } from '../pages/api/api' // Asegúrate de que la ruta sea correcta
 import { useModal } from '../context/ModalContext'
 import useAuth from "../hooks/useAuth";
 
