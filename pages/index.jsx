@@ -18,30 +18,23 @@ export default function Home() {
   const aboutUsRef = useRef(null) // Nueva referencia para AboutUs
 
   return (
-    <main
-      className={`${montserrat.className} h-screen snap-y snap-mandatory overflow-y-scroll`}
-    >
-      <div className='sticky top-0 z-50 bg-white shadow-md'>
-        <Nav/>
+    <main className={`${montserrat.className} h-screen snap-y snap-mandatory overflow-y-scroll`}>
+      <div className="sticky top-0 z-50 bg-white shadow-md">
+        <Nav />
       </div>
-      <div className='md:h-screen'>
-        <Hero />
-      </div>
-      <div className='md:h-screen' ref={keyBenefitsRef}>
+      <Hero />
+      <section ref={keyBenefitsRef}>
+        <hr className="my-10 border-t border-gray-300" />
         <KeyBenefits />
-      </div>
-      <div className='md:h-screen'>
-        <HowWork />
-      </div>
-      <div className='md:flex md:h-screen md:justify-center' ref={aboutUsRef}>
+      </section>
+      <HowWork />
+      <section ref={aboutUsRef}>
         <AboutUs />
-      </div>
-      <div className='md:h-auto' id='price-section' ref={priceSectionRef}>
+      </section>
+      <section id="price-section" ref={priceSectionRef}>
         <PriceSection />
-      </div>
-      <div className='md:h-auto'>
-        <Footer />
-      </div>
+      </section>
+      <Footer />
     </main>
-  )
+  );
 }

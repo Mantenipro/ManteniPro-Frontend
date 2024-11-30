@@ -35,11 +35,11 @@ export default function HowWork() {
   return (
     <section className="py-16">
       <div className="container mx-auto text-center">
-        <h2 className={`mb-14 text-2xl font-medium md:text-4xl ${montserrat.className}`}>¿Como Funciona?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mx-5 md:mx-0">
+        <h2 className={`mb-14 text-2xl font-medium md:text-4xl ${montserrat.className}`}>¿Cómo Funciona?</h2>
+        <div className="grid grid-cols-1 gap-6 mx-5 md:mx-0 md:grid-cols-3 lg:grid-cols-3">
           {works.map((work, index) => (
-            <figure key={index} className={`relative ${work.color} ${work.text} rounded-[30px] p-6 text-left shadow-lg`}>
-              <img
+            <figure key={index} className={`relative ${work.color} ${work.text} rounded-[30px] p-6 text-left shadow-lg`}>          
+            <img
                 src="/line.howtowork.svg"
                 alt=""
                 className="absolute top-0 right-0 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-10 md:hidden lg:block"

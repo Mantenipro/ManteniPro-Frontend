@@ -29,40 +29,39 @@ const KeyBenefits = forwardRef((props, ref) => {
   ]
 
   return (
-    <section ref={ref}>
-      <div className='container mx-auto text-center mt-10 md:mt-1'>
+    <section ref={ref} className="mt-8">
+      <div className="container mx-auto text-center">      
         <h2
-          className={`mb-6 p-2 text-2xl font-medium md:text-4xl ${montserrat.className}`}
+        className={`mb-6 p-2 text-2xl font-medium md:text-4xl ${montserrat.className}`}
         >
           Simplifica las solicitudes de trabajo y resuélvelas más rápido
         </h2>
-        <div className='flex flex-wrap justify-center gap-4 mx-5 md:mx-0'>
-          {benefits.map((benefit, index) => (
-            <div
-              key={index}
-              className='flex h-[450px] w-[361px] flex-col rounded-lg border-t-4 border-transparent bg-white p-6 text-left shadow-lg transition-all duration-300 ease-in-out hover:border-sky-800 lg:w-[405px]'
+        <div className="flex flex-wrap justify-center gap-4 mx-5 md:mx-0">
+        {benefits.map((benefit, index) => (
+          <div
+            key={index}
+            className={`flex h-[450px] w-[361px] flex-col rounded-lg border-t-4 border-transparent bg-white p-6 text-left shadow-lg transition-all duration-300 ease-in-out hover:border-sky-800 lg:w-[405px] sm:w-full md:w-1/2`} /* Improved responsiveness */
+          >
+            <div className="mb-4 flex items-start">
+              <img
+                className="w-22 h-22 mr-4"
+                src={benefit.icon}
+                alt="Icono de beneficio"
+              />
+            </div>
+            <h3
+              className={`mb-2 text-2xl font-semibold ${montserrat.className}`}
             >
-              <div className='mb-4 flex items-start'>
-                <img
-                  className='w-22 h-22 mr-4'
-                  src={benefit.icon}
-                  alt='Icono de beneficio'
-                />
-              </div>
-              <h3
-                className={`mb-2 text-2xl font-semibold ${montserrat.className}`}
-              >
-                {benefit.title}
-              </h3>
-              <p className={`text-gray-600 ${sourceSans3.className}`}>
-                {benefit.description}
-              </p>
+              {benefit.title}
+            </h3>
+            <p className={`text-gray-600 ${sourceSans3.className}`}>
+              {benefit.description}              </p>
             </div>
           ))}
         </div>
       </div>
+      <hr className="my-10 border-t border-gray-300" />
     </section>
   )
 })
-
 export default KeyBenefits
