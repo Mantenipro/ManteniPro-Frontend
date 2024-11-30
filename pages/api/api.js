@@ -1,4 +1,4 @@
-const API_URL = 'https://api-v1.mantenipro.net';
+const API_URL = 'http://localhost:8000';
 
 export async function login(email, password) {
   try {
@@ -470,6 +470,30 @@ export const fetchUsers = async () => {
   } catch (error) {
     console.error('Error al hacer la solicitud:', error)
     return []
+  }
+}
+
+export const getCurrentUser = async () => {
+  try {
+    const token = localStorage.getItem('token') // Reemplaza con tu token real
+    const response = await fetch(`${API_URL}/users/profile`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (data.success) {
+      console.log('Usuario actual:', data.data)
+      return data.data
+    } else {
+      console.error('Error al obtener el usuario actual:', data.error)
+      return null
+    }
+  } catch (error) {
+    console.error('Error al hacer la solicitud:', error)
+    return null
   }
 }
 
