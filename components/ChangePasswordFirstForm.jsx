@@ -57,7 +57,7 @@ const PasswordChangeFormFirst = () => {
       formData.confirmPassword &&
       formData.newPassword !== formData.confirmPassword
     ) {
-      newErrors.confirmPassword = 'Passwords do not match'
+      newErrors.confirmPassword = 'Las contraseñas no coinciden'
     }
 
     setErrors(newErrors)

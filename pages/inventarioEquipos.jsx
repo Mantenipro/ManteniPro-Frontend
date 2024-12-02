@@ -65,7 +65,7 @@ const Catalogo = () => {
           }
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        //console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -74,9 +74,7 @@ const Catalogo = () => {
     fetchUsersAndMachines();
   }, [router]);
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
+  
 
   const handleDelete = (deletedId) => {
     setMachines((prevMachines) => prevMachines.filter((machine) => machine._id !== deletedId));
@@ -142,7 +140,9 @@ const Catalogo = () => {
               );
             })
           ) : (
-            <div>No hay equipos disponibles.</div>
+            <div className='text-center text-2xl text-gray-500'>
+            No hay equipos disponibles.
+          </div>
           )}
         </div>
       </main>

@@ -45,7 +45,7 @@ const TicketsStatus = () => {
 
           if (userId && role === 'admin') {
             const userReports = await getReportsByCompany(userId, token)
-            console.log('Reportes de la empresa:', userReports)
+            //console.log('Reportes de la empresa:', userReports)
             const updatedReports = userReports.map((report) => {
               const reportUser = userList.find(
                 (user) => user._id === report.userId
@@ -69,7 +69,7 @@ const TicketsStatus = () => {
             })
           } else if (userId && role === 'usuario') {
             const userReports = await getReportsByUser(userId, token)
-            console.log('Reportes del usuario:', userReports)
+            //console.log('Reportes del usuario:', userReports)
             setReports({
               enProceso: userReports.filter(
                 (report) => report.status === 'in-progress'
@@ -81,7 +81,7 @@ const TicketsStatus = () => {
           } else if (userId && role === 'tecnico') {
             try {
               const tecnicoReports = await fetchReportsByTecnico()
-              console.log('Reportes del tecnico:', tecnicoReports)
+              //console.log('Reportes del tecnico:', tecnicoReports)
 
               if (Array.isArray(tecnicoReports)) {
                 setReports({
@@ -103,7 +103,7 @@ const TicketsStatus = () => {
                 })
               }
             } catch (error) {
-              console.error('Error al obtener reportes del técnico:', error)
+              //console.error('Error al obtener reportes del técnico:', error)
               setReports({
                 enProceso: [],
                 completados: []
@@ -112,7 +112,7 @@ const TicketsStatus = () => {
           }
         }
       } catch (error) {
-        console.error('Error al obtener usuarios o reportes:', error)
+        //console.error('Error al obtener usuarios o reportes:', error)
       } finally {
         setLoading(false)
       }

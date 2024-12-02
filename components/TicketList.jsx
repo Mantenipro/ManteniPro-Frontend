@@ -25,7 +25,7 @@ export default function TicketList({ tasksInProgress, tasksCompleted }) {
           setReports(userReports.flat());
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        //console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }

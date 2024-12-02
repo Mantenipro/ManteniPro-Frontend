@@ -1,4 +1,4 @@
-const API_URL = 'https://api-v1.mantenipro.net'
+const API_URL = 'http://localhost:8000';
 
 export async function createReport(data) {
   const res = await fetch(`${API_URL}/report`, {
@@ -54,7 +54,6 @@ export async function createEquipment(
     const json = await res.json();
     return json.data; 
   } catch (error) {
-    console.error("Error creating equipment:", error);
     throw error; 
   }
 }
@@ -76,7 +75,7 @@ export async function getAllUsers(token) {
     const json = await res.json();
     return json.data.users;
   } catch (error) {
-    console.error("Error fetching all users:", error);
+    ////console.error("Error fetching all users:", error);
     throw error;
   }
 }
@@ -95,7 +94,7 @@ export async function getUsers() {
     const json = await res.json();
     return json.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    ////console.error("Error fetching users:", error);
     throw error;
   }
 }
@@ -116,7 +115,7 @@ export async function getEquipmentByCompanyId(companyId, token) {
     const json = await res.json();
     return json.data;
   } catch (error) {
-    console.error("Error fetching equipment by companyId:", error);
+    //console.error("Error fetching equipment by companyId:", error);
     throw error;
   }
 }
@@ -136,7 +135,7 @@ export async function getUserEquipmentById(equipmentId, token) {
     const json = await res.json();
     return json;
   } catch (error) {
-    console.error("Error fetching user equipment by ID:", error);
+    //console.error("Error fetching user equipment by ID:", error);
     throw error;
   }
 }
@@ -159,7 +158,7 @@ export async function getAllEquipments(token) {
     const json = await res.json();
     return json.data;
   } catch (error) {
-    console.error("Error fetching all equipments:", error);
+    //console.error("Error fetching all equipments:", error);
     throw error;
   }
 }
@@ -181,7 +180,7 @@ export async function getEquipmentById(equipmentId, token) {
     const json = await res.json();
     return json.data; // Devuelve solo los datos específicos del equipo
   } catch (error) {
-    console.error("Error fetching equipment by ID:", error);
+    //console.error("Error fetching equipment by ID:", error);
     throw error;
   }
 }
@@ -205,7 +204,7 @@ export async function editEquipment(equipmentId, updatedData, token) {
     const json = await res.json();
     return json.data; // Devuelve solo los datos del equipo actualizado
   } catch (error) {
-    console.error("Error editing equipment:", error);
+    //console.error("Error editing equipment:", error);
     throw error;
   }
 }
@@ -228,7 +227,7 @@ export async function deleteEquipment(equipmentId, token) {
     const json = await res.json();
     return json.message; // Opcionalmente, puedes retornar el mensaje de éxito de la respuesta
   } catch (error) {
-    console.error("Error deleting equipment:", error);
+    //console.error("Error deleting equipment:", error);
     throw error;
   }
 }
@@ -250,7 +249,7 @@ export async function getEquipmentByOwner(ownerId, token) {
     const json = await res.json();
     return json.data; // Devuelve solo los datos de los equipos
   } catch (error) {
-    console.error("Error fetching equipment by owner:", error);
+    //console.error("Error fetching equipment by owner:", error);
     throw error;
   }
 }
@@ -272,7 +271,7 @@ export async function getReportsByUser(userId) {
     const json = await res.json();
     return json.data;
   } catch (error) {
-    console.error("Error fetching reports by user:", error);
+    //console.error("Error fetching reports by user:", error);
     throw error;
   }
 }
@@ -297,7 +296,7 @@ export async function deleteReport(reportId) {
     const json = await res.json();
     return json.message; // Mensaje de éxito
   } catch (error) {
-    console.error("Error deleting report:", error);
+    //console.error("Error deleting report:", error);
     throw error; // Lanza el error para que pueda ser capturado en el componente
   }
 }
@@ -321,7 +320,7 @@ export async function getReportsByCompany(companyId, token) {
     const json = await res.json();
     return json.data; // Retorna los reportes obtenidos
   } catch (error) {
-    console.error("Error fetching reports by company:", error);
+    //console.error("Error fetching reports by company:", error);
     throw error;
   }
 }
@@ -338,10 +337,10 @@ export async function fetchReportsByTecnico() {
       throw new Error('Error al obtener los reportes')
     }
     const json = await response.json()
-    console.log('Reportes del técnico:', json.data)
+    //console.log('Reportes del técnico:', json.data)
     return json.data
   } catch (error) {
-    console.error(error.message)
+    //console.error(error.message)
   }
 }
 
@@ -363,10 +362,10 @@ export const getAssignmentByReportId = async (reportId) => {
       throw new Error(json.message || 'Error al obtener la asignación por reporte');
     }
 
-    console.log('Asignación obtenida:', json);
+    //console.log('Asignación obtenida:', json);
     return json;
   } catch (error) {
-    console.error('Error en la solicitud de asignación por reporte:', error);
+    //console.error('Error en la solicitud de asignación por reporte:', error);
     throw error;
   }
 };

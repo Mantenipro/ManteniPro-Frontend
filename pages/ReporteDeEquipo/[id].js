@@ -31,7 +31,7 @@ const DetalleEquipo = () => {
           setEquipment(data);
         }
       } catch (error) {
-        console.error('Error fetching equipment details:', error);
+        //console.error('Error fetching equipment details:', error);
       } finally {
         setLoading(false);
       }
@@ -42,9 +42,7 @@ const DetalleEquipo = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
+
 
   if (!equipment) return null; 
 

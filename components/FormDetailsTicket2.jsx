@@ -20,7 +20,7 @@ const StatusDetailLayout = ({ initialData }) => {
           const fetchedComments = await fetchComments(report._id)
           setComments(Array.isArray(fetchedComments) ? fetchedComments : [])
         } catch (error) {
-          console.error('Error fetching comments:', error)
+          //console.error('Error fetching comments:', error)
         }
       }, 3000)
 
@@ -52,7 +52,7 @@ const StatusDetailLayout = ({ initialData }) => {
         setNewComment('')
       }
     } catch (error) {
-      console.error('Error al enviar el comentario:', error)
+      //console.error('Error al enviar el comentario:', error)
     }
   }
 

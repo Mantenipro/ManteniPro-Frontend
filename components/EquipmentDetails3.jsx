@@ -32,10 +32,10 @@ const EquipmentDetails = ({ equipment }) => {
           if (owner) {
             setOwnerName(owner.name);
           } else {
-            console.error('No se encontró el propietario con el ID proporcionado.');
+            //console.error('No se encontró el propietario con el ID proporcionado.');
           }
         } catch (error) {
-          console.error('Error fetching users:', error);
+          //console.error('Error fetching users:', error);
         }
       }
     }
@@ -59,7 +59,7 @@ const EquipmentDetails = ({ equipment }) => {
         equipment: equipment._id, 
         created_at: new Date()
       }
-
+  
       if (selectedFile) {
         const fileData = {
           fileName: selectedFile.name,
@@ -73,7 +73,7 @@ const EquipmentDetails = ({ equipment }) => {
             body: JSON.stringify(fileData)
           }
         )
-
+  
         const { url } = await presignedUrlResponse.json()
         await fetch(url, {
           method: 'PUT',
@@ -82,13 +82,13 @@ const EquipmentDetails = ({ equipment }) => {
         })
         reportData.image = url.split('?')[0]
       }
-
+  
       const response = await createReport(reportData)
-
+  
       if (!response) {
         throw new Error('No se recibió respuesta del servidor')
       }
-
+  
       if (response.success) {
         toast.success('Reporte enviado exitosamente', {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
@@ -110,7 +110,7 @@ const EquipmentDetails = ({ equipment }) => {
         throw new Error(response.error || 'Error desconocido')
       }
     } catch (error) {
-      toast.error(`${error.message}`, {
+      toast.error('Necesitas suscribirte para poder  gestionar reportes', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
           fontSize: '20px',
@@ -122,9 +122,10 @@ const EquipmentDetails = ({ equipment }) => {
       setTimeout(() => {
         router.push('/gestionDeTickets') 
       }, 3000)
-      console.error('Error al enviar el reporte:', error)
+      //console.error('Error al enviar el reporte:', error)
     }
   };
+  
 
   const handleTipoEquipoChange = (event) => {
     const selectedType = event.target.value;
@@ -138,7 +139,7 @@ const EquipmentDetails = ({ equipment }) => {
       <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-4 mx-3 pt-5 w-[30rem] min-h-[40rem]`}>
         <Image
           src={equipment.image || '/noimg3.jpg'}
-          alt={equipment.equipmentName || 'Air Conditioning'}
+          alt={equipment.equipmentName || 'Unidad de equipo'}
           width={200}
           height={200}
           className='rounded-lg mx-auto mb-2'

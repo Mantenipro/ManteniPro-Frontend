@@ -36,10 +36,10 @@ export default function CierreTicket2() {
             setOrderId(report.orderNumber || '');
             setStartDate(report.created_at ? report.created_at.split('T')[0] : '');
           } else {
-            console.error('No se encontraron datos del ticket');
+            //console.error('No se encontraron datos del ticket');
           }
         } catch (error) {
-          console.error('Error al obtener los datos del ticket:', error);
+          //console.error('Error al obtener los datos del ticket:', error);
         }
       };
 
@@ -57,10 +57,10 @@ export default function CierreTicket2() {
                 : ''
             );
           } else {
-            console.error('No se encontraron datos de asignación');
+            //console.error('No se encontraron datos de asignación');
           }
         } catch (error) {
-          console.error('Error al obtener la asignación:', error);
+          //console.error('Error al obtener la asignación:', error);
         }
       };
 

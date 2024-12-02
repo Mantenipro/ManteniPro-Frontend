@@ -30,13 +30,13 @@ const TicketsDashboard = () => {
            
             setProfileImage(user.photo || '/default-image.jpg');
           } else {
-            console.error('No user found with this email:', email);
+            //console.error('No user found with this email:', email);
           }
         } else {
-          console.error('Token or email not found in localStorage');
+          //console.error('Token or email not found in localStorage');
         }
       } catch (error) {
-        console.error('Error fetching user:', error);
+        //console.error('Error fetching user:', error);
       }
     };
     fetchUserId();
@@ -59,7 +59,7 @@ const TicketsDashboard = () => {
           await updateUserPhoto(imageUrl);
           window.location.reload(); 
         } else {
-          console.error("Failed to upload image");
+          //console.error("Failed to upload image");
         }
       };
       reader.readAsDataURL(file);
@@ -95,7 +95,7 @@ const TicketsDashboard = () => {
 
       return url.split('?')[0];
     } catch (error) {
-      console.error("Error uploading image to S3:", error.message || error);
+      //console.error("Error uploading image to S3:", error.message || error);
       return null;
     }
   };
@@ -106,12 +106,12 @@ const TicketsDashboard = () => {
     try {
       const result = await updateUser(userId, userData);
       if (result?.success) {
-        console.log('Photo updated successfully');
+        //console.log('Photo updated successfully');
       } else {
-        console.error('Error updating photo:', result?.message || 'Unexpected response');
+        //console.error('Error updating photo:', result?.message || 'Unexpected response');
       }
     } catch (error) {
-      console.error('Error updating photo:', error.message || error);
+      //console.error('Error updating photo:', error.message || error);
     }
   };
 
@@ -142,7 +142,7 @@ const TicketsDashboard = () => {
       <img src="/icon/camera-icon.png" alt="Camera Icon" className="w-6 h-6" />
     </label>
   </div>
-  <h2 className="mt-4 text-3xl font-bold">Company Profile</h2>
+  <h2 className="mt-4 text-3xl font-bold">Perfil de la empresa</h2>
 </div>
 
         <FormProfile />

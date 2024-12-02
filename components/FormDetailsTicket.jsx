@@ -31,7 +31,7 @@ const StatusDetailLayout = ({ initialData }) => {
           const fetchedComments = await fetchComments(report._id)
           setComments(Array.isArray(fetchedComments) ? fetchedComments : [])
         } catch (error) {
-          console.error('Error fetching comments:', error)
+          //console.error('Error fetching comments:', error)
         }
       }, 3000) // Actualiza cada 3 segundos
 
@@ -51,7 +51,7 @@ const StatusDetailLayout = ({ initialData }) => {
         const profileData = await fetchUserProfile()
         setUserRole(profileData.data.role)
       } catch (error) {
-        console.error('Error fetching user profile:', error)
+        //console.error('Error fetching user profile:', error)
       }
     }
     fetchUserProfileData()
@@ -83,7 +83,7 @@ const StatusDetailLayout = ({ initialData }) => {
         setNewComment('') // Limpiamos el campo de entrada
       }
     } catch (error) {
-      console.error('Error al enviar el comentario:', error)
+      //console.error('Error al enviar el comentario:', error)
     }
   }
 

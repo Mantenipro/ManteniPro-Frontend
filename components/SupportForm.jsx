@@ -12,19 +12,21 @@ const SupportForm = ({ closeModal }) => {
   const [status, setStatus] = useState('')
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [userData, setUserData] = useState(null)
+  const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
+
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
       try {
         const data = await fetchUserData()
         setUserData(data)
-        console.log('User Data desde support form:', data)
+        setIsSubscriptionActive(data?.subscription === true) // Actualiza el estado según la suscripción
       } catch (error) {
-        console.error('Error fetching subscription status:', error)
+        //console.error('Error fetching subscription status:', error)
       }
     }
     fetchSubscriptionStatus()
@@ -32,6 +34,13 @@ const SupportForm = ({ closeModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // Validar si el usuario tiene suscripción activa
+    if (!isSubscriptionActive) {
+      alert('Esta característica se habilita al adquirir algún plan.')
+      return
+    }
+
     setStatus('loading')
 
     try {
@@ -49,7 +58,7 @@ const SupportForm = ({ closeModal }) => {
         throw new Error('Error al enviar el mensaje')
       }
     } catch (error) {
-      console.error(error)
+      //console.error('Error al enviar el mensaje:', error)
       setStatus('error')
     }
   }
@@ -108,11 +117,6 @@ const SupportForm = ({ closeModal }) => {
             <p className='text-center text-lg text-black'>
               ¡El mensaje se ha sido enviado exitosamente!
             </p>
-            {userData && userData.features && userData.features[1] && (
-              <p className='text-center text-lg first-line:text-black'>
-                {userData.features[1].description}
-              </p>
-            )}
           </div>
         </div>
       )}

@@ -122,7 +122,7 @@ const CatalogoDeUsuarios = () => {
         </div>
 
         <div className='mb-4 mt-4'>
-          <Title className='text-2xl'>Catálogo de Usuarios</Title>
+          <Title className='text-2xl'>Catálogo de Clientes</Title>
           <div className='mt-4 flex items-center justify-between'>
             <SortTeams
               sortCriteria={sortCriteria}
@@ -131,14 +131,14 @@ const CatalogoDeUsuarios = () => {
           </div>
         </div>
 
-        <div className='animate-fadeIn h-[30rem] w-full space-y-8 overflow-y-auto rounded-lg bg-white p-4 shadow-xl scrollbar-hide'>
+        <div className='animate-fadeIn h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
           {filteredUsuarios.length > 0 ? (
             filteredUsuarios.map((user, index) => (
               <UserCard key={index} user={user} onDelete={handleUserDelete} />
             ))
           ) : (
             <div className='text-center text-2xl text-gray-500'>
-              No hay usuarios disponibles.
+              No hay clientes disponibles.
             </div>
           )}
         </div>

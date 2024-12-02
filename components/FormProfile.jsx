@@ -53,7 +53,7 @@ const UserProfile = () => {
   const loadUserData = async () => {
     try {
       const userData = await fetchUserData()
-      console.log('Datos de usuario cargados:', userData) // Verificar si los datos se cargan correctamente
+      //console.log('Datos de usuario cargados:', userData) // Verificar si los datos se cargan correctamente
       setUser(userData)
       setLoading(false)
     } catch (error) {
@@ -66,7 +66,7 @@ const UserProfile = () => {
   const loadUserProfile = async () => {
     try {
       const profileData = await fetchUserProfile()
-      console.log('Perfil de usuario:', profileData)
+      //console.log('Perfil de usuario:', profileData)
       setUserRole(profileData.data.role)
       // Asignar el correo y contraseña al perfil del usuario autenticado
       setUserProfile({
@@ -168,7 +168,7 @@ const UserProfile = () => {
     setIsLoading(true)
     try {
       const result = await cancelSubscription(user.subscriptionId)
-      console.log('Suscripción cancelada:', result)
+      //console.log('Suscripción cancelada:', result)
      /*  setUser((prevUser) => ({
         ...prevUser,
         subscription: false,
@@ -189,7 +189,7 @@ const UserProfile = () => {
           router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
         }, 2000)
     } catch (error) {
-      console.error('Error:', error)
+      //console.error('Error:', error)
       toast.error('Error al cancelar la suscripción.') // Notificación de error
     } finally {
       setIsLoading(false);
@@ -200,7 +200,7 @@ const UserProfile = () => {
     setIsLoading(true)
     try {
       const result = await reactivateSubscription(user.subscriptionId)
-      console.log('Suscripción reactivada:', result)
+      //console.log('Suscripción reactivada:', result)
 
       if (
         result.message ===
@@ -226,11 +226,11 @@ const UserProfile = () => {
           router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
         }, 2000)
       } else {
-        console.error('Error al reactivar la suscripción:', result.error)
+        //console.error('Error al reactivar la suscripción:', result.error)
         toast.error('Error al reactivar la suscripción.') // Notificación de error
       }
     } catch (error) {
-      console.error('Error:', error)
+      //console.error('Error:', error)
       toast.error('Error al reactivar la suscripción.') // Notificación de error
     } finally {
       setIsLoading(false)
@@ -324,16 +324,16 @@ const UserProfile = () => {
           onSubmit={handleSubmit(handleUpdateUserData)}
           className='space-y-6 '
         >
-          {renderField('company', 'Company Name', 'text', false)}
+          {renderField('company', 'Nombre de la compañía', 'text', false)}
           {userRole === 'admin' ? (
             <>
               {renderField('email', 'Email', 'email', false)}
-              {renderField('password', 'Password', 'password', false)}
-              {renderField('subscription', 'Subscription', 'text', false)}
-              {renderField('phone', 'Phone', 'tel', true)}
-              {renderField('address', 'Address', 'text', true)}
-              {renderField('startDate', 'Start Date', 'text', false)}
-              {renderField('endDate', 'End Date', 'text', false)}
+              {renderField('password', 'Contraseña', 'password', false)}
+              {renderField('subscription', 'Suscripción', 'text', false)}
+              {renderField('phone', 'Teléfono', 'tel', true)}
+              {renderField('address', 'Dirección', 'text', true)}
+              {renderField('startDate', 'Inicio de suscripción', 'text', false)}
+              {renderField('endDate', 'Finalización de suscripción', 'text', false)}
             </>
           ) : (
             <>
@@ -346,7 +346,7 @@ const UserProfile = () => {
             type='submit'
             className='w-full rounded-md bg-blue-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600'
           >
-            Save All Changes
+            Guardar todos los cambios
           </button>
         </form>
         {isLoading && <div className='mb-4 text-blue-500'>Procesando...</div>}

@@ -41,7 +41,7 @@ export default function FormEquipment() {
       });
       return url.split('?')[0];
     } catch (error) {
-      console.error("Error uploading image to S3:", error);
+      //console.error("Error uploading image to S3:", error);
       return null;
     }
   }
@@ -49,7 +49,7 @@ export default function FormEquipment() {
   async function uploadQRCodeToS3(qrCodeData) {
     try {
       if (!qrCodeData) {
-        console.error("No se generó un QR válido");
+        //console.error("No se generó un QR válido");
         return null;
       }
       const qrCodeBlob = await (await fetch(qrCodeData)).blob();
@@ -71,7 +71,7 @@ export default function FormEquipment() {
      
       return url.split('?')[0];
     } catch (error) {
-      console.error("Error subiendo el QR a S3:", error);
+      //console.error("Error subiendo el QR a S3:", error);
       return null;
     }
   }
@@ -85,7 +85,7 @@ export default function FormEquipment() {
       setQrCodeUrl(qrCodeDataUrl);
       return qrCodeDataUrl;
     } catch (error) {
-      console.error("Error generando el código QR:", error);
+      //console.error("Error generando el código QR:", error);
       return null;
     }
   }
@@ -107,7 +107,7 @@ export default function FormEquipment() {
         const userId = user ? user._id : null;
   
         if (!userId) {
-          console.error("No se encontró un usuario con el email especificado.");
+          //console.error("No se encontró un usuario con el email especificado.");
           return;
         }
   
@@ -141,7 +141,7 @@ export default function FormEquipment() {
   
         // Verificar si el QR fue subido correctamente
         if (!uploadedQrCodeUrl) {
-          console.error("No se pudo obtener la URL del QR después de la subida.");
+          //console.error("No se pudo obtener la URL del QR después de la subida.");
           return;
         }
   
@@ -155,10 +155,10 @@ export default function FormEquipment() {
         router.push("/inventarioEquipos");
   
       } catch (error) {
-        console.error("Error creando el equipo:", error);
+        //console.error("Error creando el equipo:", error);
       }
     } else {
-      console.error("Token o email no encontrados en el almacenamiento local.");
+      //console.error("Token o email no encontrados en el almacenamiento local.");
     }
   }
 

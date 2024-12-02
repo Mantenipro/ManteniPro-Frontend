@@ -36,10 +36,10 @@ export default function useAuth2() {
           router.push('/gestionDeTickets');
         }
       } else {
-        console.error('Usuario no encontrado.');
+        //console.error('Usuario no encontrado.');
       }
     } catch (error) {
-      console.error('Error al obtener la lista de usuarios:', error);
+      //console.error('Error al obtener la lista de usuarios:', error);
     }
   };
 

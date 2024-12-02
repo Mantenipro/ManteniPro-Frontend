@@ -26,7 +26,7 @@ export default function AsignaciondeTicket() {
   useEffect(() => {
     const fetchData = async () => {
       if (ticketId) {
-        console.log('ticketId:', ticketId)
+        //console.log('ticketId:', ticketId)
         const data = await getReportById(ticketId)
         setInitialData(data)
       }
@@ -53,9 +53,9 @@ export default function AsignaciondeTicket() {
   }
 
   const onSubmit = async (data) => {
-    console.log('Asignar a:', data.assignTo)
-    console.log('Fecha de Inicio:', data.startDate)
-    console.log('Prioridad:', data.priority)
+    //console.log('Asignar a:', data.assignTo)
+    //console.log('Fecha de Inicio:', data.startDate)
+    //console.log('Prioridad:', data.priority)
 
     data.status = 'in-progress'
     try {
@@ -73,7 +73,7 @@ export default function AsignaciondeTicket() {
           router.push('/ticketsDashboard') // Redirige al usuario para que cambie la contraseña
         }, 2000)
     } catch (error) {
-        console.error('Error al realizar la asignación:', error.message)
+        //console.error('Error al realizar la asignación:', error.message)
         toast.error(error.message, {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
           style: {

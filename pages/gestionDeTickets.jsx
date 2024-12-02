@@ -46,7 +46,7 @@ const GestionDeTickets = () => {
         
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        //console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -97,13 +97,10 @@ const GestionDeTickets = () => {
       await deleteReport(reportId);
       setReports(reports.filter((report) => report._id !== reportId));
     } catch (error) {
-      console.error("Error al eliminar el reporte:", error);
+      //console.error("Error al eliminar el reporte:", error);
     }
   };
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
 
   return (
     <div className={`min-h-screen w-full bg-white lg:flex lg:flex-row`}>

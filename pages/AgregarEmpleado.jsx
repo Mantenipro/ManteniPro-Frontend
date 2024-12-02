@@ -1,6 +1,6 @@
 import React from 'react'
 import Title from '../components/Title'
-import FormUser from '../components/FormUser'
+import Formemployee from '../components/Formemployee'
 import LefthDashboard from '@/components/LefthDashboard'
 import { useState } from 'react'
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
@@ -8,7 +8,7 @@ import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
-const AgregarUsuario = () => {
+const AgregarEmpleado = () => {
   useAuth2()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -46,13 +46,13 @@ const AgregarUsuario = () => {
             </div>
           </div>
           <Title className='text-2xl mt-2 lg:mt-0'>
-            Crear perfil de cliente
+            Crear perfil de empleado
           </Title>
-          <FormUser />
+          <Formemployee />
         </div>
       </main>
     </div>
   )
 }
 
-export default AgregarUsuario
+export default AgregarEmpleado

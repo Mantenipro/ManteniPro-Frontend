@@ -70,7 +70,7 @@ const ActivateAccountAdminForm = ({ textColor, bgColor }) => {
         token,
         activationCode: activationCodeStr
       })
-      console.log(response)
+      //console.log(response)
       if (response.success) {
         toast.success('Cuenta activada exitosamente', {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',

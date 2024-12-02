@@ -57,7 +57,7 @@ const ProductsPage = () => {
         sessionId: session.id
       })
     } catch (error) {
-      console.error('Error al crear la sesión de Stripe:', error)
+      //console.error('Error al crear la sesión de Stripe:', error)
     }
   }
 

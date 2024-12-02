@@ -45,7 +45,7 @@ const ResendActivationCode = ({ textColor, bgColor }) => {
     try {
       // Simular llamada a API
       const response = await resendActivationCode(email)
-      console.log(response)
+      //console.log(response)
       if (response.success) {
         setIsSuccess(true)
         setEmail('')
