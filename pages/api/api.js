@@ -249,11 +249,13 @@ export const fetchUserData = async () => {
       ? subscriptionType.cancelAtPeriodEnd
       : false // Valor por defecto si es null o undefined
 
+    // Agregar stripeCustomerId a la respuesta
     return {
       company: data.name,
       email: data.email,
       password: data.password,
-      subscription: data.isActive,
+      subscription: data.isActive, // Mantén esta propiedad si la necesitas para algún propósito
+      stripeCustomerId: data.stripeCustomerId, // Aquí estamos incluyendo stripeCustomerId
       phone: data.phone_number,
       address: data.address,
       startDate: startDate,
@@ -267,6 +269,7 @@ export const fetchUserData = async () => {
     throw new Error(error.message)
   }
 }
+
 
 export const updateUserData = async (data) => {
   try {
@@ -441,7 +444,7 @@ export const sendUserData = async (data) => {
     return result // Retornar la respuesta de la API
   } catch (error) {
     //console..error('Error al enviar los datos:', error.message)
-    return { success: false, error: 'Suscríbete en plan avanzado para poder registrar a otro administrador' } 
+    return { success: false, error: 'Suscríbete al plan avanzado para registrar otro administrador; si ya estás suscrito, alcanzaste el máximo permitido.' } 
 }
 }
 

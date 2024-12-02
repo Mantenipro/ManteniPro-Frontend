@@ -24,7 +24,8 @@ const SupportForm = ({ closeModal }) => {
       try {
         const data = await fetchUserData()
         setUserData(data)
-        setIsSubscriptionActive(data?.subscription === true) // Actualiza el estado según la suscripción
+        // Verificar si stripeCustomerId está presente, no solo isActive
+        setIsSubscriptionActive(!!data?.stripeCustomerId) // Verifica si stripeCustomerId existe
       } catch (error) {
         //console.error('Error fetching subscription status:', error)
       }

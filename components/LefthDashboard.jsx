@@ -145,11 +145,11 @@ export default function LefthDashboard() {
                 </Link>
                 {!isSubscriptionActive && (
                   <button
-                    className='mt-4 rounded-md bg-red-500 p-2 text-white'
-                    onClick={handleSubscriptionRedirect}
-                  >
-                    Suscribirse
-                  </button>
+                  className="mt-4 rounded-md bg-gradient-to-r from-[#FF3B3B] to-[#FF6B6B] p-2 text-white"
+                  onClick={handleSubscriptionRedirect}
+                >
+                  Suscribirse
+                </button>
                 )}
               </>
             )}

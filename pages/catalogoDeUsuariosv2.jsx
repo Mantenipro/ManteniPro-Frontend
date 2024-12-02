@@ -121,7 +121,7 @@ const CatalogoDeUsuarios = () => {
           <AddUser className='text-sm' />
         </div>
 
-        <div className='mb-4 mt-4'>
+        <div className='mb-8 mt-4'>
           <Title className='text-2xl'>Catálogo de Clientes</Title>
           <div className='mt-4 flex items-center justify-between'>
             <SortTeams
@@ -134,7 +134,9 @@ const CatalogoDeUsuarios = () => {
         <div className='animate-fadeIn h-[70vh] md:h-[65vh] overflow-y-auto mt-8 space-y-6'>
           {filteredUsuarios.length > 0 ? (
             filteredUsuarios.map((user, index) => (
-              <UserCard key={index} user={user} onDelete={handleUserDelete} />
+              <div key={index} className="mb-5">
+        <UserCard user={user} onDelete={handleUserDelete} />
+      </div>
             ))
           ) : (
             <div className='text-center text-2xl text-gray-500'>
