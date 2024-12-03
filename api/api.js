@@ -1,4 +1,4 @@
-const API_URL = 'https://mantenipro-api-10.onrender.com';
+const API_URL = 'https://api-v1.mantenipro.net';
 
 export async function createReport(data) {
   const res = await fetch(`${API_URL}/report`, {
