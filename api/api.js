@@ -1,4 +1,5 @@
-const API_URL = 'https://api-v1.mantenipro.net';
+const API_URL = 'http://localhost:8000';
+
 
 export async function createReport(data) {
   const res = await fetch(`${API_URL}/report`, {

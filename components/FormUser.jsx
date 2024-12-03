@@ -101,8 +101,6 @@ const FormUser = ({ initialData }) => {
       }
     }
   };
-  
-  
 
   return (
     <form
@@ -165,6 +163,7 @@ const FormUser = ({ initialData }) => {
                 id="email"
                 type="email"
                 placeholder="nombre@dominio.com"
+                readOnly // Hacer el campo solo lectura
               />
               {errors.email && (
                 <p className="text-sm text-red-500">{errors.email.message}</p>
@@ -173,41 +172,44 @@ const FormUser = ({ initialData }) => {
           </div>
         </div>
 
-        <div className="mb-4">
-          <label
-            className="mb-[2px] block text-sm font-semibold text-gray-700"
-            htmlFor="password"
-          >
-            Contraseña
-          </label>
-          <div className="w-full lg:w-1/2">
-            <div className="relative">
-              <img
-                src="/iconpassword.svg"
-                alt=""
-                className="absolute left-3 top-1/2 -translate-y-1/2 transform"
-              />
-              <input
-                {...register('password', {
-                  required: 'Contraseña es obligatoria',
-                  minLength: {
-                    value: 6,
-                    message: 'Debe tener al menos 6 caracteres',
-                  },
-                })}
-                className="w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                id="password"
-                type="password"
-                placeholder="********"
-              />
-              {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
+        {/* Contraseña: solo se renderiza si no estamos editando un usuario */}
+        {!initialData && (
+          <div className="mb-4">
+            <label
+              className="mb-[2px] block text-sm font-semibold text-gray-700"
+              htmlFor="password"
+            >
+              Contraseña
+            </label>
+            <div className="w-full lg:w-1/2">
+              <div className="relative">
+                <img
+                  src="/iconpassword.svg"
+                  alt=""
+                  className="absolute left-3 top-1/2 -translate-y-1/2 transform"
+                />
+                <input
+                  {...register('password', {
+                    required: 'Contraseña es obligatoria',
+                    minLength: {
+                      value: 6,
+                      message: 'Debe tener al menos 6 caracteres',
+                    },
+                  })}
+                  className="w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  id="password"
+                  type="password"
+                  placeholder="********"
+                />
+                {errors.password && (
+                  <p className="text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="mb-14 flex justify-end lg:mb-10 lg:mr-10 lg:mt-4">
