@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import LefthDashboard from '@/components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getReportById } from './api/api';
-import { getAssignmentByReportId } from '../api/api'; // Asegúrate de importar ambas funciones correctamente
+import { getAssignmentByReportId } from '../api/api';
 import SignatureCanvas from 'react-signature-canvas';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
@@ -19,6 +19,7 @@ export default function CierreTicket2() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [vabo, setVabo] = useState('');
+  const [assignedTo, setAssignedTo] = useState(''); // Nuevo estado para assignedTo
 
   const sigCanvas = useRef(null);
   const router = useRouter();
@@ -35,11 +36,9 @@ export default function CierreTicket2() {
             setTicketData(report);
             setOrderId(report.orderNumber || '');
             setStartDate(report.created_at ? report.created_at.split('T')[0] : '');
-          } else {
-            //console.error('No se encontraron datos del ticket');
           }
         } catch (error) {
-          //console.error('Error al obtener los datos del ticket:', error);
+          console.error('Error al obtener los datos del ticket:', error);
         }
       };
 
@@ -47,20 +46,47 @@ export default function CierreTicket2() {
       const fetchAssignmentData = async () => {
         try {
           const assignmentResponse = await getAssignmentByReportId(ticketId);
+          console.log('Assignment Response:', assignmentResponse);  // Log para verificar la estructura
+      
           if (assignmentResponse) {
             setAssignmentData(assignmentResponse);
             setSolution(assignmentResponse.solution || '');
-            setVabo(assignmentResponse.VaBo || ''); // Asignar el VoBo si existe en la base de datos
+            setVabo(assignmentResponse.VaBo || '');
             setEndDate(
               assignmentResponse.finishedAt
                 ? assignmentResponse.finishedAt.split('T')[0]
                 : ''
             );
-          } else {
-            //console.error('No se encontraron datos de asignación');
+      
+            // Verifica si 'assignedTo' existe en la respuesta
+            if (assignmentResponse.assignedTo) {
+              console.log('assignedTo:', assignmentResponse.assignedTo);  // Log para verificar si contiene datos
+      
+              // Aquí accedemos al ID directamente desde assignedTo._id
+              const userId = assignmentResponse.assignedTo._id;
+              console.log('ID del técnico:', userId);  // Verifica que el ID sea correcto
+      
+              // Verifica si el ID está disponible antes de hacer la solicitud
+              if (userId) {
+                const userResponse = await fetch(`https://api-v1.mantenipro.net/users/${userId}`); // Llama a la API con el ID del usuario
+                if (userResponse.ok) {
+                  const userData = await userResponse.json();
+                  // Asigna el nombre del técnico
+                  setAssignedTo(userData.name || '');
+                } else {
+                  // Agregar log para investigar el código de estado y el cuerpo de la respuesta
+                  const errorData = await userResponse.json();
+                  console.error('Error al obtener los datos del usuario:', errorData);
+                }
+              } else {
+                console.error('ID del técnico no disponible');
+              }
+            } else {
+              console.error('assignedTo no está presente en la respuesta');
+            }
           }
         } catch (error) {
-          //console.error('Error al obtener la asignación:', error);
+          console.error('Error al obtener la asignación:', error);
         }
       };
 
@@ -83,7 +109,6 @@ export default function CierreTicket2() {
 
       {/* Contenido principal */}
       <main className='flex-1 p-6'>
-        {/* Encabezado */}
         <div className='flex lg:items-center lg:justify-between'>
           <div className='left-4 top-4 z-50 lg:hidden'>
             <button
@@ -95,7 +120,6 @@ export default function CierreTicket2() {
           </div>
         </div>
 
-        {/* Título */}
         <div>
           <h1
             className={`mb:text-left mb-2 ml-3 text-center text-3xl font-bold ${montserrat.className}`}
@@ -105,10 +129,7 @@ export default function CierreTicket2() {
           </h1>
         </div>
 
-        {/* Formulario */}
-        <form
-          className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[595px] md:w-2/3'
-        >
+        <form className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[595px] md:w-2/3'>
           {/* ID de la Orden */}
           <div className='flex flex-col'>
             <label className='mb-2 font-bold text-gray-700' htmlFor='orderId'>
@@ -119,7 +140,20 @@ export default function CierreTicket2() {
               id='orderId'
               value={orderId}
               className='w-full rounded border p-2'
-              placeholder='Ingrese el ID de la orden'
+              readOnly
+            />
+          </div>
+
+          {/* Persona asignada */}
+          <div className='flex flex-col'>
+            <label className='mb-2 font-bold text-gray-700' htmlFor='assignedTo'>
+              Persona Asignada
+            </label>
+            <input
+              type="text"
+              id="assignedTo"
+              value={assignedTo} // Aquí se asigna el nombre del técnico
+              className="w-full rounded border p-2"
               readOnly
             />
           </div>
@@ -134,7 +168,6 @@ export default function CierreTicket2() {
               value={solution}
               className='w-full rounded border p-2'
               rows='4'
-              placeholder='Describa la solución elaborada'
               readOnly
             ></textarea>
           </div>
