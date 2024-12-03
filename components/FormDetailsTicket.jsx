@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
 import { Source_Sans_3 } from 'next/font/google'
 import Link from 'next/link'
@@ -11,6 +10,7 @@ import {
 import { fetchComments, addComment, fetchUserProfile } from '../pages/api/api'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { motion } from 'framer-motion'
 
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
@@ -21,6 +21,8 @@ const StatusDetailLayout = ({ initialData }) => {
   const [showPendingTime, setShowPendingTime] = useState(false)
   const [showInProgressTime, setShowInProgressTime] = useState(false)
   const [showCompletedTime, setShowCompletedTime] = useState(false)
+
+  const [isImageOpen, setIsImageOpen] = useState(false); // Estado para controlar si la imagen está abierta
 
   const report = initialData?.data?.report
 
@@ -56,7 +58,15 @@ const StatusDetailLayout = ({ initialData }) => {
     }
     fetchUserProfileData()
   }, [])
-  
+
+  const handleImageClick = () => {
+    setIsImageOpen(true); // Mostrar la imagen en grande
+  }
+
+  const handleCloseImage = () => {
+    setIsImageOpen(false); // Cerrar la imagen ampliada
+  }
+
   if (!report) {
     return <div>Loading...</div>
   }
@@ -102,71 +112,62 @@ const StatusDetailLayout = ({ initialData }) => {
     <div className='flex items-center justify-center'>
       <div className='max-h-screen animate-fadeIn space-y-4 overflow-y-auto scrollbar-hide md:h-[560px] md:w-3/4'>
         <div className='rounded border p-2 shadow-lg'>
-          <div className='flex flex-col justify-between rounded border-b-2 p-2 md:flex-col md:items-center'>
-            <div>
-              <h3 className='p-2 text-lg font-bold'>{report.title}</h3>
-            </div>
-            <div className='mb-3 mt-2 flex flex-wrap space-x-4'>
-              <button
-                className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
-                onClick={() => {
-                  document
-                    .getElementById('comments-section')
-                    .scrollIntoView({ behavior: 'smooth' })
-                }}
-              >
-                <img
-                  src='/comment.svg'
-                  alt='icon'
-                  className='mr-2 h-4 w-4 object-cover'
-                />
-                Comentarios
-              </button>
-              {userRole === 'admin' ? (
-                <Link
-                  href={{
-                    pathname: '/AsignaciondeTicket',
-                    query: {
-                      ticketId: report._id
-                    }
-                  }}
-                  className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
-                >
-                  <img
-                    src='/Cargo.svg'
-                    alt='icon'
-                    className='mr-2 h-4 w-4 object-cover'
-                  />
-                  Asignar
-                </Link>
-              ) : (
-                <div className='flex cursor-not-allowed items-center rounded border bg-gray-200 p-2 sm:w-full md:w-auto'>
-                  <img
-                    src='/Cargo.svg'
-                    alt='icon'
-                    className='mr-2 h-4 w-4 object-cover'
-                  />
-                  Asignar
-                </div>
-              )}
-              <Link
-                href={{
-                  pathname: '/CierreTicket',
-                  query: {
-                    ticketId: report._id // Agrega el id del reporte aquí
-                  }
-                }}
-                className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
-              >
-                <img
-                  src='/Close.svg'
-                  alt='icon'
-                  className='mr-2 h-4 w-4 object-cover'
-                />
-                Cerrar
-              </Link>
-            </div>
-          </div>
+        <div className='flex flex-col justify-between rounded border-b-2 p-2 md:flex-col md:items-center'>
+        <div>
+          <h3 className='p-2 text-lg font-bold'>{report.title}</h3>
+        </div>
+        <div className='mb-3 mt-2 flex flex-wrap space-x-4'>
+          <button
+            className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+            onClick={() => {
+              document
+                .getElementById('comments-section')
+                .scrollIntoView({ behavior: 'smooth' })
+            }}
+          >
+            <img
+              src='/comment.svg'
+              alt='icon'
+              className='mr-2 h-4 w-4 object-cover'
+            />
+            Comentarios
+          </button>
+          {userRole === 'admin' && (
+            <Link
+              href={{
+                pathname: '/AsignaciondeTicket',
+                query: {
+                  ticketId: report._id
+                }
+              }}
+              className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+            >
+              <img
+                src='/Cargo.svg'
+                alt='icon'
+                className='mr-2 h-4 w-4 object-cover'
+              />
+              Asignar
+            </Link>
+          )}
+          <Link
+            href={{
+              pathname: '/CierreTicket',
+              query: {
+                ticketId: report._id // Agrega el id del reporte aquí
+              }
+            }}
+            className='flex cursor-pointer items-center rounded border bg-white p-2 hover:bg-gray-200 sm:w-full md:w-auto'
+          >
+            <img
+              src='/Close.svg'
+              alt='icon'
+              className='mr-2 h-4 w-4 object-cover'
+            />
+            Cerrar
+          </Link>
+        </div>
+      </div>
 
           <div>
             <div className='mt-4 flex flex-col justify-around space-y-2 md:flex-row md:space-y-0'>
@@ -186,14 +187,23 @@ const StatusDetailLayout = ({ initialData }) => {
                 <span className='hidden md:block'>{report.orderNumber}</span>
               </div>
               <div className='flex flex-col items-center p-2 text-center'>
-                <div
-                  className={`${getStatusClasses('in-progress')} mb-3`}
-                  onMouseEnter={() => setShowInProgressTime(true)}
-                  onMouseLeave={() => setShowInProgressTime(false)}
-                >
-                  <FaSpinner className='mr-2 h-5 w-5' />
-                  En Progreso
-                </div>
+              <div className='flex flex-col items-center p-2 text-center'>
+              <div
+  className={`${getStatusClasses('in-progress')} `}
+  onMouseEnter={() => setShowInProgressTime(true)}
+  onMouseLeave={() => setShowInProgressTime(false)}
+>
+  {/* Animación de carga usando Framer Motion */}
+  <motion.div
+    className="mr-2"
+    animate={{ rotate: 360 }}
+    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+  >
+    <FaSpinner className='h-5 w-5' />
+  </motion.div>
+  En Progreso
+</div>
+    </div>
                 {showInProgressTime && (
                   <div>Tiempo en Progreso: {report.timeAssigned}</div>
                 )}
@@ -254,7 +264,7 @@ const StatusDetailLayout = ({ initialData }) => {
             <div className='mt-5 max-w-sm rounded-lg bg-white p-6 shadow-md'>
               <div className='mb-2 mt-2 flex flex-col p-2'>
                 <span className='font-semibold'>Dirección:</span>
-                <span>{report.user.company.address}</span>
+                <span>{report.equipment.location}</span>
               </div>
               <div className='mb-2 mt-2 flex flex-col p-2'>
                 <span className='font-semibold'>Compañía:</span>
@@ -264,18 +274,38 @@ const StatusDetailLayout = ({ initialData }) => {
           </div>
 
           <div>
-            <div className='text-md mb-2 p-6 font-semibold'>Descripción:</div>
-            <div className='mx-2 rounded bg-gray-200 p-2 md:mx-6'>
-              {report.description}
-            </div>
-            <div className='my-2 flex justify-center'>
-              <img
-                src={report.image ? report.image : '/noimg3.jpg'}
-                alt='report-image'
-                className='m-1 h-24 w-24 rounded-lg object-cover'
-              />
-            </div>
+      <div className='text-md mb-2 p-6 font-semibold'>Descripción:</div>
+      <div className='mx-2 rounded bg-gray-200 p-2 md:mx-6'>
+        {report.description}
+      </div>
+      <div className='my-2 flex justify-center'>
+        <img
+          src={report.image ? report.image : '/noimg3.jpg'}
+          alt='report-image'
+          className='m-1 h-24 w-24 rounded-lg object-cover cursor-pointer'
+          onClick={handleImageClick} // Al hacer clic, abrir la imagen grande
+        />
+      </div>
+
+      {/* Modal para ver la imagen en grande */}
+      {isImageOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="relative">
+            <img
+              src={report.image ? report.image : '/noimg3.jpg'}
+              alt="large-report-image"
+              className="md:h-[50vh] md:w-[50vw]  max-h-[90vh]  max-w-[90vw] object-contain rounded-lg"
+            />
+            <button
+              onClick={handleCloseImage}
+              className="absolute top-0 right-0 p-2 text-white bg-black rounded-full"
+            >
+              Cerrar
+            </button>
           </div>
+        </div>
+      )}
+    </div>
 
           <div className='mx-4 my-4 h-auto border-b-2'></div>
 

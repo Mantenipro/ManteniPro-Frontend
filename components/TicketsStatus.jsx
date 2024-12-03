@@ -124,22 +124,22 @@ const TicketsStatus = () => {
   const handleNextSection = () => {
     setCurrentSection((prevSection) => {
       if (userRole === 'admin') {
-        return prevSection === 0 ? 2 : 0
+        return (prevSection + 1) % 3; // Navega entre las 3 secciones: 0, 1, 2
       } else {
-        return prevSection === 1 ? 2 : 1
+        return prevSection === 1 ? 2 : 1; // Mantiene la lógica para otros roles
       }
-    })
-  }
-
+    });
+  };
+  
   const handlePrevSection = () => {
     setCurrentSection((prevSection) => {
       if (userRole === 'admin') {
-        return prevSection === 1 ? 0 : 1
+        return (prevSection + 2) % 3; // Navega en sentido inverso entre 0, 1, 2
       } else {
-        return prevSection === 2 ? 1 : 2
+        return prevSection === 2 ? 1 : 2; // Mantiene la lógica para otros roles
       }
-    })
-  }
+    });
+  };
 
   if (loading) {
     return <div>Cargando...</div>

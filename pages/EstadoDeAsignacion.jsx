@@ -78,7 +78,7 @@ const EstadoDeAsignacion = () => {
   <div className="text-center mt-8 p-4 bg-gray-200 rounded-md shadow-md w-[40vh] md:w-full">
     <h2 className="text-xl font-bold">Tu ticket está siendo asignado a un técnico</h2>
     <p className="mt-2 text-sm text-gray-700">
-      Se te notificará cuando este terminado el proceso.
+    Este proceso no tardará mucho.
     </p>
   </div>
 </div>

@@ -45,8 +45,39 @@ const EquipmentDetails = ({ equipment }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
+  
+    // Verifica si se seleccionó más de un archivo
+    if (event.target.files.length > 1) {
+      toast.error('Solo se puede subir 1 imagen', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw',
+          width: 'auto'
+        }
+      });
+      event.target.value = ''; // Limpia el campo de selección de archivo
+      return;
+    }
+  
+    // Verifica si el archivo es una imagen
+    if (file && file.type.startsWith('image/')) {
+      setSelectedFile(file);
+    } else {
+      toast.error('Solo se pueden subir imágenes', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw',
+          width: 'auto'
+        }
+      });
+      event.target.value = ''; // Limpia el campo de selección de archivo
+    }
   };
+  
 
   const onSubmit = async (data) => {
     try {
@@ -110,7 +141,7 @@ const EquipmentDetails = ({ equipment }) => {
         throw new Error(response.error || 'Error desconocido')
       }
     } catch (error) {
-      toast.error('Necesitas suscribirte para poder  gestionar reportes', {
+      toast.error('Suscríbete para gestionar reportes; si ya estás suscrito, alcanzaste el límite permitido.', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
           fontSize: '20px',
@@ -283,7 +314,7 @@ const EquipmentDetails = ({ equipment }) => {
 
               <div className='mb-4'>
                 <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='archivo'>
-                  Subir imagen (opcional)
+                  Subir imagen (opcional, solo puedes subir 1)
                 </label>
                 <input
                   type='file'

@@ -126,20 +126,7 @@ export default function AsignaciondeTicket() {
           </div>
 
           <section className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[550px] md:w-2/3'>
-            <div className='mb-4'>
-              <label
-                className='mb-2 block font-bold text-gray-700'
-                htmlFor='images'
-              >
-                Imágenes (Arrastrar o agregar imagenes)
-              </label>
-              <input
-                type='file'
-                id='images'
-                className='w-full rounded border p-2'
-                multiple
-              />
-            </div>
+          
 
             {/* <div className='mb-4'>
               <label
