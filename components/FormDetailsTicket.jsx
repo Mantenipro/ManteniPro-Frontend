@@ -21,9 +21,9 @@ const StatusDetailLayout = ({ initialData }) => {
   const [showPendingTime, setShowPendingTime] = useState(false)
   const [showInProgressTime, setShowInProgressTime] = useState(false)
   const [showCompletedTime, setShowCompletedTime] = useState(false)
+  const [isImageOpen, setIsImageOpen] = useState(false) // Estado para controlar si la imagen está abierta
 
-  const [isImageOpen, setIsImageOpen] = useState(false); // Estado para controlar si la imagen está abierta
-
+  const [previousStatus, setPreviousStatus] = useState(null) // Estado para guardar el estado anterior del reporte
   const report = initialData?.data?.report
 
   useEffect(() => {
@@ -59,12 +59,19 @@ const StatusDetailLayout = ({ initialData }) => {
     fetchUserProfileData()
   }, [])
 
+  useEffect(() => {
+    if (report?.status === 'in-progress' && previousStatus !== 'in-progress') {
+      // Aquí puedes realizar acciones adicionales si lo necesitas
+    }
+    setPreviousStatus(report?.status)
+  }, [report?.status, previousStatus])
+
   const handleImageClick = () => {
-    setIsImageOpen(true); // Mostrar la imagen en grande
+    setIsImageOpen(true) // Mostrar la imagen en grande
   }
 
   const handleCloseImage = () => {
-    setIsImageOpen(false); // Cerrar la imagen ampliada
+    setIsImageOpen(false) // Cerrar la imagen ampliada
   }
 
   if (!report) {
@@ -107,7 +114,6 @@ const StatusDetailLayout = ({ initialData }) => {
       </span>
     )
   }
-
   return (
     <div className='flex items-center justify-center'>
       <div className='max-h-screen animate-fadeIn space-y-4 overflow-y-auto scrollbar-hide md:h-[560px] md:w-3/4'>
@@ -188,25 +194,36 @@ const StatusDetailLayout = ({ initialData }) => {
               </div>
               <div className='flex flex-col items-center p-2 text-center'>
               <div className='flex flex-col items-center p-2 text-center'>
-              <div
-  className={`${getStatusClasses('in-progress')} `}
-  onMouseEnter={() => setShowInProgressTime(true)}
-  onMouseLeave={() => setShowInProgressTime(false)}
->
-  {/* Animación de carga usando Framer Motion */}
-  <motion.div
-    className="mr-2"
-    animate={{ rotate: 360 }}
-    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-  >
-    <FaSpinner className='h-5 w-5' />
-  </motion.div>
-  En Progreso
-</div>
+  {report.status === 'in-progress' ? (
+    <motion.div
+      className={`${getStatusClasses('in-progress')}`}
+      onMouseEnter={() => setShowInProgressTime(true)}
+      onMouseLeave={() => setShowInProgressTime(false)}
+    >
+      {/* Animación de carga usando Framer Motion */}
+      <motion.div
+        className="mr-2"
+        animate={{ rotate: 360 }}
+        transition={{
+          repeat: Infinity,
+          duration: 1,
+          ease: 'linear',
+        }}
+        aria-label="Loading spinner" // Mejora de accesibilidad
+      >
+        <FaSpinner className="h-5 w-5" />
+      </motion.div>
+      <span>En Progreso</span>
+    </motion.div>
+  ) : (
+    <div className={getStatusClasses('in-progress')}>
+      <FaSpinner className="mr-2 h-5 w-5 text-gray-400" />
+      <span>En Progreso</span>
     </div>
-                {showInProgressTime && (
-                  <div>Tiempo en Progreso: {report.timeAssigned}</div>
-                )}
+  )}
+  
+</div>
+             
                 <div className='hidden md:block'>Tiempo transcurrido:</div>
                 <span className='hidden md:block'>{report.totalTime}</span>
               </div>
