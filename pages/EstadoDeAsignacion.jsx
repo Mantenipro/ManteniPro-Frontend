@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import LefthDashboard from '@/components/LefthDashboard';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { motion } from 'framer-motion';
-
+import useAuth4 from "../hooks/useAuth4";
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const EstadoDeAsignacion = () => {
+  useAuth4()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [technicians, setTechnicians] = useState([
     { id: 1, name: '', img: '/tec4.png' },

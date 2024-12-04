@@ -7,11 +7,13 @@ import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { getEquipmentByOwner, getAllUsers } from '@/api/api'; // Importing the new function
 import { useRouter } from 'next/router';
 import useAuth3 from "../hooks/useAuth3";
+import useAuth4 from "../hooks/useAuth4";
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const Catalogo = () => {
   useAuth3()
+  useAuth4()
   const [machines, setMachines] = useState([]);
   const [users, setUsers] = useState([]);
   const [owners, setOwners] = useState([]);

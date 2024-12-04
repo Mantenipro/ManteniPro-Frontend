@@ -6,8 +6,10 @@ import InfoPanelCustomer from '@/components/InfoPanelCustomer';
 import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';
 import useAuth3 from "../hooks/useAuth3";
+import useAuth4 from "../hooks/useAuth4";
 const GestionDeTickets = () => {
   useAuth3()
+  useAuth4()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 

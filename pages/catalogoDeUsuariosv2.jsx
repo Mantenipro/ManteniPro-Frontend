@@ -8,11 +8,13 @@ import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import AddUser from '@/components/AddUser'
 import { fetchUsers, getCurrentUser } from '@/pages/api/api'
 import useAuth2 from "../hooks/useAuth2";
+import useAuth3 from "../hooks/useAuth3";
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const CatalogoDeUsuarios = () => {
   useAuth2()
+  useAuth3()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [usuarios, setUsuarios] = useState([])

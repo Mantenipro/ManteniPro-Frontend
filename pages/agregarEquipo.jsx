@@ -7,9 +7,10 @@ import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import useAuth2 from "../hooks/useAuth2";
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
-
+import useAuth3 from "../hooks/useAuth3";
 const AgregarEquipos = () => {
   useAuth2()
+  useAuth3()
   const [showProfilesMenu, setShowProfilesMenu] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
