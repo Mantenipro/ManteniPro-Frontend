@@ -46,12 +46,13 @@ const CatalogoDeTecnicos = () => {
           if (currentUser) {
             setCompany(currentUser.company); // Establecer la empresa del usuario
   
-            // Filtrar usuarios que sean admin o tecnicos y no coincidan con el usuario actual
+            // Filtrar usuarios que sean admin o tecnicos, no coincidan con el usuario actual, y no tengan adminType 'principal'
             const filteredUsers = users.filter(
               user =>
                 (user.role === 'admin' || user.role === 'tecnico') &&
                 user.company === currentUser.company &&
-                user.email !== email // Excluir el perfil del usuario actual
+                user.email !== email && // Excluir el perfil del usuario actual
+                user.adminType !== 'principal' // Excluir usuarios con adminType 'principal'
             );
   
             setUsuarios(filteredUsers); // Asignar los usuarios filtrados
