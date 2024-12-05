@@ -153,11 +153,7 @@ const LoginForm = ({ textColor, bgColor }) => {
                     className='absolute inset-y-0 right-0 flex items-center pr-3'
                     onClick={() => handleShowHidePassword(!showPassword)}
                   >
-                    {showPassword ? (
-                      <FaEye className='h-5 w-5 text-gray-400' />
-                    ) : (
-                      <FaEyeSlash className='h-5 w-5 text-gray-400' />
-                    )}
+                   
                   </button>
                 )}
               </div>
