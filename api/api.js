@@ -1,4 +1,5 @@
-const API_URL = 'https://api-v1.mantenipro.net';
+const API_URL = 'https://api-v1.mantenipro.net'
+
 
 export async function createReport(data) {
   const res = await fetch(`${API_URL}/report`, {
@@ -264,17 +265,25 @@ export async function getReportsByUser(userId) {
       },
     });
 
+    // Si la respuesta es 404 (no encontrado), no es un error, simplemente retorna un array vacío
+    if (res.status === 404) {
+      return []; // No hay reportes disponibles para este usuario
+    }
+
+    // Si la respuesta no es OK (pero no es 404), lanzamos un error
     if (!res.ok) {
       throw new Error(`Error: ${res.status} ${res.statusText}`);
     }
 
     const json = await res.json();
-    return json.data;
+    return json.data; // Retorna los reportes obtenidos
   } catch (error) {
-    //console.error("Error fetching reports by user:", error);
-    throw error;
+    // Si ocurre otro tipo de error, lo puedes manejar aquí
+    console.error("Error fetching reports by user:", error);
+    throw error; // O bien lanzar el error si prefieres que el componente que llama esta función lo maneje
   }
 }
+
 
 
 export async function deleteReport(reportId) {
@@ -305,14 +314,20 @@ export async function deleteReport(reportId) {
 // Función para obtener reportes por compañía
 export async function getReportsByCompany(companyId, token) {
   try {
-    const res = await fetch(`${API_URL}/report/company/${companyId}`, { // Asegúrate de que la ruta del endpoint sea correcta
+    const res = await fetch(`${API_URL}/report/company/${companyId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`, // Agregar token si es necesario para la autenticación
+        'Authorization': `Bearer ${token}`,
       },
     });
 
+    // Si la respuesta es 404 (no encontrado), no es un error, simplemente retorna un array vacío
+    if (res.status === 404) {
+      return []; // No hay reportes disponibles, pero no es un error
+    }
+
+    // Si la respuesta no es OK (pero no es 404), lanzamos un error
     if (!res.ok) {
       throw new Error(`Error: ${res.status} ${res.statusText}`);
     }
@@ -320,8 +335,9 @@ export async function getReportsByCompany(companyId, token) {
     const json = await res.json();
     return json.data; // Retorna los reportes obtenidos
   } catch (error) {
-    //console.error("Error fetching reports by company:", error);
-    throw error;
+    // Si ocurre otro tipo de error, lo puedes manejar aquí
+    console.error("Error fetching reports by company:", error);
+    throw error; // O bien lanzar el error si prefieres que el componente que llama esta función lo maneje
   }
 }
 

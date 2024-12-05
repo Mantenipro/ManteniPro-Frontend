@@ -14,7 +14,7 @@ const PriceSection = forwardRef(function PriceSection(props, ref) {
       icon: 'check-icon-dark.png',
       featureTitle: 'Incluye Básico:',
       features: [
-        { title: 'Gestión de Incidencias Limitada:', desc: 'Maneja hasta 10 incidencias al mes.' },
+        { title: 'Gestión de Incidencias Limitada:', desc: 'Maneja hasta 15 incidencias al mes.' },
         { title: 'Soporte por Email:', desc: 'Respuesta en 48 a 72 horas.' },
         { title: '1 Administrador:', desc: 'Un usuario con permisos para gestionar el sistema.' },
       ],

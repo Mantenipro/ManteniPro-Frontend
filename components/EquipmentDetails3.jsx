@@ -16,8 +16,46 @@ const EquipmentDetails = ({ equipment }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [ownerName, setOwnerName] = useState('');
 
-  const problemasAire = ['No enfría adecuadamente', 'Hace ruido extraño', 'No enciende'];
-  const problemasPaneles = ['No genera energía', 'Fugas de agua', 'Panel dañado'];
+  const problemasAire = [
+    'No enfría adecuadamente', 
+    'Hace ruido extraño', 
+    'No enciende', 
+    'Fugas de refrigerante', 
+    'Mal olor al encender', 
+    'Filtros de aire obstruidos', 
+    'Termostato defectuoso', 
+    'Unidad exterior no funciona', 
+    'Condensación excesiva o goteo', 
+    'Ciclos de encendido y apagado frecuentes', 
+    'Consumo energético elevado', 
+    'Ventilador no funciona correctamente', 
+    'Bobinas congeladas', 
+    'Vibraciones excesivas durante el funcionamiento', 
+    'El control remoto no responde', 
+    'Problemas eléctricos en el circuito', 
+    'Conductos de aire bloqueados', 
+    'Capacitor dañado', 
+    'Compresor defectuoso', 
+    'Problemas en la válvula de expansión'
+  ];
+  const problemasPaneles = [
+    'No genera energía', 
+    'Fugas de agua', 
+    'Panel dañado', 
+    'Pérdida de eficiencia', 
+    'Sobrecalentamiento', 
+    'Conexiones eléctricas defectuosas', 
+    'Sombra parcial en los paneles', 
+    'Acumulación de suciedad o polvo', 
+    'Degradación por envejecimiento', 
+    'Inversor defectuoso', 
+    'Cables sueltos o dañados', 
+    'Mal funcionamiento del sistema de monitoreo', 
+    'Impacto por granizo o clima extremo', 
+    'Errores en la instalación', 
+    'Problemas con el sistema de montaje'
+  ];
+  
 
   useEffect(() => {
     async function fetchOwnerName() {
@@ -167,7 +205,7 @@ const EquipmentDetails = ({ equipment }) => {
   return (
     <>
       <Toaster />
-      <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-4 mx-3 pt-5 w-[30rem] min-h-[40rem]`}>
+      <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] md:min-h-[40rem] min-h-[90vh]`}>
         <Image
           src={equipment.image || '/noimg3.jpg'}
           alt={equipment.equipmentName || 'Unidad de equipo'}
@@ -175,7 +213,7 @@ const EquipmentDetails = ({ equipment }) => {
           height={200}
           className='rounded-lg mx-auto mb-2'
         />
-        <div className='overflow-y-auto animate-fadeIn scrollbar-hide max-h-[25rem]'>
+        <div className='overflow-y-auto animate-fadeIn scrollbar-hide md:max-h-[26rem]  max-h-[60vh]'>
           <div className='space-y-6 ml-2'>
             <div className='mb-4'>
             <label className='block text-white text-sm font-semibold mb-[1px] md:pr-96 pr-80' htmlFor='nombreEquipo'>

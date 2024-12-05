@@ -28,8 +28,8 @@ const socialMedia = [
     link: '#'
   },
   {
-    icon: '/Instagram.svg',
-    link: '#'
+    icon: '/youtube.png',
+    link: 'https://www.youtube.com/watch?v=Fz3hl1zPYu8'
   },
   {
     icon: '/Twitter.svg',

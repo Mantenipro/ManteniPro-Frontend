@@ -151,20 +151,20 @@ const FormUser = ({ initialData }) => {
                 alt=""
                 className="absolute left-3 top-1/2 -translate-y-1/2 transform"
               />
-              <input
-                {...register('email', {
-                  required: 'Correo es obligatorio',
-                  pattern: {
-                    value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
-                    message: 'Correo inválido',
-                  },
-                })}
-                className="w-full appearance-none rounded-lg border border-gray-300 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                id="email"
-                type="email"
-                placeholder="nombre@dominio.com"
-                readOnly // Hacer el campo solo lectura
-              />
+            <input
+  {...register('email', {
+    required: 'Correo es obligatorio',
+    pattern: {
+      value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+      message: 'Correo inválido',
+    },
+  })}
+  className="w-full appearance-none rounded-lg border border-gray-300 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  id="email"
+  type="email"
+  placeholder="nombre@dominio.com"
+  readOnly={!!initialData} // Bloqueado solo cuando existe initialData (es decir, en la actualización)
+/>
               {errors.email && (
                 <p className="text-sm text-red-500">{errors.email.message}</p>
               )}

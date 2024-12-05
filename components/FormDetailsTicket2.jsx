@@ -17,13 +17,13 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 const StatusDetailLayout = ({ initialData }) => {
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
-  const [userRole, setUserRole] = useState('') // Cambiar a 'user' para probar
+  const [userRole, setUserRole] = useState('') 
   const [showPendingTime, setShowPendingTime] = useState(false)
   const [showInProgressTime, setShowInProgressTime] = useState(false)
   const [showCompletedTime, setShowCompletedTime] = useState(false)
-  const [isImageOpen, setIsImageOpen] = useState(false) // Estado para controlar si la imagen está abierta
+  const [isImageOpen, setIsImageOpen] = useState(false) 
 
-  const [previousStatus, setPreviousStatus] = useState(null) // Estado para guardar el estado anterior del reporte
+  const [previousStatus, setPreviousStatus] = useState(null) 
   const report = initialData?.data?.report
 
   useEffect(() => {

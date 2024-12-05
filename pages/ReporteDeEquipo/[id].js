@@ -47,7 +47,7 @@ const DetalleEquipo = () => {
   if (!equipment) return null; 
 
   return (
-    <div className={`min-h-screen bg-gray-100 flex relative ${montserrat.className}`}>
+    <div className={` flex relative ${montserrat.className}`}>
       <div
         className={`${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#31416d] to-[#232c48] md:w-[30%] lg:w-[15%] w-[50%] h-full fixed lg:static z-40`}
       >

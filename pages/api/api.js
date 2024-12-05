@@ -1,4 +1,5 @@
-const API_URL = 'https://api-v1.mantenipro.net';
+const API_URL = 'https://api-v1.mantenipro.net'
+
 
 
 export async function login(email, password) {
