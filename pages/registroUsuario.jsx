@@ -98,7 +98,7 @@ const [termsAccepted, setTermsAccepted] = useState(false)
     >
       <div className='flex flex-col items-center'>
         <h1 className={`text-[24px] font-bold ${textColor}`}>Crea tu cuenta</h1>
-        <h3 className={textColor}>Registrate para comenzar.</h3>
+        <h3 className={textColor}>Regístrate para comenzar y obtén un ticket de prueba.</h3>
       </div>
       <div className='mt-8 flex w-full flex-col'>
         <div className='flex flex-col gap-5'>
