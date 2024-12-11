@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import LefthDashboard from '@/components/LefthDashboard-';
 import { Montserrat, Source_Sans_3 } from 'next/font/google';
 import { motion } from 'framer-motion';
-
+import useAuth4 from "../hooks/useAuth4";
 const montserrat = Montserrat({ subsets: ['latin'] });
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] });
 
 const EstadoDeAsignacion = () => {
+  useAuth4()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [technicians, setTechnicians] = useState([
     { id: 1, name: '', img: '/tec4.png' },
@@ -78,7 +79,7 @@ const EstadoDeAsignacion = () => {
   <div className="text-center mt-8 p-4 bg-gray-200 rounded-md shadow-md w-[40vh] md:w-full">
     <h2 className="text-xl font-bold">Tu ticket está siendo asignado a un técnico</h2>
     <p className="mt-2 text-sm text-gray-700">
-      Se te notificará cuando este terminado el proceso.
+    Este proceso no tardará mucho.
     </p>
   </div>
 </div>

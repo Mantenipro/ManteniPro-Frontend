@@ -56,7 +56,7 @@ const [termsAccepted, setTermsAccepted] = useState(false)
     try {
       const register = await registerForm(data.email, data.password, data.fullname, data.companyName, data.zipCode)
 
-      console.log(register)
+      //console.log(register)
 
       toast.success('Registro exitoso, favor de revisar tu correo electronico para activar tu cuenta', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
@@ -80,7 +80,7 @@ const [termsAccepted, setTermsAccepted] = useState(false)
           width: 'auto'
         }, duration: 5000
       })
-      console.error('[Register error]', error)
+      //console.error('[Register error]', error)
     }
   }
 
@@ -98,7 +98,7 @@ const [termsAccepted, setTermsAccepted] = useState(false)
     >
       <div className='flex flex-col items-center'>
         <h1 className={`text-[24px] font-bold ${textColor}`}>Crea tu cuenta</h1>
-        <h3 className={textColor}>Registrate para comenzar.</h3>
+        <h3 className={textColor}>Regístrate para comenzar y obtén un ticket de prueba.</h3>
       </div>
       <div className='mt-8 flex w-full flex-col'>
         <div className='flex flex-col gap-5'>

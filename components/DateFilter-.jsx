@@ -53,7 +53,7 @@ const DateFilter = ({ selectedDate, setSelectedDate }) => {
         className="bg-transparent border-none p-1 text-xs md:text-sm rounded-md bg-gradient-to-r from-[#21262D] to-[#414B66] flex items-center space-x-1"
       >
         <img
-          src="/icon/calendar-icon.png"
+          src="/icon/time.png"
           alt="Fecha"
           className="h-4 w-4 md:h-5 md:w-5 hidden md:block"
         />

@@ -1,4 +1,6 @@
-const API_URL = 'https://api-v1.mantenipro.net';
+const API_URL = 'https://api-v1.mantenipro.net'
+
+
 
 export async function login(email, password) {
   try {
@@ -16,10 +18,10 @@ export async function login(email, password) {
     if (!response.ok) {
       throw new Error(json.message || 'Error al iniciar sesión')
     }
-    console.log('Respuesta de la API:', json)
+    //console..log('Respuesta de la API:', json)
     return json.data
   } catch (error) {
-    console.error('Error en la solicitud de inicio de sesión:', error)
+    //console..error('Error en la solicitud de inicio de sesión:', error)
     throw error
   }
 }
@@ -34,7 +36,7 @@ export const registerForm = async (
   try {
     const data = { email, password, fullname, companyName, zipCode }
 
-    console.log(data)
+    //console..log(data)
 
     const response = await fetch(`${API_URL}/register`, {
       method: 'POST',
@@ -50,13 +52,13 @@ export const registerForm = async (
 
     return await response.json()
   } catch (error) {
-    console.error('Error en la solicitud de registro:', error)
+    //console..error('Error en la solicitud de registro:', error)
     throw error
   }
 }
 
 export const activateAccount = async (data) => {
-  console.log(data)
+  //console..log(data)
 
   try {
     const response = await fetch(`${API_URL}/activate`, {
@@ -73,13 +75,13 @@ export const activateAccount = async (data) => {
 
     return await response.json()
   } catch (error) {
-    console.error('Error al activar la cuenta:', error)
+    //console..error('Error al activar la cuenta:', error)
     throw error
   }
 }
 
 export const activateAccountUser = async (data) => {
-  console.log(data)
+  //console..log(data)
 
   try {
     const response = await fetch(`${API_URL}/userActivate`, {
@@ -98,7 +100,7 @@ export const activateAccountUser = async (data) => {
 
     return result
   } catch (error) {
-    console.error('Error al activar la cuenta:', error)
+    //console..error('Error al activar la cuenta:', error)
     throw error
   }
 }
@@ -114,26 +116,26 @@ export const recoverPassword = async (email) => {
     })
 
     // Log para verificar que la URL es correcta
-    console.log('URL de solicitud:', `${API_URL}/requestPasswordReset`)
+    //console..log('URL de solicitud:', `${API_URL}/requestPasswordReset`)
 
     const result = await response.json()
 
     if (!response.ok) {
       // Capturar el código de estado para más detalles
       const errorMessage = `Error al recuperar la contraseña: ${result.message}`
-      console.error(errorMessage)
+      //console..error(errorMessage)
       throw new Error(errorMessage)
     }
 
     return result
   } catch (error) {
-    console.error('Error en la solicitud de recuperación de contraseña:', error)
+    //console..error('Error en la solicitud de recuperación de contraseña:', error)
     throw error
   }
 }
 
 export const resetPassword = async (data) => {
-  console.log(data)
+  //console..log(data)
 
   try {
     const response = await fetch(`${API_URL}/resetPassword`, {
@@ -161,7 +163,7 @@ export const resetPassword = async (data) => {
 
     return result
   } catch (error) {
-    console.error('Error al restablecer la contraseña:', error)
+    //console..error('Error al restablecer la contraseña:', error)
     throw error
   }
 }
@@ -185,7 +187,7 @@ export async function changePassword(data) {
 
     return await response.json()
   } catch (error) {
-    console.error('Error al cambiar la contraseña:', error)
+    //console..error('Error al cambiar la contraseña:', error)
     throw error
   }
 }
@@ -197,10 +199,10 @@ export async function fetchProducts() {
       throw new Error('Error fetching products')
     }
     const products = await response.json()
-    console.log('Products:', products)
+    //console..log('Products:', products)
     return products
   } catch (error) {
-    console.error('Error:', error)
+    //console..error('Error:', error)
   }
 }
 
@@ -249,11 +251,13 @@ export const fetchUserData = async () => {
       ? subscriptionType.cancelAtPeriodEnd
       : false // Valor por defecto si es null o undefined
 
+    // Agregar stripeCustomerId a la respuesta
     return {
       company: data.name,
       email: data.email,
       password: data.password,
-      subscription: data.isActive,
+      subscription: data.isActive, // Mantén esta propiedad si la necesitas para algún propósito
+      stripeCustomerId: data.stripeCustomerId, // Aquí estamos incluyendo stripeCustomerId
       phone: data.phone_number,
       address: data.address,
       startDate: startDate,
@@ -267,6 +271,7 @@ export const fetchUserData = async () => {
     throw new Error(error.message)
   }
 }
+
 
 export const updateUserData = async (data) => {
   try {
@@ -299,7 +304,7 @@ export const updateUserData = async (data) => {
 }
 
 export const updateUser = async (userId, userData) => {
-  console.log('Datos del usuario:', userData)
+  //console..log('Datos del usuario:', userData)
   try {
     const response = await fetch(`${API_URL}/users/${userId}`, {
       method: 'PUT',
@@ -314,10 +319,10 @@ export const updateUser = async (userId, userData) => {
     }
 
     const updatedUser = await response.json()
-    console.log('Usuario actualizado:', updatedUser)
+    //console..log('Usuario actualizado:', updatedUser)
     return { success: true, data: updatedUser }
   } catch (error) {
-    console.error('Error al actualizar el usuario:', error)
+    //console..error('Error al actualizar el usuario:', error)
   }
 }
 
@@ -335,10 +340,10 @@ export const deleteUser = async (userId) => {
     }
 
     const result = await response.json()
-    console.log('Usuario eliminado:', result)
+    //console..log('Usuario eliminado:', result)
     return { success: true, data: result }
   } catch (error) {
-    console.error('Error al eliminar el usuario:', error)
+    //console..error('Error al eliminar el usuario:', error)
     return { success: false, error: error.message }
   }
 }
@@ -358,7 +363,7 @@ export const cancelSubscription = async (subscriptionId) => {
     }
 
     const result = await response.json()
-    console.log('Respuesta de la API:', result)
+    //console..log('Respuesta de la API:', result)
     return result
   } catch (error) {
     throw new Error(error.message)
@@ -380,7 +385,7 @@ export const reactivateSubscription = async (subscriptionId) => {
     }
 
     const result = await response.json()
-    console.log('Respuesta de la API:', result)
+    //console..log('Respuesta de la API:', result)
     return result
   } catch (error) {
     throw new Error(error.message)
@@ -401,20 +406,20 @@ export const fetchUserProfile = async () => {
 
     if (!response.ok) {
       const errorMessage = `Error fetching profile data: ${response.status} - ${response.statusText}`
-      console.error(errorMessage)
+      //console..error(errorMessage)
       throw new Error(errorMessage)
     }
 
     const data = await response.json()
     return data
   } catch (error) {
-    console.error('Error fetching user profile:', error)
+    //console..error('Error fetching user profile:', error)
     throw new Error(error.message)
   }
 }
 
 export const sendUserData = async (data) => {
-  console.log('Datos enviados:', data)
+  //console..log('Datos enviados:', data)
 
   // Eliminar el campo 'photo' de los datos
   const { photo, ...dataWithoutPhoto } = data
@@ -437,12 +442,12 @@ export const sendUserData = async (data) => {
     }
 
     const result = await response.json()
-    console.log('Respuesta de la API:', result)
+    //console..log('Respuesta de la API:', result)
     return result // Retornar la respuesta de la API
   } catch (error) {
-    console.error('Error al enviar los datos:', error.message)
-    return { success: false, error: error.message } // Retornar un objeto de error
-  }
+    //console..error('Error al enviar los datos:', error.message)
+    return { success: false, error: 'Suscríbete al plan avanzado para registrar otro administrador; si ya estás suscrito, alcanzaste el máximo permitido.' } 
+}
 }
 
 export const fetchUsers = async () => {
@@ -456,7 +461,7 @@ export const fetchUsers = async () => {
       }
     })
     const data = await response.json()
-    console.log('Respuesta de la API:', data)
+    //console..log('Respuesta de la API:', data)
     if (data.success) {
       // Filtrar usuarios por rol
       const usuariosFiltrados = data.data.users.filter(
@@ -464,12 +469,36 @@ export const fetchUsers = async () => {
       )
       return usuariosFiltrados
     } else {
-      console.error('Error al obtener usuarios:', data.error)
+      //console..error('Error al obtener usuarios:', data.error)
       return []
     }
   } catch (error) {
-    console.error('Error al hacer la solicitud:', error)
+    //console..error('Error al hacer la solicitud:', error)
     return []
+  }
+}
+
+export const getCurrentUser = async () => {
+  try {
+    const token = localStorage.getItem('token') // Reemplaza con tu token real
+    const response = await fetch(`${API_URL}/users/profile`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (data.success) {
+      //console..log('Usuario actual:', data.data)
+      return data.data
+    } else {
+      //console..error('Error al obtener el usuario actual:', data.error)
+      return null
+    }
+  } catch (error) {
+    //console..error('Error al hacer la solicitud:', error)
+    return null
   }
 }
 
@@ -484,7 +513,7 @@ export const fetchTechnician = async () => {
       }
     })
     const data = await response.json()
-    console.log('Respuesta de la API:', data)
+    //console..log('Respuesta de la API:', data)
     if (data.success) {
       // Filtrar usuarios por rol
       const tecnicosFiltrados = data.data.users.filter(
@@ -492,11 +521,11 @@ export const fetchTechnician = async () => {
       )
       return tecnicosFiltrados
     } else {
-      console.error('Error al obtener usuarios:', data.error)
+      //console..error('Error al obtener usuarios:', data.error)
       return []
     }
   } catch (error) {
-    console.error('Error al hacer la solicitud:', error)
+    //console..error('Error al hacer la solicitud:', error)
     return []
   }
 }
@@ -521,7 +550,7 @@ export const resendActivationCode = async (email) => {
 
     return result
   } catch (error) {
-    console.error('Error al reenviar el código de activación:', error)
+    //console..error('Error al reenviar el código de activación:', error)
     throw error
   }
 }
@@ -535,15 +564,15 @@ export const fetchUserById = async (userId) => {
       }
     })
     const data = await response.json()
-    console.log(data)
+    //console..log(data)
     if (response.ok) {
       return data
     } else {
-      console.error('Error al obtener usuario:', data.message)
+      //console..error('Error al obtener usuario:', data.message)
       return null
     }
   } catch (error) {
-    console.error('Error al hacer la solicitud:', error)
+    //console..error('Error al hacer la solicitud:', error)
     return null
   }
 }
@@ -560,15 +589,15 @@ export const fetchEquimentById = async (equipmentId) => {
       }
     )
     const data = await response.json()
-    console.log(data)
+    //console..log(data)
     if (response.ok) {
       return data
     } else {
-      console.error('Error al obtener equipo:', data.message)
+      //console..error('Error al obtener equipo:', data.message)
       return null
     }
   } catch (error) {
-    console.error('Error al hacer la solicitud:', error)
+    //console..error('Error al hacer la solicitud:', error)
     return null
   }
 }
@@ -588,15 +617,15 @@ export const unlockUser = async (email) => {
     if (response.ok) {
       return { success: true, data }
       // Manejar la respuesta exitosa
-      console.log('Usuario desbloqueado exitosamente')
+      //console..log('Usuario desbloqueado exitosamente')
     } else {
       return { success: false, error: data.message }
       // Manejar errores
-      console.error('Error al desbloquear el usuario')
+      //console..error('Error al desbloquear el usuario')
     }
   } catch (error) {
     return { success: false, error: error.message }
-    console.error('Error al realizar la solicitud:', error)
+    //console..error('Error al realizar la solicitud:', error)
   }
 }
 
@@ -609,15 +638,15 @@ export const getReportById = async (reportId) => {
       }
     })
     const data = await response.json()
-    console.log(data)
+    //console..log(data)
     if (response.ok) {
       return data
     } else {
-      console.error('Error al obtener reporte:', data.message)
+      //console..error('Error al obtener reporte:', data.message)
       return null
     }
   } catch (error) {
-    console.error('Error al hacer la solicitud:', error)
+    //console..error('Error al hacer la solicitud:', error)
     return null
   }
 }
@@ -630,10 +659,10 @@ export async function fetchComments(reportId) {
       throw new Error('Error al obtener los comentarios')
     }
     const comments = await response.json()
-    console.log(comments)
+    //console..log(comments)
     return comments
   } catch (error) {
-    console.error(error.message)
+    //console..error(error.message)
   }
 }
 
@@ -655,9 +684,9 @@ export async function addComment(reportId, content) {
       throw new Error('Error al agregar el comentario')
     }
     const newComment = await response.json()
-    console.log(newComment)
+    //console..log(newComment)
   } catch (error) {
-    console.error(error.message)
+    //console..error(error.message)
   }
 }
 
@@ -683,9 +712,9 @@ export async function addAssignment(technicianId, reportId, priority, status) {
     }
 
     const newAssignment = await response.json()
-    console.log(newAssignment)
+    //console..log(newAssignment)
   } catch (error) {
-    console.error(error.message)
+    //console..error(error.message)
   }
 }
 
@@ -706,10 +735,10 @@ export const updateAssignment = async (assignmentId, solution, finishedAt, VaBo,
       throw new Error(json.message || 'Error al actualizar la asignación');
     }
     
-    console.log('Asignación actualizada:', json);
+    //console..log('Asignación actualizada:', json);
     return json;
   } catch (error) {
-    console.error('Error en la solicitud de actualización:', error);
+    //console..error('Error en la solicitud de actualización:', error);
     throw error;
   }
 };
@@ -734,7 +763,7 @@ export const updateAssignmentByReport = async (reportId, solution, finishedAt, V
 
     return result
   } catch (error) {
-    console.error('Error al actualizar la asignación:', error)
+    //console..error('Error al actualizar la asignación:', error)
     throw error
   }
 }
@@ -755,7 +784,7 @@ export async function supportTicket(data) {
 
     return await response.json()
   } catch (error) {
-    console.error(error)
+    //console..error(error)
     throw new Error('Error al enviar el mensaje')
   }
 }

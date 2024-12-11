@@ -26,7 +26,7 @@ export default function AsignaciondeTicket() {
   useEffect(() => {
     const fetchData = async () => {
       if (ticketId) {
-        console.log('ticketId:', ticketId)
+        //console.log('ticketId:', ticketId)
         const data = await getReportById(ticketId)
         setInitialData(data)
       }
@@ -53,9 +53,9 @@ export default function AsignaciondeTicket() {
   }
 
   const onSubmit = async (data) => {
-    console.log('Asignar a:', data.assignTo)
-    console.log('Fecha de Inicio:', data.startDate)
-    console.log('Prioridad:', data.priority)
+    //console.log('Asignar a:', data.assignTo)
+    //console.log('Fecha de Inicio:', data.startDate)
+    //console.log('Prioridad:', data.priority)
 
     data.status = 'in-progress'
     try {
@@ -73,7 +73,7 @@ export default function AsignaciondeTicket() {
           router.push('/ticketsDashboard') // Redirige al usuario para que cambie la contraseña
         }, 2000)
     } catch (error) {
-        console.error('Error al realizar la asignación:', error.message)
+        //console.error('Error al realizar la asignación:', error.message)
         toast.error(error.message, {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
           style: {
@@ -126,20 +126,7 @@ export default function AsignaciondeTicket() {
           </div>
 
           <section className='mx-auto max-w-lg overflow-y-auto rounded bg-[#F5F5F5] p-4 text-sm shadow-md md:h-[550px] md:w-2/3'>
-            <div className='mb-4'>
-              <label
-                className='mb-2 block font-bold text-gray-700'
-                htmlFor='images'
-              >
-                Imágenes (Arrastrar o agregar imagenes)
-              </label>
-              <input
-                type='file'
-                id='images'
-                className='w-full rounded border p-2'
-                multiple
-              />
-            </div>
+          
 
             {/* <div className='mb-4'>
               <label

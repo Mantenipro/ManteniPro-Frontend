@@ -25,7 +25,7 @@ const InfoPanel = () => {
         const profileData = await fetchUserProfile()
         setUserRole(profileData.data.role)
       } catch (error) {
-        console.error('Error fetching user profile:', error)
+        //console.error('Error fetching user profile:', error)
       }
     }
 

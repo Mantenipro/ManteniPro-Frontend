@@ -18,7 +18,7 @@ function TicketCard({ report }) {
 
   const handleEditClick = (e) => {
     e.stopPropagation();
-    console.log('Card clicked', { ticketId, status });
+    //console.log('Card clicked', { ticketId, status });
 
     // Redirigir según el estado
     if (status === 'completed') {

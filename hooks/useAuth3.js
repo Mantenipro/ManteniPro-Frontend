@@ -35,10 +35,10 @@ export default function useAuth3() {
           router.push('/ticketsDashboard');
         }
       } else {
-        console.error('Usuario no encontrado.');
+        //console.error('Usuario no encontrado.');
       }
     } catch (error) {
-      console.error('Error al obtener la lista de usuarios:', error);
+      //console.error('Error al obtener la lista de usuarios:', error);
     }
   };
 

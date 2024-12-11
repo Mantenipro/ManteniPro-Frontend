@@ -23,7 +23,7 @@ export default function StatusDetailLayout() {
   useEffect(() => {
     const fetchData = async () => {
       if (router.query.ticketId) {
-        console.log('router.query.ticketId:', router.query.ticketId)
+        //console.log('router.query.ticketId:', router.query.ticketId)
         const data = await getReportById(router.query.ticketId)
         setInitialData(data)
       }

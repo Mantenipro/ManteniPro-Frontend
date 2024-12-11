@@ -56,7 +56,7 @@ const MachineCard = ({ machine, onDelete }) => {
         onDelete(machine._id); 
         setShowWarning(false);
       } catch (error) {
-        console.error("Error eliminando el equipo:", error);
+        //console.error("Error eliminando el equipo:", error);
       }
     }
   };
@@ -210,7 +210,7 @@ export async function getReportsByUser(userId, token) {
     const json = await res.json();
     return json.data; 
   } catch (error) {
-    console.error("Error fetching reports by user:", error);
+    //console.error("Error fetching reports by user:", error);
     throw error;
   }
 }

@@ -26,7 +26,7 @@ const DetalleEquipo = () => {
           setEquipment(data);
         }
       } catch (error) {
-        console.error('Error fetching equipment details:', error);
+        //console.error('Error fetching equipment details:', error);
       } finally {
         setLoading(false);
       }

@@ -128,14 +128,14 @@ export default function LefthDashboard() {
                 </MenuItem>
                 {showProfilesMenu && (
                   <div className='relative ml-6 mt-2 flex flex-col border-l-2 border-l-gray-200 pl-5'>
-                    <Link href='/catalogoDeTecnicos'>
+                    <Link href='/catalogoDeEmpleados'>
                       <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
-                        <p className='text-sm'>Técnicos</p>
+                        <p className='text-sm'>Empleados</p>
                       </div>
                     </Link>
                     <Link href='/catalogoDeUsuariosv2'>
                       <div className='rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-[#2D2F39]'>
-                        <p className='text-sm'>Usuarios</p>
+                        <p className='text-sm'>Clientes</p>
                       </div>
                     </Link>
                   </div>
@@ -145,11 +145,11 @@ export default function LefthDashboard() {
                 </Link>
                 {!isSubscriptionActive && (
                   <button
-                    className='mt-4 rounded-md bg-red-500 p-2 text-white'
-                    onClick={handleSubscriptionRedirect}
-                  >
-                    Suscribirse
-                  </button>
+                  className="mt-4 rounded-md bg-gradient-to-r from-[#FF3B3B] to-[#FF6B6B] p-2 text-white"
+                  onClick={handleSubscriptionRedirect}
+                >
+                  Suscribirse
+                </button>
                 )}
               </>
             )}
@@ -174,7 +174,7 @@ export default function LefthDashboard() {
         </div>
         <div className='Seccion2'>
           <Link href='/perfil'>
-            <MenuItem icon='/person-filled-dash.svg' title='Profile' />
+            <MenuItem icon='/person-filled-dash.svg' title='Perfil' />
           </Link>
           <MenuItem
             icon='/headset.svg'
@@ -183,7 +183,7 @@ export default function LefthDashboard() {
           />
           <MenuItem
             icon='/signuot-dash.svg'
-            title='Sign Out'
+            title='Cerrar sesión'
             onClick={handleSignOut}
           />
         </div>

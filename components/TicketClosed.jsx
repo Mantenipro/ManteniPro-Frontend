@@ -34,7 +34,7 @@ export default function TicketClosed() {
       clientApproval: sigCanvas.current.getTrimmedCanvas().toDataURL(), 
     };
 
-    console.log('Datos del formulario:', formData); 
+    //console.log('Datos del formulario:', formData); 
 
     
     setSuccessMessage('Ticket cerrado exitosamente.');

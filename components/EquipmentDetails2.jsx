@@ -33,10 +33,10 @@ export default function EquipmentDetails2({ equipment }) {
           );
           setUserList(filteredUsers);
         } else {
-          console.error("No se encontró la compañía del usuario.");
+          //console.error("No se encontró la compañía del usuario.");
         }
       } catch (error) {
-        console.error("Error fetching users:", error);
+        //console.error("Error fetching users:", error);
       }
     }
   }
@@ -68,7 +68,7 @@ export default function EquipmentDetails2({ equipment }) {
         };
         reader.readAsDataURL(compressedFile);
       } catch (err) {
-        console.error("Error al comprimir la imagen:", err);
+        //console.error("Error al comprimir la imagen:", err);
         setError("Hubo un problema al procesar la imagen.");
       }
     }
@@ -92,14 +92,14 @@ export default function EquipmentDetails2({ equipment }) {
         };
 
         await editEquipment(equipment._id, updatedData, token);
-        console.log("Equipo actualizado exitosamente.");
+        //console.log("Equipo actualizado exitosamente.");
         router.push('/inventarioEquipos');
       } catch (error) {
-        console.error("Error al actualizar el equipo:", error);
+        //console.error("Error al actualizar el equipo:", error);
         setError("Hubo un error al actualizar el equipo. Por favor intenta nuevamente.");
       }
     } else {
-      console.error("Token o email no encontrados en localStorage.");
+      //console.error("Token o email no encontrados en localStorage.");
       setError("No se pudo autenticar. Por favor inicia sesión nuevamente.");
     }
   };

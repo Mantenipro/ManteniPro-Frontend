@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getAllUsers } from '../api/api';
+import { getAllUsers } from '../api/api'; 
 
-export default function useAuth2() {
+export default function useAuth4() {
   const router = useRouter();
-
   const [token, setToken] = useState('');
   const [userRole, setUserRole] = useState('');
   const [isUserFound, setIsUserFound] = useState(false);
@@ -15,7 +14,7 @@ export default function useAuth2() {
 
     if (tkn && email) {
       setToken(tkn);
-      fetchUserRole(email, tkn); 
+      fetchUserRole(email, tkn);  
     } else {
       alert('Debes iniciar sesión primero.');
       router.push('/inicioSesion');
@@ -32,8 +31,8 @@ export default function useAuth2() {
         setIsUserFound(true);
         setUserRole(currentUser.role); 
         
-        if (currentUser.role === 'usuario') {
-          router.push('/gestionDeTickets');
+        if (currentUser.role === 'admin') {
+          router.push('/ticketsDashboard');
         }
       } else {
         //console.error('Usuario no encontrado.');

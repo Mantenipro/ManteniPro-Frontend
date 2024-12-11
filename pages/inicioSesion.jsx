@@ -39,22 +39,22 @@ const LoginForm = ({ textColor, bgColor }) => {
   const onSubmit = async (data) => {
     try {
       // Llamada a la función login
-      console.log('Iniciando login con datos:', data)
+      //console.log('Iniciando login con datos:', data)
       const response = await login(data.email, data.password)
-      console.log('Respuesta de la API:', response)
+      //console.log('Respuesta de la API:', response)
   
       if (response) {
         const { token, mustChangePassword, role } = response // Extrae `mustChangePassword` y `role`
-        console.log('Token recibido:', response.token)
-        console.log('mustChangePassword recibido:', response.mustChangePassword)
-        console.log('Role recibido:', response.role)
+        //console.log('Token recibido:', response.token)
+        //console.log('mustChangePassword recibido:', response.mustChangePassword)
+        //console.log('Role recibido:', response.role)
   
         localStorage.setItem('email', data.email)
         window.localStorage.setItem('token', token)
   
         // Verificar si el usuario necesita cambiar la contraseña
         if (mustChangePassword && role !== 'admin') {
-          console.log('El usuario debe cambiar la contraseña.')
+          //console.log('El usuario debe cambiar la contraseña.')
           toast.warning('Debes cambiar tu contraseña.', {
             position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
             style: {
@@ -68,7 +68,7 @@ const LoginForm = ({ textColor, bgColor }) => {
             router.push('/changePasswordFirst') // Redirige al usuario para que cambie la contraseña
           }, 2000)
         } else {
-          console.log('El usuario no necesita cambiar la contraseña.')
+          //console.log('El usuario no necesita cambiar la contraseña.')
           toast.success('Bienvenido', {
             position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
             style: {
@@ -91,7 +91,7 @@ const LoginForm = ({ textColor, bgColor }) => {
           }
         }
       } else {
-        console.warn('Respuesta de la API inválida o sin data.')
+        //console.warn('Respuesta de la API inválida o sin data.')
         toast.error(response.message)
         setError('root.credentials', {
           type: 'manual',
@@ -99,7 +99,7 @@ const LoginForm = ({ textColor, bgColor }) => {
         })
       }
     } catch (error) {
-      console.error(error.message)
+      //console.error(error.message)
       toast.error(error.message, {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
@@ -153,11 +153,7 @@ const LoginForm = ({ textColor, bgColor }) => {
                     className='absolute inset-y-0 right-0 flex items-center pr-3'
                     onClick={() => handleShowHidePassword(!showPassword)}
                   >
-                    {showPassword ? (
-                      <FaEye className='h-5 w-5 text-gray-400' />
-                    ) : (
-                      <FaEyeSlash className='h-5 w-5 text-gray-400' />
-                    )}
+                   
                   </button>
                 )}
               </div>

@@ -23,12 +23,21 @@ const UserCard = ({ user, onDelete }) => {
   }
 
   const handleEditClick = (e) => {
-    e.stopPropagation()
-    router.push({
-      pathname: '/EditarUsuario',
-      query: { id: user._id }
-    })
-  }
+    e.stopPropagation();
+    
+    if (user.role === 'usuario') {
+      router.push({
+        pathname: '/EditarUsuario',
+        query: { id: user._id }
+      });
+    } else {
+      router.push({
+        pathname: '/EditarEmpleado',
+        query: { id: user._id }
+      });
+    }
+  };
+  
 
   const handleDeleteClick = (e) => {
     e.stopPropagation()

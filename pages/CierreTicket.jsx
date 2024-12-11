@@ -32,7 +32,7 @@ export default function CierreTicket() {
           setOrderId(report.orderNumber || '');
           setStartDate(report.created_at ? report.created_at.split('T')[0] : '');
         } catch (error) {
-          console.error('Error al obtener los datos del ticket:', error);
+          //console.error('Error al obtener los datos del ticket:', error);
         }
       };
       fetchTicketData();
@@ -56,13 +56,13 @@ export default function CierreTicket() {
       try {
         // Usar la nueva función updateAssignmentByReport
         const response = await updateAssignmentByReport(ticketId, solution, finishedAt, vabo, token);
-        console.log('Asignación actualizada:', response);
-        router.push('/ticketsDashboard'); // Redirige después de la actualización
+        //console.log('Asignación actualizada:', response);
+        router.push('/ticketsDashboard'); 
       } catch (error) {
-        console.error('Error en la actualización de la asignación:', error);
+        //console.error('Error en la actualización de la asignación:', error);
       }
     } else {
-      console.error('Token no encontrado en el almacenamiento local.');
+      //console.error('Token no encontrado en el almacenamiento local.');
       alert('No se encuentra el token de autenticación. Por favor, inicia sesión nuevamente.');
     }
   };

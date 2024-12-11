@@ -21,10 +21,10 @@ export default function PropietarioSelect({ register, setValue }) {
           );
           setUserList(filteredUsers);
         } else {
-          console.error("No se encontró la compañía del usuario.");
+          //console.error("No se encontró la compañía del usuario.");
         }
       } catch (error) {
-        console.error("Error fetching users:", error);
+        //console.error("Error fetching users:", error);
       }
     }
   }

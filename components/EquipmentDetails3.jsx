@@ -16,8 +16,46 @@ const EquipmentDetails = ({ equipment }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [ownerName, setOwnerName] = useState('');
 
-  const problemasAire = ['No enfría adecuadamente', 'Hace ruido extraño', 'No enciende'];
-  const problemasPaneles = ['No genera energía', 'Fugas de agua', 'Panel dañado'];
+  const problemasAire = [
+    'No enfría adecuadamente', 
+    'Hace ruido extraño', 
+    'No enciende', 
+    'Fugas de refrigerante', 
+    'Mal olor al encender', 
+    'Filtros de aire obstruidos', 
+    'Termostato defectuoso', 
+    'Unidad exterior no funciona', 
+    'Condensación excesiva o goteo', 
+    'Ciclos de encendido y apagado frecuentes', 
+    'Consumo energético elevado', 
+    'Ventilador no funciona correctamente', 
+    'Bobinas congeladas', 
+    'Vibraciones excesivas durante el funcionamiento', 
+    'El control remoto no responde', 
+    'Problemas eléctricos en el circuito', 
+    'Conductos de aire bloqueados', 
+    'Capacitor dañado', 
+    'Compresor defectuoso', 
+    'Problemas en la válvula de expansión'
+  ];
+  const problemasPaneles = [
+    'No genera energía', 
+    'Fugas de agua', 
+    'Panel dañado', 
+    'Pérdida de eficiencia', 
+    'Sobrecalentamiento', 
+    'Conexiones eléctricas defectuosas', 
+    'Sombra parcial en los paneles', 
+    'Acumulación de suciedad o polvo', 
+    'Degradación por envejecimiento', 
+    'Inversor defectuoso', 
+    'Cables sueltos o dañados', 
+    'Mal funcionamiento del sistema de monitoreo', 
+    'Impacto por granizo o clima extremo', 
+    'Errores en la instalación', 
+    'Problemas con el sistema de montaje'
+  ];
+  
 
   useEffect(() => {
     async function fetchOwnerName() {
@@ -32,10 +70,10 @@ const EquipmentDetails = ({ equipment }) => {
           if (owner) {
             setOwnerName(owner.name);
           } else {
-            console.error('No se encontró el propietario con el ID proporcionado.');
+            //console.error('No se encontró el propietario con el ID proporcionado.');
           }
         } catch (error) {
-          console.error('Error fetching users:', error);
+          //console.error('Error fetching users:', error);
         }
       }
     }
@@ -45,8 +83,39 @@ const EquipmentDetails = ({ equipment }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
+  
+    // Verifica si se seleccionó más de un archivo
+    if (event.target.files.length > 1) {
+      toast.error('Solo se puede subir 1 imagen', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw',
+          width: 'auto'
+        }
+      });
+      event.target.value = ''; // Limpia el campo de selección de archivo
+      return;
+    }
+  
+    // Verifica si el archivo es una imagen
+    if (file && file.type.startsWith('image/')) {
+      setSelectedFile(file);
+    } else {
+      toast.error('Solo se pueden subir imágenes', {
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw',
+          width: 'auto'
+        }
+      });
+      event.target.value = ''; // Limpia el campo de selección de archivo
+    }
   };
+  
 
   const onSubmit = async (data) => {
     try {
@@ -59,7 +128,7 @@ const EquipmentDetails = ({ equipment }) => {
         equipment: equipment._id, 
         created_at: new Date()
       }
-
+  
       if (selectedFile) {
         const fileData = {
           fileName: selectedFile.name,
@@ -73,7 +142,7 @@ const EquipmentDetails = ({ equipment }) => {
             body: JSON.stringify(fileData)
           }
         )
-
+  
         const { url } = await presignedUrlResponse.json()
         await fetch(url, {
           method: 'PUT',
@@ -82,13 +151,13 @@ const EquipmentDetails = ({ equipment }) => {
         })
         reportData.image = url.split('?')[0]
       }
-
+  
       const response = await createReport(reportData)
-
+  
       if (!response) {
         throw new Error('No se recibió respuesta del servidor')
       }
-
+  
       if (response.success) {
         toast.success('Reporte enviado exitosamente', {
           position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
@@ -110,7 +179,7 @@ const EquipmentDetails = ({ equipment }) => {
         throw new Error(response.error || 'Error desconocido')
       }
     } catch (error) {
-      toast.error(`${error.message}`, {
+      toast.error('Suscríbete para gestionar reportes; si ya estás suscrito, alcanzaste el límite permitido.', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
           fontSize: '20px',
@@ -122,9 +191,10 @@ const EquipmentDetails = ({ equipment }) => {
       setTimeout(() => {
         router.push('/ticketsDashboard') // Redirige al dashboard si no necesita cambiar la contraseña
       }, 3000)
-      console.error('Error al enviar el reporte:', error)
+      //console.error('Error al enviar el reporte:', error)
     }
   };
+  
 
   const handleTipoEquipoChange = (event) => {
     const selectedType = event.target.value;
@@ -135,15 +205,15 @@ const EquipmentDetails = ({ equipment }) => {
   return (
     <>
       <Toaster />
-      <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-4 mx-3 pt-5 w-[30rem] min-h-[40rem]`}>
+      <div className={`${sourceSans3.className} lg:ml-4 lg:mt-5 bg-white shadow-lg rounded-lg mt-4 px-3 mx-3 pt-5 max-w-[30rem] md:min-h-[40rem] min-h-[90vh]`}>
         <Image
           src={equipment.image || '/noimg3.jpg'}
-          alt={equipment.equipmentName || 'Air Conditioning'}
+          alt={equipment.equipmentName || 'Unidad de equipo'}
           width={200}
           height={200}
           className='rounded-lg mx-auto mb-2'
         />
-        <div className='overflow-y-auto animate-fadeIn scrollbar-hide max-h-[25rem]'>
+        <div className='overflow-y-auto animate-fadeIn scrollbar-hide md:max-h-[26rem]  max-h-[60vh]'>
           <div className='space-y-6 ml-2'>
             <div className='mb-4'>
             <label className='block text-white text-sm font-semibold mb-[1px] md:pr-96 pr-80' htmlFor='nombreEquipo'>
@@ -282,7 +352,7 @@ const EquipmentDetails = ({ equipment }) => {
 
               <div className='mb-4'>
                 <label className='block text-gray-700 text-sm font-semibold mb-[1px]' htmlFor='archivo'>
-                  Subir imagen (opcional)
+                  Subir imagen (opcional, solo puedes subir 1)
                 </label>
                 <input
                   type='file'

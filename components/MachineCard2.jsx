@@ -48,36 +48,37 @@ const MachineCard = ({ machine }) => {
         </div>
 
         {/* Información del equipo */}
-        <div className="flex flex-grow justify-between ml-4 space-x-6">
-          <div className="flex flex-col items-start md:w-24 w-[1vh]">
-            <span className={`md:text-lg text-xs font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'}`}>
-              {truncateText(machine.model, isMobile ? 10 : 10)}
-            </span>
-          </div>
+        <div className="flex flex-grow justify-between ml-2 space-x-0 md:space-x-4">
+  <div className="flex flex-col items-start w-16 md:w-24">
+    <span className={`text-xs md:text-lg font-bold transition-colors duration-300 ${isHovered ? 'text-white' : 'text-black'}`}>
+      {truncateText(machine.model, isMobile ? 8 : 10)}
+    </span>
+  </div>
 
-          <div className="flex flex-col items-start md:w-24 w-[1vh]">
-            <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}>
-              {truncateText(machine.owner, isMobile ? 20 : 15)}
-            </span>
-          </div>
+  <div className="flex flex-col items-start w-20 md:w-24">
+    <span className={`text-xs md:text-base transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-600'}`}>
+      {truncateText(machine.owner, isMobile ? 12 : 15)}
+    </span>
+  </div>
 
-          <div className="hidden md:flex flex-col items-start md:w-24">
-            <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
-              {truncateText(machine.brand, 10)}
-            </span>
-          </div>
+  <div className="flex flex-col items-start w-16 md:w-24">
+    <span className={`text-xs md:text-base transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
+      {truncateText(machine.brand, isMobile ? 8 : 10)}
+    </span>
+  </div>
 
-          <div className="hidden lg:flex flex-col items-start md:w-24">
-            <span className={`transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
-              {truncateText(machine.location, 20)}
-            </span>
-          </div>
+  <div className="hidden md:flex flex-col items-start w-20 md:w-24">
+    <span className={`text-xs md:text-base transition-colors duration-300 ${isHovered ? 'text-white' : 'text-gray-500'}`}>
+      {truncateText(machine.location, isMobile ? 12 : 20)}
+    </span>
+  </div>
 
-          {/* Código QR */}
-          <div className="hidden lg:flex justify-center items-center mr-6">
-            <img src={machine.qr} alt="Código QR" className="w-12 h-12 rounded-lg" />
-          </div>
-        </div>
+
+  {/* Código QR */}
+  <div className="hidden lg:flex justify-center items-center w-10 h-10 md:w-12 md:h-12 rounded-lg">
+    <img src={machine.qr} alt="Código QR" className="w-full h-full rounded-lg" />
+  </div>
+</div>
       </div>
     </div>
   );

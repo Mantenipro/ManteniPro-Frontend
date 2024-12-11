@@ -6,8 +6,10 @@ import InfoPanelCustomer from '@/components/InfoPanelCustomer';
 import { getAllUsers, getReportsByUser, deleteReport } from '@/api/api'; 
 import TaskCard from '@/components/TaskCard';
 import useAuth3 from "../hooks/useAuth3";
+import useAuth4 from "../hooks/useAuth4";
 const GestionDeTickets = () => {
   useAuth3()
+  useAuth4()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -46,7 +48,7 @@ const GestionDeTickets = () => {
         
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        //console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -97,13 +99,10 @@ const GestionDeTickets = () => {
       await deleteReport(reportId);
       setReports(reports.filter((report) => report._id !== reportId));
     } catch (error) {
-      console.error("Error al eliminar el reporte:", error);
+      //console.error("Error al eliminar el reporte:", error);
     }
   };
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
 
   return (
     <div className={`min-h-screen w-full bg-white lg:flex lg:flex-row`}>
@@ -129,50 +128,51 @@ const GestionDeTickets = () => {
         </div>
 
         <section className="w-full mt-4">
-          <div className="flex w-full h-[75vh] md:h-[80vh] p-4 overflow-hidden bg-white rounded-xl shadow-lg">
-              <div className="flex flex-col w-full flex-1">
-                <div className="flex-1">
-                  <div className="flex flex-col mb-4">
-                    <div className="flex justify-between items-center">
-                      <button
-                        onClick={() => handleTabChange('inProgress')}
-                        className={`w-1/2 text-lg font-bold py-2 rounded-md ${activeTab === 'inProgress' ? 'bg-gray-300 text-gray-800' : 'text-gray-400'}`}
-                      >
-                        En proceso
-                      </button>
-                      <button
-                        onClick={() => handleTabChange('completed')}
-                        className={`w-1/2 text-lg font-bold py-2 rounded-md ${activeTab === 'completed' ? 'bg-gray-300 text-gray-800' : 'text-gray-400'}`}
-                      >
-                        Completadas
-                      </button>
-                    </div>
-                    <div className="border-b border-gray-300 my-2" />
-                  </div>
-                  <div className="relative w-full h-[65vh] md:h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-                    <div className="flex flex-col space-y-5 mt-4">
-                      {sortedTasks.length > 0 ? (
-                        sortedTasks.map((report) => (
-                          <TaskCard
-                            key={report._id}
-                            picture={report.image}
-                            title={report.title}
-                            status={report.status}
-                            description={report.description}
-                            createdAt={report.created_at}
-                            onClick={() => handleCardClick(report)}
-                            onDelete={() => handleDeleteReport(report._id)}
-                          />
-                        ))
-                      ) : (
-                        <p>No hay reportes disponibles.</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </section>
+  <div className="flex w-full h-[75vh] md:h-[80vh] p-4 overflow-hidden bg-white rounded-xl shadow-lg">
+    <div className="flex flex-col w-full flex-1">
+      {/* Tabs */}
+      <div className="flex flex-col mb-4">
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => handleTabChange('inProgress')}
+            className={`w-1/2 text-lg font-bold py-2 rounded-md ${activeTab === 'inProgress' ? 'bg-gray-300 text-gray-800' : 'text-gray-400'}`}
+          >
+            En proceso
+          </button>
+          <button
+            onClick={() => handleTabChange('completed')}
+            className={`w-1/2 text-lg font-bold py-2 rounded-md ${activeTab === 'completed' ? 'bg-gray-300 text-gray-800' : 'text-gray-400'}`}
+          >
+            Completadas
+          </button>
+        </div>
+        <div className="border-b border-gray-300 my-2" />
+      </div>
+      {/* Scrollable Content */}
+      <div className="relative w-full h-[65vh] md:h-[75vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+        <div className="flex flex-col space-y-5">
+          {sortedTasks.length > 0 ? (
+            sortedTasks.map((report) => (
+              <TaskCard
+                key={report._id}
+                picture={report.image}
+                title={report.title}
+                status={report.status}
+                description={report.description}
+                createdAt={report.created_at}
+                onClick={() => handleCardClick(report)}
+                onDelete={() => handleDeleteReport(report._id)}
+              />
+            ))
+          ) : (
+            <p className="text-center text-gray-500">No hay reportes disponibles.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
       </main>
     </div>
   );

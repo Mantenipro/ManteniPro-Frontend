@@ -23,10 +23,10 @@ const EquipmentDetails = ({ equipment }) => {
           if (owner) {
             setOwnerName(owner.name); 
           } else {
-            console.error('No se encontró el propietario con el ID proporcionado.');
+            ////console.error('No se encontró el propietario con el ID proporcionado.');
           }
         } catch (error) {
-          console.error('Error fetching users:', error);
+          ////console.error('Error fetching users:', error);
         }
       }
     }

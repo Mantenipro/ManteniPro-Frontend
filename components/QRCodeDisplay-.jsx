@@ -18,7 +18,7 @@ const QRCodeDisplay = ({ qrCode }) => {
       const imageName = qrCode.split('/').pop(); 
       saveAs(blob, imageName); 
     } catch (error) {
-      console.error("Error al guardar el QR:", error);
+      //console.error("Error al guardar el QR:", error);
       alert("Ocurrió un error al intentar guardar el QR.");
     }
   };
@@ -50,7 +50,7 @@ const QRCodeDisplay = ({ qrCode }) => {
         alert('La imagen ha sido copiada al portapapeles. Puedes pegarla para compartir.');
       }
     } catch (error) {
-      console.error("Error al intentar compartir el QR:", error);
+      //console.error("Error al intentar compartir el QR:", error);
       alert("Ocurrió un error al intentar compartir el QR.");
     }
   };

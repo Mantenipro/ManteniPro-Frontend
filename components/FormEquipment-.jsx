@@ -14,6 +14,8 @@ export default function FormEquipment() {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [qrCodeUrl, setQrCodeUrl] = useState('');
+  const [userRole, setUserRole] = useState('');
+  const [userId, setUserId] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -41,7 +43,7 @@ export default function FormEquipment() {
       });
       return url.split('?')[0];
     } catch (error) {
-      console.error("Error uploading image to S3:", error);
+      //console.error("Error uploading image to S3:", error);
       return null;
     }
   }
@@ -49,7 +51,7 @@ export default function FormEquipment() {
   async function uploadQRCodeToS3(qrCodeData) {
     try {
       if (!qrCodeData) {
-        console.error("No se generó un QR válido");
+        //console.error("No se generó un QR válido");
         return null;
       }
       const qrCodeBlob = await (await fetch(qrCodeData)).blob();
@@ -71,13 +73,13 @@ export default function FormEquipment() {
      
       return url.split('?')[0];
     } catch (error) {
-      console.error("Error subiendo el QR a S3:", error);
+      //console.error("Error subiendo el QR a S3:", error);
       return null;
     }
   }
 
   async function generateQRCode(equipmentId) {
-    const url = `https://mantenipro.vercel.app/ReporteDeEquipo/${equipmentId}`;
+    const url = `https://www.mantenipro.net/ReporteDeEquipo/${equipmentId}`;
     try {
 
       const qrCodeDataUrl = await QRCode.toDataURL(url);
@@ -85,7 +87,7 @@ export default function FormEquipment() {
       setQrCodeUrl(qrCodeDataUrl);
       return qrCodeDataUrl;
     } catch (error) {
-      console.error("Error generando el código QR:", error);
+      //console.error("Error generando el código QR:", error);
       return null;
     }
   }
@@ -94,7 +96,6 @@ export default function FormEquipment() {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
   
-   
     if (!data.location) {
       alert("El campo 'Ubicación' es obligatorio");
       return;
@@ -105,9 +106,14 @@ export default function FormEquipment() {
         const userList = await getUsers();
         const user = userList.find((user) => user.email === email);
         const userId = user ? user._id : null;
+        const adminType = user ? user.adminType : null;
+        const company = user ? user.company : null;
   
+        setUserRole(user ? user.role : '');
+        setUserId(userId);
+
         if (!userId) {
-          console.error("No se encontró un usuario con el email especificado.");
+          //console.error("No se encontró un usuario con el email especificado.");
           return;
         }
   
@@ -115,12 +121,21 @@ export default function FormEquipment() {
         if (selectedFile) {
           imageUrl = await uploadImageToS3(selectedFile);
         }
-  
+
+        // Verificar si el adminType es 'secundario', entonces crear el equipo con un usuario 'principal'
+        let ownerId = userId;
+        if (adminType === 'secundario') {
+          const principalUser = userList.find(user => user.adminType === 'principal' && user.company === company);
+          if (principalUser) {
+            ownerId = principalUser._id; // Usar el ID de un 'adminType' principal
+          }
+        }
+
         // Primero creamos el equipo sin el QR
         const createdEquipment = await createEquipment(
           data.equipmentName,
           data.model,
-          userId,
+          ownerId,
           data.owner,
           data.manufactureDate,
           data.brand,
@@ -141,7 +156,7 @@ export default function FormEquipment() {
   
         // Verificar si el QR fue subido correctamente
         if (!uploadedQrCodeUrl) {
-          console.error("No se pudo obtener la URL del QR después de la subida.");
+          //console.error("No se pudo obtener la URL del QR después de la subida.");
           return;
         }
   
@@ -155,13 +170,12 @@ export default function FormEquipment() {
         router.push("/inventarioEquipos");
   
       } catch (error) {
-        console.error("Error creando el equipo:", error);
+        //console.error("Error creando el equipo:", error);
       }
     } else {
-      console.error("Token o email no encontrados en el almacenamiento local.");
+      //console.error("Token o email no encontrados en el almacenamiento local.");
     }
   }
-
 
   return (
     <form
@@ -259,13 +273,13 @@ export default function FormEquipment() {
           />
         </div>
       </div>
-<div className='flex items-center justify-center'>
-      <button
-        type='submit'
-        className='mt-4 mb-5  bg-gradient-to-r from-[#21262D] to-[#414B66] w-[30vh] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-      >
-        Crear equipo
-      </button>
+      <div className='flex items-center justify-center'>
+        <button
+          type='submit'
+          className='mt-4 mb-5  bg-gradient-to-r from-[#21262D] to-[#414B66] w-[30vh] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+        >
+          Crear equipo
+        </button>
       </div>
     </form>
   );

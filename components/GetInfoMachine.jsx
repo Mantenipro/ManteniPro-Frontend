@@ -78,7 +78,7 @@ export default function GetInfoMachine() {
         router.push('/gestionDeTickets');
       }
     } catch (error) {
-      console.error('Error al enviar el reporte:', error);
+      //console.error('Error al enviar el reporte:', error);
       toast.error('Error al enviar el reporte', {
         position: 'bottom-right',
         style: { fontSize: '16px', padding: '10px', maxWidth: '90vw', width: 'auto' },

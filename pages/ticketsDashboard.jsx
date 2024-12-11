@@ -57,13 +57,13 @@ const useTickets = () => {
     const fetchSubscriptionStatus = async () => {
       try {
         const userData = await fetchUserData()
-        console.log('User Data:', userData)
+        //console.log('User Data:', userData)
         setIsSubscriptionActive(userData.subscription === true)
         setIsSubscriptionSuspended(userData.cancelAtPeriodEnd === true)
         setUserDataDate(userData.endDate)
         setHasReachedTicketLimit(userData.hasReachedTicketLimit)
       } catch (error) {
-        console.error('Error fetching subscription status:', error)
+        //console.error('Error fetching subscription status:', error)
         setApiError(error.message)
       } finally {
         setLoading(false)
@@ -80,7 +80,7 @@ const useTickets = () => {
         const profileData = await fetchUserProfile()
         setUserRole(profileData.data.role)
       } catch (error) {
-        console.error('Error fetching user profile:', error)
+        //console.error('Error fetching user profile:', error)
         setApiError(error.message)
       } finally {
         setLoading(false)
@@ -104,8 +104,8 @@ const useTickets = () => {
   }
 
   const filteredTickets = useMemo(() => {
-    console.log('userRole:', userRole)
-    console.log('tickets:', tickets)
+    //console.log('userRole:', userRole)
+    //console.log('tickets:', tickets)
 
     return tickets
   }, [tickets, userRole])

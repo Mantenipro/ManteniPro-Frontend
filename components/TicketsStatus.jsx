@@ -1,148 +1,144 @@
-/* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   getAllUsers,
   getReportsByCompany,
   getReportsByUser,
   fetchReportsByTecnico
-} from '@/api/api'
-import TicketCard from './TicketCard'
+} from '@/api/api';
+import TicketCard from './TicketCard';
 
 const TicketsStatus = () => {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const [reports, setReports] = useState({
     porHacer: [],
     enProceso: [],
     completados: []
-  })
-  const [loading, setLoading] = useState(true)
-  const [currentSection, setCurrentSection] = useState(0)
-  const [userRole, setUserRole] = useState('')
+  });
+  const [loading, setLoading] = useState(true);
+  const [currentSection, setCurrentSection] = useState(0);
+  const [userRole, setUserRole] = useState('');
+  const [userId, setUserId] = useState('');
 
   const sections = [
     { title: 'Por hacer', tickets: reports.porHacer },
     { title: 'En proceso', tickets: reports.enProceso },
     { title: 'Completados', tickets: reports.completados }
-  ]
+  ];
 
   useEffect(() => {
     const fetchUsersAndReports = async () => {
       try {
-        const token = localStorage.getItem('token')
-        const email = localStorage.getItem('email')
+        const token = localStorage.getItem('token');
+        const email = localStorage.getItem('email');
 
         if (token && email) {
-          const userList = await getAllUsers(token)
-          setUsers(userList)
+          const userList = await getAllUsers(token);
+          setUsers(userList);
 
-          const currentUser = userList.find((user) => user.email === email)
-          const userId = currentUser ? currentUser._id : null
-          const role = currentUser ? currentUser.role : null
-          setUserRole(role)
+          const currentUser = userList.find((user) => user.email === email);
+          const userId = currentUser ? currentUser._id : null;
+          const role = currentUser ? currentUser.role : null;
+          const adminType = currentUser ? currentUser.adminType : null;
+          const company = currentUser ? currentUser.company : null;
+
+          setUserRole(role);
+          setUserId(userId);
+
+          // Verificar si el adminType es "secundario" y obtener el ID de un usuario con "principal"
+          if (adminType === 'secundario') {
+            const principalUser = userList.find(user => user.adminType === 'principal' && user.company === company);
+            if (principalUser) {
+              // Si existe un usuario con adminType 'principal', realizar las peticiones con su ID
+              fetchReportsForUser(principalUser._id, token);
+            }
+          } else if (userId) {
+            // Si el adminType no es 'secundario', proceder con el ID actual
+            fetchReportsForUser(userId, token);
+          }
 
           // Configura la sección inicial en función del rol
-          setCurrentSection(role === 'admin' ? 0 : 1)
+          setCurrentSection(role === 'admin' ? 0 : 1);
 
-          if (userId && role === 'admin') {
-            const userReports = await getReportsByCompany(userId, token)
-            console.log('Reportes de la empresa:', userReports)
-            const updatedReports = userReports.map((report) => {
-              const reportUser = userList.find(
-                (user) => user._id === report.userId
-              )
-              return {
-                ...report,
-                userName: reportUser ? reportUser.name : ''
-              }
-            })
-
-            setReports({
-              porHacer: updatedReports.filter(
-                (report) => report.status === 'pending'
-              ),
-              enProceso: updatedReports.filter(
-                (report) => report.status === 'in-progress'
-              ),
-              completados: updatedReports.filter(
-                (report) => report.status === 'completed'
-              )
-            })
-          } else if (userId && role === 'usuario') {
-            const userReports = await getReportsByUser(userId, token)
-            console.log('Reportes del usuario:', userReports)
-            setReports({
-              enProceso: userReports.filter(
-                (report) => report.status === 'in-progress'
-              ),
-              completados: userReports.filter(
-                (report) => report.status === 'completed'
-              )
-            })
-          } else if (userId && role === 'tecnico') {
-            try {
-              const tecnicoReports = await fetchReportsByTecnico()
-              console.log('Reportes del tecnico:', tecnicoReports)
-
-              if (Array.isArray(tecnicoReports)) {
-                setReports({
-                  enProceso: tecnicoReports.filter(
-                    (report) => report.status === 'in-progress'
-                  ),
-                  completados: tecnicoReports.filter(
-                    (report) => report.status === 'completed'
-                  )
-                })
-              } else {
-                console.error(
-                  'fetchAssignments no devolvió un array:',
-                  tecnicoReports
-                )
-                setReports({
-                  enProceso: [],
-                  completados: []
-                })
-              }
-            } catch (error) {
-              console.error('Error al obtener reportes del técnico:', error)
-              setReports({
-                enProceso: [],
-                completados: []
-              })
-            }
-          }
         }
       } catch (error) {
-        console.error('Error al obtener usuarios o reportes:', error)
+        console.error('Error al obtener usuarios o reportes:', error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchUsersAndReports()
-  }, [])
+    const fetchReportsForUser = async (userId, token) => {
+      if (userRole === 'admin') {
+        const userReports = await getReportsByCompany(userId, token);
+        const updatedReports = userReports.map((report) => {
+          const reportUser = users.find((user) => user._id === report.userId);
+          return {
+            ...report,
+            userName: reportUser ? reportUser.name : ''
+          };
+        });
+
+        setReports({
+          porHacer: updatedReports.filter((report) => report.status === 'pending'),
+          enProceso: updatedReports.filter((report) => report.status === 'in-progress'),
+          completados: updatedReports.filter((report) => report.status === 'completed')
+        });
+      } else if (userRole === 'usuario') {
+        const userReports = await getReportsByUser(userId, token);
+        setReports({
+          enProceso: userReports.filter((report) => report.status === 'in-progress'),
+          completados: userReports.filter((report) => report.status === 'completed')
+        });
+      } else if (userRole === 'tecnico') {
+        try {
+          const tecnicoReports = await fetchReportsByTecnico();
+          if (Array.isArray(tecnicoReports)) {
+            setReports({
+              enProceso: tecnicoReports.filter((report) => report.status === 'in-progress'),
+              completados: tecnicoReports.filter((report) => report.status === 'completed')
+            });
+          } else {
+            console.error('fetchAssignments no devolvió un array:', tecnicoReports);
+            setReports({
+              enProceso: [],
+              completados: []
+            });
+          }
+        } catch (error) {
+          console.error('Error al obtener reportes del técnico:', error);
+          setReports({
+            enProceso: [],
+            completados: []
+          });
+        }
+      }
+    };
+
+    fetchUsersAndReports();
+  }, [userRole, userId]);
 
   const handleNextSection = () => {
     setCurrentSection((prevSection) => {
       if (userRole === 'admin') {
-        return prevSection === 0 ? 2 : 0
+        return (prevSection + 1) % 3; // Navega entre las 3 secciones: 0, 1, 2
       } else {
-        return prevSection === 1 ? 2 : 1
+        return prevSection === 1 ? 2 : 1; // Mantiene la lógica para otros roles
       }
-    })
-  }
+    });
+  };
 
   const handlePrevSection = () => {
     setCurrentSection((prevSection) => {
       if (userRole === 'admin') {
-        return prevSection === 1 ? 0 : 1
+        return (prevSection + 2) % 3; // Navega en sentido inverso entre 0, 1, 2
       } else {
-        return prevSection === 2 ? 1 : 2
+        return prevSection === 2 ? 1 : 2; // Mantiene la lógica para otros roles
       }
-    })
-  }
+    });
+  };
 
   if (loading) {
-    return <div>Cargando...</div>
+    return <div>Cargando...</div>;
   }
 
   return (
@@ -150,7 +146,6 @@ const TicketsStatus = () => {
       <div
         className={`mb-12 grid grid-cols-1 gap-8 ${userRole === 'admin' ? 'md:grid-cols-3' : 'md:grid-cols-2 md:py-2 md:px-2'}`}
       >
-        {/* Ajustado el gap y margen entre columnas */}
         {userRole === 'admin' ? (
           <>
             <StatusColumn
@@ -183,8 +178,8 @@ const TicketsStatus = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const StatusColumn = ({
   title,
@@ -238,6 +233,7 @@ const StatusColumn = ({
       )}
     </div>
   </div>
-)
+);
 
-export default TicketsStatus
+export default TicketsStatus;
+

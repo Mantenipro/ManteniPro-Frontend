@@ -36,7 +36,7 @@ export default function Home() {
       <div className='md:flex md:h-screen md:justify-center' ref={aboutUsRef}>
         <AboutUs />
       </div>
-      <div className='md:h-auto' id='price-section' ref={priceSectionRef}>
+      <div className='md:h-auto mb-16' id='price-section' ref={priceSectionRef}>
         <PriceSection />
       </div>
       <div className='md:h-auto'>
