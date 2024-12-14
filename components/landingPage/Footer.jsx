@@ -6,35 +6,35 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
 const infoButtons = [
   {
-    title: 'INICIO',
+    title: '',
     link: '#'
   },
   {
-    title: 'PLANES',
+    title: '',
     link: '#'
   },
   {
-    title: 'BENEFICIOS',
+    title: '',
     link: '#'
   },
   {
-    title: 'ACERCA DE',
+    title: '',
     link: '#'
   }
 ]
 const socialMedia = [
-  {
+ /* {
     icon: '/Facebook.svg',
     link: '#'
-  },
+  }*/
   {
     icon: '/youtube.png',
     link: 'https://www.youtube.com/watch?v=Fz3hl1zPYu8'
   },
-  {
+ /* {
     icon: '/Twitter.svg',
     link: '#'
-  }
+  }*/
 ]
 
 export default function Footer() {
@@ -42,7 +42,7 @@ export default function Footer() {
     <footer className='p-7 shadow-2xl shadow-black md:p-9'>
       <div className='flex justify-between lg:border-b-2'>
         <div className='ml-[-2.7rem] flex items-start justify-start'>
-          <img src='/logo.png' alt='Logo' className='h-[8rem]' />
+          <img src='/Logo.png' alt='Logo' className='h-[8rem]' />
         </div>
         <div className='flex flex-col items-end justify-end gap-4 lg:flex-row lg:items-center'>
           {infoButtons.map((button, index) => (

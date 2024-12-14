@@ -23,11 +23,10 @@ const inputData = [
 const RegisterForm = ({ textColor, bgColor }) => {
   const router = useRouter()
 
-const [showPassword, setShowPassword] = useState({
-  password: false,
-  confirmPassword: false,
-})
-const [termsAccepted, setTermsAccepted] = useState(false)
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  })
 
   const {
     register,
@@ -41,46 +40,31 @@ const [termsAccepted, setTermsAccepted] = useState(false)
   const confirmPassword = watch('confirmPassword')
 
   const onSubmit = async (data) => {
-    if (!termsAccepted) {
-      toast.error('Debes aceptar los términos y condiciones para continuar', {
-        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
-        style: {
-          fontSize: '20px',
-          padding: '20px',
-          maxWidth: '90vw', // Ajuste para pantallas pequeñas
-          width: 'auto'
-        }
-      })
-      return
-    }
     try {
       const register = await registerForm(data.email, data.password, data.fullname, data.companyName, data.zipCode)
 
-      //console.log(register)
-
       toast.success('Registro exitoso, favor de revisar tu correo electronico para activar tu cuenta', {
-        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', 
         style: {
           fontSize: '20px',
           padding: '20px',
-          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          maxWidth: '90vw',
           width: 'auto'
         }
       })
       setTimeout(() => {
-        router.push('/inicioSesion') // Redirige al login después de enviar el correo
-      }, 4000) // Espera 2 segundos antes de redirigir
+        router.push('/inicioSesion') 
+      }, 4000)
     } catch (error) {
       toast.error('Error al registrar', {
-        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', 
         style: {
           fontSize: '20px',
           padding: '20px',
-          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          maxWidth: '90vw',
           width: 'auto'
         }, duration: 5000
       })
-      //console.error('[Register error]', error)
     }
   }
 
@@ -107,13 +91,11 @@ const [termsAccepted, setTermsAccepted] = useState(false)
               <div className='relative flex items-center'>
                 <img src={item.icon} alt='' className='absolute left-3' />
                 <input
-                  type={
-                    item.name === 'password' || item.name === 'confirmPassword'
-                      ? showPassword[item.name]
-                        ? 'text'
-                        : 'password'
-                      : 'text'
-                  }
+                  type={item.name === 'password' || item.name === 'confirmPassword'
+                    ? showPassword[item.name]
+                      ? 'text'
+                      : 'password'
+                    : 'text'}
                   placeholder={item.placeholder}
                   {...register(item.name, { required: true })}
                   className='w-full p-2 pl-10 pr-20'
@@ -125,11 +107,7 @@ const [termsAccepted, setTermsAccepted] = useState(false)
                     className='absolute inset-y-0 right-0 flex items-center pr-3'
                     onClick={() => handleShowHidePassword(item.name)}
                   >
-                    {showPassword[item.name] ? (
-                      <FaEye className='h-5 w-5 text-gray-400' />
-                    ) : (
-                      <FaEyeSlash className='h-5 w-5 text-gray-400' />
-                    )}
+                    
                   </button>
                 )}
               </div>
@@ -154,20 +132,7 @@ const [termsAccepted, setTermsAccepted] = useState(false)
             </div>
           ))}
         </div>
-        <div className='my-5 flex gap-3'>
-          <input
-            className='mb-6'
-            type='checkbox'
-            name='terms'
-            id='terms'
-            onChange={(e) => setTermsAccepted(e.target.checked)}
-          />
-          <p className={textColor}>
-            By registering, you are agreeing with our
-            <Link href=''>Terms of Use</Link> and{' '}
-            <Link href=''>Privacy Policy</Link>
-          </p>
-        </div>
+
         <button
           type='submit'
           className='p- my-4 h-10 w-full rounded-lg bg-[#EEE727] text-[#030000]'
