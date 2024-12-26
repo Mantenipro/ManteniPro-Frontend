@@ -1,18 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mantenipro - Frontend
+
+Mantenipro is a web application designed to digitize and optimize maintenance management, focusing on improving efficiency, communication, and task control while addressing common issues such as disorganization, lack of visibility, and unnecessary costs, specifically targeting critical equipment like air conditioning systems and solar panels.
+
+## Features
+
+- **React and Next.js:** Built using React with Next.js for server-side rendering and optimized performance.
+- **Stripe Integration:** Implements Stripe for secure and seamless payment processing.
+- **API Integration:** Utilizes the backend API of Mantenipro.
+- **QR Code Generation:** Employs qrcode and qrcode.react to create QR codes dynamically.
+- **Tailwind CSS:**  Provides rapid and consistent styling for a responsive UI.
 
 ## Getting Started
 
-First, run the development server:
+To get started with the project, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone this repository to your Linux console:
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+
+
+2. Install dependencies:
+   ```bash
+   npm install
+
+
+3. Start the development server:
+   ```bash
+    npm run dev
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
