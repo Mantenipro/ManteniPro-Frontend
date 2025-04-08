@@ -1,6 +1,4 @@
-const API_URL = 'https://api-v1.mantenipro.net'
-
-
+const API_URL = 'https://mantenipro-api.onrender.com'
 
 export async function login(email, password) {
   try {
@@ -272,7 +270,6 @@ export const fetchUserData = async () => {
   }
 }
 
-
 export const updateUserData = async (data) => {
   try {
     const token = localStorage.getItem('token')
@@ -446,8 +443,12 @@ export const sendUserData = async (data) => {
     return result // Retornar la respuesta de la API
   } catch (error) {
     //console..error('Error al enviar los datos:', error.message)
-    return { success: false, error: 'Suscríbete al plan avanzado para registrar otro administrador; si ya estás suscrito, alcanzaste el máximo permitido.' } 
-}
+    return {
+      success: false,
+      error:
+        'Suscríbete al plan avanzado para registrar otro administrador; si ya estás suscrito, alcanzaste el máximo permitido.'
+    }
+  }
 }
 
 export const fetchUsers = async () => {
@@ -651,7 +652,6 @@ export const getReportById = async (reportId) => {
   }
 }
 
-
 export async function fetchComments(reportId) {
   try {
     const response = await fetch(`${API_URL}/comments?reportId=${reportId}`)
@@ -718,39 +718,51 @@ export async function addAssignment(technicianId, reportId, priority, status) {
   }
 }
 
-export const updateAssignment = async (assignmentId, solution, finishedAt, VaBo, token) => {
+export const updateAssignment = async (
+  assignmentId,
+  solution,
+  finishedAt,
+  VaBo,
+  token
+) => {
   try {
     const response = await fetch(`${API_URL}/assignments/${assignmentId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({ solution, finishedAt, VaBo })
-    });
+    })
 
-    const json = await response.json();
+    const json = await response.json()
 
     if (!response.ok) {
-      throw new Error(json.message || 'Error al actualizar la asignación');
+      throw new Error(json.message || 'Error al actualizar la asignación')
     }
-    
+
     //console..log('Asignación actualizada:', json);
-    return json;
+    return json
   } catch (error) {
     //console..error('Error en la solicitud de actualización:', error);
-    throw error;
+    throw error
   }
-};
+}
 
-export const updateAssignmentByReport = async (reportId, solution, finishedAt, VaBo, token) => {
+export const updateAssignmentByReport = async (
+  reportId,
+  solution,
+  finishedAt,
+  VaBo,
+  token
+) => {
   try {
     // Cuerpo de la solicitud con los datos que queremos actualizar
     const response = await fetch(`${API_URL}/assignment/byReport/${reportId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`  // Agregado el encabezado de autorización con el token
+        Authorization: `Bearer ${token}` // Agregado el encabezado de autorización con el token
       },
       body: JSON.stringify({ solution, finishedAt, VaBo }) // Enviar los datos para actualizar
     })
@@ -758,7 +770,9 @@ export const updateAssignmentByReport = async (reportId, solution, finishedAt, V
     const result = await response.json()
 
     if (!response.ok) {
-      throw new Error(result.message || 'Error al actualizar la asignación por ID de reporte')
+      throw new Error(
+        result.message || 'Error al actualizar la asignación por ID de reporte'
+      )
     }
 
     return result
@@ -788,4 +802,3 @@ export async function supportTicket(data) {
     throw new Error('Error al enviar el mensaje')
   }
 }
-
