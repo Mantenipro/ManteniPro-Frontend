@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import Link from 'next/link'
 import { toast, Toaster } from 'sonner'
@@ -6,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { registerForm } from './api/api'
-import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -14,18 +12,40 @@ const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 const inputData = [
   { icon: '/iconemail.svg', placeholder: 'Correo electrónico', name: 'email' },
   { icon: '/iconuser.svg', placeholder: 'Nombre completo', name: 'fullname' },
-  { icon: '/iconorganization.svg', placeholder: 'Nombre de compañia', name: 'companyName' },
+  {
+    icon: '/iconorganization.svg',
+    placeholder: 'Nombre de compañia',
+    name: 'companyName'
+  },
   { icon: '/iconlocation.svg', placeholder: 'ZIP code', name: 'zipCode' },
   { icon: '/iconpassword.svg', placeholder: 'Contraseña', name: 'password' },
-  { icon: '/iconpassword.svg', placeholder: 'Confirmar contraseña', name: 'confirmPassword' }
+  {
+    icon: '/iconpassword.svg',
+    placeholder: 'Confirmar contraseña',
+    name: 'confirmPassword'
+  }
 ]
+const validatePassword = (value) => {
+  // Regla: mínimo 8 caracteres, al menos una letra mayúscula, un número y un carácter especial
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/
+  return (
+    passwordRegex.test(value) ||
+    'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial.'
+  )
+}
+
+// Función que verifica si la contraseña es fuerte
+const isPasswordStrong = (password) => {
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/
+  return passwordRegex.test(password)
+}
 
 const RegisterForm = ({ textColor, bgColor }) => {
   const router = useRouter()
 
   const [showPassword, setShowPassword] = useState({
     password: false,
-    confirmPassword: false,
+    confirmPassword: false
   })
 
   const {
@@ -41,29 +61,39 @@ const RegisterForm = ({ textColor, bgColor }) => {
 
   const onSubmit = async (data) => {
     try {
-      const register = await registerForm(data.email, data.password, data.fullname, data.companyName, data.zipCode)
+      const register = await registerForm(
+        data.email,
+        data.password,
+        data.fullname,
+        data.companyName,
+        data.zipCode
+      )
 
-      toast.success('Registro exitoso, favor de revisar tu correo electronico para activar tu cuenta', {
-        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', 
-        style: {
-          fontSize: '20px',
-          padding: '20px',
-          maxWidth: '90vw',
-          width: 'auto'
+      toast.success(
+        'Registro exitoso, favor de revisar tu correo electronico para activar tu cuenta',
+        {
+          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
+          style: {
+            fontSize: '20px',
+            padding: '20px',
+            maxWidth: '90vw',
+            width: 'auto'
+          }
         }
-      })
+      )
       setTimeout(() => {
-        router.push('/inicioSesion') 
+        router.push('/inicioSesion')
       }, 4000)
     } catch (error) {
       toast.error('Error al registrar', {
-        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', 
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
           fontSize: '20px',
           padding: '20px',
           maxWidth: '90vw',
           width: 'auto'
-        }, duration: 5000
+        },
+        duration: 5000
       })
     }
   }
@@ -81,8 +111,12 @@ const RegisterForm = ({ textColor, bgColor }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className='flex flex-col items-center'>
-        <h1 className={`text-[24px] font-bold ${textColor}`}>Crea tu cuenta</h1>
-        <h3 className={textColor}>Regístrate para comenzar y obtén un ticket de prueba.</h3>
+        <h1 className='animate-fade-in bg-gradient-to-r from-[#ffffff] to-[#f0f1f3] bg-clip-text text-[32px] font-extrabold tracking-wide text-transparent md:from-[#21262D] md:to-[#414B66]'>
+          Crea tu cuenta
+        </h1>
+        <h3 className={textColor}>
+          Regístrate para comenzar y obtén un ticket de prueba.
+        </h3>
       </div>
       <div className='mt-8 flex w-full flex-col'>
         <div className='flex flex-col gap-5'>
@@ -91,13 +125,19 @@ const RegisterForm = ({ textColor, bgColor }) => {
               <div className='relative flex items-center'>
                 <img src={item.icon} alt='' className='absolute left-3' />
                 <input
-                  type={item.name === 'password' || item.name === 'confirmPassword'
-                    ? showPassword[item.name]
-                      ? 'text'
-                      : 'password'
-                    : 'text'}
+                  type={
+                    item.name === 'password' || item.name === 'confirmPassword'
+                      ? showPassword[item.name]
+                        ? 'text'
+                        : 'password'
+                      : 'text'
+                  }
                   placeholder={item.placeholder}
-                  {...register(item.name, { required: true })}
+                  {...register(item.name, {
+                    required: true,
+                    validate:
+                      item.name === 'password' ? validatePassword : undefined
+                  })}
                   className='w-full p-2 pl-10 pr-20'
                 />
                 {(item.name === 'password' ||
@@ -107,7 +147,7 @@ const RegisterForm = ({ textColor, bgColor }) => {
                     className='absolute inset-y-0 right-0 flex items-center pr-3'
                     onClick={() => handleShowHidePassword(item.name)}
                   >
-                    
+                    {/* Aquí puedes agregar un ícono de mostrar/ocultar */}
                   </button>
                 )}
               </div>
@@ -129,20 +169,31 @@ const RegisterForm = ({ textColor, bgColor }) => {
                     Las contraseñas coinciden
                   </span>
                 )}
+              {item.name === 'password' &&
+                password &&
+                !isPasswordStrong(password) && (
+                  <span className='mt-1 text-red-500'>
+                    La contraseña debe tener al menos 8 caracteres, una letra
+                    mayúscula, un número y un carácter especial.
+                  </span>
+                )}
             </div>
           ))}
         </div>
 
         <button
           type='submit'
-          className='p- my-4 h-10 w-full rounded-lg bg-[#EEE727] text-[#030000]'
+          className='p- my-4 h-10 w-full rounded-lg bg-[#f4ed2d] font-semibold text-sky-950 hover:bg-[#D6CF15]'
         >
           Registrarse
         </button>
         <div className='my-7 flex justify-between'>
           <p className={textColor}>¿Ya tienes cuenta?</p>
-          <Link href='/inicioSesion' className='text-white md:text-[#030000]'>
-            Inicia sesión
+          <Link
+            href='/inicioSesion'
+            className='font-medium text-white md:text-gray-600 md:hover:font-semibold md:hover:text-gray-700'
+          >
+            Iniciar Sesión
           </Link>
         </div>
       </div>

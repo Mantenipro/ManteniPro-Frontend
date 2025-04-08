@@ -1,12 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import Link from 'next/link'
 import { toast, Toaster } from 'sonner'
 import { useForm } from 'react-hook-form'
-import { useState } from "react"
+import { useState } from 'react'
 import { login } from '../pages/api/api'
 import { useRouter } from 'next/router'
-import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa'
+import { motion } from 'framer-motion'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -38,23 +37,15 @@ const LoginForm = ({ textColor, bgColor }) => {
 
   const onSubmit = async (data) => {
     try {
-      // Llamada a la función login
-      //console.log('Iniciando login con datos:', data)
       const response = await login(data.email, data.password)
-      //console.log('Respuesta de la API:', response)
-  
+
       if (response) {
-        const { token, mustChangePassword, role } = response // Extrae `mustChangePassword` y `role`
-        //console.log('Token recibido:', response.token)
-        //console.log('mustChangePassword recibido:', response.mustChangePassword)
-        //console.log('Role recibido:', response.role)
-  
+        const { token, mustChangePassword, role } = response
+
         localStorage.setItem('email', data.email)
         window.localStorage.setItem('token', token)
-  
-        // Verificar si el usuario necesita cambiar la contraseña
+
         if (mustChangePassword && role !== 'admin') {
-          //console.log('El usuario debe cambiar la contraseña.')
           toast.warning('Debes cambiar tu contraseña.', {
             position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
             style: {
@@ -65,10 +56,9 @@ const LoginForm = ({ textColor, bgColor }) => {
             }
           })
           setTimeout(() => {
-            router.push('/changePasswordFirst') // Redirige al usuario para que cambie la contraseña
+            router.push('/changePasswordFirst')
           }, 2000)
         } else {
-          //console.log('El usuario no necesita cambiar la contraseña.')
           toast.success('Bienvenido', {
             position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
             style: {
@@ -78,20 +68,18 @@ const LoginForm = ({ textColor, bgColor }) => {
               width: 'auto'
             }
           })
-          
-        
+
           if (role === 'usuario') {
             setTimeout(() => {
-              router.push('/equiposCliente') 
+              router.push('/equiposCliente')
             }, 2000)
           } else {
             setTimeout(() => {
-              router.push('/ticketsDashboard') 
+              router.push('/ticketsDashboard')
             }, 2000)
           }
         }
       } else {
-        //console.warn('Respuesta de la API inválida o sin data.')
         toast.error(response.message)
         setError('root.credentials', {
           type: 'manual',
@@ -99,7 +87,6 @@ const LoginForm = ({ textColor, bgColor }) => {
         })
       }
     } catch (error) {
-      //console.error(error.message)
       toast.error(error.message, {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
@@ -116,10 +103,9 @@ const LoginForm = ({ textColor, bgColor }) => {
     }
   }
 
-
-    function handleShowHidePassword() {
-      setShowPassword(!showPassword)
-    }
+  function handleShowHidePassword() {
+    setShowPassword(!showPassword)
+  }
 
   return (
     <form
@@ -127,7 +113,7 @@ const LoginForm = ({ textColor, bgColor }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className='flex flex-col items-center'>
-        <h1 className={`text-[24px] font-bold ${textColor}`}>
+        <h1 className='animate-fade-in bg-gradient-to-r from-[#ffffff] to-[#f0f1f3] bg-clip-text text-[32px] font-extrabold tracking-wide text-transparent md:from-[#21262D] md:to-[#414B66]'>
           Ingresa a tu cuenta
         </h1>
       </div>
@@ -152,9 +138,7 @@ const LoginForm = ({ textColor, bgColor }) => {
                     type='button'
                     className='absolute inset-y-0 right-0 flex items-center pr-3'
                     onClick={() => handleShowHidePassword(!showPassword)}
-                  >
-                   
-                  </button>
+                  ></button>
                 )}
               </div>
               {errors[item.name] && (
@@ -166,20 +150,35 @@ const LoginForm = ({ textColor, bgColor }) => {
           ))}
         </div>
         <div className='my-5'>
-          <Link href='/recuperacionDePassword' className={textColor}>
+          <Link
+            href='/recuperacionDePassword'
+            className='text-gray-700 duration-200 hover:font-medium hover:text-gray-800'
+          >
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
         <button
           type='submit'
-          className='p- my-4 h-10 w-full rounded-lg bg-[#EEE727] text-[#030000]'
+          className='p- my-4 h-10 w-full rounded-lg bg-[#f4ed2d] font-semibold text-sky-950 transition-colors duration-200 hover:bg-[#D6CF15]'
         >
-          Iniciar sesión
+          Log in
         </button>
-        <div className='my-7 flex justify-between'>
+        <div className='my-7 flex items-center justify-between'>
           <p className={textColor}>¿No tienes cuenta?</p>
-          <Link href='/registroUsuario' className={textColor}>
-            Registrate
+
+          <Link href='/registroUsuario'>
+            <motion.span
+              className='bg-gradient-to-r from-[#21262D] via-[#7B8DBA] to-[#414B66] bg-[length:200%_100%] bg-clip-text bg-left font-semibold text-transparent'
+              animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                repeatType: 'loop',
+                ease: 'linear'
+              }}
+            >
+              Regístrate
+            </motion.span>
           </Link>
         </div>
       </div>

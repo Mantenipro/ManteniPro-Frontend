@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { fetchUserData, fetchUserProfile } from '../pages/api/api' // Asegúrate de que la ruta sea correcta
 import { useModal } from '../context/ModalContext'
-import useAuth from "../hooks/useAuth";
+import useAuth from '../hooks/useAuth'
 
 const MenuItem = ({ icon, title, onClick, children }) => (
   <div
@@ -22,7 +22,11 @@ export default function LefthDashboard() {
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
   const [showProfilesMenu, setShowProfilesMenu] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [userProfile, setUserProfile] = useState({ name: '', role: '', photo: '' })
+  const [userProfile, setUserProfile] = useState({
+    name: '',
+    role: '',
+    photo: ''
+  })
   const router = useRouter()
   const { openModal } = useModal()
 
@@ -145,11 +149,11 @@ export default function LefthDashboard() {
                 </Link>
                 {!isSubscriptionActive && (
                   <button
-                  className="mt-4 rounded-md bg-gradient-to-r from-[#FF3B3B] to-[#FF6B6B] p-2 text-white"
-                  onClick={handleSubscriptionRedirect}
-                >
-                  Suscribirse
-                </button>
+                    className='mt-4 rounded-md bg-gradient-to-r from-[#ffd416] to-[#fbf469] p-2 font-semibold text-gray-900 hover:bg-yellow-500'
+                    onClick={handleSubscriptionRedirect}
+                  >
+                    Suscribirse
+                  </button>
                 )}
               </>
             )}
