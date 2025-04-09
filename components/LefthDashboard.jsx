@@ -147,14 +147,6 @@ export default function LefthDashboard() {
                 <Link href='/inventarioEquipos'>
                   <MenuItem icon='/equipos-dash.svg' title='Equipos' />
                 </Link>
-                {!isSubscriptionActive && (
-                  <button
-                    className='mt-4 rounded-md bg-gradient-to-r from-[#ffd416] to-[#fbf469] p-2 font-semibold text-gray-900 hover:bg-yellow-500'
-                    onClick={handleSubscriptionRedirect}
-                  >
-                    Suscribirse
-                  </button>
-                )}
               </>
             )}
             {userProfile.role === 'tecnico' && (

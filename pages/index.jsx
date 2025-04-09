@@ -7,6 +7,7 @@ import HowWork from '@/components/landingPage/HowWork'
 import PriceSection from '@/components/landingPage/PriceSection'
 import Footer from '@/components/landingPage/Footer'
 import AboutUs from '@/components/landingPage/AboutUs'
+import UserHistories from '@/components/landingPage/UserHistories' // Importación agregada
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -22,7 +23,7 @@ export default function Home() {
       className={`${montserrat.className} h-screen snap-y snap-mandatory overflow-y-scroll`}
     >
       <div className='sticky top-0 z-50 bg-white shadow-md'>
-        <Nav/>
+        <Nav />
       </div>
       <div className='md:h-screen'>
         <Hero />
@@ -36,8 +37,8 @@ export default function Home() {
       <div className='md:flex md:h-screen md:justify-center' ref={aboutUsRef}>
         <AboutUs />
       </div>
-      <div className='md:h-auto mb-16' id='price-section' ref={priceSectionRef}>
-        <PriceSection />
+      <div className='md:h-screen'>
+        <UserHistories /> {/* Sección agregada */}
       </div>
       <div className='md:h-auto'>
         <Footer />

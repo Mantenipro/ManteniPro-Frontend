@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Toaster, toast } from 'sonner'
 import { FaEdit, FaCheck } from 'react-icons/fa'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import {
   fetchUserData,
@@ -169,7 +169,7 @@ const UserProfile = () => {
     try {
       const result = await cancelSubscription(user.subscriptionId)
       //console.log('Suscripción cancelada:', result)
-     /*  setUser((prevUser) => ({
+      /*  setUser((prevUser) => ({
         ...prevUser,
         subscription: false,
         cancelAtPeriodEnd: true,
@@ -177,22 +177,22 @@ const UserProfile = () => {
       })) */
       await loadUserData()
       toast.success('Suscripción cancelada con éxito.', {
-          position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
-          style: {
-            fontSize: '20px',
-            padding: '20px',
-            maxWidth: '90vw', // Ajuste para pantallas pequeñas
-            width: 'auto'
-          }
-        })
-        setTimeout(() => {
-          router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
-        }, 2000)
+        position: window.innerWidth < 640 ? 'top-center' : 'bottom-left', // top-center para pantallas pequeñas
+        style: {
+          fontSize: '20px',
+          padding: '20px',
+          maxWidth: '90vw', // Ajuste para pantallas pequeñas
+          width: 'auto'
+        }
+      })
+      setTimeout(() => {
+        router.push('/ticketsDashboard') // Redirige al resetPassword después de enviar el correo
+      }, 2000)
     } catch (error) {
       //console.error('Error:', error)
       toast.error('Error al cancelar la suscripción.') // Notificación de error
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -206,7 +206,7 @@ const UserProfile = () => {
         result.message ===
         'Subscription reactivated and database updated successfully'
       ) {
-       /*  setUser((prevUser) => ({
+        /*  setUser((prevUser) => ({
           ...prevUser,
           subscription: true,
           cancelAtPeriodEnd: false,
@@ -243,7 +243,7 @@ const UserProfile = () => {
 
   const handleChangePassword = () => {
     router.push('/changePassword')
-   }
+  }
 
   const renderField = (field, label, type = 'text', editable = true) => (
     <div className='mb-4' key={field}>
@@ -314,26 +314,19 @@ const UserProfile = () => {
   }
 
   return (
-    <div className=' items-center justify-center bg-gray-100 '>
+    <div className='items-center justify-center bg-gray-100'>
       <Toaster />
-      <div className='animate-fadeIn md:h-[70vh] h-[65vh] w-full  space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide'>
-       
-
+      <div className='h-[65vh] w-full animate-fadeIn space-y-8 overflow-y-auto rounded-lg bg-white p-8 shadow-xl scrollbar-hide md:h-[70vh]'>
         {/* Formulario */}
         <form
           onSubmit={handleSubmit(handleUpdateUserData)}
-          className='space-y-6 '
+          className='space-y-6'
         >
           {renderField('company', 'Nombre de la compañía', 'text', false)}
           {userRole === 'admin' ? (
             <>
               {renderField('email', 'Email', 'email', false)}
               {renderField('password', 'Contraseña', 'password', false)}
-              {renderField('subscription', 'Suscripción', 'text', false)}
-              {renderField('phone', 'Teléfono', 'tel', true)}
-              {renderField('address', 'Dirección', 'text', true)}
-              {renderField('startDate', 'Inicio de suscripción', 'text', false)}
-              {renderField('endDate', 'Finalización de suscripción', 'text', false)}
             </>
           ) : (
             <>
@@ -350,28 +343,7 @@ const UserProfile = () => {
           </button>
         </form>
         {isLoading && <div className='mb-4 text-blue-500'>Procesando...</div>}
-        {userRole === 'admin' && (
-          <>
-            <button
-              onClick={handleCancelSubscription}
-              className='mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-red-600'
-            >
-              Cancelar Suscripción
-            </button>
-            <button
-              onClick={handleReactivateSubscription}
-              className='mt-4 w-full rounded-md bg-green-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-green-600'
-            >
-              Reactivar Suscripción
-            </button>
-            <button
-              onClick={handleUpdateSubscription}
-              className='mt-4 w-full rounded-md bg-yellow-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-yellow-600'
-            >
-              Actualizar Suscripción
-            </button>
-          </>
-        )}
+        {userRole === 'admin' && <></>}
       </div>
     </div>
   )

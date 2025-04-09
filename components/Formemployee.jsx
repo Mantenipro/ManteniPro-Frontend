@@ -22,7 +22,11 @@ const FormUser = ({ initialData }) => {
 
   const [buttonText, setButtonText] = useState('Crear')
   const router = useRouter()
+  const [selectedType, setSelectedType] = useState('')
 
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value)
+  }
   useEffect(() => {
     if (initialData && Object.keys(initialData).length > 0) {
       reset(initialData)
@@ -33,14 +37,16 @@ const FormUser = ({ initialData }) => {
   }, [initialData, reset])
 
   const handleFormSubmit = async (data) => {
+    // Asignar el rol 'tecnico' automáticamente
+    data.role = 'tecnico'
+
     try {
       const response = initialData
         ? await updateUser(initialData._id, data)
         : await sendUserData(data)
 
       if (response && response.success) {
-        const role = data.role
-        const roleMessage = role === 'tecnico' ? 'Técnico' : 'Usuario'
+        const roleMessage = 'Técnico' // El rol ya está asignado a 'tecnico'
         toast.success(
           `${roleMessage} ${initialData ? 'actualizado' : 'agregado'} exitosamente`,
           {
@@ -73,7 +79,7 @@ const FormUser = ({ initialData }) => {
         )
       }
     } catch (error) {
-      toast.error(error.message || 'Selecciona los permisos apropiados a tu plan', {
+      toast.error(error.message || 'Ocurrió un error inesperado.', {
         position: window.innerWidth < 640 ? 'top-center' : 'bottom-left',
         style: {
           fontSize: '20px',
@@ -173,31 +179,31 @@ const FormUser = ({ initialData }) => {
 
         {/* Ocultar el campo de contraseña si estamos editando */}
         {!initialData && ( // Mostrar el campo de contraseña solo cuando no estamos editando un usuario
-  <div className='mb-4'>
-    <label
-      className='mb-[2px] block text-sm font-semibold text-gray-700'
-      htmlFor='Contraseña'
-    >
-      Contraseña
-    </label>
-    <div className='w-full lg:w-1/2'>
-      <div className='relative'>
-        <img
-          src='/iconpassword.svg'
-          alt=''
-          className='absolute left-3 top-1/2 -translate-y-1/2 transform'
-        />
-        <input
-          {...register('password')}
-          className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-          id='contraseña'
-          type='password'
-          placeholder='********'
-        />
-      </div>
-    </div>
-  </div>
-)}
+          <div className='mb-4'>
+            <label
+              className='mb-[2px] block text-sm font-semibold text-gray-700'
+              htmlFor='Contraseña'
+            >
+              Contraseña
+            </label>
+            <div className='w-full lg:w-1/2'>
+              <div className='relative'>
+                <img
+                  src='/iconpassword.svg'
+                  alt=''
+                  className='absolute left-3 top-1/2 -translate-y-1/2 transform'
+                />
+                <input
+                  {...register('password')}
+                  className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 pl-10 pr-4 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  id='contraseña'
+                  type='password'
+                  placeholder='********'
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className='mb-4'>
           <label
@@ -211,52 +217,36 @@ const FormUser = ({ initialData }) => {
               {...register('type')}
               className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 text-xs leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-sm'
               id='cargo'
+              value={selectedType}
+              onChange={handleTypeChange}
             >
               <option value=''>Seleccione un tipo</option>
               <option value='IngMec'>Ingeniero Mecánico</option>
-              <option value='IngElec'>Ingeniero Electrico</option>
+              <option value='IngElec'>Ingeniero Eléctrico</option>
               <option value='IngCiv'>Ingeniero Civil</option>
+              <option value='IngIndustrial'>Ingeniero Industrial</option>
+              <option value='IngSistemas'>Ingeniero en Sistemas</option>
+              <option value='TecMec'>Técnico Mecánico</option>
+              <option value='TecElec'>Técnico Eléctrico</option>
+              <option value='TecCiv'>Técnico Civil</option>
+              <option value='TecIndustrial'>Técnico Industrial</option>
+              <option value='TecSistemas'>Técnico en Sistemas</option>
+              <option value='TecElectronica'>Técnico en Electrónica</option>
               <option value='Otro'>Otro</option>
             </select>
+
+            {selectedType === 'Otro' && (
+              <div className='mt-2'>
+                <input
+                  {...register('otherType')}
+                  type='text'
+                  className='w-full appearance-none rounded-lg border border-gray-300 px-4 py-1 text-xs leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:text-sm'
+                  placeholder='Escribe tu profesión'
+                />
+              </div>
+            )}
           </div>
         </div>
-
-        {!initialData && (
-          <div className='mb-4'>
-            <label
-              className='mb-[8px] block text-sm font-semibold text-gray-700'
-              htmlFor='permisos'
-            >
-              Permisos
-            </label>
-            <div className='flex w-full space-x-2 lg:w-1/2'>
-              <div className='flex items-center rounded-lg border border-gray-300 p-2'>
-                <input
-                  {...register('role')}
-                  className='h-4 w-4 appearance-none rounded-full border border-gray-300 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                  id='permiso-admin'
-                  type='radio'
-                  value='admin'
-                />
-                <label htmlFor='permiso-admin' className='ml-2 text-gray-700'>
-                  Admin
-                </label>
-              </div>
-              <div className='flex items-center rounded-lg border border-gray-300 p-2'>
-                <input
-                  {...register('role')}
-                  className='h-4 w-4 appearance-none rounded-full border border-gray-300 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                  id='permiso-tecnico'
-                  type='radio'
-                  value='tecnico'
-                />
-                <label htmlFor='permiso-tecnico' className='ml-2 text-gray-700'>
-                  Técnico
-                </label>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       <div className='mb-14 flex justify-end lg:mb-10 lg:mr-10 lg:mt-4'>

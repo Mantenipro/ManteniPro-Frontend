@@ -17,7 +17,7 @@ const inputData = [
     placeholder: 'Nombre de compañia',
     name: 'companyName'
   },
-  { icon: '/iconlocation.svg', placeholder: 'ZIP code', name: 'zipCode' },
+  { icon: '/iconlocation.svg', placeholder: 'CP', name: 'zipCode' },
   { icon: '/iconpassword.svg', placeholder: 'Contraseña', name: 'password' },
   {
     icon: '/iconpassword.svg',
@@ -114,9 +114,7 @@ const RegisterForm = ({ textColor, bgColor }) => {
         <h1 className='animate-fade-in bg-gradient-to-r from-[#ffffff] to-[#f0f1f3] bg-clip-text text-[32px] font-extrabold tracking-wide text-transparent md:from-[#21262D] md:to-[#414B66]'>
           Crea tu cuenta
         </h1>
-        <h3 className={textColor}>
-          Regístrate para comenzar y obtén un ticket de prueba.
-        </h3>
+        <h3 className={textColor}>Regístrate para comenzar.</h3>
       </div>
       <div className='mt-8 flex w-full flex-col'>
         <div className='flex flex-col gap-5'>

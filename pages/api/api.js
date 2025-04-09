@@ -581,7 +581,7 @@ export const fetchUserById = async (userId) => {
 export const fetchEquimentById = async (equipmentId) => {
   try {
     const response = await fetch(
-      `https://api-v1.mantenipro.net/equipment/${equipmentId}`,
+      `https://mantenipro-api.onrender.com/equipment/${equipmentId}`,
       {
         method: 'GET',
         headers: {

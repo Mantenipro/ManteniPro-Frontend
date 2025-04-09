@@ -152,7 +152,7 @@ const LoginForm = ({ textColor, bgColor }) => {
         <div className='my-5'>
           <Link
             href='/recuperacionDePassword'
-            className='text-gray-700 duration-200 hover:font-medium hover:text-gray-800'
+            className='text-white duration-200 md:text-gray-700 md:hover:font-medium md:hover:text-gray-800'
           >
             ¿Olvidaste tu contraseña?
           </Link>
