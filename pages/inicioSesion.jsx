@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { login } from '../pages/api/api'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
+import SEOLogin from '@/components/SEOLogin'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
@@ -188,21 +189,24 @@ const LoginForm = ({ textColor, bgColor }) => {
 
 export default function LoginPage() {
   return (
-    <main className={`${montserrat.className} flex min-h-dvh flex-row`}>
-      <Toaster />
-      <div className='w-full bg-gradient-to-b from-[#21262D] to-[#31416d] lg:w-[50%]'>
-        <img
-          src='/ManteniProLogoWhite.svg'
-          alt='logo'
-          className='my-4 h-[140px] w-[200px] lg:my-[-20px] lg:ml-[-100px] lg:h-[150px] lg:w-[440px]'
-        />
-        <div className='flex justify-center lg:hidden'>
-          <LoginForm textColor='text-white' bgColor='bg-[#21262D]' />
+    <>
+      <SEOLogin />
+      <main className={`${montserrat.className} flex min-h-dvh flex-row`}>
+        <Toaster />
+        <div className='w-full bg-gradient-to-b from-[#21262D] to-[#31416d] lg:w-[50%]'>
+          <img
+            src='/ManteniProLogoWhite.svg'
+            alt='logo'
+            className='my-4 h-[140px] w-[200px] lg:my-[-20px] lg:ml-[-100px] lg:h-[150px] lg:w-[440px]'
+          />
+          <div className='flex justify-center lg:hidden'>
+            <LoginForm textColor='text-white' bgColor='bg-[#21262D]' />
+          </div>
         </div>
-      </div>
-      <div className='hidden w-full lg:flex lg:w-[50%] lg:justify-center lg:bg-[#ECECEC]'>
-        <LoginForm textColor='text-black' bgColor='bg-[#ECECEC]' />
-      </div>
-    </main>
+        <div className='hidden w-full lg:flex lg:w-[50%] lg:justify-center lg:bg-[#ECECEC]'>
+          <LoginForm textColor='text-black' bgColor='bg-[#ECECEC]' />
+        </div>
+      </main>
+    </>
   )
 }

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { registerForm } from './api/api'
-
+import SEORegister from '@/components/SEORegister'
 const montserrat = Montserrat({ subsets: ['latin'] })
 const sourceSans3 = Source_Sans_3({ subsets: ['latin'] })
 
@@ -201,21 +201,24 @@ const RegisterForm = ({ textColor, bgColor }) => {
 
 export default function RegisterPage() {
   return (
-    <main className={`${montserrat.className} flex min-h-dvh flex-row`}>
-      <Toaster />
-      <div className='w-full bg-gradient-to-b from-[#21262D] to-[#31416d] lg:w-[50%]'>
-        <img
-          src='/ManteniProLogoWhite.svg'
-          alt='logo'
-          className='my-4 h-[10px] w-[200px] lg:my-[-20px] lg:ml-[-100px] lg:h-[150px] lg:w-[440px]'
-        />
-        <div className='flex justify-center lg:hidden'>
-          <RegisterForm textColor='text-white' bgColor='bg-[#21262D]' />
+    <>
+      <SEORegister />
+      <main className={`${montserrat.className} flex min-h-dvh flex-row`}>
+        <Toaster />
+        <div className='w-full bg-gradient-to-b from-[#21262D] to-[#31416d] lg:w-[50%]'>
+          <img
+            src='/ManteniProLogoWhite.svg'
+            alt='logo'
+            className='my-4 h-[10px] w-[200px] lg:my-[-20px] lg:ml-[-100px] lg:h-[150px] lg:w-[440px]'
+          />
+          <div className='flex justify-center lg:hidden'>
+            <RegisterForm textColor='text-white' bgColor='bg-[#21262D]' />
+          </div>
         </div>
-      </div>
-      <div className='hidden w-full lg:flex lg:w-[50%] lg:justify-center lg:bg-[#ECECEC]'>
-        <RegisterForm textColor='text-black' bgColor='bg-[#ECECEC]' />
-      </div>
-    </main>
+        <div className='hidden w-full lg:flex lg:w-[50%] lg:justify-center lg:bg-[#ECECEC]'>
+          <RegisterForm textColor='text-black' bgColor='bg-[#ECECEC]' />
+        </div>
+      </main>
+    </>
   )
 }
