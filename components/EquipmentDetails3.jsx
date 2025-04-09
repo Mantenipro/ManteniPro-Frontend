@@ -38,6 +38,18 @@ const EquipmentDetails = ({ equipment }) => {
     'Vibraciones excesivas durante el funcionamiento',
     'El control remoto no responde'
   ]
+  const problemasElevadorHidraulico = [
+    'Fugas de aceite en el sistema hidráulico',
+    'Desgaste de las bombas hidráulicas',
+    'Fallo en las válvulas de control',
+    'Problemas con el cilindro hidráulico',
+    'Falta de presión en el sistema',
+    'Fallo en el motor eléctrico',
+    'Obstrucción en las líneas hidráulicas',
+    'Desgaste de los cables o cuerdas de elevación',
+    'Fallo en los controles electrónicos',
+    'Desgaste en las guías o poleas del elevador'
+  ]
 
   const problemasPaneles = [
     'No genera energía',
@@ -142,6 +154,18 @@ const EquipmentDetails = ({ equipment }) => {
     'Desgaste de los cables',
     'Fallo en la dirección'
   ]
+  const problemasTractorAgricola = [
+    'Fallo en el motor',
+    'Problemas con el sistema de arranque',
+    'Fugas de combustible',
+    'Desgaste en los componentes de transmisión',
+    'Mal funcionamiento de los frenos',
+    'Fugas de aceite',
+    'Desalineación de las ruedas o llantas',
+    'Fallo en el sistema hidráulico',
+    'Fallas en el sistema de enfriamiento',
+    'Problemas con los sistemas eléctricos'
+  ]
 
   const problemasGrúa = [
     'No arranca',
@@ -159,6 +183,19 @@ const EquipmentDetails = ({ equipment }) => {
     'Desalineación de las poleas',
     'Fallo en el sistema de elevación',
     'Problemas con el sistema de protección'
+  ]
+
+  const problemasClimatizacion = [
+    'Fugas de refrigerante',
+    'Falta de mantenimiento en los filtros de aire',
+    'Fallo en el compresor',
+    'Bloqueo de las unidades de ventilación',
+    'Problemas con el termostato',
+    'Condensación excesiva',
+    'Fallas en el sistema eléctrico',
+    'Ruidos extraños o vibraciones',
+    'Obstrucción de las líneas de drenaje',
+    'Desgaste en los componentes del intercambiador de calor'
   ]
   const problemasCamara = [
     'No enciende',
@@ -211,6 +248,18 @@ const EquipmentDetails = ({ equipment }) => {
     'Problemas con las luces interiores',
     'Desgaste en los cables de tracción'
   ]
+  const problemasTurbina = [
+    'Fallo en las palas',
+    'Problemas con el generador',
+    'Desbalanceo de las palas',
+    'Fugas en el sistema hidráulico',
+    'Fallo en los frenos',
+    'Desgaste de los rodamientos',
+    'Fallo en el sistema de control',
+    'Fugas de aceite',
+    'Problemas con el inversor',
+    'Corrosión de componentes'
+  ]
   const problemasBomba = [
     'No arranca',
     'Fugas de agua',
@@ -227,6 +276,79 @@ const EquipmentDetails = ({ equipment }) => {
     'Fallo en el sistema eléctrico',
     'Daño en el impulsor',
     'Bajo rendimiento'
+  ]
+  const problemasMontacargas = [
+    'Fallo en el sistema hidráulico',
+    'Desgaste en los frenos',
+    'Fugas de aceite',
+    'Fallo en el motor eléctrico',
+    'Desgaste de las cadenas o cables',
+    'Problemas con los controles electrónicos',
+    'Desalineación de las ruedas o llantas',
+    'Fallo en el sistema de dirección',
+    'Exceso de vibración durante la operación',
+    'Obstrucción o daño en el sistema de elevación'
+  ]
+
+  const problemasMaquinariaConstruccion = [
+    'Fallo en el motor',
+    'Desgaste de los componentes hidráulicos',
+    'Fugas de combustible',
+    'Problemas en los frenos',
+    'Fallo en el sistema de transmisión',
+    'Fugas de aceite',
+    'Desalineación de las llantas o ruedas',
+    'Ruidos extraños en el sistema',
+    'Mal funcionamiento de los controles',
+    'Sobrecalentamiento del motor'
+  ]
+  const problemasCintaTransportadora = [
+    'Desgaste de la banda transportadora',
+    'Fallo en el motor de la cinta',
+    'Desalineación de la cinta',
+    'Fugas en el sistema hidráulico',
+    'Obstrucción de la cinta',
+    'Problemas con los rodillos de soporte',
+    'Ruidos extraños durante el funcionamiento',
+    'Fallo en el sistema de control eléctrico',
+    'Exceso de fricción o calor en la banda',
+    'Desgaste de los componentes del sistema de transmisión'
+  ]
+  const problemasEscaleraElectrica = [
+    'Fallo en el motor de tracción',
+    'Desgaste de las escaleras o peldaños',
+    'Problemas con el sistema de frenos',
+    'Fallas en el sistema eléctrico de control',
+    'Fugas de lubricante en el sistema',
+    'Fallo en el sistema de arranque',
+    'Desalineación de las escaleras',
+    'Ruidos extraños durante el funcionamiento',
+    'Obstrucción de las escaleras o pasamanos',
+    'Desgaste o daño en los rodillos de apoyo'
+  ]
+  const problemasPLC_SCADA = [
+    'Fallo en la comunicación entre dispositivos',
+    'Errores en la programación del PLC',
+    'Problemas de conexión de red en el sistema SCADA',
+    'Fallo en los sensores conectados al PLC',
+    'Pérdida de datos en el sistema SCADA',
+    'Fallo en los módulos de entrada/salida del PLC',
+    'Interrupciones en el suministro de energía',
+    'Problemas con la interfaz gráfica del SCADA',
+    'Desincronización de los datos entre el PLC y SCADA',
+    'Fallo en el sistema de alarmas y notificaciones'
+  ]
+  const problemasSistemaSeguridadIncendios = [
+    'Fallo en el sistema de detección de humo',
+    'Fugas en las mangueras de agua',
+    'Fallo en las válvulas de presión',
+    'Desgaste de los detectores de calor',
+    'Fallo en el sistema de rociadores',
+    'Baterías descargadas en los sistemas de respaldo',
+    'Obstrucción de las salidas de emergencia',
+    'Problemas en las alarmas sonoras',
+    'Fallo en el sistema de control de gases',
+    'Daños en los equipos de extinción portátiles'
   ]
 
   useEffect(() => {
@@ -381,23 +503,43 @@ const EquipmentDetails = ({ equipment }) => {
             ? problemasComputadora
             : selectedType === 'Impresora'
               ? problemasImpresora
-              : selectedType === 'Generador de Energía'
+              : selectedType === 'Generador de Energia'
                 ? problemasGenerador
                 : selectedType === 'Compresor'
                   ? problemasCompresor
-                  : selectedType === 'Carretilla Elevadora'
+                  : selectedType === 'Carretilla'
                     ? problemasCarretilla
                     : selectedType === 'Grúa'
                       ? problemasGrúa
-                      : selectedType === 'Cámara de Vigilancia'
+                      : selectedType === 'Camara'
                         ? problemasCamara
-                        : selectedType === 'Control de Acceso'
+                        : selectedType === 'Control'
                           ? problemasControlAcceso
                           : selectedType === 'Elevador'
                             ? problemasElevador
-                            : selectedType === 'Bomba de Agua'
+                            : selectedType === 'Bomba'
                               ? problemasBomba
-                              : []
+                              : selectedType == 'Climatizacion'
+                                ? problemasClimatizacion
+                                : selectedType == 'Turbina'
+                                  ? problemasTurbina
+                                  : selectedType == 'Maquinaria'
+                                    ? problemasMaquinariaConstruccion
+                                    : selectedType == 'Tractor'
+                                      ? problemasTractorAgricola
+                                      : selectedType == 'Hidraulico'
+                                        ? problemasElevadorHidraulico
+                                        : selectedType == 'Escalera'
+                                          ? problemasEscaleraElectrica
+                                          : selectedType == 'Seguridad'
+                                            ? problemasSistemaSeguridadIncendios
+                                            : selectedType == 'Cinta'
+                                              ? problemasCintaTransportadora
+                                              : selectedType == 'PLC'
+                                                ? problemasPLC_SCADA
+                                                : selectedType == 'Montacargas'
+                                                  ? problemasMontacargas
+                                                  : []
     )
   }
 
@@ -538,24 +680,66 @@ const EquipmentDetails = ({ equipment }) => {
                   id='tipoEquipo'
                 >
                   <option value=''>Selecciona una opción</option>
-                  <option value='Aire acondicionado'>Aire Acondicionado</option>
-                  <option value='Panel solar'>Panel Solar</option>
-                  <option value='Computadora'>Computadora</option>
-                  <option value='Impresora'>Impresora</option>
-                  <option value='Generador de Energía'>
-                    Generador de Energía
-                  </option>
-                  <option value='Compresor'>Compresor</option>
-                  <option value='Carretilla elevadora'>
-                    Carretilla Elevadora
-                  </option>
-                  <option value='Grúa'>Grúa</option>
-                  <option value='Cámara de vigilancia'>
-                    Cámara de Vigilancia
-                  </option>
-                  <option value='Control de acceso'>Control de Acceso</option>
-                  <option value='Elevador'>Elevador</option>
-                  <option value='Bomba de agua'>Bomba de Agua</option>
+
+                  {/* Equipos de Climatización */}
+                  <optgroup label='Equipos de Climatización'>
+                    <option value='Aire acondicionado'>
+                      Aire Acondicionado
+                    </option>
+                    <option value='Climatizacion'>
+                      Sistema de Climatización Industrial
+                    </option>
+                  </optgroup>
+
+                  {/* Energía y Generación */}
+                  <optgroup label='Energía y Generación'>
+                    <option value='Panel solar'>Panel Solar</option>
+                    <option value='Generador de Energia'>
+                      Generador de Energia
+                    </option>
+                    <option value='Turbina'>Turbina Eólica</option>
+                  </optgroup>
+
+                  {/* Equipos de Oficina y Tecnología */}
+                  <optgroup label='Equipos de Oficina y Tecnología'>
+                    <option value='Computadora'>Computadora</option>
+                    <option value='Impresora'>Impresora</option>
+                  </optgroup>
+
+                  {/* Equipos de Construcción y Maquinaria */}
+                  <optgroup label='Equipos de Construcción y Maquinaria'>
+                    <option value='Maquinaria'>
+                      Maquinaria de Construcción
+                    </option>
+                    <option value='Tractor'>Tractor Agrícola</option>
+                    <option value='Compresor'>Compresor</option>
+                    <option value='Carretilla'>Carretilla Elevadora</option>
+                    <option value='Grúa'>Grúa</option>
+                    <option value='Montacargas'>Montacargas</option>
+                  </optgroup>
+
+                  {/* Sistemas de Elevación y Accesibilidad */}
+                  <optgroup label='Sistemas de Elevación y Accesibilidad'>
+                    <option value='Elevador'>Elevador</option>
+                    <option value='Hidraulico'>Elevador Hidráulico</option>
+                    <option value='Escalera'>Escalera Eléctrica</option>
+                  </optgroup>
+
+                  {/* Sistemas de Seguridad */}
+                  <optgroup label='Sistemas de Seguridad'>
+                    <option value='Camara'>Cámara de Vigilancia</option>
+                    <option value='Control'>Control de Acceso</option>
+                    <option value='Seguridad'>
+                      Sistema de Seguridad contra Incendios
+                    </option>
+                  </optgroup>
+
+                  {/* Otros Equipos Industriales */}
+                  <optgroup label='Otros Equipos Industriales'>
+                    <option value='Cinta'>Cinta Transportadora</option>
+                    <option value='PLC'>Sistema PLC y SCADA</option>
+                    <option value='Bomba'>Bomba de Agua</option>
+                  </optgroup>
                 </select>
               </div>
 
